@@ -1,0 +1,13 @@
+// Allows us to send JSON back instead of standard express HTML file
+const errorHandler = (err, req, res, next) => {
+  // Get the  status code & set it
+  const statusCode = res.statusCode ? res.statusCode : 500
+  res.status(statusCode)
+  // Send formatted JSON error message
+  res.json({
+    message: err.message,
+    stack: process.env.NODE_ENV === 'production' ? null : err.stack,
+  })
+}
+
+module.exports = { errorHandler }
