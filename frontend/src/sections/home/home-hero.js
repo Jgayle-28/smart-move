@@ -29,11 +29,16 @@ export const HomeHero = () => {
       <Container maxWidth='lg'>
         <Box maxWidth='sm'>
           <Typography variant='h1' sx={{ mb: 2 }}>
-            Let us worry about&nbsp;
+            Let us worry about about the &nbsp;
             <Typography component='span' color='primary.main' variant='inherit'>
-              about the details
+              details
             </Typography>
-            {/* <br /> */}, you focus on what you do best.
+            {/* <br /> */}, you
+            <Typography component='span' color='primary.main' variant='inherit'>
+              {' '}
+              focus
+            </Typography>{' '}
+            on what you do best.
             {/* <br />
             <Typography component='span' color='primary.main' variant='inherit'>
               Growing your business.

@@ -1,17 +1,17 @@
-import PropTypes from 'prop-types';
-import { Box, Stack, Typography } from '@mui/material';
-import { Logo } from 'src/components/logo';
-import { LogoSamsung } from 'src/components/logos/logo-samsung';
-import { LogoVisma } from 'src/components/logos/logo-visma';
-import { LogoBolt } from 'src/components/logos/logo-bolt';
-import { LogoAws } from 'src/components/logos/logo-aws';
-import { LogoAccenture } from 'src/components/logos/logo-accenture';
-import { LogoAtt } from 'src/components/logos/logo-att';
-import { RouterLink } from 'src/components/router-link';
-import { paths } from 'src/paths';
+import PropTypes from 'prop-types'
+import { Box, Stack, Typography } from '@mui/material'
+import { Logo } from 'src/components/logo'
+import { LogoSamsung } from 'src/components/logos/logo-samsung'
+import { LogoVisma } from 'src/components/logos/logo-visma'
+import { LogoBolt } from 'src/components/logos/logo-bolt'
+import { LogoAws } from 'src/components/logos/logo-aws'
+import { LogoAccenture } from 'src/components/logos/logo-accenture'
+import { LogoAtt } from 'src/components/logos/logo-att'
+import { RouterLink } from 'src/components/router-link'
+import { paths } from 'src/paths'
 
 export const Layout = (props) => {
-  const { children } = props;
+  const { children } = props
 
   return (
     <Box
@@ -21,8 +21,8 @@ export const Layout = (props) => {
         flex: '1 1 auto',
         flexDirection: {
           xs: 'column-reverse',
-          md: 'row'
-        }
+          md: 'row',
+        },
       }}
     >
       <Box
@@ -36,45 +36,38 @@ export const Layout = (props) => {
           display: 'flex',
           flex: {
             xs: '0 0 auto',
-            md: '1 1 auto'
+            md: '1 1 auto',
           },
           justifyContent: 'center',
           p: {
             xs: 4,
-            md: 8
-          }
+            md: 8,
+          },
         }}
       >
-        <Box maxWidth="md">
-          <Typography
-            sx={{ mb: 1 }}
-            variant="h4"
-          >
-            Welcome to Devias Kit PRO
+        <Box maxWidth='md'>
+          <Typography sx={{ mb: 1 }} variant='h4'>
+            Welcome to Smart Move PRO
           </Typography>
-          <Typography
-            color="text.secondary"
-            sx={{ mb: 4 }}
-          >
-            A professional kit that comes with ready-to-use MUI components developed with one common goal in mind, help you build faster & beautiful applications.
+          <Typography color='text.secondary' sx={{ mb: 4 }}>
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Unde
+            voluptate ullam quam natus repellendus, laborum perspiciatis itaque
+            corrupti qui facere?
           </Typography>
-          <Typography
-            variant="subtitle2"
-            sx={{ mb: 2 }}
-          >
+          <Typography variant='subtitle2' sx={{ mb: 2 }}>
             Join 6,000+ forward-thinking companies:
           </Typography>
           <Stack
-            alignItems="center"
-            direction="row"
-            flexWrap="wrap"
+            alignItems='center'
+            direction='row'
+            flexWrap='wrap'
             gap={4}
             sx={{
               color: 'text.primary',
               '& > *': {
                 color: 'neutral.400',
-                flex: '0 0 auto'
-              }
+                flex: '0 0 auto',
+              },
             }}
           >
             <LogoSamsung />
@@ -92,29 +85,29 @@ export const Layout = (props) => {
           display: 'flex',
           flex: {
             xs: '1 1 auto',
-            md: '0 0 auto'
+            md: '0 0 auto',
           },
           flexDirection: 'column',
           justifyContent: {
-            md: 'center'
+            md: 'center',
           },
           maxWidth: '100%',
           p: {
             xs: 4,
-            md: 8
+            md: 8,
           },
           width: {
-            md: 600
-          }
+            md: 600,
+          },
         }}
       >
         <div>
           <Box sx={{ mb: 4 }}>
             <Stack
-              alignItems="center"
+              alignItems='center'
               component={RouterLink}
-              direction="row"
-              display="inline-flex"
+              direction='row'
+              display='inline-flex'
               href={paths.index}
               spacing={1}
               sx={{ textDecoration: 'none' }}
@@ -123,7 +116,7 @@ export const Layout = (props) => {
                 sx={{
                   display: 'inline-flex',
                   height: 24,
-                  width: 24
+                  width: 24,
                 }}
               >
                 <Logo />
@@ -131,17 +124,17 @@ export const Layout = (props) => {
               <Box
                 sx={{
                   color: 'text.primary',
-                  fontFamily: '\'Plus Jakarta Sans\', sans-serif',
+                  fontFamily: "'Plus Jakarta Sans', sans-serif",
                   fontSize: 14,
                   fontWeight: 800,
                   letterSpacing: '0.3px',
                   lineHeight: 2.5,
                   '& span': {
-                    color: 'primary.main'
-                  }
+                    color: 'primary.main',
+                  },
                 }}
               >
-                Devias Kit <span>PRO</span>
+                Smart Move <span>PRO</span>
               </Box>
             </Stack>
           </Box>
@@ -149,9 +142,9 @@ export const Layout = (props) => {
         </div>
       </Box>
     </Box>
-  );
-};
+  )
+}
 
 Layout.propTypes = {
-  children: PropTypes.node
-};
+  children: PropTypes.node,
+}

@@ -1,7 +1,11 @@
-export var Issuer;
-(function (Issuer) {
-  Issuer['Auth0'] = 'Auth0';
-  Issuer['Firebase'] = 'Firebase';
-  Issuer['JWT'] = 'JWT';
-  Issuer['Amplify'] = 'Amplify';
-})(Issuer || (Issuer = {}));
+export var Issuer
+;(function (Issuer) {
+  Issuer['Auth0'] = 'Auth0'
+  Issuer['Firebase'] = 'Firebase'
+  Issuer['JWT'] = 'JWT'
+  Issuer['Amplify'] = 'Amplify'
+})(Issuer || (Issuer = {}))
+
+export function extractErrorMessage(error) {
+  return error.response?.data?.message || error.message || error.toString()
+}

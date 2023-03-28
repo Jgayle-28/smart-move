@@ -10,6 +10,7 @@ import { usePathname } from 'src/hooks/use-pathname'
 import { paths } from 'src/paths'
 import { TenantSwitch } from '../tenant-switch'
 import { SideNavSection } from './side-nav-section'
+import { useSelector } from 'react-redux'
 
 const SIDE_NAV_WIDTH = 280
 
@@ -145,6 +146,7 @@ export const SideNav = (props) => {
   const { color = 'evident', sections = [] } = props
   const pathname = usePathname()
   const cssVars = useCssVars(color)
+  const { company } = useSelector((state) => state.company)
 
   return (
     <Drawer
@@ -192,7 +194,18 @@ export const SideNav = (props) => {
             >
               <Logo />
             </Box>
-            <TenantSwitch sx={{ flexGrow: 1 }} />
+            <Stack alignItems='center' direction='row' spacing={2} {...props}>
+              <Box sx={{ flexGrow: 1 }}>
+                <Typography color='inherit' variant='h6'>
+                  {company && company.companyName}
+                </Typography>
+                <Typography color='neutral.400' variant='body2'>
+                  {company && company.companyEmail}
+                </Typography>
+              </Box>
+            </Stack>
+
+            {/* <TenantSwitch sx={{ flexGrow: 1 }} /> */}
           </Stack>
           <Stack
             component='nav'

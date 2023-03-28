@@ -4,6 +4,8 @@ export const paths = {
   contact: '/contact',
   pricing: '/pricing',
   auth: {
+    login: '/login',
+    // OLD
     auth0: {
       callback: '/auth/auth0/callback',
       login: '/auth/auth0/login',
@@ -48,6 +50,7 @@ export const paths = {
   },
   dashboard: {
     index: '/dashboard',
+    // OLD
     academy: {
       index: '/dashboard/academy',
       courseDetails: '/dashboard/academy/courses/:courseId',

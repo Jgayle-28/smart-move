@@ -11,6 +11,8 @@ import {
   SvgIcon,
   useMediaQuery,
 } from '@mui/material'
+import DashboardIcon from '@mui/icons-material/Dashboard'
+import LoginIcon from '@mui/icons-material/Login'
 import { alpha } from '@mui/material/styles'
 import { Logo } from 'src/components/logo'
 import { RouterLink } from 'src/components/router-link'
@@ -19,6 +21,7 @@ import { useWindowScroll } from 'src/hooks/use-window-scroll'
 import { paths } from 'src/paths'
 import { PagesPopover } from './pages-popover'
 import { TopNavItem } from './top-nav-item'
+import { useSelector } from 'react-redux'
 
 const items = [
   {
@@ -44,6 +47,7 @@ export const TopNav = (props) => {
   const [elevate, setElevate] = useState(false)
   const offset = 64
   const delay = 100
+  const { user } = useSelector((state) => state.auth)
 
   const handleWindowScroll = useCallback(() => {
     if (window.scrollY > offset) {
@@ -193,12 +197,34 @@ export const TopNav = (props) => {
             >
               Purchase Now
             </Button>
-            {!mdUp && (
-              <IconButton onClick={onMobileNavOpen}>
-                <SvgIcon fontSize='small'>
-                  <Menu01Icon />
-                </SvgIcon>
-              </IconButton>
+            {user ? (
+              <Button
+                component={RouterLink}
+                size={mdUp ? 'medium' : 'small'}
+                href='/dashboard'
+                variant='outlined'
+                startIcon={
+                  <SvgIcon>
+                    <DashboardIcon />
+                  </SvgIcon>
+                }
+              >
+                Dashboard
+              </Button>
+            ) : (
+              <Button
+                component={RouterLink}
+                size={mdUp ? 'medium' : 'small'}
+                href='/login'
+                variant='outlined'
+                startIcon={
+                  <SvgIcon>
+                    <LoginIcon />
+                  </SvgIcon>
+                }
+              >
+                Login
+              </Button>
             )}
           </Stack>
         </Stack>

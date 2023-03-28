@@ -2,8 +2,11 @@ const mongoose = require('mongoose')
 
 const companySchema = mongoose.Schema(
   {
-    name: { type: String, required: [true, 'Please add a name'] },
-    email: {
+    companyName: {
+      type: String,
+      required: [true, 'Please add a company name'],
+    },
+    companyEmail: {
       type: String,
       unique: true,
       match: [
@@ -11,20 +14,22 @@ const companySchema = mongoose.Schema(
         'Please add a valid email',
       ],
     },
-    name: { type: String, required: false },
-    phoneNumber: {
+    companyPhoneNumber: {
       type: String,
       required: false,
       maxlength: [20, 'Phone number can not be longer than 20 characters'],
       default: '',
     },
-    address: {
-      formattedAddress: String,
-      street: String,
-      city: String,
-      state: String,
-      zip: String,
+    companyAddress: {
+      type: String,
+      required: false,
+      // formattedAddress: String,
+      // street: String,
+      // city: String,
+      // state: String,
+      // zip: String,
     },
+    billing: { type: Object },
     subscription: {
       type: String,
       enum: ['Standard', 'Business', 'Elite'],
@@ -32,6 +37,11 @@ const companySchema = mongoose.Schema(
       required: true,
     },
     staff: {
+      type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+      default: [],
+      required: false,
+    },
+    clients: {
       type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
       default: [],
       required: false,

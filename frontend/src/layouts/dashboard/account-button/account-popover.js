@@ -1,9 +1,7 @@
-import { useCallback } from 'react';
-import PropTypes from 'prop-types';
-import toast from 'react-hot-toast';
-import CreditCard01Icon from '@untitled-ui/icons-react/build/esm/CreditCard01';
-import Settings04Icon from '@untitled-ui/icons-react/build/esm/Settings04';
-import User03Icon from '@untitled-ui/icons-react/build/esm/User03';
+import PropTypes from 'prop-types'
+import CreditCard01Icon from '@untitled-ui/icons-react/build/esm/CreditCard01'
+import Settings04Icon from '@untitled-ui/icons-react/build/esm/Settings04'
+import User03Icon from '@untitled-ui/icons-react/build/esm/User03'
 import {
   Box,
   Button,
@@ -13,79 +11,42 @@ import {
   ListItemText,
   Popover,
   SvgIcon,
-  Typography
-} from '@mui/material';
-import { RouterLink } from 'src/components/router-link';
-import { useAuth } from 'src/hooks/use-auth';
-import { useMockedUser } from 'src/hooks/use-mocked-user';
-import { useRouter } from 'src/hooks/use-router';
-import { paths } from 'src/paths';
-import { Issuer } from 'src/utils/auth';
+  Typography,
+} from '@mui/material'
+import { RouterLink } from 'src/components/router-link'
+import { useRouter } from 'src/hooks/use-router'
+import { paths } from 'src/paths'
+import { useSelector, useDispatch } from 'react-redux'
+import { logoutUser } from 'src/store/auth/authSlice'
 
 export const AccountPopover = (props) => {
-  const { anchorEl, onClose, open, ...other } = props;
-  const router = useRouter();
-  const auth = useAuth();
-  const user = useMockedUser();
+  const { anchorEl, onClose, open, ...other } = props
+  const router = useRouter()
+  const dispatch = useDispatch()
+  const { user } = useSelector((state) => state.auth)
 
-  const handleLogout = useCallback(async () => {
-    try {
-      onClose?.();
-
-      switch (auth.issuer) {
-        case Issuer.Amplify: {
-          await auth.signOut();
-          break;
-        }
-
-        case Issuer.Auth0: {
-          await auth.logout();
-          break;
-        }
-
-        case Issuer.Firebase: {
-          await auth.signOut();
-          break;
-        }
-
-        case Issuer.JWT: {
-          await auth.signOut();
-          break;
-        }
-
-        default: {
-          console.warn('Using an unknown Auth Issuer, did not log out');
-        }
-      }
-
-      router.push(paths.index);
-    } catch (err) {
-      console.error(err);
-      toast.error('Something went wrong!');
-    }
-  }, [auth, router, onClose]);
+  const handleLogout = () => {
+    dispatch(logoutUser())
+    router.push('/login')
+  }
 
   return (
     <Popover
       anchorEl={anchorEl}
       anchorOrigin={{
         horizontal: 'center',
-        vertical: 'bottom'
+        vertical: 'bottom',
       }}
       disableScrollLock
       onClose={onClose}
       open={!!open}
       PaperProps={{ sx: { width: 200 } }}
-      {...other}>
+      {...other}
+    >
       <Box sx={{ p: 2 }}>
-        <Typography variant="body1">
-          {user.name}
-        </Typography>
-        <Typography
-          color="text.secondary"
-          variant="body2"
-        >
-          demo@devias.io
+        <Typography variant='body1'>{user && user.name}</Typography>
+        <Typography color='text.secondary' variant='body2'>
+          {user && user.email}
         </Typography>
       </Box>
       <Divider />
@@ -97,20 +58,16 @@ export const AccountPopover = (props) => {
           sx={{
             borderRadius: 1,
             px: 1,
-            py: 0.5
+            py: 0.5,
           }}
         >
           <ListItemIcon>
-            <SvgIcon fontSize="small">
+            <SvgIcon fontSize='small'>
               <User03Icon />
             </SvgIcon>
           </ListItemIcon>
           <ListItemText
-            primary={(
-              <Typography variant="body1">
-                Profile
-              </Typography>
-            )}
+            primary={<Typography variant='body1'>Profile</Typography>}
           />
         </ListItemButton>
         <ListItemButton
@@ -120,20 +77,16 @@ export const AccountPopover = (props) => {
           sx={{
             borderRadius: 1,
             px: 1,
-            py: 0.5
+            py: 0.5,
           }}
         >
           <ListItemIcon>
-            <SvgIcon fontSize="small">
+            <SvgIcon fontSize='small'>
               <Settings04Icon />
             </SvgIcon>
           </ListItemIcon>
           <ListItemText
-            primary={(
-              <Typography variant="body1">
-                Settings
-              </Typography>
-            )}
+            primary={<Typography variant='body1'>Settings</Typography>}
           />
         </ListItemButton>
         <ListItemButton
@@ -143,20 +96,16 @@ export const AccountPopover = (props) => {
           sx={{
             borderRadius: 1,
             px: 1,
-            py: 0.5
+            py: 0.5,
           }}
         >
           <ListItemIcon>
-            <SvgIcon fontSize="small">
+            <SvgIcon fontSize='small'>
               <CreditCard01Icon />
             </SvgIcon>
           </ListItemIcon>
           <ListItemText
-            primary={(
-              <Typography variant="body1">
-                Billing
-              </Typography>
-            )}
+            primary={<Typography variant='body1'>Billing</Typography>}
           />
         </ListItemButton>
       </Box>
@@ -165,23 +114,19 @@ export const AccountPopover = (props) => {
         sx={{
           display: 'flex',
           p: 1,
-          justifyContent: 'center'
+          justifyContent: 'center',
         }}
       >
-        <Button
-          color="inherit"
-          onClick={handleLogout}
-          size="small"
-        >
+        <Button color='inherit' onClick={handleLogout} size='small'>
           Logout
         </Button>
       </Box>
     </Popover>
-  );
-};
+  )
+}
 
 AccountPopover.propTypes = {
   anchorEl: PropTypes.any,
   onClose: PropTypes.func,
-  open: PropTypes.bool
-};
+  open: PropTypes.bool,
+}

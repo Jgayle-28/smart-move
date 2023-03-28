@@ -28,6 +28,7 @@ const userSchema = mongoose.Schema(
       ref: 'Office',
       required: false, // TODO -> Need to make required
     },
+    billing: { type: Object },
     resetPasswordToken: String,
     resetPasswordExpire: Date,
   },

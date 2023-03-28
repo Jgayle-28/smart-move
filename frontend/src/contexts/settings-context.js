@@ -1,92 +1,92 @@
-import { createContext, useCallback, useEffect, useMemo, useState } from 'react';
-import PropTypes from 'prop-types';
-import isEqual from 'lodash.isequal';
+import { createContext, useCallback, useEffect, useMemo, useState } from 'react'
+import PropTypes from 'prop-types'
+import isEqual from 'lodash.isequal'
 
-const STORAGE_KEY = 'app.settings';
+const STORAGE_KEY = 'app.settings'
 
 const restoreSettings = () => {
-  let value = null;
+  let value = null
 
   try {
-    const restored = window.localStorage.getItem(STORAGE_KEY);
+    const restored = window.localStorage.getItem(STORAGE_KEY)
 
     if (restored) {
-      value = JSON.parse(restored);
+      value = JSON.parse(restored)
     }
   } catch (err) {
-    console.error(err);
+    console.error(err)
     // If stored data is not a strigified JSON this will fail,
     // that's why we catch the error
   }
 
-  return value;
-};
+  return value
+}
 
 const deleteSettings = () => {
   try {
-    window.localStorage.removeItem(STORAGE_KEY);
+    window.localStorage.removeItem(STORAGE_KEY)
   } catch (err) {
-    console.error(err);
+    console.error(err)
   }
-};
+}
 
 const storeSettings = (value) => {
   try {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(value));
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(value))
   } catch (err) {
-    console.error(err);
+    console.error(err)
   }
-};
+}
 
 const initialSettings = {
-  colorPreset: 'indigo',
+  colorPreset: 'blue',
   contrast: 'normal',
   direction: 'ltr',
   layout: 'vertical',
   navColor: 'evident',
   paletteMode: 'light',
   responsiveFontSizes: true,
-  stretch: false
-};
+  stretch: false,
+}
 
 const initialState = {
   ...initialSettings,
   isInitialized: false,
-  openDrawer: false
-};
+  openDrawer: false,
+}
 
 export const SettingsContext = createContext({
   ...initialState,
-  handleDrawerClose: () => { },
-  handleDrawerOpen: () => { },
-  handleReset: () => { },
-  handleUpdate: () => { },
-  isCustom: false
-});
+  handleDrawerClose: () => {},
+  handleDrawerOpen: () => {},
+  handleReset: () => {},
+  handleUpdate: () => {},
+  isCustom: false,
+})
 
 export const SettingsProvider = (props) => {
-  const { children } = props;
-  const [state, setState] = useState(initialState);
+  const { children } = props
+  const [state, setState] = useState(initialState)
 
   useEffect(() => {
-    const restored = restoreSettings();
+    const restored = restoreSettings()
 
     if (restored) {
       setState((prevState) => ({
         ...prevState,
         ...restored,
-        isInitialized: true
-      }));
+        isInitialized: true,
+      }))
     }
-  }, []);
+  }, [])
 
   const handleReset = useCallback(() => {
-    deleteSettings();
+    deleteSettings()
     setState((prevState) => ({
       ...prevState,
-      ...initialSettings
-    }));
-  }, []);
+      ...initialSettings,
+    }))
+  }, [])
 
   const handleUpdate = useCallback((settings) => {
     setState((prevState) => {
@@ -99,29 +99,29 @@ export const SettingsProvider = (props) => {
         paletteMode: prevState.paletteMode,
         responsiveFontSizes: prevState.responsiveFontSizes,
         stretch: prevState.stretch,
-        ...settings
-      });
+        ...settings,
+      })
 
       return {
         ...prevState,
-        ...settings
-      };
-    });
-  }, []);
+        ...settings,
+      }
+    })
+  }, [])
 
   const handleDrawerOpen = useCallback(() => {
     setState((prevState) => ({
       ...prevState,
-      openDrawer: true
-    }));
-  }, []);
+      openDrawer: true,
+    }))
+  }, [])
 
   const handleDrawerClose = useCallback(() => {
     setState((prevState) => ({
       ...prevState,
-      openDrawer: false
-    }));
-  }, []);
+      openDrawer: false,
+    }))
+  }, [])
 
   const isCustom = useMemo(() => {
     return !isEqual(initialSettings, {
@@ -132,9 +132,9 @@ export const SettingsProvider = (props) => {
       navColor: state.navColor,
       paletteMode: state.paletteMode,
       responsiveFontSizes: state.responsiveFontSizes,
-      stretch: state.stretch
-    });
-  }, [state]);
+      stretch: state.stretch,
+    })
+  }, [state])
 
   return (
     <SettingsContext.Provider
@@ -144,16 +144,16 @@ export const SettingsProvider = (props) => {
         handleDrawerOpen,
         handleReset,
         handleUpdate,
-        isCustom
+        isCustom,
       }}
     >
       {children}
     </SettingsContext.Provider>
-  );
-};
+  )
+}
 
 SettingsProvider.propTypes = {
-  children: PropTypes.node.isRequired
-};
+  children: PropTypes.node.isRequired,
+}
 
-export const SettingsConsumer = SettingsContext.Consumer;
+export const SettingsConsumer = SettingsContext.Consumer

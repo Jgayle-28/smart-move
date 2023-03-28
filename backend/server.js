@@ -18,6 +18,7 @@ app.use(express.urlencoded({ extended: false }))
 app.get(`/`, (req, res) => res.send(`Hola`))
 // Routes
 app.use('/api/users', require('./routes/userRoutes'))
+app.use('/api/companies', require('./routes/companyRoutes'))
 
 app.use(errorHandler)
 

@@ -1,17 +1,31 @@
-import { lazy } from 'react';
-import { Layout as AuthClassicLayout } from 'src/layouts/auth/classic-layout';
-import { Layout as AuthModernLayout } from 'src/layouts/auth/modern-layout';
+import { lazy } from 'react'
+import { Layout as AuthClassicLayout } from 'src/layouts/auth/classic-layout'
+import { Layout as AuthModernLayout } from 'src/layouts/auth/modern-layout'
 
-const ForgotPasswordClassicPage = lazy(() => import('src/pages/auth-demo/forgot-password/classic'));
-const ForgotPasswordModernPage = lazy(() => import('src/pages/auth-demo/forgot-password/modern'));
-const LoginClassicPage = lazy(() => import('src/pages/auth-demo/login/classic'));
-const LoginModernPage = lazy(() => import('src/pages/auth-demo/login/modern'));
-const RegisterClassicPage = lazy(() => import('src/pages/auth-demo/register/classic'));
-const RegisterModernPage = lazy(() => import('src/pages/auth-demo/register/modern'));
-const ResetPasswordClassicPage = lazy(() => import('src/pages/auth-demo/reset-password/classic'));
-const ResetPasswordModernPage = lazy(() => import('src/pages/auth-demo/reset-password/modern'));
-const VerifyCodeClassicPage = lazy(() => import('src/pages/auth-demo/verify-code/classic'));
-const VerifyCodeModernPage = lazy(() => import('src/pages/auth-demo/verify-code/modern'));
+const ForgotPasswordClassicPage = lazy(() =>
+  import('src/pages/auth-demo/forgot-password/classic')
+)
+const ForgotPasswordModernPage = lazy(() =>
+  import('src/pages/auth-demo/forgot-password/modern')
+)
+const LoginClassicPage = lazy(() => import('src/pages/auth/login'))
+const LoginModernPage = lazy(() => import('src/pages/auth-demo/login/modern'))
+const RegisterClassicPage = lazy(() =>
+  import('src/pages/auth-demo/register/classic')
+)
+const RegisterModernPage = lazy(() => import('src/pages/auth/register'))
+const ResetPasswordClassicPage = lazy(() =>
+  import('src/pages/auth-demo/reset-password/classic')
+)
+const ResetPasswordModernPage = lazy(() =>
+  import('src/pages/auth-demo/reset-password/modern')
+)
+const VerifyCodeClassicPage = lazy(() =>
+  import('src/pages/auth-demo/verify-code/classic')
+)
+const VerifyCodeModernPage = lazy(() =>
+  import('src/pages/auth-demo/verify-code/modern')
+)
 
 export const authDemoRoutes = [
   {
@@ -26,7 +40,7 @@ export const authDemoRoutes = [
               <AuthClassicLayout>
                 <ForgotPasswordClassicPage />
               </AuthClassicLayout>
-            )
+            ),
           },
           {
             path: 'modern',
@@ -34,9 +48,9 @@ export const authDemoRoutes = [
               <AuthModernLayout>
                 <ForgotPasswordModernPage />
               </AuthModernLayout>
-            )
-          }
-        ]
+            ),
+          },
+        ],
       },
       {
         path: 'login',
@@ -47,7 +61,7 @@ export const authDemoRoutes = [
               <AuthClassicLayout>
                 <LoginClassicPage />
               </AuthClassicLayout>
-            )
+            ),
           },
           {
             path: 'modern',
@@ -55,9 +69,9 @@ export const authDemoRoutes = [
               <AuthModernLayout>
                 <LoginModernPage />
               </AuthModernLayout>
-            )
-          }
-        ]
+            ),
+          },
+        ],
       },
       {
         path: 'register',
@@ -68,7 +82,7 @@ export const authDemoRoutes = [
               <AuthClassicLayout>
                 <RegisterClassicPage />
               </AuthClassicLayout>
-            )
+            ),
           },
           {
             path: 'modern',
@@ -76,9 +90,9 @@ export const authDemoRoutes = [
               <AuthModernLayout>
                 <RegisterModernPage />
               </AuthModernLayout>
-            )
-          }
-        ]
+            ),
+          },
+        ],
       },
       {
         path: 'reset-password',
@@ -89,7 +103,7 @@ export const authDemoRoutes = [
               <AuthClassicLayout>
                 <ResetPasswordClassicPage />
               </AuthClassicLayout>
-            )
+            ),
           },
           {
             path: 'modern',
@@ -97,9 +111,9 @@ export const authDemoRoutes = [
               <AuthModernLayout>
                 <ResetPasswordModernPage />
               </AuthModernLayout>
-            )
-          }
-        ]
+            ),
+          },
+        ],
       },
       {
         path: 'verify-code',
@@ -110,7 +124,7 @@ export const authDemoRoutes = [
               <AuthClassicLayout>
                 <VerifyCodeClassicPage />
               </AuthClassicLayout>
-            )
+            ),
           },
           {
             path: 'modern',
@@ -118,10 +132,10 @@ export const authDemoRoutes = [
               <AuthModernLayout>
                 <VerifyCodeModernPage />
               </AuthModernLayout>
-            )
-          }
-        ]
-      }
-    ]
-  }
-];
+            ),
+          },
+        ],
+      },
+    ],
+  },
+]
