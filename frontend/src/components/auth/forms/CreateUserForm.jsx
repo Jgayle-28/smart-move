@@ -50,7 +50,6 @@ const CreateUserForm = ({ creationCallback }) => {
   const { isLoading } = useSelector((state) => state.auth)
 
   const handleSubmit = () => {
-    console.log('formik values from user :>> ', formik)
     try {
       const newUser = {
         name: formik.values.name,
@@ -59,7 +58,7 @@ const CreateUserForm = ({ creationCallback }) => {
         isAdmin: true,
         role: 'admin',
       }
-      // toast.info('Creating user account ...')
+
       dispatch(registerUser(newUser))
         .unwrap()
         .then(() => {

@@ -21,5 +21,5 @@ export const useAuth = () => {
     [user]
   )
 
-  return { isAuthenticated, checkingStatus, setIsAuthenticated }
+  return { isAuthenticated, checkingStatus, setIsAuthenticated, user }
 }

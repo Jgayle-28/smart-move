@@ -85,6 +85,13 @@ export const paths = {
         details: '/dashboard/jobs/companies/:companyId',
       },
     },
+    jobBoard: {
+      index: '/dashboard/jobs',
+      create: '/dashboard/jobs/create',
+      companies: {
+        details: '/dashboard/jobs/companies/:companyId',
+      },
+    },
     kanban: '/dashboard/kanban',
     logistics: {
       index: '/dashboard/logistics',

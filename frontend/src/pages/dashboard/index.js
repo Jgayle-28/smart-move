@@ -1,5 +1,6 @@
+import { useEffect } from 'react'
 import { addDays, subDays, subHours, subMinutes } from 'date-fns'
-import PlusIcon from '@untitled-ui/icons-react/build/esm/Plus'
+import PersonAddAlt1RoundedIcon from '@mui/icons-material/PersonAddAlt1Rounded'
 import {
   Box,
   Button,
@@ -14,7 +15,7 @@ import { usePageView } from 'src/hooks/use-page-view'
 import { useSettings } from 'src/hooks/use-settings'
 import { Layout as DashboardLayout } from 'src/layouts/dashboard'
 import { OverviewBanner } from 'src/sections/dashboard/overview/overview-banner'
-import { OverviewDoneTasks } from 'src/sections/dashboard/overview/overview-done-tasks'
+import { NewClients } from 'src/components/dashboard/NewClients'
 import { OverviewEvents } from 'src/sections/dashboard/overview/overview-events'
 import { OverviewInbox } from 'src/sections/dashboard/overview/overview-inbox'
 import { OverviewTransactions } from 'src/sections/dashboard/overview/overview-transactions'
@@ -22,14 +23,28 @@ import { OverviewPendingIssues } from 'src/sections/dashboard/overview/overview-
 import { OverviewSubscriptionUsage } from 'src/sections/dashboard/overview/overview-subscription-usage'
 import { OverviewHelp } from 'src/sections/dashboard/overview/overview-help'
 import { OverviewJobs } from 'src/sections/dashboard/overview/overview-jobs'
-import { OverviewOpenTickets } from 'src/sections/dashboard/overview/overview-open-tickets'
+import { NewJobs } from 'src/components/dashboard/NewJobs'
 import { OverviewTips } from 'src/sections/dashboard/overview/overview-tips'
 import { RouterLink } from 'src/components/router-link'
+import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { getCompany } from 'src/store/company/companySlice'
 
 const now = new Date()
 
 const Page = () => {
   const settings = useSettings()
+
+  const { user } = useSelector((state) => state.auth)
+  const { company } = useSelector((state) => state.company)
+  const dispatch = useDispatch()
+
+  // Retrieve the company
+  useEffect(() => {
+    if (!company) {
+      dispatch(getCompany(user.company))
+    }
+  }, [company, user])
 
   usePageView()
 
@@ -62,10 +77,10 @@ const Page = () => {
                   <Stack direction='row' spacing={4}>
                     <Button
                       component={RouterLink}
-                      href='/dashboard/customers'
+                      href='/dashboard/customers/add'
                       startIcon={
                         <SvgIcon>
-                          <PlusIcon />
+                          <PersonAddAlt1RoundedIcon />
                         </SvgIcon>
                       }
                       variant='contained'
@@ -78,14 +93,15 @@ const Page = () => {
             </Grid>
             {/* Stat Cards */}
             <Grid xs={12} md={4}>
-              <OverviewDoneTasks amount={31} />
+              <NewClients amount={31} />
+            </Grid>
+            <Grid xs={12} md={4}>
+              <NewJobs amount={5} />
             </Grid>
             <Grid xs={12} md={4}>
               <OverviewPendingIssues amount={12} />
             </Grid>
-            <Grid xs={12} md={4}>
-              <OverviewOpenTickets amount={5} />
-            </Grid>
+
             {/* Overview */}
             <Grid xs={12} md={7}>
               <OverviewSubscriptionUsage

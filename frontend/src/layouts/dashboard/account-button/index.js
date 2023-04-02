@@ -1,12 +1,12 @@
-import User01Icon from '@untitled-ui/icons-react/build/esm/User01'
 import { Avatar, Box, ButtonBase, SvgIcon } from '@mui/material'
-import { useMockedUser } from 'src/hooks/use-mocked-user'
 import { usePopover } from 'src/hooks/use-popover'
 import { AccountPopover } from './account-popover'
+import { stringToColor } from 'src/utils/string-to-color'
+import { useAuth } from 'src/hooks/use-auth'
 
 export const AccountButton = () => {
-  const user = useMockedUser()
   const popover = usePopover()
+  const { user } = useAuth()
 
   return (
     <>
@@ -29,12 +29,10 @@ export const AccountButton = () => {
           sx={{
             height: 32,
             width: 32,
+            bgcolor: stringToColor(user ? user.name : 'temp'),
           }}
-          // src={user.avatar}
         >
-          <SvgIcon>
-            <User01Icon />
-          </SvgIcon>
+          {(user && user.name.charAt(0)) || ''}
         </Avatar>
       </Box>
       <AccountPopover

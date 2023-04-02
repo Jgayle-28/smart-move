@@ -51,7 +51,7 @@ export const AccountPopover = (props) => {
       </Box>
       <Divider />
       <Box sx={{ p: 1 }}>
-        <ListItemButton
+        {/* <ListItemButton
           component={RouterLink}
           href={paths.dashboard.social.profile}
           onClick={onClose}
@@ -69,7 +69,7 @@ export const AccountPopover = (props) => {
           <ListItemText
             primary={<Typography variant='body1'>Profile</Typography>}
           />
-        </ListItemButton>
+        </ListItemButton> */}
         <ListItemButton
           component={RouterLink}
           href={paths.dashboard.account}
@@ -89,7 +89,7 @@ export const AccountPopover = (props) => {
             primary={<Typography variant='body1'>Settings</Typography>}
           />
         </ListItemButton>
-        <ListItemButton
+        {/* <ListItemButton
           component={RouterLink}
           href={paths.dashboard.index}
           onClick={onClose}
@@ -107,7 +107,7 @@ export const AccountPopover = (props) => {
           <ListItemText
             primary={<Typography variant='body1'>Billing</Typography>}
           />
-        </ListItemButton>
+        </ListItemButton> */}
       </Box>
       <Divider sx={{ my: '0 !important' }} />
       <Box

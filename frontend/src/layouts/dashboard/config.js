@@ -27,8 +27,13 @@ import Truck01Icon from 'src/icons/untitled-ui/duocolor/truck-01'
 import Upload04Icon from 'src/icons/untitled-ui/duocolor/upload-04'
 import Users03Icon from 'src/icons/untitled-ui/duocolor/users-03'
 import XSquareIcon from 'src/icons/untitled-ui/duocolor/x-square'
+import Settings04Icon from '@untitled-ui/icons-react/build/esm/Settings04'
 import { tokens } from 'src/locales/tokens'
 import { paths } from 'src/paths'
+
+/**
+ * Updates the side nav routes
+ */
 
 export const useSections = () => {
   const { t } = useTranslation()
@@ -54,26 +59,67 @@ export const useSections = () => {
                 <Users03Icon />
               </SvgIcon>
             ),
+            // items: [
+            //   {
+            //     title: t(tokens.nav.list),
+            //     path: paths.dashboard.customers.index,
+            //   },
+            //   {
+            //     title: t(tokens.nav.add),
+            //     path: paths.dashboard.customers.add,
+            //   },
+            //   {
+            //     title: t(tokens.nav.details),
+            //     path: paths.dashboard.customers.details,
+            //   },
+            //   {
+            //     title: t(tokens.nav.edit),
+            //     path: paths.dashboard.customers.edit,
+            //   },
+            // ],
+          },
+          {
+            title: t(tokens.nav.jobs),
+            path: paths.dashboard.jobs.index,
+            icon: (
+              <SvgIcon fontSize='small'>
+                <Truck01Icon />
+              </SvgIcon>
+            ),
+            // items: [
+            //   {
+            //     title: t(tokens.nav.dashboard),
+            //     path: paths.dashboard.logistics.index,
+            //   },
+            //   {
+            //     title: t(tokens.nav.fleet),
+            //     path: paths.dashboard.logistics.fleet,
+            //   },
+            // ],
+          },
+          {
+            title: t(tokens.nav.estimates),
+            path: paths.dashboard.blog.index,
+            icon: (
+              <SvgIcon fontSize='small'>
+                <LayoutAlt02Icon />
+              </SvgIcon>
+            ),
             items: [
               {
-                title: t(tokens.nav.list),
-                path: paths.dashboard.customers.index,
+                title: t(tokens.nav.postList),
+                path: paths.dashboard.blog.index,
               },
               {
-                title: t(tokens.nav.add),
-                path: paths.dashboard.customers.add,
+                title: t(tokens.nav.postDetails),
+                path: paths.dashboard.blog.postDetails,
               },
               {
-                title: t(tokens.nav.details),
-                path: paths.dashboard.customers.details,
-              },
-              {
-                title: t(tokens.nav.edit),
-                path: paths.dashboard.customers.edit,
+                title: t(tokens.nav.postCreate),
+                path: paths.dashboard.blog.postCreate,
               },
             ],
           },
-
           {
             title: t(tokens.nav.analytics),
             path: paths.dashboard.analytics,
@@ -83,31 +129,13 @@ export const useSections = () => {
               </SvgIcon>
             ),
           },
-          {
-            title: t(tokens.nav.logistics),
-            path: paths.dashboard.logistics.index,
-            icon: (
-              <SvgIcon fontSize='small'>
-                <Truck01Icon />
-              </SvgIcon>
-            ),
-            items: [
-              {
-                title: t(tokens.nav.dashboard),
-                path: paths.dashboard.logistics.index,
-              },
-              {
-                title: t(tokens.nav.fleet),
-                path: paths.dashboard.logistics.fleet,
-              },
-            ],
-          },
+
           {
             title: t(tokens.nav.account),
             path: paths.dashboard.account,
             icon: (
               <SvgIcon fontSize='small'>
-                <Lock01Icon />
+                <Settings04Icon />
               </SvgIcon>
             ),
           },

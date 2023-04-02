@@ -1,3 +1,7 @@
+/**
+ * Used for translations
+ * Need to update src/locales/translations
+ */
 export const tokens = {
   common: {
     languageChanged: 'common.languageChanged',
@@ -24,6 +28,7 @@ export const tokens = {
     ecommerce: 'nav.ecommerce',
     edit: 'nav.edit',
     error: 'nav.error',
+    estimates: 'nav.estimates',
     feed: 'nav.feed',
     fileManager: 'nav.fileManager',
     files: 'nav.files',
@@ -31,6 +36,7 @@ export const tokens = {
     fleet: 'nav.fleet',
     forgotPassword: 'nav.forgotPassword',
     invoiceList: 'nav.invoices',
+    jobs: 'nav.jobs',
     jobList: 'nav.jobList',
     kanban: 'nav.kanban',
     list: 'nav.list',

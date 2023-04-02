@@ -7,6 +7,7 @@ import LoadingButton from '@mui/lab/LoadingButton'
 import { paths } from 'src/paths'
 import { toast } from 'react-hot-toast'
 import { useRouter } from 'src/hooks/use-router'
+import { updateUser } from 'src/store/auth/authSlice'
 
 const initialValues = {
   companyName: '',
@@ -55,14 +56,21 @@ const CreateCompanyForm = ({ creationCallback }) => {
         owner: user._id,
         // staff:[user._id] commented out because not sure if owner should be considered staff
       }
-      // toast.info('Registering business account ...')
+      // Create company
       dispatch(registerCompany(newCompany))
         .unwrap()
-        .then(() => {
-          toast.success(
-            'Registration complete, hang tight while we redirect you to your dashboard'
-          )
-          setTimeout(() => router.push(paths.dashboard.index), 700)
+        .then((createdCompany) => {
+          const newUser = { ...user, company: createdCompany._id }
+          // Update user with company id
+          dispatch(updateUser(newUser))
+            .unwrap()
+            .then((res) => {
+              console.log('res :>> ', res)
+              toast.success(
+                'Registration complete, hang tight while we redirect you to your dashboard'
+              )
+              setTimeout(() => router.push(paths.dashboard.index), 700)
+            })
         })
     } catch (error) {
       console.error('Error Registering user')

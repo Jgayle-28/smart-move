@@ -14,6 +14,7 @@ export const Toaster = () => {
           color: theme.palette.common.white,
           boxShadow: theme.shadows[16],
         },
+        duration: 5000,
       }}
     />
   )

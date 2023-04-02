@@ -28,21 +28,28 @@ export const HomeHero = () => {
     >
       <Container maxWidth='lg'>
         <Box maxWidth='sm'>
-          <Typography variant='h1' sx={{ mb: 2 }}>
+          <Typography variant='h1' sx={{ mb: 4 }}>
             Let us worry about about the &nbsp;
             <Typography component='span' color='primary.main' variant='inherit'>
-              details
+              details.
             </Typography>
-            {/* <br /> */}, you
+            {/* , you
             <Typography component='span' color='primary.main' variant='inherit'>
-              {' '}
+              
               focus
-            </Typography>{' '}
-            on what you do best.
-            {/* <br />
-            <Typography component='span' color='primary.main' variant='inherit'>
-              Growing your business.
-            </Typography> */}
+            </Typography>
+            on what you do best. */}
+          </Typography>
+          <Typography
+            color='text.secondary'
+            sx={{
+              fontSize: 20,
+              fontWeight: 500,
+              marginBottom: 2,
+            }}
+          >
+            A professional ready to use use system that brings a fresh view to
+            the industry.
           </Typography>
           <Typography
             color='text.secondary'
@@ -51,8 +58,8 @@ export const HomeHero = () => {
               fontWeight: 500,
             }}
           >
-            A professional ready to use use system that manages your clients,
-            your clients inventory and move / delivery estimates.
+            Let Smart move help you manage your clients, your clients inventory
+            and move / delivery estimates, more.
           </Typography>
           {/* <Stack
             alignItems='center'

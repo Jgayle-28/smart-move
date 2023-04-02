@@ -21,6 +21,14 @@ const getCompany = async (token, companyId) => {
   if (res.data) return res.data
 }
 
+// Get company team
+const getCompanyTeam = async (token, companyId) => {
+  const config = getAxiosConfig(token)
+  const res = await axios.get(`${API_URL}/team-members/${companyId}`, config)
+
+  if (res.data) return res.data
+}
+
 // Update company
 const updateCompany = async (token, companyData) => {
   const config = getAxiosConfig(token)
@@ -52,6 +60,7 @@ const companyService = {
   getCompany,
   updateCompany,
   deleteCompany,
+  getCompanyTeam,
 }
 
 export default companyService

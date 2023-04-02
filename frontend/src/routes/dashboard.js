@@ -36,6 +36,9 @@ const InvoiceDetailPage = lazy(() =>
 )
 
 // Jobs
+const JobsList = lazy(() => import('src/pages/dashboard/jobs/list'))
+
+// Job Board
 const JobBrowsePage = lazy(() => import('src/pages/dashboard/jobs/browse'))
 const JobCreatePage = lazy(() => import('src/pages/dashboard/jobs/create'))
 const CompanyDetailPage = lazy(() =>
@@ -77,6 +80,10 @@ const EcommercePage = lazy(() => import('src/pages/dashboard/ecommerce'))
 const FileManagerPage = lazy(() => import('src/pages/dashboard/file-manager'))
 const KanbanPage = lazy(() => import('src/pages/dashboard/kanban'))
 const MailPage = lazy(() => import('src/pages/dashboard/mail'))
+
+/**
+ * Maps page routes to application
+ */
 
 export const dashboardRoutes = [
   {
@@ -164,6 +171,28 @@ export const dashboardRoutes = [
       },
       {
         path: 'jobs',
+        children: [
+          {
+            index: true,
+            element: <JobsList />,
+          },
+          {
+            path: 'create',
+            element: <JobCreatePage />,
+          },
+          {
+            path: 'companies',
+            children: [
+              {
+                path: ':companyId',
+                element: <CompanyDetailPage />,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        path: 'jobBoard',
         children: [
           {
             index: true,

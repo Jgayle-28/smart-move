@@ -19,6 +19,7 @@ app.get(`/`, (req, res) => res.send(`Hola`))
 // Routes
 app.use('/api/users', require('./routes/userRoutes'))
 app.use('/api/companies', require('./routes/companyRoutes'))
+app.use('/api/customers', require('./routes/customerRoutes'))
 
 app.use(errorHandler)
 
