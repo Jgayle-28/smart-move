@@ -2,27 +2,29 @@ import { useCallback, useEffect, useState } from 'react'
 import PlusIcon from '@untitled-ui/icons-react/build/esm/Plus'
 import {
   Box,
-  Breadcrumbs,
   Button,
   Card,
   Container,
-  Link,
   Stack,
   SvgIcon,
   Typography,
 } from '@mui/material'
-import { productsApi } from 'src/api/products'
-import { BreadcrumbsSeparator } from 'src/components/breadcrumbs-separator'
 import { RouterLink } from 'src/components/router-link'
 import { Seo } from 'src/components/seo'
-import { useMounted } from 'src/hooks/use-mounted'
 import { usePageView } from 'src/hooks/use-page-view'
 import { paths } from 'src/paths'
-import { ProductListSearch } from 'src/sections/dashboard/product/product-list-search'
-import { ProductListTable } from 'src/sections/dashboard/product/product-list-table'
+import { JobListTable } from 'src/components/jobs/list/JobListTable'
+import { JobListSearch } from 'src/components/jobs/list/JobListSearch'
+import { useDispatch } from 'react-redux'
+import { clearJobs, getJobs } from 'src/store/jobs/jobSlice'
+import { useSelector } from 'react-redux'
+import Spinner from 'src/components/shared/Spinner'
+import { filterJobs } from 'src/utils/filter-jobs'
+import { applyPagination } from 'src/utils/apply-pagination'
 
-const useProductsSearch = () => {
-  const [state, setState] = useState({
+const Page = () => {
+  const [currentJobs, setCurrentJobs] = useState([])
+  const [filterState, setFilterState] = useState({
     filters: {
       name: undefined,
       category: [],
@@ -32,80 +34,72 @@ const useProductsSearch = () => {
     page: 0,
     rowsPerPage: 5,
   })
+  const [searchQuery, setSearchQuery] = useState('')
+
+  const { user } = useSelector((state) => state.auth)
+  const { jobs, isLoading } = useSelector((state) => state.jobs)
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(getJobs(user.company))
+    return () => {
+      dispatch(clearJobs())
+    }
+  }, [])
+
+  useEffect(() => {
+    if (jobs !== null && !isLoading) setCurrentJobs(jobs)
+  }, [jobs, isLoading])
+
+  useEffect(() => {
+    handleFilterJobs()
+  }, [filterState])
+
+  const handleFilterJobs = useCallback(() => {
+    const {
+      filters: { category, status },
+    } = filterState
+
+    if (
+      category.length === 0 &&
+      status.length === 0 &&
+      searchQuery.length === 0
+    ) {
+      setCurrentJobs(jobs)
+    } else {
+      const filteredJobs = filterJobs(filterState, jobs || [])
+      setCurrentJobs(filteredJobs)
+    }
+  }, [filterState, currentJobs])
 
   const handleFiltersChange = useCallback((filters) => {
-    setState((prevState) => ({
+    setFilterState((prevState) => ({
       ...prevState,
       filters,
     }))
   }, [])
 
   const handlePageChange = useCallback((event, page) => {
-    setState((prevState) => ({
+    setFilterState((prevState) => ({
       ...prevState,
       page,
     }))
   }, [])
 
   const handleRowsPerPageChange = useCallback((event) => {
-    setState((prevState) => ({
+    setFilterState((prevState) => ({
       ...prevState,
       rowsPerPage: parseInt(event.target.value, 10),
     }))
   }, [])
 
-  return {
-    handleFiltersChange,
-    handlePageChange,
-    handleRowsPerPageChange,
-    state,
-  }
-}
-
-const useProductsStore = (searchState) => {
-  const isMounted = useMounted()
-  const [state, setState] = useState({
-    products: [],
-    productsCount: 0,
-  })
-
-  const handleProductsGet = useCallback(async () => {
-    try {
-      const response = await productsApi.getProducts(searchState)
-
-      if (isMounted()) {
-        setState({
-          products: response.data,
-          productsCount: response.count,
-        })
-      }
-    } catch (err) {
-      console.error(err)
-    }
-  }, [searchState, isMounted])
-
-  useEffect(
-    () => {
-      handleProductsGet()
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [searchState]
-  )
-
-  return {
-    ...state,
-  }
-}
-
-const Page = () => {
-  const productsSearch = useProductsSearch()
-  const productsStore = useProductsStore(productsSearch.state)
-
   usePageView()
 
+  if (isLoading || !currentJobs?.length) return <Spinner />
   return (
     <>
-      <Seo title='Dashboard: Product List' />
+      <Seo title='Dashboard: Job List' />
       <Box
         component='main'
         sx={{
@@ -119,7 +113,7 @@ const Page = () => {
               <Stack spacing={1}>
                 <Typography variant='h4'>Jobs</Typography>
                 <Typography variant='subtitle2' color='text.secondary'>
-                  See all your upcoming jobs
+                  All your upcoming jobs & past jobs
                 </Typography>
               </Stack>
               <Stack alignItems='center' direction='row' spacing={3}>
@@ -138,16 +132,22 @@ const Page = () => {
               </Stack>
             </Stack>
             <Card>
-              <ProductListSearch
-                onFiltersChange={productsSearch.handleFiltersChange}
+              <JobListSearch
+                handleFilterJobs={handleFilterJobs}
+                onFiltersChange={handleFiltersChange}
+                setSearchQuery={setSearchQuery}
               />
-              <ProductListTable
-                onPageChange={productsSearch.handlePageChange}
-                onRowsPerPageChange={productsSearch.handleRowsPerPageChange}
-                page={productsSearch.state.page}
-                items={productsStore.products}
-                count={productsStore.productsCount}
-                rowsPerPage={productsSearch.state.rowsPerPage}
+              <JobListTable
+                jobs={applyPagination(
+                  currentJobs,
+                  filterState.page,
+                  filterState.rowsPerPage
+                )}
+                onPageChange={handlePageChange}
+                onRowsPerPageChange={handleRowsPerPageChange}
+                page={filterState.page}
+                count={currentJobs.length || 0}
+                rowsPerPage={filterState.rowsPerPage}
               />
             </Card>
           </Stack>

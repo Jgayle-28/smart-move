@@ -1,0 +1,15 @@
+export const jobFormInitialValues = {
+  jobTitle: '',
+  jobType: 'move',
+  customer: '',
+  pickUpAddress: '',
+  pickUpAddress2: '',
+  dropOffAddress: '',
+  dropOffAddress2: '',
+  jobDate: new Date(),
+  jobStartTime: new Date(),
+  jobComments: '',
+  billTo: '',
+  billingSameAsCustomer: false,
+  paymentType: '',
+}

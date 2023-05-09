@@ -20,6 +20,8 @@ app.get(`/`, (req, res) => res.send(`Hola`))
 app.use('/api/users', require('./routes/userRoutes'))
 app.use('/api/companies', require('./routes/companyRoutes'))
 app.use('/api/customers', require('./routes/customerRoutes'))
+app.use('/api/jobs', require('./routes/jobRoutes'))
+app.use('/api/estimates', require('./routes/estimateRoutes'))
 
 app.use(errorHandler)
 

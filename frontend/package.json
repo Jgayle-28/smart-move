@@ -1,9 +1,9 @@
 {
-  "name": "@devias-kit-pro/react",
-  "version": "6.1.0",
+  "name": "smart-move",
+  "version": "1.0.0",
   "proxy": "http://localhost:8800",
-  "author": "Devias",
-  "homepage": "https://devias.io",
+  "author": "Jerehme Gayle",
+  "homepage": "https://smartmove.io",
   "private": true,
   "scripts": {
     "start": "react-scripts start",
@@ -54,7 +54,9 @@
     "firebase": "9.17.1",
     "formik": "2.2.9",
     "gray-matter": "4.0.3",
+    "html-react-parser": "^3.0.15",
     "i18next": "22.4.9",
+    "lodash": "^4.17.21",
     "lodash.debounce": "4.0.8",
     "lodash.isequal": "4.5.0",
     "mapbox-gl": "2.12.1",

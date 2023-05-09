@@ -81,9 +81,17 @@ export const paths = {
     jobs: {
       index: '/dashboard/jobs',
       create: '/dashboard/jobs/create',
+      details: '/dashboard/jobs/:jobId',
+      edit: '/dashboard/jobs/:jobId/:mode',
       companies: {
         details: '/dashboard/jobs/companies/:companyId',
       },
+    },
+    estimates: {
+      index: '/dashboard/estimates',
+      detail: '/dashboard/estimates/:estimate',
+      create: '/dashboard/estimates/:jobId/create',
+      edit: '/dashboard/estimates/:estimateId/edit',
     },
     jobBoard: {
       index: '/dashboard/jobs',

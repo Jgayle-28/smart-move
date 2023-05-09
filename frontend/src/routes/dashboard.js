@@ -37,13 +37,20 @@ const InvoiceDetailPage = lazy(() =>
 
 // Jobs
 const JobsList = lazy(() => import('src/pages/dashboard/jobs/list'))
+const JobCreatePage = lazy(() => import('src/pages/dashboard/jobs/create'))
+const JobDetailPage = lazy(() => import('src/pages/dashboard/jobs/detail'))
+// Estimates
+const EstimateList = lazy(() => import('src/pages/dashboard/estimates/list'))
+const EstimateCreatePage = lazy(() =>
+  import('src/pages/dashboard/estimates/create')
+)
+const EstimateDetailPage = lazy(() =>
+  import('src/pages/dashboard/estimates/detail')
+)
 
 // Job Board
 const JobBrowsePage = lazy(() => import('src/pages/dashboard/jobs/browse'))
-const JobCreatePage = lazy(() => import('src/pages/dashboard/jobs/create'))
-const CompanyDetailPage = lazy(() =>
-  import('src/pages/dashboard/jobs/companies/detail')
-)
+const CompanyDetailPage = lazy(() => import('src/pages/dashboard/jobs/detail'))
 
 // Logistics
 const LogisticsDashboardPage = lazy(() =>
@@ -181,6 +188,44 @@ export const dashboardRoutes = [
             element: <JobCreatePage />,
           },
           {
+            path: ':jobId',
+            element: <JobDetailPage />,
+          },
+          {
+            path: ':jobId/:mode',
+            element: <JobDetailPage />,
+          },
+          {
+            path: 'companies',
+            children: [
+              {
+                path: ':companyId',
+                element: <CompanyDetailPage />,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        path: 'Estimates',
+        children: [
+          {
+            index: true,
+            element: <EstimateList />,
+          },
+          {
+            path: ':jobId/create',
+            element: <EstimateCreatePage />,
+          },
+          {
+            path: ':estimateId',
+            element: <EstimateDetailPage />,
+          },
+          {
+            path: ':estimateId/:edit',
+            element: <EstimateDetailPage />,
+          },
+          {
             path: 'companies',
             children: [
               {
@@ -202,6 +247,7 @@ export const dashboardRoutes = [
             path: 'create',
             element: <JobCreatePage />,
           },
+
           {
             path: 'companies',
             children: [

@@ -1,5 +1,4 @@
 const asyncHandler = require('express-async-handler')
-const bcrypt = require('bcryptjs')
 const { userHasPermissions } = require('../utils/auth')
 
 const Customer = require('../models/customerModel')

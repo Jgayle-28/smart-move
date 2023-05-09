@@ -7,11 +7,13 @@ import { reducer as mailReducer } from 'src/slices/mail'
 import authReducer from './auth/authSlice'
 import companyReducer from './company/companySlice'
 import customerReducer from './customers/customerSlice'
+import jobReducer from './jobs/jobSlice'
 
 export const rootReducer = combineReducers({
   auth: authReducer,
   company: companyReducer,
   customers: customerReducer,
+  jobs: jobReducer,
   // OLD
   calendar: calendarReducer,
   chat: chatReducer,
