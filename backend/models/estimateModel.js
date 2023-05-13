@@ -34,6 +34,19 @@ const estimateSchema = mongoose.Schema(
       default: [],
     },
     // Service Details
+    moveCharges: {
+      totalMen: { type: mongoose.Mixed },
+      totalTrucks: { type: mongoose.Mixed },
+      ratePerHour: { type: mongoose.Mixed },
+      driveTime: { type: mongoose.Mixed },
+      stairHours: { type: mongoose.Mixed },
+      totalHours: { type: mongoose.Mixed },
+      longCarryHours: { type: mongoose.Mixed },
+      adjustmentTime: { type: mongoose.Mixed },
+      moveHours: { type: mongoose.Mixed },
+      totalMoveHours: { type: mongoose.Mixed },
+      totalMoveCost: { type: mongoose.Mixed },
+    },
     packing: {
       packDate: {
         type: Date,
@@ -46,13 +59,13 @@ const estimateSchema = mongoose.Schema(
           packingItem: {
             type: String,
           },
-          packingItemAmt: {
-            type: Number,
-          },
           packingItemQty: {
             type: Number,
           },
           packingItemRate: {
+            type: Number,
+          },
+          packingItemAmt: {
             type: Number,
           },
         },
@@ -60,12 +73,14 @@ const estimateSchema = mongoose.Schema(
       packingTotal: { type: Number },
     },
     fees: {
+      tripFee: { type: Number },
       receivingFee: { type: Number },
+      additionalFees: [],
       totalFees: { type: Number },
     },
     additionalServices: {
-      addservices: [],
-      addServicesTotal: { type: Number },
+      services: [],
+      additionalServicesTotal: { type: Number },
     },
     storage: {
       storageItems: [],
@@ -76,20 +91,6 @@ const estimateSchema = mongoose.Schema(
     totalVolume: { type: Number },
     totalItemCount: { type: Number },
     allTotal: { type: Number },
-    // final costs
-    moveCost: {
-      totalMen: { type: Number },
-      totalTrucks: { type: Number },
-      totalHours: { type: Number },
-      moveHours: { type: Number },
-      stairHours: { type: Number },
-      longCarryHours: { type: Number },
-      driveTime: { type: Number },
-      adjustmentTime: { type: Number },
-      ratePerHour: { type: Number },
-      tripFee: { type: Number },
-      totalMoveCost: { type: Number },
-    },
   },
   {
     timestamps: true,

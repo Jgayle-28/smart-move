@@ -1,53 +1,80 @@
 import {
   Box,
   Card,
-  CardContent,
   Divider,
   Stack,
   Typography,
+  Unstable_Grid2 as Grid,
 } from '@mui/material'
-import { useRef } from 'react'
-
-import { EstimateContainer } from './EstimateContainer'
+import { useRef, useState } from 'react'
+import * as Yup from 'yup'
+import { useFormik } from 'formik'
 import { EstimateSideBar } from './EstimateSideBar'
+import MoveChargesForm from './services/MoveChargesForm'
+import PackingForm from './services/PackingForm'
+import AdditionalServicesForm from './services/AdditionalServicesForm'
+import FeesForm from './services/FeesForm'
+import StorageForm from './services/StorageForm'
+import ServiceTotalsTable from './services/ServiceTotalsTable'
+import { useSelector } from 'react-redux'
 
 function Services({ toggleSidebar, sideBarOpen }) {
+  const [currentService, setCurrentService] = useState('Move Charges')
+
+  const { moveCharges, packing, fees } = useSelector((state) => state.estimates)
+
   const rootRef = useRef(null)
+
+  const formik = useFormik({
+    initialValues: {
+      totalMen: moveCharges?.totalMen || '', // required
+      totalTrucks: moveCharges?.totalTrucks || '', // required
+      ratePerHour: moveCharges?.ratePerHour || '', // required
+      driveTime: moveCharges?.driveTime || '',
+      stairHours: moveCharges?.stairHours || '',
+      longCarryHours: moveCharges?.longCarryHours || '',
+      adjustmentTime: moveCharges?.adjustmentTime || '',
+      packDate: packing?.packDate || null,
+      packTime: packing?.packTime || null,
+      tripFee: fees?.tripFee || '',
+      receivingFee: fees?.receivingFee || '',
+    },
+    validationSchema: Yup.object({
+      totalMen: Yup.string()
+        .max(255)
+        .required('Total number of men is required'),
+      totalTrucks: Yup.string()
+        .max(255)
+        .required('Total number of trucks is required'),
+      ratePerHour: Yup.string().max(255).required('Rate per hour is required'),
+    }),
+    // onSubmit: () => handleSubmit(),
+  })
+
+  console.log('formik :>> ', formik)
+
   return (
     <>
       <Box
-        component='main'
+        ref={rootRef}
         sx={{
-          display: 'flex',
-          flex: '1 1 auto',
-          overflow: 'hidden',
-          position: 'relative',
+          p: 3,
         }}
       >
-        <Box
-          ref={rootRef}
-          sx={{
-            bottom: 0,
-            display: 'flex',
-            left: 0,
-            position: 'absolute',
-            right: 0,
-            top: 0,
-          }}
-        >
-          <EstimateSideBar
-            currentTab='services'
-            container={rootRef.current}
-            // filters={invoicesSearch.state.filters}
-            // group={group}
-            // onFiltersChange={invoicesSearch.handleFiltersChange}
-            onClose={toggleSidebar}
-            // onGroupChange={handleGroupChange}
-            open={sideBarOpen}
-          />
-          <EstimateContainer open={true}>
-            <Card sx={{ marginTop: 3 }}>
-              <Box
+        <Grid container spacing={3}>
+          <Grid xs={12} md={4}>
+            <EstimateSideBar
+              currentTab='services'
+              handleClick={setCurrentService}
+              currentSelection={currentService}
+              container={rootRef.current}
+              onClose={toggleSidebar}
+              open={sideBarOpen}
+            />
+          </Grid>
+          <Grid xs={12} md={8}>
+            <Card>
+              {/* <Box
                 display='flex'
                 alignItems='center'
                 direction='row'
@@ -60,37 +87,58 @@ function Services({ toggleSidebar, sideBarOpen }) {
                   </Typography>
                 </div>
                 <Stack alignItems='center' direction='row' spacing={1}>
-                  {/* <Button
-                    color='inherit'
-                    startIcon={
-                      <SvgIcon>
-                        <FilterFunnel01Icon />
-                      </SvgIcon>
-                    }
-                    onClick={toggleSidebar}
-                  >
-                    Rooms
-                  </Button> */}
-                  {/* <Button
-                    startIcon={
-                      <SvgIcon>
-                        <PlusIcon />
-                      </SvgIcon>
-                    }
-                    variant='contained'
-                  >
-                    New
-                  </Button> */}
+                
                 </Stack>
               </Box>
-              <Divider />
-              <CardContent>
-                <h1>Temp Stuff</h1>
-              </CardContent>
+              <Divider /> */}
+              <Box sx={{ padding: 2 }}>
+                {currentService === 'Move Charges' && (
+                  <MoveChargesForm formik={formik} />
+                )}
+                {currentService === 'Packing' && (
+                  <PackingForm formik={formik} />
+                )}
+                {currentService === 'Additional Services' && (
+                  <AdditionalServicesForm />
+                )}
+                {currentService === 'Storage' && <StorageForm />}
+                {currentService === 'Fees' && <FeesForm formik={formik} />}
+              </Box>
             </Card>
-          </EstimateContainer>
-        </Box>
+          </Grid>
+        </Grid>
       </Box>
+      <Grid container>
+        <Grid
+          xs={12}
+          md={12}
+          sx={{
+            px: 3,
+            mb: 3,
+          }}
+        >
+          <Card>
+            <Box
+              display='flex'
+              alignItems='center'
+              direction='row'
+              justifyContent='space-between'
+              sx={{ padding: 2 }}
+            >
+              <Typography sx={{ paddingLeft: 1 }} variant='h6'>
+                Totals
+              </Typography>
+              {/* <Typography variant='caption' color='text.secondary'>
+                WEIGHT (LBS) / VOLUME (CFT)
+              </Typography> */}
+            </Box>
+            <Divider />
+            <Box sx={{ p: 3 }}>
+              <ServiceTotalsTable />
+            </Box>
+          </Card>
+        </Grid>
+      </Grid>
     </>
   )
 }

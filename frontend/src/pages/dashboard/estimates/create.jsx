@@ -87,6 +87,8 @@ const Page = () => {
 
   const focusEstimate = null
 
+  // TODO -> if leaving the create page we will need to clear temp values in the redux store for the inventory & services
+
   useEffect(() => {
     if (jobId) {
       dispatch(getJob(jobId))

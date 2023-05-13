@@ -11,16 +11,15 @@ import {
   Typography,
 } from '@mui/material'
 import React, { Fragment } from 'react'
-import {
-  generateTotalItems,
-  generateTotalVolume,
-  generateTotalWeight,
-} from 'src/utils/inventory/generate-all-room-totals'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
 import HighlightOffIcon from '@mui/icons-material/HighlightOff'
+import { useSelector } from 'react-redux'
 
 function AllRoomItemsTable({ addItem, removeItem, deleteItem, inventory }) {
+  const { totalWeight, totalVolume, totalItemCount } = useSelector(
+    (state) => state.estimates
+  )
   return (
     <>
       <TableContainer component={Paper}>
@@ -101,21 +100,15 @@ function AllRoomItemsTable({ addItem, removeItem, deleteItem, inventory }) {
               <TableCell rowSpan={3} />
               <TableCell rowSpan={3} />
               <TableCell colSpan={1}>Total weight (lbs)</TableCell>
-              <TableCell align='right'>
-                {generateTotalWeight(inventory)}
-              </TableCell>
+              <TableCell align='right'>{totalWeight || 0}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell colSpan={1}>Total Volume (cft)</TableCell>
-              <TableCell align='right'>
-                {generateTotalVolume(inventory)}
-              </TableCell>
+              <TableCell align='right'>{totalVolume || 0}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell colSpan={1}>Total Item Count</TableCell>
-              <TableCell align='right'>
-                {generateTotalItems(inventory)}
-              </TableCell>
+              <TableCell align='right'>{totalItemCount || 0}</TableCell>
             </TableRow>
           </TableBody>
         </Table>

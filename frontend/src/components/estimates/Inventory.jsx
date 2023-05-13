@@ -1,5 +1,5 @@
+import { useCallback, useEffect, useRef, useState } from 'react'
 import {
-  AppBar,
   Box,
   Card,
   Divider,
@@ -9,17 +9,11 @@ import {
   Unstable_Grid2 as Grid,
 } from '@mui/material'
 import {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from 'react'
-import {
   getRoomItems,
   addItem,
   deleteItem,
   removeItem,
+  generateItemObj,
 } from 'src/utils/inventory'
 import { EstimateSideBar } from './EstimateSideBar'
 import ItemList from './inventory/ItemList'
@@ -27,27 +21,42 @@ import { a11yProps } from 'src/utils/a11y-props'
 import { TabPanel } from '../shared/TabPanel'
 import RoomItemsTable from './inventory/RoomItemsTable'
 import AllRoomItemsTable from './inventory/AllRoomItemsTable'
+import {
+  updateTempInventory,
+  updateTotals,
+} from 'src/store/estimates/estimateSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  generateTotalItems,
+  generateTotalVolume,
+  generateTotalWeight,
+} from 'src/utils/inventory/generate-all-room-totals'
 
 function Inventory({ toggleSidebar, sideBarOpen }) {
   const [currentRoom, setCurrentRoom] = useState('Entryway')
   const [currentRoomItems, setCurrentRoomItems] = useState([])
   const [currentTotalRoom, setCurrentTotalRoom] = useState(0)
   const [inventory, setInventory] = useState([])
-  const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
 
-  console.log('inventory :>> ', inventory)
+  const inventoryRef = useRef([])
+  const { tempInventory } = useSelector((state) => state.estimates)
 
   const rootRef = useRef(null)
-  const inventoryItemRef = useRef(null)
+  const dispatch = useDispatch()
 
-  useLayoutEffect(() => {
-    if (inventoryItemRef.current) {
-      setDimensions({
-        width: inventoryItemRef.current.offsetWidth,
-        height: inventoryItemRef.current.offsetHeight,
-      })
+  useEffect(() => {
+    return () => {
+      // Updates the store in redux on tab change
+      dispatch(updateTempInventory(inventoryRef.current))
     }
   }, [])
+
+  // Set inventory from redux on tab changes
+  useEffect(() => {
+    if (tempInventory.length && !inventory.length) {
+      setInventory(tempInventory)
+    }
+  }, [tempInventory])
 
   useEffect(() => {
     const tempItems = getRoomItems(currentRoom)
@@ -55,7 +64,15 @@ function Inventory({ toggleSidebar, sideBarOpen }) {
   }, [currentRoom])
 
   useEffect(() => {
-    if (inventory.length === 0) setCurrentTotalRoom(0)
+    if (inventory.length === 0) {
+      setCurrentTotalRoom(0)
+    } else {
+      const totalWeight = generateTotalWeight(inventory)
+      const totalVolume = generateTotalVolume(inventory)
+      const totalItemCount = generateTotalItems(inventory)
+      dispatch(updateTotals({ totalWeight, totalVolume, totalItemCount }))
+    }
+    inventoryRef.current = inventory
   }, [inventory])
 
   const updateRoomItems = useCallback((items) => {
@@ -67,47 +84,15 @@ function Inventory({ toggleSidebar, sideBarOpen }) {
   }
 
   const handleAddItemClick = (item) => {
-    let room = currentRoom
-    let volume = item.itemVolume || item.volume
-    let weight = item.itemWeight || item.weight
-    let name = item.itemName || item.name
-    let itemAmt = 1
-    let itemObj = {
-      roomName: room,
-      item: {
-        name,
-        itemAmt,
-        volume,
-        weight,
-        calcVolume: volume,
-        calcWeight: weight,
-      },
-    }
+    let itemObj = generateItemObj(item, currentRoom)
 
-    // Update inventory using Util function
     const updatedInventory = addItem(itemObj, inventory)
     setInventory(updatedInventory)
   }
 
   const handleRemoveItemClick = (item) => {
-    let room = currentRoom
-    let volume = item.itemVolume || item.volume
-    let weight = item.itemWeight || item.weight
-    let name = item.itemName || item.name
-    let itemAmt = 1
-    let itemObj = {
-      roomName: room,
-      item: {
-        name,
-        itemAmt,
-        volume,
-        weight,
-        calcVolume: volume,
-        calcWeight: weight,
-      },
-    }
+    let itemObj = generateItemObj(item, currentRoom)
 
-    // Update inventory using Util function
     const updatedInventory = removeItem(itemObj, inventory)
     setInventory(updatedInventory)
   }
@@ -156,7 +141,6 @@ function Inventory({ toggleSidebar, sideBarOpen }) {
               <Divider />
               <ItemList
                 currentRoomItems={currentRoomItems}
-                dimensions={dimensions}
                 handleAddItemClick={handleAddItemClick}
               />
             </Card>
