@@ -36,8 +36,8 @@ function Services({ toggleSidebar, sideBarOpen }) {
       adjustmentTime: moveCharges?.adjustmentTime || '',
       packDate: packing?.packDate || null,
       packTime: packing?.packTime || null,
-      tripFee: fees?.tripFee || '',
-      receivingFee: fees?.receivingFee || '',
+      tripFee: fees?.tripFee || 0,
+      receivingFee: fees?.receivingFee || 0,
     },
     validationSchema: Yup.object({
       totalMen: Yup.string()
@@ -55,6 +55,37 @@ function Services({ toggleSidebar, sideBarOpen }) {
 
   return (
     <>
+      <Grid container>
+        <Grid
+          xs={12}
+          md={12}
+          sx={{
+            px: 3,
+            mt: 3,
+          }}
+        >
+          {/* <Card> */}
+          {/* <Box
+            display='flex'
+            alignItems='center'
+            direction='row'
+            justifyContent='space-between'
+            sx={{ padding: 2 }}
+          > */}
+          {/* <Typography sx={{ paddingLeft: 1 }} variant='h6'>
+              Totals
+            </Typography> */}
+          {/* <Typography variant='caption' color='text.secondary'>
+                WEIGHT (LBS) / VOLUME (CFT)
+              </Typography> */}
+          {/* </Box> */}
+          {/* <Divider /> */}
+          {/* <Box sx={{ p: 3 }}> */}
+          <ServiceTotalsTable />
+          {/* </Box> */}
+          {/* </Card> */}
+        </Grid>
+      </Grid>
       <Box
         ref={rootRef}
         sx={{
@@ -108,37 +139,6 @@ function Services({ toggleSidebar, sideBarOpen }) {
           </Grid>
         </Grid>
       </Box>
-      <Grid container>
-        <Grid
-          xs={12}
-          md={12}
-          sx={{
-            px: 3,
-            mb: 3,
-          }}
-        >
-          <Card>
-            <Box
-              display='flex'
-              alignItems='center'
-              direction='row'
-              justifyContent='space-between'
-              sx={{ padding: 2 }}
-            >
-              <Typography sx={{ paddingLeft: 1 }} variant='h6'>
-                Totals
-              </Typography>
-              {/* <Typography variant='caption' color='text.secondary'>
-                WEIGHT (LBS) / VOLUME (CFT)
-              </Typography> */}
-            </Box>
-            <Divider />
-            <Box sx={{ p: 3 }}>
-              <ServiceTotalsTable />
-            </Box>
-          </Card>
-        </Grid>
-      </Grid>
     </>
   )
 }

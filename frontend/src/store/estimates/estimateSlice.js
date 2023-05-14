@@ -110,14 +110,23 @@ export const estimateSlice = createSlice({
     updateAdditionalServices(state, action) {
       state.additionalServices = action.payload
     },
-    clearTempInventory(state) {
-      state.tempInventory = null
+    updateStorage(state, action) {
+      state.storage = action.payload
     },
-    clearFocusEstimate(state) {
+    updateFees(state, action) {
+      state.fees = action.payload
+    },
+    clearServices(state) {
       state.focusEstimate = null
-    },
-    clearCreatedEstimate(state) {
-      state.createdEstimate = null
+      state.tempInventory = null
+      state.moveCharges = null
+      state.packing = null
+      state.additionalServices = null
+      state.storage = null
+      state.fees = null
+      state.totalWeight = null
+      state.totalVolume = null
+      state.totalItemCount = null
     },
   },
   extraReducers: (builder) => {
@@ -193,6 +202,9 @@ export const {
   updateMoveCharges,
   updatePacking,
   updateAdditionalServices,
+  updateStorage,
+  updateFees,
+  clearServices,
   updateTotals,
   clearTempInventory,
   clearFocusEstimate,

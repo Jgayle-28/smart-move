@@ -54,7 +54,7 @@ export const EstimateSideBar = (props) => {
       <div>
         <Scrollbar
           sx={{
-            height: 400,
+            height: currentTab === 'services' ? 430 : 400,
           }}
         >
           {currentTab === 'inventory' && (

@@ -4,6 +4,7 @@ import {
   TextField,
   Unstable_Grid2 as Grid,
   Box,
+  Divider,
 } from '@mui/material'
 import { MobileDatePicker, MobileTimePicker } from '@mui/x-date-pickers'
 import _ from 'lodash'
@@ -91,7 +92,7 @@ function PackingForm({ formik }) {
       <Box>
         <Scrollbar
           sx={{
-            height: 400,
+            maxHeight: 500,
           }}
         >
           <Grid container spacing={3}>
@@ -126,7 +127,9 @@ function PackingForm({ formik }) {
                 }
               />
             </Grid>
-
+            <Grid xs={12} md={12}>
+              <Divider />
+            </Grid>
             <Grid xs={12} md={3}>
               <TextField
                 fullWidth
@@ -167,21 +170,6 @@ function PackingForm({ formik }) {
                 Add
               </Button>
             </Grid>
-            <Grid xs={12} md={12}>
-              <Stack
-                direction='row'
-                spacing={2}
-                alignItems='center'
-                justifyContent='space-between'
-              >
-                <SeverityPill>
-                  Total Packing Items: {packingItems.length || 0}
-                </SeverityPill>
-                <SeverityPill color='success'>
-                  Total Packing Charges: ${packing?.packingTotal || 0}
-                </SeverityPill>
-              </Stack>
-            </Grid>
 
             {packingItems.length > 0 && (
               <Grid xs={12} md={12}>
@@ -193,6 +181,23 @@ function PackingForm({ formik }) {
             )}
           </Grid>
         </Scrollbar>
+        <Grid container spacing={3}>
+          <Grid xs={12} md={12}>
+            <Stack
+              direction='row'
+              spacing={2}
+              alignItems='center'
+              justifyContent='space-between'
+            >
+              <SeverityPill>
+                Total Packing Items: {packingItems.length || 0}
+              </SeverityPill>
+              <SeverityPill color='success'>
+                Total Packing Charges: ${packing?.packingTotal || 0}
+              </SeverityPill>
+            </Stack>
+          </Grid>
+        </Grid>
       </Box>
     </>
   )

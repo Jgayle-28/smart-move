@@ -73,7 +73,8 @@ function AdditionalServicesForm() {
       <Box>
         <Scrollbar
           sx={{
-            height: 400,
+            minHeight: 400,
+            maxHeight: 500,
           }}
         >
           <Grid container spacing={3}>
@@ -107,22 +108,7 @@ function AdditionalServicesForm() {
                 Add Service
               </Button>
             </Grid>
-            <Grid xs={12} md={12}>
-              <Stack
-                direction='row'
-                spacing={2}
-                alignItems='center'
-                justifyContent='space-between'
-              >
-                <SeverityPill>
-                  Total Additional Fees: {services?.length || 0}
-                </SeverityPill>
-                <SeverityPill color='success'>
-                  Total Packing Charges: $
-                  {additionalServices?.additionalServicesTotal || 0}
-                </SeverityPill>
-              </Stack>
-            </Grid>
+
             {services.length > 0 && (
               <Grid xs={12} md={12}>
                 <AdditionalServicesTable
@@ -133,6 +119,24 @@ function AdditionalServicesForm() {
             )}
           </Grid>
         </Scrollbar>
+        <Grid container spacing={3}>
+          <Grid xs={12} md={12}>
+            <Stack
+              direction='row'
+              spacing={2}
+              alignItems='center'
+              justifyContent='space-between'
+            >
+              <SeverityPill>
+                Total Additional Fees: {services?.length || 0}
+              </SeverityPill>
+              <SeverityPill color='success'>
+                Total Packing Charges: $
+                {additionalServices?.additionalServicesTotal || 0}
+              </SeverityPill>
+            </Stack>
+          </Grid>
+        </Grid>
       </Box>
     </>
   )

@@ -194,33 +194,34 @@ function MoveChargesForm({ formik }) {
               value={formik.values.adjustmentTime}
             />
           </Grid>
-          <Grid xs={12} md={12}>
-            <Stack
-              direction='row'
-              spacing={2}
-              alignItems='center'
-              justifyContent='space-between'
-            >
-              <Stack direction='row' spacing={2}>
-                <SeverityPill>
-                  Move Hours:{' '}
-                  {moveCharges?.moveHours ? moveCharges.moveHours : 0}
-                </SeverityPill>
-                <SeverityPill>
-                  Total Move Hours:{' '}
-                  {moveCharges?.totalMoveHours ? moveCharges.totalMoveHours : 0}
-                </SeverityPill>
-              </Stack>
-              <SeverityPill color='success'>
-                Total Move Charges:{' '}
-                {moveCharges?.totalMoveCost
-                  ? `$${moveCharges.totalMoveCost.toLocaleString()}`
-                  : 0}
-              </SeverityPill>
-            </Stack>
-          </Grid>
         </Grid>
       </Scrollbar>
+      <Grid container spacing={3}>
+        <Grid xs={12} md={12}>
+          <Stack
+            direction='row'
+            spacing={2}
+            alignItems='center'
+            justifyContent='space-between'
+          >
+            <Stack direction='row' spacing={2}>
+              <SeverityPill>
+                Move Hours: {moveCharges?.moveHours ? moveCharges.moveHours : 0}
+              </SeverityPill>
+              <SeverityPill>
+                Total Move Hours:{' '}
+                {moveCharges?.totalMoveHours ? moveCharges.totalMoveHours : 0}
+              </SeverityPill>
+            </Stack>
+            <SeverityPill color='success'>
+              Total Move Charges:{' '}
+              {moveCharges?.totalMoveCost
+                ? `$${moveCharges.totalMoveCost.toLocaleString()}`
+                : 0}
+            </SeverityPill>
+          </Stack>
+        </Grid>
+      </Grid>
     </Box>
   )
 }

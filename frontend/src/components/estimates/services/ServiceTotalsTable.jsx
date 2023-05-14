@@ -44,14 +44,14 @@ function ServiceTotalsTable() {
               </TableCell>
               <TableCell component='th' scope='row'>
                 $
-                {additionalServices?.additionalServicesTotal.toLocaleString() ||
+                {additionalServices?.additionalServicesTotal?.toLocaleString() ||
                   0}
               </TableCell>
               <TableCell component='th' scope='row'>
-                $60
+                ${storage?.storageTotal?.toLocaleString() || 0}
               </TableCell>
               <TableCell component='th' scope='row'>
-                $100
+                ${fees?.feesTotal?.toLocaleString() || 0}
               </TableCell>
               <TableCell component='th' scope='row'>
                 <SeverityPill color='success'>

@@ -11,35 +11,47 @@ import {
 import React from 'react'
 import HighlightOffIcon from '@mui/icons-material/HighlightOff'
 
-function AdditionalServicesTable({ removeService, services }) {
+function StorageItemTable({ removeStorageItem, storageItems }) {
   return (
     <>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label='simple table'>
           <TableHead>
             <TableRow>
-              <TableCell>Service</TableCell>
-              <TableCell>Amount</TableCell>
+              <TableCell>Item Name</TableCell>
+              <TableCell>Quantity</TableCell>
+              <TableCell>Price</TableCell>
+              <TableCell>Days In Storage</TableCell>
+              <TableCell>Total</TableCell>
               <TableCell>Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {services &&
-              services.map((item, i) => (
+            {storageItems &&
+              storageItems.map((item, i) => (
                 <TableRow
                   key={i}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <TableCell component='th' scope='row'>
-                    {item.serviceName}
+                    {item.storageItemName}
                   </TableCell>
                   <TableCell component='th' scope='row'>
-                    ${item.serviceAmount.toLocaleString()}
+                    {item.storageItemQty}
+                  </TableCell>
+                  <TableCell component='th' scope='row'>
+                    ${item.storageItemPrice.toLocaleString()}
+                  </TableCell>
+                  <TableCell component='th' scope='row'>
+                    {item.storageItemTime}
+                  </TableCell>
+                  <TableCell component='th' scope='row'>
+                    ${item.storageItemTotal.toLocaleString()}
                   </TableCell>
                   <TableCell component='th' scope='row'>
                     <Tooltip title='Remove item'>
                       <HighlightOffIcon
-                        onClick={() => removeService(item.serviceName)}
+                        onClick={() => removeStorageItem(i)}
                         sx={{ cursor: 'pointer', color: 'error.main' }}
                         fontSize='small'
                       />
@@ -54,4 +66,4 @@ function AdditionalServicesTable({ removeService, services }) {
   )
 }
 
-export default AdditionalServicesTable
+export default StorageItemTable

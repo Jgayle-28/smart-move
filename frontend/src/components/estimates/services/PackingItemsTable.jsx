@@ -42,7 +42,7 @@ function PackingItemsTable({ removePackingItem, packingItems }) {
                     ${item.packingItemPrice}
                   </TableCell>
                   <TableCell component='th' scope='row'>
-                    ${item.packingTotalItemAmt}
+                    ${item.packingTotalItemAmt.toLocaleString()}
                   </TableCell>
                   <TableCell component='th' scope='row'>
                     <Tooltip title='Remove item'>
