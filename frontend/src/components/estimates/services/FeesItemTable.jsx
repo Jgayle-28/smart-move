@@ -34,7 +34,7 @@ function FeesItemTable({ removeFeeItem, feeItems }) {
                     {item.feeName}
                   </TableCell>
                   <TableCell component='th' scope='row'>
-                    {item.feeAmount}
+                    ${item.feeAmount.toLocaleString()}
                   </TableCell>
                   <TableCell component='th' scope='row'>
                     <Tooltip title='Remove item'>

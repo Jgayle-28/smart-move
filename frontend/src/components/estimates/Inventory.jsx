@@ -32,7 +32,7 @@ import {
   generateTotalWeight,
 } from 'src/utils/inventory/generate-all-room-totals'
 
-function Inventory({ toggleSidebar, sideBarOpen }) {
+function Inventory({ tempInventoryRef, toggleSidebar, sideBarOpen }) {
   const [currentRoom, setCurrentRoom] = useState('Entryway')
   const [currentRoomItems, setCurrentRoomItems] = useState([])
   const [currentTotalRoom, setCurrentTotalRoom] = useState(0)
@@ -44,16 +44,16 @@ function Inventory({ toggleSidebar, sideBarOpen }) {
   const rootRef = useRef(null)
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    return () => {
-      // Updates the store in redux on tab change
-      dispatch(updateTempInventory(inventoryRef.current))
-    }
-  }, [])
+  // useEffect(() => {
+  //   return () => {
+  //     // Updates the store in redux on tab change
+  //     dispatch(updateTempInventory(inventoryRef.current))
+  //   }
+  // }, [])
 
   // Set inventory from redux on tab changes
   useEffect(() => {
-    if (tempInventory.length && !inventory.length) {
+    if (tempInventory?.length && !inventory.length) {
       setInventory(tempInventory)
     }
   }, [tempInventory])
@@ -73,6 +73,7 @@ function Inventory({ toggleSidebar, sideBarOpen }) {
       dispatch(updateTotals({ totalWeight, totalVolume, totalItemCount }))
     }
     inventoryRef.current = inventory
+    tempInventoryRef.current = inventory
   }, [inventory])
 
   const updateRoomItems = useCallback((items) => {

@@ -23,12 +23,7 @@ const estimateSchema = mongoose.Schema(
       ref: 'User',
       required: true,
     },
-    // delivery & Pick up & Drop off details
-    deliveryItems: {
-      type: Array,
-      default: [],
-    },
-    // Move details
+    // Move Inventory
     inventory: {
       type: Array,
       default: [],
@@ -49,10 +44,10 @@ const estimateSchema = mongoose.Schema(
     },
     packing: {
       packDate: {
-        type: Date,
+        type: mongoose.Mixed,
       },
       packTime: {
-        type: Date,
+        type: mongoose.Mixed,
       },
       packingItems: [
         {
@@ -72,12 +67,6 @@ const estimateSchema = mongoose.Schema(
       ],
       packingTotal: { type: Number },
     },
-    fees: {
-      tripFee: { type: Number },
-      receivingFee: { type: Number },
-      additionalFees: [],
-      totalFees: { type: Number },
-    },
     additionalServices: {
       services: [],
       additionalServicesTotal: { type: Number },
@@ -85,6 +74,12 @@ const estimateSchema = mongoose.Schema(
     storage: {
       storageItems: [],
       storageTotal: { type: Number },
+    },
+    fees: {
+      tripFee: { type: Number },
+      receivingFee: { type: Number },
+      additionalFees: [],
+      feesTotal: { type: Number },
     },
     // Totals
     totalWeight: { type: Number },

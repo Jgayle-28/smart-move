@@ -20,7 +20,7 @@ function StorageItemTable({ removeStorageItem, storageItems }) {
             <TableRow>
               <TableCell>Item Name</TableCell>
               <TableCell>Quantity</TableCell>
-              <TableCell>Price</TableCell>
+              <TableCell>Rate Per Day</TableCell>
               <TableCell>Days In Storage</TableCell>
               <TableCell>Total</TableCell>
               <TableCell>Action</TableCell>

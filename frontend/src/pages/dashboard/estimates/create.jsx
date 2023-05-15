@@ -1,45 +1,30 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { PDFDownloadLink } from '@react-pdf/renderer'
-import FilterFunnel01Icon from '@untitled-ui/icons-react/build/esm/FilterFunnel01'
-import ArrowLeftIcon from '@untitled-ui/icons-react/build/esm/ArrowLeft'
-import {
-  Avatar,
-  Box,
-  Button,
-  Container,
-  Divider,
-  Link,
-  Stack,
-  SvgIcon,
-  Card,
-  Typography,
-  CardContent,
-  Tab,
-  Tabs,
-} from '@mui/material'
+import { Box, Divider, Tab, Tabs } from '@mui/material'
 import { invoicesApi } from 'src/api/invoices'
-import { RouterLink } from 'src/components/router-link'
 import { Seo } from 'src/components/seo'
 import { useDialog } from 'src/hooks/use-dialog'
 import { useMounted } from 'src/hooks/use-mounted'
 import { usePageView } from 'src/hooks/use-page-view'
-import { paths } from 'src/paths'
 import { InvoicePdfDialog } from 'src/sections/dashboard/invoice/invoice-pdf-dialog'
-import { InvoicePdfDocument } from 'src/sections/dashboard/invoice/invoice-pdf-document'
-import { InvoicePreview } from 'src/sections/dashboard/invoice/invoice-preview'
-import { getInitials } from 'src/utils/get-initials'
 import { useRouter } from 'src/hooks/use-router'
 import { useParams } from 'react-router'
 import EstimateHeader from 'src/components/estimates/EstimateHeader'
 import { useSelector, useDispatch } from 'react-redux'
 import Spinner from 'src/components/shared/Spinner'
-import { clearFocusJob, getJob } from 'src/store/jobs/jobSlice'
-import { EstimateSideBar } from 'src/components/estimates/EstimateSideBar'
-import { EstimateContainer } from 'src/components/estimates/EstimateContainer'
+import { clearFocusJob, getJob, updateJob } from 'src/store/jobs/jobSlice'
 // Tab Components
 import Inventory from 'src/components/estimates/Inventory'
 import Services from 'src/components/estimates/Services'
 import Review from 'src/components/estimates/Review'
+import {
+  addEstimate,
+  updateEstimate,
+  getEstimate,
+  deleteEstimate,
+  clearEstimate,
+  updateTempInventory,
+} from 'src/store/estimates/estimateSlice'
+import { toast } from 'react-hot-toast'
 
 const tabs = [
   { label: 'Inventory', value: 'inventory' },
@@ -78,44 +63,122 @@ const Page = () => {
   const [sideBarOpen, setSideBarOpen] = useState(true)
   const [currentTab, setCurrentTab] = useState('inventory')
 
+  const tempInventoryRef = useRef([])
+  console.log('tempInventoryRef :>> ', tempInventoryRef.current)
+
   const invoice = useInvoice()
   const dialog = useDialog()
   const dispatch = useDispatch()
+  const router = useRouter()
+  usePageView()
 
   const { jobId, estimateId } = useParams()
-  const { focusJob, isLoading } = useSelector((state) => state.jobs)
-
-  const focusEstimate = null
-
-  // TODO -> if leaving the create page we will need to clear temp values in the redux store for the inventory & services
+  const { focusJob } = useSelector((state) => state.jobs)
+  const { user } = useSelector((state) => state.auth)
+  const {
+    focusEstimate,
+    tempInventory,
+    moveCharges,
+    packing,
+    additionalServices,
+    storage,
+    fees,
+    totalWeight,
+    totalVolume,
+    totalItemCount,
+    allTotal,
+  } = useSelector((state) => state.estimates)
 
   useEffect(() => {
     if (jobId) {
       dispatch(getJob(jobId))
     }
-    return () => {
-      if (jobId) {
-        dispatch(clearFocusJob())
-      }
+    if (estimateId) {
+      dispatch(getEstimate(estimateId))
     }
-  }, [])
+    return () => {
+      dispatch(clearFocusJob())
+      dispatch(clearEstimate())
+    }
+  }, [jobId, estimateId])
 
   const toggleSidebar = useCallback(() => {
     setSideBarOpen((prevState) => !prevState)
   }, [])
 
-  const handleTabsChange = useCallback((event, value) => {
+  const handleTabsChange = (event, value) => {
+    // Updates the store in redux on tab change, this prevents error while adding items to the inventory
+    if (currentTab === 'inventory') {
+      dispatch(updateTempInventory(tempInventoryRef.current))
+    }
     setCurrentTab(value)
-  }, [])
+  }
 
-  usePageView()
+  const handleSaveEstimate = () => {
+    console.log('I am saving estimate')
+    const estimateData = {
+      job: focusJob._id,
+      company: focusJob.company,
+      customer: focusJob.customer._id,
+      createdBy: user._id,
+      inventory: tempInventory,
+      moveCharges,
+      packing,
+      additionalServices,
+      storage,
+      fees,
+      totalWeight,
+      totalVolume,
+      totalItemCount,
+      allTotal,
+    }
+    // check for required fields
+    if (tempInventory.length === 0) {
+      return toast.error('Please add inventory items to the estimate')
+    }
+    if (moveCharges === null) {
+      return toast.error(
+        'Please enter the total number of men, trucks, and rate per hour'
+      )
+    }
+    if (moveCharges.totalMen === '') {
+      return toast.error('Please enter the number of men on the job')
+    }
+    if (moveCharges.totalTrucks === '') {
+      return toast.error('Please enter the number of trucks on the job')
+    }
+    if (moveCharges.ratePerHour === '') {
+      return toast.error('Please enter a valid rate per hour')
+    }
+
+    try {
+      if (estimateId) {
+        dispatch(updateEstimate({ ...focusEstimate, ...estimateData }))
+        toast.success('Estimate successfully updated')
+      } else {
+        // Only need to add estimate id to job if it is a new estimate
+        dispatch(addEstimate(estimateData))
+          .unwrap()
+          .then((res) => {
+            console.log('res :>> ', res)
+            if (res) {
+              dispatch(updateJob({ ...focusJob, estimate: res._id }))
+            }
+            toast.success('Estimate successfully created')
+            router.push(`dashboard/estimates/${res._id}/edit`)
+          })
+      }
+    } catch (err) {
+      console.error(err)
+    }
+  }
 
   if (!invoice) {
     return null
   }
 
-  if (isLoading || (jobId && !focusJob) || (estimateId && !focusEstimate))
-    return <Spinner />
+  // When creating a new estimate only the jobId is passed in the url when editing you will have both jobId and estimateId
+  if ((jobId && !focusJob) || (estimateId && !focusEstimate)) return <Spinner />
   return (
     <>
       <Seo title='Dashboard: Estimate Create' />
@@ -132,6 +195,7 @@ const Page = () => {
           job={focusJob || focusEstimate.job}
           invoice={invoice}
           dialog={dialog}
+          handleSaveEstimate={handleSaveEstimate}
         />
       </Box>
 
@@ -152,7 +216,11 @@ const Page = () => {
 
       <Divider />
       {currentTab === 'inventory' && (
-        <Inventory toggleSidebar={toggleSidebar} sideBarOpen={sideBarOpen} />
+        <Inventory
+          tempInventoryRef={tempInventoryRef}
+          toggleSidebar={toggleSidebar}
+          sideBarOpen={sideBarOpen}
+        />
       )}
       {currentTab === 'services' && (
         <Services toggleSidebar={toggleSidebar} sideBarOpen={sideBarOpen} />

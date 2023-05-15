@@ -218,8 +218,8 @@ export const dashboardRoutes = [
             element: <EstimateCreatePage />,
           },
           {
-            path: ':estimateId',
-            element: <EstimateDetailPage />,
+            path: ':jobId/edit/:estimateId',
+            element: <EstimateCreatePage />,
           },
           {
             path: ':estimateId/:edit',

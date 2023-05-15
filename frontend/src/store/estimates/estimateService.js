@@ -18,6 +18,7 @@ const getEstimates = async (token, companyId) => {
 }
 
 const getEstimate = async (token, estimateId) => {
+  console.log('estimateId in service', estimateId)
   const config = getAxiosConfig(token)
   const res = await axios.get(`${API_URL}/${estimateId}/get`, config)
 

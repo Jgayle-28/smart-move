@@ -1,11 +1,4 @@
-import {
-  Box,
-  Card,
-  Divider,
-  Stack,
-  Typography,
-  Unstable_Grid2 as Grid,
-} from '@mui/material'
+import { Box, Card, Unstable_Grid2 as Grid } from '@mui/material'
 import { useRef, useState } from 'react'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
@@ -48,7 +41,6 @@ function Services({ toggleSidebar, sideBarOpen }) {
         .required('Total number of trucks is required'),
       ratePerHour: Yup.string().max(255).required('Rate per hour is required'),
     }),
-    // onSubmit: () => handleSubmit(),
   })
 
   console.log('formik :>> ', formik)
@@ -64,26 +56,7 @@ function Services({ toggleSidebar, sideBarOpen }) {
             mt: 3,
           }}
         >
-          {/* <Card> */}
-          {/* <Box
-            display='flex'
-            alignItems='center'
-            direction='row'
-            justifyContent='space-between'
-            sx={{ padding: 2 }}
-          > */}
-          {/* <Typography sx={{ paddingLeft: 1 }} variant='h6'>
-              Totals
-            </Typography> */}
-          {/* <Typography variant='caption' color='text.secondary'>
-                WEIGHT (LBS) / VOLUME (CFT)
-              </Typography> */}
-          {/* </Box> */}
-          {/* <Divider /> */}
-          {/* <Box sx={{ p: 3 }}> */}
           <ServiceTotalsTable />
-          {/* </Box> */}
-          {/* </Card> */}
         </Grid>
       </Grid>
       <Box
@@ -105,23 +78,6 @@ function Services({ toggleSidebar, sideBarOpen }) {
           </Grid>
           <Grid xs={12} md={8}>
             <Card>
-              {/* <Box
-                display='flex'
-                alignItems='center'
-                direction='row'
-                justifyContent='space-between'
-                sx={{ padding: 2 }}
-              >
-                <div>
-                  <Typography sx={{ paddingLeft: 1 }} variant='h6'>
-                    Item List
-                  </Typography>
-                </div>
-                <Stack alignItems='center' direction='row' spacing={1}>
-                
-                </Stack>
-              </Box>
-              <Divider /> */}
               <Box sx={{ padding: 2 }}>
                 {currentService === 'Move Charges' && (
                   <MoveChargesForm formik={formik} />

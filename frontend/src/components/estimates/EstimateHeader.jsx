@@ -6,7 +6,7 @@ import { getInitials } from 'src/utils/get-initials'
 import { useRouter } from 'src/hooks/use-router'
 import { format } from 'date-fns'
 
-function EstimateHeader({ job, isEdit, invoice, dialog }) {
+function EstimateHeader({ job, isEdit, invoice, dialog, handleSaveEstimate }) {
   const router = useRouter()
   return (
     <>
@@ -38,10 +38,10 @@ function EstimateHeader({ job, isEdit, invoice, dialog }) {
             </Button>
           </div>
           <Stack alignItems='center' direction='row' spacing={2}>
-            <Button color='inherit' onClick={dialog.handleOpen}>
-              Preview
+            <Button color='error' onClick={dialog.handleOpen}>
+              delete Estimate
             </Button>
-            <PDFDownloadLink
+            {/* <PDFDownloadLink
               document={<InvoicePdfDocument invoice={invoice} />}
               fileName='invoice'
               style={{ textDecoration: 'none' }}
@@ -49,7 +49,15 @@ function EstimateHeader({ job, isEdit, invoice, dialog }) {
               <Button size='small' color='success' variant='contained'>
                 Save Estimate
               </Button>
-            </PDFDownloadLink>
+            </PDFDownloadLink> */}
+            <Button
+              size='small'
+              color='success'
+              variant='contained'
+              onClick={handleSaveEstimate}
+            >
+              Save Estimate
+            </Button>
           </Stack>
         </Stack>
         <Stack

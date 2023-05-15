@@ -84,7 +84,7 @@ function MoveChargesForm({ formik }) {
         )
       }
     }
-  }, [formik.values])
+  }, [formik.values, totalWeight])
 
   return (
     <Box>

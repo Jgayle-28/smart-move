@@ -99,6 +99,7 @@ function AdditionalServicesForm() {
                 name='serviceAmount'
                 variant='standard'
                 size='small'
+                type='number'
                 value={serviceObj.serviceAmount}
                 onChange={handleChange}
               />

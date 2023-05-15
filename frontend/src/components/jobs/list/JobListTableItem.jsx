@@ -34,6 +34,7 @@ import { useSelector } from 'react-redux'
 import TableItemDetails from './TableItemDetails'
 
 function JobListTableItem({ job, currentProduct, handleProductToggle }) {
+  console.log('job :>> ', job)
   const [anchorEl, setAnchorEl] = useState(null)
   const [showComments, setShowComments] = useState(false)
 
@@ -119,7 +120,7 @@ function JobListTableItem({ job, currentProduct, handleProductToggle }) {
           {job.estimate ? (
             <Button
               component={RouterLink}
-              href={`/dashboard/estimates/${job.estimate._id}`}
+              href={`/dashboard/estimates/${job._id}/edit/${job.estimate._id}`}
               color='primary'
               size='small'
             >

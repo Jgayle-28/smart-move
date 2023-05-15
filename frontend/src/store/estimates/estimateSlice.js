@@ -15,7 +15,6 @@ const initialState = {
   totalWeight: null,
   totalVolume: null,
   totalItemCount: null,
-  createdEstimate: null,
   isLoading: false,
 }
 
@@ -116,7 +115,7 @@ export const estimateSlice = createSlice({
     updateFees(state, action) {
       state.fees = action.payload
     },
-    clearServices(state) {
+    clearEstimate(state) {
       state.focusEstimate = null
       state.tempInventory = null
       state.moveCharges = null
@@ -137,63 +136,77 @@ export const estimateSlice = createSlice({
       })
       .addCase(addEstimate.fulfilled, (state, action) => {
         state.isLoading = false
-        state.createdJob = action.payload
-        state.jobs =
-          state.jobs !== null
-            ? [...state.jobs, action.payload]
-            : [action.payload]
+        state.focusEstimate = action.payload
       })
       .addCase(addEstimate.rejected, (state) => {
         state.isLoading = false
-        state.jobs = null
+        state.focusEstimate = null
       })
-      // get jobs
+      // get estimates
       .addCase(getEstimates.pending, (state) => {
         state.isLoading = true
       })
       .addCase(getEstimates.fulfilled, (state, action) => {
         state.isLoading = false
-        state.jobs = action.payload
+        state.estimates = action.payload
       })
       .addCase(getEstimates.rejected, (state) => {
         state.isLoading = false
-        state.jobs = null
+        state.estimates = null
       })
-      // get job
+      // get estimate
       .addCase(getEstimate.pending, (state) => {
         state.isLoading = true
       })
       .addCase(getEstimate.fulfilled, (state, action) => {
         state.isLoading = false
-        state.focusJob = action.payload
+        state.focusEstimate = action.payload
+        state.tempInventory = action.payload.inventory
+        state.moveCharges = action.payload.moveCharges
+        state.packing = action.payload.packing || null
+        state.additionalServices = action.payload.additionalServices || null
+        state.storage = action.payload.storage || null
+        state.fees = action.payload.fees || null
+        state.totalWeight = action.payload.totalWeight
+        state.totalVolume = action.payload.totalVolume
+        state.totalItemCount = action.payload.totalItemCount
       })
       .addCase(getEstimate.rejected, (state) => {
         state.isLoading = false
-        state.focusJob = null
+        state.focusEstimate = null
+        state.tempInventory = []
+        state.moveCharges = null
+        state.packing = null
+        state.additionalServices = null
+        state.storage = null
+        state.fees = null
+        state.totalWeight = null
+        state.totalVolume = null
+        state.totalItemCount = null
       })
-      // update job -> update jobs array and focusCustomer
+      // update estimate
       .addCase(updateEstimate.pending, (state) => {
         state.isLoading = true
       })
       .addCase(updateEstimate.fulfilled, (state, action) => {
         state.isLoading = false
-        state.focusJob = action.payload
+        state.focusEstimate = action.payload
       })
       .addCase(updateEstimate.rejected, (state) => {
         state.isLoading = false
-        state.focusJob = null
+        state.focusEstimate = null
       })
-      // delete job -> update jobs array and focusJob
+      // delete estimate
       .addCase(deleteEstimate.pending, (state) => {
         state.isLoading = true
       })
       .addCase(deleteEstimate.fulfilled, (state, action) => {
         state.isLoading = false
-        state.focusJob = null
+        state.focusEstimate = null
       })
       .addCase(deleteEstimate.rejected, (state) => {
         state.isLoading = false
-        state.focusJob = null
+        state.focusEstimate = null
       })
   },
 })
@@ -204,10 +217,9 @@ export const {
   updateAdditionalServices,
   updateStorage,
   updateFees,
-  clearServices,
+  clearEstimate,
   updateTotals,
   clearTempInventory,
   clearFocusEstimate,
-  clearCreatedEstimate,
 } = estimateSlice.actions
 export default estimateSlice.reducer

@@ -113,7 +113,7 @@ function StorageForm() {
                 value={storageItemObj.storageItemPrice}
               />
             </Grid>
-            <Grid xs={12} md={2}>
+            <Grid xs={12} md={3}>
               <TextField
                 fullWidth
                 label='Days In Storage'
