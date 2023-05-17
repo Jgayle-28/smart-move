@@ -43,6 +43,9 @@ const updateJob = asyncHandler(async (req, res) => {
   const updatedJob = await Job.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
   })
+    .populate('customer')
+    .populate('createdBy')
+    .populate('estimate')
 
   res.status(200).json(updatedJob)
 })

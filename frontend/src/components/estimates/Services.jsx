@@ -43,8 +43,6 @@ function Services({ toggleSidebar, sideBarOpen }) {
     }),
   })
 
-  console.log('formik :>> ', formik)
-
   return (
     <>
       <Grid container>

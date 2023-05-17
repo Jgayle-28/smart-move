@@ -6,6 +6,7 @@ import estimateService from './estimateService'
 const initialState = {
   estimates: null,
   focusEstimate: null,
+  invoiceId: null,
   tempInventory: [],
   moveCharges: null,
   packing: null,
@@ -15,6 +16,7 @@ const initialState = {
   totalWeight: null,
   totalVolume: null,
   totalItemCount: null,
+  totalCharges: null,
   isLoading: false,
 }
 
@@ -161,6 +163,7 @@ export const estimateSlice = createSlice({
       .addCase(getEstimate.fulfilled, (state, action) => {
         state.isLoading = false
         state.focusEstimate = action.payload
+        state.invoiceId = action.payload.invoiceId
         state.tempInventory = action.payload.inventory
         state.moveCharges = action.payload.moveCharges
         state.packing = action.payload.packing || null
@@ -170,10 +173,12 @@ export const estimateSlice = createSlice({
         state.totalWeight = action.payload.totalWeight
         state.totalVolume = action.payload.totalVolume
         state.totalItemCount = action.payload.totalItemCount
+        state.totalCharges = action.payload.totalCharges
       })
       .addCase(getEstimate.rejected, (state) => {
         state.isLoading = false
         state.focusEstimate = null
+        state.invoiceId = null
         state.tempInventory = []
         state.moveCharges = null
         state.packing = null
@@ -191,6 +196,17 @@ export const estimateSlice = createSlice({
       .addCase(updateEstimate.fulfilled, (state, action) => {
         state.isLoading = false
         state.focusEstimate = action.payload
+        state.invoiceId = action.payload.invoiceId
+        state.tempInventory = action.payload.inventory
+        state.moveCharges = action.payload.moveCharges
+        state.packing = action.payload.packing || null
+        state.additionalServices = action.payload.additionalServices || null
+        state.storage = action.payload.storage || null
+        state.fees = action.payload.fees || null
+        state.totalWeight = action.payload.totalWeight
+        state.totalVolume = action.payload.totalVolume
+        state.totalItemCount = action.payload.totalItemCount
+        state.totalCharges = action.payload.totalCharges
       })
       .addCase(updateEstimate.rejected, (state) => {
         state.isLoading = false

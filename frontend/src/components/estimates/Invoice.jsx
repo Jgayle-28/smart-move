@@ -1,17 +1,19 @@
 import { useRef } from 'react'
 import { Box, Button, Grid, Stack } from '@mui/material'
-import { EstimatePreview } from './review/EstimatePreview'
-import { useSelector } from 'react-redux'
+import { InvoicePreview } from './invoice/InvoicePreview'
+import { InvoicePdfDialog } from './invoice/InvoicePdfDialog'
 import { useDialog } from 'src/hooks/use-dialog'
 import { PDFDownloadLink } from '@react-pdf/renderer'
-import { InvoicePdfDocument } from './review/InvoicePdfDocument'
+import { InvoicePdfDocument } from './invoice/InvoicePdfDocument'
+import { useSelector } from 'react-redux'
 
-function Review() {
+function Invoice() {
   const rootRef = useRef(null)
   const dialog = useDialog()
   const { focusJob } = useSelector((state) => state.jobs)
   const { company } = useSelector((state) => state.company)
   const { focusEstimate } = useSelector((state) => state.estimates)
+
   return (
     <>
       <Grid container spacing={3}>
@@ -55,12 +57,13 @@ function Review() {
                 </Button>
               </PDFDownloadLink>
             </Stack>
-            <EstimatePreview />
+            <InvoicePreview />
           </Box>
         </Grid>
       </Grid>
+      <InvoicePdfDialog onClose={dialog.handleClose} open={dialog.open} />
     </>
   )
 }
 
-export default Review
+export default Invoice

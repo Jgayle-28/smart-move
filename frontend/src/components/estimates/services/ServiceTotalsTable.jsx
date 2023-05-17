@@ -40,7 +40,7 @@ function ServiceTotalsTable() {
                   : 0}
               </TableCell>
               <TableCell component='th' scope='row'>
-                ${packing?.packingTotal.toLocaleString() || 0}
+                ${packing?.packingTotal?.toLocaleString() || 0}
               </TableCell>
               <TableCell component='th' scope='row'>
                 $

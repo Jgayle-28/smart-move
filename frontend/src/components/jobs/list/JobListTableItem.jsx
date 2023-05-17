@@ -118,14 +118,16 @@ function JobListTableItem({ job, currentProduct, handleProductToggle }) {
         </TableCell>
         <TableCell>
           {job.estimate ? (
-            <Button
-              component={RouterLink}
-              href={`/dashboard/estimates/${job._id}/edit/${job.estimate._id}`}
-              color='primary'
-              size='small'
-            >
-              View Estimate
-            </Button>
+            <>
+              <Button
+                component={RouterLink}
+                href={`/dashboard/estimates/${job._id}/edit/${job.estimate._id}`}
+                color='primary'
+                size='small'
+              >
+                View Estimate
+              </Button>
+            </>
           ) : (
             <Button
               component={RouterLink}

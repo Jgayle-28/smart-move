@@ -6,7 +6,15 @@ import { getInitials } from 'src/utils/get-initials'
 import { useRouter } from 'src/hooks/use-router'
 import { format } from 'date-fns'
 
-function EstimateHeader({ job, isEdit, invoice, dialog, handleSaveEstimate }) {
+function EstimateHeader({
+  job,
+  isEdit,
+  invoice,
+  dialog,
+  handleSaveEstimate,
+  handleDeleteEstimate,
+  disableDelete,
+}) {
   const router = useRouter()
   return (
     <>
@@ -20,13 +28,10 @@ function EstimateHeader({ job, isEdit, invoice, dialog, handleSaveEstimate }) {
           <div>
             <Button
               color='inherit'
-              // component={RouterLink}
-              // href={paths.dashboard.invoices.index}
               sx={{
                 alignItems: 'center',
                 display: 'inline-flex',
               }}
-              // underline='hover'
               onClick={() => router.back()}
               startIcon={
                 <SvgIcon>
@@ -38,7 +43,11 @@ function EstimateHeader({ job, isEdit, invoice, dialog, handleSaveEstimate }) {
             </Button>
           </div>
           <Stack alignItems='center' direction='row' spacing={2}>
-            <Button color='error' onClick={dialog.handleOpen}>
+            <Button
+              color='error'
+              onClick={handleDeleteEstimate}
+              disabled={disableDelete}
+            >
               delete Estimate
             </Button>
             {/* <PDFDownloadLink

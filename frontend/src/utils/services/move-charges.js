@@ -47,5 +47,6 @@ export const calculateTotalMoveCost = (
     parseFloat(additionalServices) +
     parseFloat(totalFees) +
     parseFloat(storageTotal)
-  return total.toLocaleString()
+  if (isNaN(total)) return 0
+  else return total.toLocaleString()
 }

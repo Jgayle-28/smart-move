@@ -7,15 +7,10 @@ import { useMounted } from 'src/hooks/use-mounted'
 import { usePageView } from 'src/hooks/use-page-view'
 import { InvoicePdfDialog } from 'src/sections/dashboard/invoice/invoice-pdf-dialog'
 import { useRouter } from 'src/hooks/use-router'
-import { useParams } from 'react-router'
 import EstimateHeader from 'src/components/estimates/EstimateHeader'
 import { useSelector, useDispatch } from 'react-redux'
 import Spinner from 'src/components/shared/Spinner'
 import { clearFocusJob, getJob, updateJob } from 'src/store/jobs/jobSlice'
-// Tab Components
-import Inventory from 'src/components/estimates/Inventory'
-import Services from 'src/components/estimates/Services'
-import Review from 'src/components/estimates/Review'
 import {
   addEstimate,
   updateEstimate,
@@ -25,11 +20,22 @@ import {
   updateTempInventory,
 } from 'src/store/estimates/estimateSlice'
 import { toast } from 'react-hot-toast'
+import { paths } from 'src/paths'
+import { useParams } from 'react-router'
+// Tab Components
+import Inventory from 'src/components/estimates/Inventory'
+import Services from 'src/components/estimates/Services'
+import Review from 'src/components/estimates/Review'
+import Invoice from 'src/components/estimates/Invoice'
+import Actions from 'src/components/estimates/Actions'
+import { calculateTotalMoveCost } from 'src/utils/services/move-charges'
+import { nanoid } from 'nanoid'
 
 const tabs = [
   { label: 'Inventory', value: 'inventory' },
   { label: 'Services', value: 'services' },
   { label: 'Review', value: 'review' },
+  { label: 'Invoice', value: 'invoice' },
   { label: 'Actions', value: 'actions' },
 ]
 const useInvoice = () => {
@@ -64,7 +70,6 @@ const Page = () => {
   const [currentTab, setCurrentTab] = useState('inventory')
 
   const tempInventoryRef = useRef([])
-  console.log('tempInventoryRef :>> ', tempInventoryRef.current)
 
   const invoice = useInvoice()
   const dialog = useDialog()
@@ -86,7 +91,6 @@ const Page = () => {
     totalWeight,
     totalVolume,
     totalItemCount,
-    allTotal,
   } = useSelector((state) => state.estimates)
 
   useEffect(() => {
@@ -115,12 +119,12 @@ const Page = () => {
   }
 
   const handleSaveEstimate = () => {
-    console.log('I am saving estimate')
     const estimateData = {
       job: focusJob._id,
       company: focusJob.company,
       customer: focusJob.customer._id,
       createdBy: user._id,
+      invoiceId: focusEstimate.invoiceId ? focusEstimate.invoiceId : nanoid(7),
       inventory: tempInventory,
       moveCharges,
       packing,
@@ -130,10 +134,16 @@ const Page = () => {
       totalWeight,
       totalVolume,
       totalItemCount,
-      allTotal,
+      totalCharges: calculateTotalMoveCost(
+        moveCharges?.totalMoveCost,
+        packing?.packingTotal,
+        additionalServices?.additionalServicesTotal,
+        fees?.totalFees,
+        storage?.storageTotal
+      ),
     }
     // check for required fields
-    if (tempInventory.length === 0) {
+    if (tempInventory?.length === 0 || tempInventory === null) {
       return toast.error('Please add inventory items to the estimate')
     }
     if (moveCharges === null) {
@@ -154,18 +164,18 @@ const Page = () => {
     try {
       if (estimateId) {
         dispatch(updateEstimate({ ...focusEstimate, ...estimateData }))
-        toast.success('Estimate successfully updated')
       } else {
         // Only need to add estimate id to job if it is a new estimate
         dispatch(addEstimate(estimateData))
           .unwrap()
           .then((res) => {
-            console.log('res :>> ', res)
             if (res) {
               dispatch(updateJob({ ...focusJob, estimate: res._id }))
             }
             toast.success('Estimate successfully created')
-            router.push(`dashboard/estimates/${res._id}/edit`)
+            router.push(
+              `${paths.dashboard.estimates.index}/${focusJob._id}/edit/${res._id}`
+            )
           })
       }
     } catch (err) {
@@ -175,6 +185,19 @@ const Page = () => {
 
   if (!invoice) {
     return null
+  }
+
+  const handleDeleteEstimate = async () => {
+    try {
+      dispatch(deleteEstimate(estimateId))
+        .unwrap()
+        .then(() => {
+          toast.success('Estimate successfully deleted')
+          router.push(paths.dashboard.jobs.index)
+        })
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   // When creating a new estimate only the jobId is passed in the url when editing you will have both jobId and estimateId
@@ -196,6 +219,8 @@ const Page = () => {
           invoice={invoice}
           dialog={dialog}
           handleSaveEstimate={handleSaveEstimate}
+          handleDeleteEstimate={handleDeleteEstimate}
+          disableDelete={!estimateId}
         />
       </Box>
 
@@ -228,8 +253,11 @@ const Page = () => {
       {currentTab === 'review' && (
         <Review toggleSidebar={toggleSidebar} sideBarOpen={sideBarOpen} />
       )}
+      {currentTab === 'invoice' && (
+        <Invoice toggleSidebar={toggleSidebar} sideBarOpen={sideBarOpen} />
+      )}
       {currentTab === 'actions' && (
-        <Review toggleSidebar={toggleSidebar} sideBarOpen={sideBarOpen} />
+        <Actions toggleSidebar={toggleSidebar} sideBarOpen={sideBarOpen} />
       )}
       <InvoicePdfDialog
         invoice={invoice}

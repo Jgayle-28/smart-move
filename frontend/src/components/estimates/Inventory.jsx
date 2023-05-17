@@ -44,13 +44,6 @@ function Inventory({ tempInventoryRef, toggleSidebar, sideBarOpen }) {
   const rootRef = useRef(null)
   const dispatch = useDispatch()
 
-  // useEffect(() => {
-  //   return () => {
-  //     // Updates the store in redux on tab change
-  //     dispatch(updateTempInventory(inventoryRef.current))
-  //   }
-  // }, [])
-
   // Set inventory from redux on tab changes
   useEffect(() => {
     if (tempInventory?.length && !inventory.length) {

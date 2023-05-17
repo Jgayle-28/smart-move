@@ -23,6 +23,7 @@ const estimateSchema = mongoose.Schema(
       ref: 'User',
       required: true,
     },
+    invoiceId: { type: String },
     // Move Inventory
     inventory: {
       type: Array,
@@ -49,22 +50,7 @@ const estimateSchema = mongoose.Schema(
       packTime: {
         type: mongoose.Mixed,
       },
-      packingItems: [
-        {
-          packingItem: {
-            type: String,
-          },
-          packingItemQty: {
-            type: Number,
-          },
-          packingItemRate: {
-            type: Number,
-          },
-          packingItemAmt: {
-            type: Number,
-          },
-        },
-      ],
+      packingItems: [],
       packingTotal: { type: Number },
     },
     additionalServices: {
@@ -85,7 +71,7 @@ const estimateSchema = mongoose.Schema(
     totalWeight: { type: Number },
     totalVolume: { type: Number },
     totalItemCount: { type: Number },
-    allTotal: { type: Number },
+    totalCharges: { type: mongoose.Mixed },
   },
   {
     timestamps: true,
