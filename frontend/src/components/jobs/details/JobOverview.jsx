@@ -13,9 +13,13 @@ import { PropertyListItem } from 'src/components/property-list-item'
 import { SeverityPill } from 'src/components/severity-pill'
 import { format } from 'date-fns'
 import { useSelector } from 'react-redux'
+import { RouterLink } from 'src/components/router-link'
+import { PDFDownloadLink } from '@react-pdf/renderer'
+import { BlankEstimatePdf } from 'src/components/estimates/blank-estimate-pdf/BlankEstimatePdf'
 
 export const JobOverview = (props) => {
   const { focusJob } = useSelector((state) => state.jobs)
+  const { company } = useSelector((state) => state.company)
 
   const getJobPillLabel = () => {
     switch (focusJob.jobType) {
@@ -90,9 +94,10 @@ export const JobOverview = (props) => {
               </PropertyListItem>
             </PropertyList>
             {/* Add check for estimate to display quick actions */}
-            <Divider sx={{ my: 2 }} />
+
             {focusJob && !focusJob.estimate && (
               <>
+                <Divider sx={{ my: 2 }} />
                 <Typography
                   color='text.secondary'
                   component='p'
@@ -102,10 +107,24 @@ export const JobOverview = (props) => {
                   Next Steps
                 </Typography>
                 <Stack spacing={2}>
-                  <Button variant='outlined' size='small'>
-                    Print Estimate Pdf
-                  </Button>
-                  <Button variant='contained' size='small'>
+                  <PDFDownloadLink
+                    document={
+                      <BlankEstimatePdf focusJob={focusJob} company={company} />
+                    }
+                    fileName={`${focusJob?.customer?.customerName}-blank-estimate-sheet.pdf`}
+                    style={{ textDecoration: 'none' }}
+                  >
+                    <Button fullWidth variant='outlined' size='small'>
+                      Print Blank Estimate Pdf
+                    </Button>
+                  </PDFDownloadLink>
+
+                  <Button
+                    component={RouterLink}
+                    href={`/dashboard/estimates/${focusJob._id}/create`}
+                    variant='contained'
+                    size='small'
+                  >
                     Create Estimate
                   </Button>
                 </Stack>

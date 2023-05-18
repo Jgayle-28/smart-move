@@ -3,6 +3,7 @@ import { Avatar, Button, Card, Stack, SvgIcon, Typography } from '@mui/material'
 import { SeverityPill } from 'src/components/severity-pill'
 import { RouterLink } from 'src/components/router-link'
 import { useSelector } from 'react-redux'
+import { format } from 'date-fns'
 
 export const JobPreview = ({ selectedCustomer, formik }) => {
   const { createdJob } = useSelector((state) => state.jobs)
@@ -49,7 +50,7 @@ export const JobPreview = ({ selectedCustomer, formik }) => {
       </div>
       <Card variant='outlined'>
         <Stack
-          alignItems='center'
+          alignItems='flex-start'
           direction='row'
           flexWrap='wrap'
           justifyContent='space-between'
@@ -70,21 +71,69 @@ export const JobPreview = ({ selectedCustomer, formik }) => {
               Customer: {selectedCustomer}
             </Typography>
           </div>
-          <Stack alignItems='center' direction='row' spacing={2}>
-            <Button
-              component={RouterLink}
-              href={`/dashboard/jobs/${createdJob._id}`}
-              variant='text'
-              size='small'
+          <div>
+            <Stack
+              alignItems='center'
+              direction='row'
+              justifyContent='space-between'
+              spacing={3}
             >
-              View Details
-            </Button>
-            <Button variant='contained' size='small'>
-              Create Estimate
-            </Button>
-          </Stack>
+              <Typography color='text.secondary' variant='caption'>
+                Job Date:{' '}
+                {createdJob?.jobDate
+                  ? format(new Date(createdJob?.jobDate), 'MM/dd/yyyy')
+                  : 'TBD'}
+              </Typography>
+
+              <Typography color='text.secondary' variant='caption'>
+                Job Time:{' '}
+                {createdJob?.jobStartTime
+                  ? format(new Date(createdJob?.jobStartTime), 'hh:mm aa')
+                  : 'TBD'}
+              </Typography>
+            </Stack>
+
+            <Stack alignItems='center' direction='row' spacing={3}>
+              <Typography color='text.secondary' variant='caption'>
+                Estimate Date:{' '}
+                {createdJob?.estimateDate
+                  ? format(new Date(createdJob?.estimateDate), 'MM/dd/yyyy')
+                  : 'TBD'}
+              </Typography>
+
+              <Typography color='text.secondary' variant='caption'>
+                Estimate Time:{' '}
+                {createdJob?.estimateTime
+                  ? format(new Date(createdJob?.estimateTime), 'hh:mm aa')
+                  : 'TBD'}
+              </Typography>
+            </Stack>
+          </div>
         </Stack>
       </Card>
+      <Stack
+        alignItems='center'
+        justifyContent='flex-end'
+        direction='row'
+        spacing={2}
+      >
+        <Button
+          component={RouterLink}
+          href={`/dashboard/jobs/${createdJob._id}`}
+          variant='text'
+          size='small'
+        >
+          View Details
+        </Button>
+        <Button
+          component={RouterLink}
+          href={`/dashboard/estimates/${createdJob._id}/create`}
+          variant='contained'
+          size='small'
+        >
+          Create Estimate
+        </Button>
+      </Stack>
     </Stack>
   )
 }

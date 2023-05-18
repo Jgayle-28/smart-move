@@ -22,6 +22,10 @@ const jobSchema = mongoose.Schema(
       ref: 'Estimate',
       required: false,
     },
+    // Estimate Details
+    estimateDate: { type: mongoose.Mixed },
+    estimateTime: { type: mongoose.Mixed },
+    estimateComments: { type: String },
     // Job Details
     jobTitle: { type: String, required: true, default: '' },
     jobType: {

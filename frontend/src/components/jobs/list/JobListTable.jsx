@@ -54,12 +54,12 @@ export const JobListTable = (props) => {
           <TableHead>
             <TableRow>
               <TableCell />
-              <TableCell width='25%'>Name</TableCell>
-              <TableCell width='25%'>Phone</TableCell>
+              <TableCell>Name</TableCell>
+              <TableCell>Phone</TableCell>
               <TableCell>Estimate </TableCell>
               <TableCell>Type</TableCell>
               <TableCell>Status</TableCell>
-              <TableCell align='right'>Actions</TableCell>
+              <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

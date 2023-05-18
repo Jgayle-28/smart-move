@@ -20,6 +20,7 @@ import { useDispatch } from 'react-redux'
 import { addJob, clearCreatedJob } from 'src/store/jobs/jobSlice'
 import { toast } from 'react-hot-toast'
 import { useSelector } from 'react-redux'
+import { EstimateStep } from './EstimateStep'
 
 const initialValues = {
   jobTitle: '',
@@ -29,6 +30,9 @@ const initialValues = {
   pickUpAddress2: '',
   dropOffAddress: '',
   dropOffAddress2: '',
+  estimateDate: null,
+  estimateTime: null,
+  estimateComments: '',
   jobDate: null,
   jobStartTime: null,
   jobComments: '',
@@ -107,6 +111,9 @@ export const JobCreateForm = () => {
         jobDate: formik.values.jobDate,
         jobStartTime: formik.values.jobStartTime,
         jobComments: formik.values.jobComments,
+        estimateDate: formik.values.estimateDate,
+        estimateTime: formik.values.estimateTime,
+        estimateComments: formik.values.estimateComments,
         billTo: formik.values.billTo,
         billingSameAsCustomer: formik.values.billingSameAsCustomer,
         paymentType: formik.values.paymentType,
@@ -162,6 +169,16 @@ export const JobCreateForm = () => {
         label: 'Job Details',
         content: (
           <JobDetailsStep
+            formik={formik}
+            onBack={handleBack}
+            onNext={handleNext}
+          />
+        ),
+      },
+      {
+        label: 'Estimate Details',
+        content: (
+          <EstimateStep
             formik={formik}
             onBack={handleBack}
             onNext={handleNext}

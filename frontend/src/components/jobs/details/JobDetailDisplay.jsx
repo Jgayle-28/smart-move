@@ -11,9 +11,7 @@ export const JobDetailDisplay = (props) => {
         <div>
           <Typography variant='h5'>{focusJob.jobTitle}</Typography>
         </div>
-        {/* Job Date & Time */}
-
-        {/* TODO -> Add check for date -> IF  no date show TBD*/}
+        {/*----- Job Date & Time -----*/}
         <Box sx={{ mt: 3 }}>
           <Card variant='outlined'>
             <Stack divider={<Divider />}>
@@ -51,7 +49,7 @@ export const JobDetailDisplay = (props) => {
           </Card>
         </Box>
 
-        {/* Addresses */}
+        {/*----- Addresses -----*/}
         <Box sx={{ mt: 3 }}>
           <Card variant='outlined'>
             <Stack divider={<Divider />}>
@@ -103,7 +101,7 @@ export const JobDetailDisplay = (props) => {
           </Card>
         </Box>
 
-        {/* comments */}
+        {/*----- Job Comments -----*/}
         {focusJob.jobComments && (
           <Box sx={{ mt: 3 }}>
             <Card variant='outlined'>
@@ -119,7 +117,64 @@ export const JobDetailDisplay = (props) => {
             </Card>
           </Box>
         )}
-        {/* Billing */}
+
+        {/*----- Estimate Date & Time -----*/}
+        <Box sx={{ mt: 3 }}>
+          <Card variant='outlined'>
+            <Stack divider={<Divider />}>
+              <Stack
+                sx={{
+                  px: 2,
+                  py: 1.5,
+                }}
+              >
+                <div>
+                  <Typography variant='subtitle1'>Estimate Date</Typography>
+                  <Typography color='text.secondary' variant='caption'>
+                    {focusJob.estimateDate !== null
+                      ? format(new Date(focusJob.estimateDate), 'MM/dd/yyyy')
+                      : 'TBD'}
+                  </Typography>
+                </div>
+              </Stack>
+              <Stack
+                sx={{
+                  px: 2,
+                  py: 1.5,
+                }}
+              >
+                <div>
+                  <Typography variant='subtitle1'>Estimate Time</Typography>
+                  <Typography color='text.secondary' variant='caption'>
+                    {focusJob.estimateTime !== null
+                      ? format(new Date(focusJob.estimateTime), 'hh:mm aa')
+                      : 'TDB'}
+                  </Typography>
+                </div>
+              </Stack>
+            </Stack>
+          </Card>
+        </Box>
+
+        {/*----- Estimate Comments -----*/}
+        {/* {focusJob.estimateComments && (
+          <Box sx={{ mt: 3 }}>
+            <Card variant='outlined'>
+              <Box sx={{ px: 2, py: 1.5 }}>
+                <Typography variant='h6'>Estimate Comments</Typography>
+                <Box sx={{ mt: 3 }}>
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: focusJob.estimateComments,
+                    }}
+                  />
+                </Box>
+              </Box>
+            </Card>
+          </Box>
+        )} */}
+
+        {/*----- Billing -----*/}
         <Box sx={{ mt: 3 }}>
           <Card variant='outlined'>
             <Stack divider={<Divider />}>

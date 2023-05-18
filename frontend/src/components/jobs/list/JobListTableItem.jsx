@@ -5,6 +5,9 @@ import DotsHorizontalIcon from '@untitled-ui/icons-react/build/esm/DotsHorizonta
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
+import PostAddIcon from '@mui/icons-material/PostAdd'
+import DescriptionIcon from '@mui/icons-material/Description'
+import FileOpenIcon from '@mui/icons-material/FileOpen'
 import XIcon from '@untitled-ui/icons-react/build/esm/X'
 import {
   Box,
@@ -22,6 +25,7 @@ import {
   SvgIcon,
   TableCell,
   TableRow,
+  Tooltip,
   Typography,
 } from '@mui/material'
 import { SeverityPill } from 'src/components/severity-pill'
@@ -30,8 +34,9 @@ import { useDispatch } from 'react-redux'
 import { deleteJob, getJobs } from 'src/store/jobs/jobSlice'
 import { toast } from 'react-hot-toast'
 import { useSelector } from 'react-redux'
-
+import { PDFDownloadLink } from '@react-pdf/renderer'
 import TableItemDetails from './TableItemDetails'
+import { BlankEstimatePdf } from 'src/components/estimates/blank-estimate-pdf/BlankEstimatePdf'
 
 function JobListTableItem({ job, currentProduct, handleProductToggle }) {
   console.log('job :>> ', job)
@@ -39,6 +44,7 @@ function JobListTableItem({ job, currentProduct, handleProductToggle }) {
   const [showComments, setShowComments] = useState(false)
 
   const { user } = useSelector((state) => state.auth)
+  const { company } = useSelector((state) => state.company)
 
   const dispatch = useDispatch()
 
@@ -90,7 +96,7 @@ function JobListTableItem({ job, currentProduct, handleProductToggle }) {
             </SvgIcon>
           </IconButton>
         </TableCell>
-        <TableCell width='25%'>
+        <TableCell>
           <Box
             sx={{
               alignItems: 'center',
@@ -111,33 +117,58 @@ function JobListTableItem({ job, currentProduct, handleProductToggle }) {
             </Box>
           </Box>
         </TableCell>
-        <TableCell width='25%'>
+        <TableCell>
           <Typography color='text.secondary' variant='body2'>
             {job?.customer?.customerPhoneNumber}
           </Typography>
         </TableCell>
         <TableCell>
-          {job.estimate ? (
-            <>
-              <Button
-                component={RouterLink}
-                href={`/dashboard/estimates/${job._id}/edit/${job.estimate._id}`}
-                color='primary'
-                size='small'
-              >
-                View Estimate
-              </Button>
-            </>
-          ) : (
-            <Button
-              component={RouterLink}
-              href={`/dashboard/estimates/${job._id}/create`}
-              color='primary'
-              size='small'
+          <Stack
+            divider={<Divider orientation='vertical' flexItem />}
+            direction='row'
+            spacing={1}
+            alignItems='center'
+          >
+            <PDFDownloadLink
+              document={<BlankEstimatePdf focusJob={job} company={company} />}
+              fileName={`${job?.customer?.customerName}-blank-estimate-sheet.pdf`}
+              style={{ textDecoration: 'none' }}
             >
-              Create Estimate
-            </Button>
-          )}
+              <Tooltip title='Print Blank Estimate Sheet'>
+                <IconButton color='primary'>
+                  <SvgIcon>
+                    <FileOpenIcon fontSize='small' />
+                  </SvgIcon>
+                </IconButton>
+              </Tooltip>
+            </PDFDownloadLink>
+
+            {job.estimate ? (
+              <Tooltip title='View Created Estimate'>
+                <IconButton
+                  component={RouterLink}
+                  href={`/dashboard/estimates/${job._id}/edit/${job.estimate._id}`}
+                  color='primary'
+                >
+                  <SvgIcon>
+                    <DescriptionIcon fontSize='small' />
+                  </SvgIcon>
+                </IconButton>
+              </Tooltip>
+            ) : (
+              <Tooltip title='Created New Estimate'>
+                <IconButton
+                  component={RouterLink}
+                  href={`/dashboard/estimates/${job._id}/create`}
+                  color='primary'
+                >
+                  <SvgIcon>
+                    <PostAddIcon fontSize='small' />
+                  </SvgIcon>
+                </IconButton>
+              </Tooltip>
+            )}
+          </Stack>
         </TableCell>
         <TableCell>
           <SeverityPill color={'info'}>{job.jobType}</SeverityPill>
@@ -147,7 +178,7 @@ function JobListTableItem({ job, currentProduct, handleProductToggle }) {
             {job.isPaid ? 'Paid' : 'Unpaid'}
           </SeverityPill>
         </TableCell>
-        <TableCell align='right'>
+        <TableCell>
           <IconButton
             aria-controls={menuOpen ? 'basic-menu' : undefined}
             aria-haspopup='true'

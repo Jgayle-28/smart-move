@@ -4,7 +4,7 @@ import { Button, Stack, SvgIcon, TextField, Typography } from '@mui/material'
 import { MobileDatePicker, MobileTimePicker } from '@mui/x-date-pickers'
 import { QuillEditor } from 'src/components/quill-editor'
 
-export const JobDetailsStep = (props) => {
+export const EstimateStep = (props) => {
   const { formik, onBack, onNext, isEdit = false, ...other } = props
 
   const handleChange = (field, value) => {
@@ -14,56 +14,42 @@ export const JobDetailsStep = (props) => {
   return (
     <Stack spacing={3} {...other}>
       <div>
-        <Typography variant='h6'>Job Title</Typography>
-      </div>
-      <TextField
-        fullWidth
-        label='Job Title'
-        name='jobTitle'
-        onChange={formik.handleChange}
-        value={formik.values.jobTitle}
-        onBlur={formik.handleBlur}
-        error={!!(formik.touched.jobTitle && formik.errors.jobTitle)}
-        helperText={formik.touched.jobTitle && formik.errors.jobTitle}
-        placeholder=''
-      />
-      <div>
-        <Typography variant='h6'>Time & Date</Typography>
+        <Typography variant='h6'>Estimate Date and Time</Typography>
       </div>
       <Stack alignItems='center' direction='row' spacing={3}>
         <MobileDatePicker
-          name='jobDate'
-          label='Start Date'
+          name='estimateDate'
+          label='Estimate Date'
           inputFormat='MM/dd/yyyy'
-          onChange={(date) => handleChange('jobDate', date)}
+          onChange={(date) => handleChange('estimateDate', date)}
           renderInput={(inputProps) => <TextField {...inputProps} />}
           value={
-            formik.values.jobDate !== null ? formik.values.jobDate : new Date()
+            formik.values.estimateDate !== null
+              ? formik.values.estimateDate
+              : new Date()
           }
         />
         <MobileTimePicker
-          name='jobStartTime'
-          label='Start Time'
+          name='estimateTime'
+          label='Estimate Time'
           inputFormat='hh:mm aa'
           renderInput={(inputProps) => <TextField {...inputProps} />}
-          onChange={(time) => handleChange('jobStartTime', time)}
+          onChange={(time) => handleChange('estimateTime', time)}
           value={
-            formik.values.jobStartTime !== null
-              ? formik.values.jobStartTime
+            formik.values.estimateTime !== null
+              ? formik.values.estimateTime
               : new Date()
           }
         />
       </Stack>
 
-      <div>
-        <Typography variant='h6'>
-          Job comments, details, items to be picked up or delivered, etc.
-        </Typography>
+      {/* <div>
+        <Typography variant='h6'>Estimate comments, details, etc.</Typography>
       </div>
       <QuillEditor
-        name='jobComments'
-        onChange={(value) => handleChange('jobComments', value)}
-        value={formik.values.jobComments}
+        name='estimateComments'
+        onChange={(value) => handleChange('estimateComments', value)}
+        value={formik.values.estimateComments}
         placeholder=''
         modules={{
           clipboard: {
@@ -71,11 +57,10 @@ export const JobDetailsStep = (props) => {
           },
         }}
         sx={{ height: 200 }}
-      />
+      /> */}
       {!isEdit && (
         <Stack alignItems='center' direction='row' spacing={2}>
           <Button
-            disabled={formik.values.jobTitle.length <= 6}
             endIcon={
               <SvgIcon>
                 <ArrowRightIcon />
@@ -95,7 +80,7 @@ export const JobDetailsStep = (props) => {
   )
 }
 
-JobDetailsStep.propTypes = {
+EstimateStep.propTypes = {
   onBack: PropTypes.func,
   onNext: PropTypes.func,
 }

@@ -14,16 +14,18 @@ import {
 import CheckCircleOutlineOutlined from '@mui/icons-material/CheckCircleOutlineOutlined'
 import RemoveCircleOutline from '@mui/icons-material/RemoveCircleOutline'
 import ArrowLeftIcon from '@untitled-ui/icons-react/build/esm/ArrowLeft'
+import _ from 'lodash'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
 import { useDispatch } from 'react-redux'
 import toast from 'react-hot-toast'
 import { updateJob } from 'src/store/jobs/jobSlice'
+// Jobs Steps ------------------------------->
 import { CustomerDetailsStep } from '../../form/CustomerDetailsStep'
 import { useEffect, useState } from 'react'
 import { JobDetailsStep } from '../../form/JobDetailsStep'
 import { PaymentDetailStep } from '../../form/PaymentDetailStep'
-import _ from 'lodash'
+import { EstimateStep } from '../../form/EstimateStep'
 
 const categoryOptions = [
   {
@@ -77,6 +79,9 @@ function EditJobForm({
       jobDate: focusJob?.jobDate || new Date(),
       jobStartTime: focusJob?.jobStartTime || new Date(),
       jobComments: focusJob?.jobComments,
+      estimateDate: focusJob?.estimateDate || new Date(),
+      estimateTime: focusJob?.estimateTime || new Date(),
+      estimateComments: focusJob?.estimateComments,
       billTo: focusJob?.billTo,
       billingSameAsCustomer: focusJob?.billingSameAsCustomer || false,
       paymentType: focusJob?.paymentType,
@@ -102,6 +107,9 @@ function EditJobForm({
         jobDate: formik.values.jobDate,
         jobStartTime: formik.values.jobStartTime,
         jobComments: formik.values.jobComments,
+        estimateDate: formik.values.estimateDate,
+        estimateTime: formik.values.estimateTime,
+        estimateComments: formik.values.estimateComments,
         billTo: formik.values.billTo,
         billingSameAsCustomer: formik.values.billingSameAsCustomer,
         paymentType: formik.values.paymentType,
@@ -214,6 +222,11 @@ function EditJobForm({
               <Box>
                 <Stack spacing={2}>
                   <JobDetailsStep formik={formik} isEdit={true} />
+                </Stack>
+              </Box>
+              <Box>
+                <Stack spacing={2}>
+                  <EstimateStep formik={formik} isEdit={true} />
                 </Stack>
               </Box>
               <Box>
