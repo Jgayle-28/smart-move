@@ -93,7 +93,6 @@ export const JobOverview = (props) => {
                 <Typography>{focusJob?.createdBy?.name || ''}</Typography>
               </PropertyListItem>
             </PropertyList>
-            {/* Add check for estimate to display quick actions */}
 
             {focusJob && !focusJob.estimate && (
               <>

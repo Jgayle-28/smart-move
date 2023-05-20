@@ -83,9 +83,17 @@ const useStyles = () => {
       },
       itemRow: {
         borderBottomWidth: 1,
+        borderColor: '#eeeeee',
+        borderStyle: 'solid',
+        flexDirection: 'row',
+      },
+      itemRowHeader: {
+        // backgroundColor: '#fafafa',
+        borderBottomWidth: 1,
         borderColor: '#EEEEEE',
         borderStyle: 'solid',
         flexDirection: 'row',
+        alignItems: 'center',
       },
       itemNumber: {
         padding: 6,
@@ -245,7 +253,7 @@ export const BlankEstimatePdf = ({ focusJob, company, focusEstimate }) => {
         {/*----- Billing Table -----*/}
         <View style={styles.items}>
           {/*----- Header -----*/}
-          <View style={styles.itemRow}>
+          <View style={styles.itemRowHeader}>
             <View style={styles.itemNumber}>
               <Text style={styles.h6}>Qty</Text>
             </View>
