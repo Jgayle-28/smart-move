@@ -3,10 +3,10 @@ import { useRef } from 'react'
 
 import { useInvoice } from 'src/hooks/use-invoice'
 import { InvoicePreview } from './review/InvoicePreview'
-import { InvoicePdfDialog } from './review/InvoicePdfDialog'
+// import { InvoicePdfDialog } from './review/EstimatePdfDialog'
 import { useDialog } from 'src/hooks/use-dialog'
 import { PDFDownloadLink } from '@react-pdf/renderer'
-import { InvoicePdfDocument } from './review/InvoicePdfDocument'
+// import { InvoicePdfDocument } from './review/EstimatePdfDocument'
 import { useSelector } from 'react-redux'
 
 function Actions() {
@@ -43,7 +43,7 @@ function Actions() {
               <Button color='inherit' onClick={dialog.handleOpen}>
                 Preview
               </Button>
-              <PDFDownloadLink
+              {/* <PDFDownloadLink
                 document={
                   <InvoicePdfDocument
                     focusJob={focusJob}
@@ -57,17 +57,17 @@ function Actions() {
                 <Button color='primary' variant='contained'>
                   Download
                 </Button>
-              </PDFDownloadLink>
+              </PDFDownloadLink> */}
             </Stack>
-            <InvoicePreview
+            {/* <InvoicePreview
               focusJob={focusJob}
               company={company}
               focusEstimate={focusEstimate}
-            />
+            /> */}
           </Box>
         </Grid>
       </Grid>
-      <InvoicePdfDialog onClose={dialog.handleClose} open={dialog.open} />
+      {/* <InvoicePdfDialog onClose={dialog.handleClose} open={dialog.open} /> */}
     </>
   )
 }

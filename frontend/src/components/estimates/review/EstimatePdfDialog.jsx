@@ -2,10 +2,10 @@ import PropTypes from 'prop-types'
 import { PDFViewer } from '@react-pdf/renderer'
 import ArrowLeftIcon from '@untitled-ui/icons-react/build/esm/ArrowLeft'
 import { Box, Button, Dialog, SvgIcon } from '@mui/material'
-import { InvoicePdfDocument } from './InvoicePdfDocument'
+import { EstimatePdfDocument } from './EstimatePdfDocument'
 import { useSelector } from 'react-redux'
 
-export const InvoicePdfDialog = (props) => {
+export const EstimatePdfDialog = (props) => {
   const { onClose, open = false, ...other } = props
   const { focusJob } = useSelector((state) => state.jobs)
   const { company } = useSelector((state) => state.company)
@@ -44,7 +44,7 @@ export const InvoicePdfDialog = (props) => {
         </Box>
         <Box sx={{ flexGrow: 1 }}>
           <PDFViewer height='100%' style={{ border: 'none' }} width='100%'>
-            <InvoicePdfDocument
+            <EstimatePdfDocument
               focusJob={focusJob}
               company={company}
               focusEstimate={focusEstimate}
@@ -56,7 +56,7 @@ export const InvoicePdfDialog = (props) => {
   )
 }
 
-InvoicePdfDialog.propTypes = {
+EstimatePdfDialog.propTypes = {
   onClose: PropTypes.func,
   open: PropTypes.bool,
 }

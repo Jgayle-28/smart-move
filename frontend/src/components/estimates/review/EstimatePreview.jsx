@@ -1,5 +1,6 @@
+import { Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { addDays, format } from 'date-fns'
+import { format } from 'date-fns'
 import {
   Box,
   Card,
@@ -16,8 +17,8 @@ import { Logo } from 'src/components/logo'
 import Spinner from 'src/components/shared/Spinner'
 import { useSelector } from 'react-redux'
 import { formatPhoneNumber } from 'src/utils/format-phone-number'
-import parse from 'html-react-parser'
-import { Fragment } from 'react'
+
+// import parse from 'html-react-parser'
 
 export const EstimatePreview = (props) => {
   const { focusJob } = useSelector((state) => state.jobs)
@@ -49,53 +50,15 @@ export const EstimatePreview = (props) => {
 
         <div>
           <Typography variant='caption'>
-            {company?.companyEmail}
+            {company?.companyEmail || ''}
             <br />
             {formatPhoneNumber(company?.companyPhoneNumber) || ''}
             <br />
             www.fillerwebsite.com
           </Typography>
-          {/* <Typography
-            align='right'
-            color={focusJob.isPaid ? 'success.main' : 'warning.main'}
-            variant='h4'
-          >
-            {focusJob?.isPaid ? 'PAID' : 'UNPAID'}
-          </Typography>
-          <Typography align='right' variant='subtitle2'>
-            {focusEstimate?.invoiceId.toUpperCase()}
-          </Typography> */}
         </div>
       </Stack>
-      {/*----- Company Data -----*/}
-      {/* <Box sx={{ mt: 4 }}>
-        <Grid container justifyContent='space-between'>
-          <Grid xs={12} md={4}>
-            <Typography variant='body2'>
-              {company?.companyAddress}
-              <br />
-              Level 2, C, 442456
-              <br />
-              San Francisco, CA, USA
-            </Typography>
-          </Grid>
-          <Grid xs={12} md={4}>
-            <Typography variant='body2'>
-              Company No. 4675933
-              <br />
-              EU VAT No. 949 67545 45
-              <br />
-            </Typography>
-          </Grid>
-          <Grid xs={12} md={4}>
-            <Typography align='right' variant='body2'>
-              {company?.companyEmail}
-              <br />
-              {formatPhoneNumber(company?.companyPhoneNumber)}
-            </Typography>
-          </Grid>
-        </Grid>
-      </Box> */}
+
       {/*----- Move Data -----*/}
       <Box sx={{ mt: 10 }}>
         <Grid container justifyContent='space-between'>
@@ -142,6 +105,7 @@ export const EstimatePreview = (props) => {
           </Grid>
         </Grid>
       </Box>
+      {/*------ To & From ------*/}
       <Box sx={{ mt: 6 }}>
         <Grid container justifyContent='space-between'>
           <Grid xs={12} md={6}>
@@ -162,22 +126,6 @@ export const EstimatePreview = (props) => {
           </Grid>
         </Grid>
       </Box>
-      {/*----- Billed to -----*/}
-      {/* <Box sx={{ mt: 4 }}>
-        <Typography gutterBottom variant='subtitle2'>
-          Billed to
-        </Typography>
-        <Typography variant='body2'>
-          {focusJob.billTo ? focusJob.billTo : focusJob.customer.customerName}
-          <br />
-          {focusJob.customer.customerAddress}
-          <br />
-          {invoice.customer.taxId}
-          <br />
-          {invoice.customer.address}
-        </Typography>
-      </Box> */}
-      {/*----- Move Charges -----*/}
       <Table sx={{ mt: 6 }}>
         <TableHead>
           <TableRow>
@@ -419,7 +367,7 @@ export const EstimatePreview = (props) => {
           </TableBody>
         </Table>
       )}
-      {focusJob?.jobComments && (
+      {/* {focusJob?.jobComments && (
         <Table sx={{ mt: 6 }}>
           <TableHead>
             <TableRow>
@@ -432,7 +380,7 @@ export const EstimatePreview = (props) => {
             </TableRow>
           </TableBody>
         </Table>
-      )}
+      )} */}
       {/*----- Totals -----*/}
       <Grid container justifyContent='flex-end'>
         <Grid xs={12} md={6}>
@@ -628,15 +576,6 @@ export const EstimatePreview = (props) => {
           </TableRow>
         </TableBody>
       </Table>
-      {/* <Box sx={{ mt: 2 }}>
-        <Typography gutterBottom variant='h6'>
-          Notes
-        </Typography>
-        <Typography color='text.secondary' variant='body2'>
-          Please make sure you have the right bank registration number as I had
-          issues before and make sure you guys cover transfer expenses.
-        </Typography>
-      </Box> */}
     </Card>
   )
 }

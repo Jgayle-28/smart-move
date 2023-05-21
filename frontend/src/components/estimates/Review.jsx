@@ -4,7 +4,8 @@ import { EstimatePreview } from './review/EstimatePreview'
 import { useSelector } from 'react-redux'
 import { useDialog } from 'src/hooks/use-dialog'
 import { PDFDownloadLink } from '@react-pdf/renderer'
-import { InvoicePdfDocument } from './review/InvoicePdfDocument'
+import { EstimatePdfDocument } from './review/EstimatePdfDocument'
+import { EstimatePdfDialog } from './review/EstimatePdfDialog'
 
 function Review() {
   const rootRef = useRef(null)
@@ -41,7 +42,7 @@ function Review() {
               </Button>
               <PDFDownloadLink
                 document={
-                  <InvoicePdfDocument
+                  <EstimatePdfDocument
                     focusJob={focusJob}
                     company={company}
                     focusEstimate={focusEstimate}
@@ -59,6 +60,7 @@ function Review() {
           </Box>
         </Grid>
       </Grid>
+      <EstimatePdfDialog onClose={dialog.handleClose} open={dialog.open} />
     </>
   )
 }
