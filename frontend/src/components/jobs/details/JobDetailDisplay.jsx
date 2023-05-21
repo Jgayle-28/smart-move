@@ -131,7 +131,7 @@ export const JobDetailDisplay = (props) => {
                 <div>
                   <Typography variant='subtitle1'>Estimate Date</Typography>
                   <Typography color='text.secondary' variant='caption'>
-                    {focusJob.estimateDate !== null
+                    {focusJob.estimateDate && focusJob.estimateDate !== null
                       ? format(new Date(focusJob.estimateDate), 'MM/dd/yyyy')
                       : 'TBD'}
                   </Typography>
@@ -146,7 +146,7 @@ export const JobDetailDisplay = (props) => {
                 <div>
                   <Typography variant='subtitle1'>Estimate Time</Typography>
                   <Typography color='text.secondary' variant='caption'>
-                    {focusJob.estimateTime !== null
+                    {focusJob.estimateTime && focusJob.estimateTime !== null
                       ? format(new Date(focusJob.estimateTime), 'hh:mm aa')
                       : 'TDB'}
                   </Typography>

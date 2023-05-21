@@ -24,6 +24,7 @@ import Edit from '@mui/icons-material/Edit'
 import { RouterLink } from 'src/components/router-link'
 import RemoveCircleOutline from '@mui/icons-material/RemoveCircleOutline'
 import ArrowLeftIcon from '@untitled-ui/icons-react/build/esm/ArrowLeft'
+import JobEstimateDetail from './JobEstimateDetail'
 
 const tabs = [
   { label: 'Overview', value: 'overview' },
@@ -119,10 +120,7 @@ function JobDetailMain({
             <JobDetailDisplay focusJob={focusJob} />
           )}
           {currentTab === 'estimate' && (
-            <CompanyReviews
-              reviews={company.reviews || []}
-              averageRating={company.averageRating}
-            />
+            <JobEstimateDetail focusJob={focusJob} />
           )}
           {currentTab === 'reviews' && (
             <CompanyReviews

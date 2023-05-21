@@ -36,7 +36,7 @@ const tabs = [
   { label: 'Services', value: 'services' },
   { label: 'Review', value: 'review' },
   { label: 'Invoice', value: 'invoice' },
-  { label: 'Actions', value: 'actions' },
+  // { label: 'Actions', value: 'actions' },
 ]
 const useInvoice = () => {
   const isMounted = useMounted()
