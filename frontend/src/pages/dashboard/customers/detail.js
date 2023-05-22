@@ -33,12 +33,16 @@ import { getInitials } from 'src/utils/get-initials'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import {
-  clearFocusCustomer,
+  clearCustomer,
   getCustomer,
+  getCustomerEstimates,
+  getCustomerJobs,
 } from 'src/store/customers/customerSlice'
-import CustomerEditPageHeader from 'src/components/customers/CustomerEditPageHeader'
 import { useParams } from 'react-router'
 import Spinner from 'src/components/shared/Spinner'
+import CustomerEditPageHeader from 'src/components/customers/CustomerEditPageHeader'
+import CustomerJobs from 'src/components/customers/CustomerJobs'
+import CustomerEstimates from 'src/components/customers/CustomerEstimates'
 
 const tabs = [
   { label: 'Details', value: 'details' },
@@ -106,15 +110,20 @@ const Page = () => {
 
   const { customerId } = useParams()
   const dispatch = useDispatch()
-  const { isLoading, focusCustomer } = useSelector((state) => state.customers)
+  const { isLoading, focusCustomer, customerJobs, customerEstimates } =
+    useSelector((state) => state.customers)
 
   useEffect(() => {
     if (customerId) fetchCustomer()
-    return () => dispatch(clearFocusCustomer())
+    return () => {
+      dispatch(clearCustomer())
+    }
   }, [customerId])
 
   const fetchCustomer = () => {
     dispatch(getCustomer(customerId))
+    dispatch(getCustomerJobs(customerId))
+    dispatch(getCustomerEstimates(customerId))
   }
 
   usePageView()
@@ -127,6 +136,8 @@ const Page = () => {
     return null
   }
 
+  if (isLoading || !fetchCustomer || !customerJobs || !customerEstimates)
+    return <Spinner />
   return (
     <>
       <Seo title='Dashboard: Customer Details' />
@@ -147,7 +158,7 @@ const Page = () => {
                   customer={focusCustomer}
                   isDetails={true}
                 />
-                <div>
+                {/* <div>
                   <Tabs
                     indicatorColor='primary'
                     onChange={handleTabsChange}
@@ -165,8 +176,8 @@ const Page = () => {
                       />
                     ))}
                   </Tabs>
-                  <Divider />
-                </div>
+                </div> */}
+                {/* <Divider /> */}
               </Stack>
               {currentTab === 'details' && (
                 <div>
@@ -185,9 +196,9 @@ const Page = () => {
                     </Grid>
                     <Grid xs={12} lg={8}>
                       <Stack spacing={4}>
-                        <CustomerPayment />
-                        <CustomerEmailsSummary />
-                        <CustomerDataManagement />
+                        <CustomerJobs customerJobs={customerJobs} />
+                        <CustomerEstimates />
+                        {/* <CustomerDataManagement /> */}
                       </Stack>
                     </Grid>
                   </Grid>

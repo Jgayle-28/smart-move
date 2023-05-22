@@ -14,6 +14,7 @@ const initialValues = {
   companyEmail: '',
   companyPhoneNumber: '',
   companyAddress: '',
+  companyWebsite: '',
 }
 
 const phoneRegExp =
@@ -39,6 +40,8 @@ const CreateCompanyForm = ({ creationCallback }) => {
     onSubmit: () => handleSubmit(),
   })
 
+  console.log('formik :>> ', formik)
+
   const dispatch = useDispatch()
   const router = useRouter()
 
@@ -53,6 +56,7 @@ const CreateCompanyForm = ({ creationCallback }) => {
         companyEmail: formik.values.companyEmail,
         companyPhoneNumber: formik.values.companyPhoneNumber,
         companyAddress: formik.values.companyAddress,
+        companyWebsite: formik.values.companyWebsite,
         owner: user._id,
         // staff:[user._id] commented out because not sure if owner should be considered staff
       }
@@ -150,6 +154,22 @@ const CreateCompanyForm = ({ creationCallback }) => {
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               value={formik.values.companyAddress}
+            />
+            <TextField
+              error={
+                !!(
+                  formik.touched.companyWebsite && formik.errors.companyWebsite
+                )
+              }
+              fullWidth
+              helperText={
+                formik.touched.companyWebsite && formik.errors.companyWebsite
+              }
+              label='Company Website'
+              name='companyWebsite'
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.companyWebsite}
             />
             {/* <TextField
               error={!!(formik.touched.password && formik.errors.password)}

@@ -16,6 +16,8 @@ import { useSelector } from 'react-redux'
 import { RouterLink } from 'src/components/router-link'
 import { PDFDownloadLink } from '@react-pdf/renderer'
 import { BlankEstimatePdf } from 'src/components/estimates/blank-estimate-pdf/BlankEstimatePdf'
+import { InvoicePdfDocument } from 'src/components/estimates/invoice/InvoicePdfDocument'
+import { EstimatePdfDocument } from 'src/components/estimates/review/EstimatePdfDocument'
 
 export const JobOverview = (props) => {
   const { focusJob } = useSelector((state) => state.jobs)
@@ -126,6 +128,43 @@ export const JobOverview = (props) => {
                   >
                     Create Estimate
                   </Button>
+                </Stack>
+              </>
+            )}
+            {focusJob && focusJob.estimate && (
+              <>
+                <Divider sx={{ my: 2 }} />
+                <Stack spacing={2}>
+                  <PDFDownloadLink
+                    document={
+                      <InvoicePdfDocument
+                        focusJob={focusJob}
+                        company={company}
+                        focusEstimate={focusJob.estimate}
+                      />
+                    }
+                    fileName={`${focusJob?.customer?.customerName}-invoice.pdf`}
+                    style={{ textDecoration: 'none' }}
+                  >
+                    <Button fullWidth variant='outlined' size='small'>
+                      Print Invoice
+                    </Button>
+                  </PDFDownloadLink>
+                  <PDFDownloadLink
+                    document={
+                      <EstimatePdfDocument
+                        focusJob={focusJob}
+                        company={company}
+                        focusEstimate={focusJob.estimate}
+                      />
+                    }
+                    fileName={`${focusJob?.customer?.customerName}-estimate.pdf`}
+                    style={{ textDecoration: 'none' }}
+                  >
+                    <Button fullWidth variant='contained' size='small'>
+                      Print Estimate
+                    </Button>
+                  </PDFDownloadLink>
                 </Stack>
               </>
             )}

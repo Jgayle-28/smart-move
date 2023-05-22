@@ -60,7 +60,7 @@ const customerSchema = mongoose.Schema(
     },
     billing: { type: Object },
     jobs: {
-      type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+      type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Job' }],
       default: [],
       required: false,
     },

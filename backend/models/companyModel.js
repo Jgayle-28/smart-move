@@ -29,6 +29,8 @@ const companySchema = mongoose.Schema(
       // state: String,
       // zip: String,
     },
+    companyWebsite: { type: String, default: '', required: false },
+    companyEstimatePolicy: { type: String, default: '', required: false },
     billing: { type: Object },
     subscription: {
       type: String,

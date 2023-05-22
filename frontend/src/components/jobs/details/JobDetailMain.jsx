@@ -8,7 +8,6 @@ import {
   Tab,
   Tabs,
   Typography,
-  Link,
   Unstable_Grid2 as Grid,
 } from '@mui/material'
 import { useCallback, useState } from 'react'
@@ -18,21 +17,20 @@ import { CompanyAssets } from 'src/sections/dashboard/jobs/company-assets'
 import { JobDetailDisplay } from 'src/components/jobs/details/JobDetailDisplay'
 import { CompanyReviews } from 'src/sections/dashboard/jobs/company-reviews'
 import { CompanyTeam } from 'src/sections/dashboard/jobs/company-team'
-import { paths } from 'src/paths'
 import Spinner from 'src/components/shared/Spinner'
 import Edit from '@mui/icons-material/Edit'
-import { RouterLink } from 'src/components/router-link'
 import RemoveCircleOutline from '@mui/icons-material/RemoveCircleOutline'
 import ArrowLeftIcon from '@untitled-ui/icons-react/build/esm/ArrowLeft'
 import JobEstimateDetail from './JobEstimateDetail'
+import { useRouter } from 'src/hooks/use-router'
 
 const tabs = [
   { label: 'Overview', value: 'overview' },
   { label: 'Estimate', value: 'estimate' },
-  { label: 'Reviews', value: 'reviews' },
-  { label: 'Activity', value: 'activity' },
-  { label: 'Team', value: 'team' },
-  { label: 'Assets', value: 'assets' },
+  // { label: 'Reviews', value: 'reviews' },
+  // { label: 'Activity', value: 'activity' },
+  // { label: 'Team', value: 'team' },
+  // { label: 'Assets', value: 'assets' },
 ]
 
 function JobDetailMain({
@@ -44,6 +42,8 @@ function JobDetailMain({
 }) {
   const [currentTab, setCurrentTab] = useState('overview')
 
+  const router = useRouter()
+
   const handleTabsChange = useCallback((event, value) => {
     setCurrentTab(value)
   }, [])
@@ -54,21 +54,18 @@ function JobDetailMain({
       <Grid container spacing={4}>
         <Grid xs={6}>
           <div>
-            <Link
-              color='text.primary'
-              component={RouterLink}
-              href={paths.dashboard.jobs.index}
+            <Button
+              onClick={() => router.back()}
               sx={{
                 alignItems: 'center',
                 display: 'flex',
               }}
-              underline='hover'
             >
               <SvgIcon sx={{ mr: 1 }}>
                 <ArrowLeftIcon />
               </SvgIcon>
-              <Typography variant='subtitle2'>Jobs</Typography>
-            </Link>
+              <Typography variant='subtitle2'>Go Back</Typography>
+            </Button>
           </div>
         </Grid>
         <Grid xs={6}>

@@ -91,7 +91,9 @@ const getCustomers = asyncHandler(async (req, res) => {
 // @route /api/customers
 // @access private
 const getCustomer = asyncHandler(async (req, res) => {
-  const customer = await Customer.findOne({ _id: req.params.id })
+  const customer = await Customer.findOne({ _id: req.params.id }).populate(
+    'jobs'
+  )
 
   // // If there is a user and the passwords match
   if (customer) {

@@ -69,6 +69,21 @@ const getEstimates = asyncHandler(async (req, res) => {
   res.status(200).json(estimates)
 })
 
+// @desc GET estimates by company id
+// @route /api/estimates/customer/:id
+// @access private
+const getCustomerEstimates = asyncHandler(async (req, res) => {
+  const estimates = await Estimate.find({
+    customer: req.params.id,
+  })
+
+  if (!estimates) {
+    res.status(404)
+    throw new Error('Error getting estimates, please refresh and try again.')
+  }
+  res.status(200).json(estimates)
+})
+
 // @desc GET estimate by id
 // @route /api/estimates/:id/get
 // @access private
@@ -117,6 +132,7 @@ module.exports = {
   addEstimate,
   updateEstimate,
   getEstimates,
+  getCustomerEstimates,
   getEstimate,
   deleteEstimate,
 }

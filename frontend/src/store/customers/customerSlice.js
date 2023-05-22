@@ -6,6 +6,8 @@ import customerService from './customerService'
 const initialState = {
   customers: null,
   focusCustomer: null,
+  customerJobs: null,
+  customerEstimates: null,
   createdCustomer: null,
   isLoading: false,
 }
@@ -52,6 +54,34 @@ export const getCustomer = createAsyncThunk(
   }
 )
 
+export const getCustomerJobs = createAsyncThunk(
+  'customers/getCustomerJobs',
+  async (customerId, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token
+      return await customerService.getCustomerJobs(token, customerId)
+    } catch (error) {
+      const message = extractErrorMessage(error)
+      toast.error(message)
+      return thunkAPI.rejectWithValue(message)
+    }
+  }
+)
+
+export const getCustomerEstimates = createAsyncThunk(
+  'customers/getCustomerEstimates',
+  async (customerId, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token
+      return await customerService.getCustomerEstimates(token, customerId)
+    } catch (error) {
+      const message = extractErrorMessage(error)
+      toast.error(message)
+      return thunkAPI.rejectWithValue(message)
+    }
+  }
+)
+
 export const updateCustomer = createAsyncThunk(
   'customers/updateCustomer',
   async (customerData, thunkAPI) => {
@@ -87,8 +117,10 @@ export const customerSlice = createSlice({
     clearCustomers(state) {
       state.customers = null
     },
-    clearFocusCustomer(state) {
+    clearCustomer(state) {
       state.focusCustomer = null
+      state.customerJobs = null
+      state.customerEstimates = null
     },
   },
   extraReducers: (builder) => {
@@ -132,6 +164,30 @@ export const customerSlice = createSlice({
         state.isLoading = false
         state.focusCustomer = null
       })
+      // get customer jobs
+      .addCase(getCustomerJobs.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(getCustomerJobs.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.customerJobs = action.payload
+      })
+      .addCase(getCustomerJobs.rejected, (state) => {
+        state.isLoading = false
+        state.customerJobs = null
+      })
+      // get customer estimates
+      .addCase(getCustomerEstimates.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(getCustomerEstimates.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.customerEstimates = action.payload
+      })
+      .addCase(getCustomerEstimates.rejected, (state) => {
+        state.isLoading = false
+        state.customerEstimates = null
+      })
       // update customer -> update customers array and focusCustomer
       .addCase(updateCustomer.pending, (state) => {
         state.isLoading = true
@@ -157,5 +213,5 @@ export const customerSlice = createSlice({
       })
   },
 })
-export const { clearCustomers, clearFocusCustomer } = customerSlice.actions
+export const { clearCustomers, clearCustomer } = customerSlice.actions
 export default customerSlice.reducer

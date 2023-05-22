@@ -14,6 +14,7 @@ const registerCompany = asyncHandler(async (req, res) => {
     companyEmail,
     companyPhoneNumber,
     companyAddress,
+    companyWebsite,
     owner,
   } = req.body
 
@@ -43,6 +44,7 @@ const registerCompany = asyncHandler(async (req, res) => {
     companyEmail,
     companyPhoneNumber,
     companyAddress,
+    companyWebsite,
     owner,
   })
 
@@ -97,6 +99,7 @@ const getCompanyTeam = asyncHandler(async (req, res) => {
 // @access public
 const getCompany = asyncHandler(async (req, res) => {
   const { companyId } = req.body
+  console.log('companyId :>> ', companyId)
 
   const company = await Company.findOne({ _id: companyId })
 

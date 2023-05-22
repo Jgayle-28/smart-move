@@ -170,10 +170,11 @@ export const BlankEstimatePdf = ({ focusJob, company, focusEstimate }) => {
             <Text style={styles.body2}>EU VAT No. 949 67545 45</Text> */}
             </View>
             <View>
-              <Text style={styles.body2}>{company?.companyEmail}</Text>
+              <Text style={styles.body2}>{company?.companyEmail || ''}</Text>
               <Text style={styles.body2}>
                 {formatPhoneNumber(company?.companyPhoneNumber) || ''}
               </Text>
+              <Text style={styles.body2}>{company?.companyWebsite || ''}</Text>
             </View>
           </View>
           {/* <View>

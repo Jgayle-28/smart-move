@@ -63,7 +63,13 @@ export const JobListTable = (props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {jobs &&
+            {jobs && jobs.length === 0 ? (
+              <TableRow>
+                <TableCell align='center' colSpan={7} sx={{ py: 3, px: 2 }}>
+                  You have not added any jobs yet
+                </TableCell>
+              </TableRow>
+            ) : (
               jobs.map((job) => {
                 return (
                   <JobListTableItem
@@ -76,19 +82,22 @@ export const JobListTable = (props) => {
                     handleProductDelete={handleProductDelete}
                   />
                 )
-              })}
+              })
+            )}
           </TableBody>
         </Table>
       </Scrollbar>
-      <TablePagination
-        component='div'
-        count={count}
-        onPageChange={onPageChange}
-        onRowsPerPageChange={onRowsPerPageChange}
-        page={page}
-        rowsPerPage={rowsPerPage}
-        rowsPerPageOptions={[5, 10, 25]}
-      />
+      {jobs && jobs.length > 0 && (
+        <TablePagination
+          component='div'
+          count={count}
+          onPageChange={onPageChange}
+          onRowsPerPageChange={onRowsPerPageChange}
+          page={page}
+          rowsPerPage={rowsPerPage}
+          rowsPerPageOptions={[5, 10, 25]}
+        />
+      )}
     </div>
   )
 }

@@ -96,7 +96,7 @@ const Page = () => {
 
   usePageView()
 
-  if (isLoading || !currentJobs?.length) return <Spinner />
+  if (isLoading || currentJobs === null) return <Spinner />
   return (
     <>
       <Seo title='Dashboard: Job List' />

@@ -17,11 +17,13 @@ import { AccountNotificationsSettings } from 'src/components/account/account-not
 import { AccountTeamSettings } from 'src/components/account/account-team-settings'
 import { AccountSecuritySettings } from 'src/components/account/account-security-settings'
 import { useAuth } from 'src/hooks/use-auth'
+import UpdateCompanyForm from 'src/components/company/UpdateCompanyForm'
 
 const now = new Date()
 
 const tabs = [
   { label: 'General', value: 'general' },
+  { label: 'Company', value: 'company' },
   { label: 'Team', value: 'team' },
   { label: 'Billing', value: 'billing' },
   // { label: 'Notifications', value: 'notifications' },
@@ -36,6 +38,7 @@ const Page = () => {
 
   const tabs = [
     { label: 'General', value: 'general' },
+    user.isAdmin && { label: 'Company', value: 'company' },
     user.isAdmin && { label: 'Team', value: 'team' },
     user.isAdmin && { label: 'Billing', value: 'billing' },
     // { label: 'Notifications', value: 'notifications' },
@@ -76,6 +79,7 @@ const Page = () => {
             </div>
           </Stack>
           {currentTab === 'general' && <AccountGeneralSettings />}
+          {currentTab === 'company' && <UpdateCompanyForm />}
           {currentTab === 'billing' && (
             <AccountBillingSettings
               plan='standard'

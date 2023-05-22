@@ -7,10 +7,7 @@ import { useCustomer } from 'src/hooks/use-costomer'
 import { useLocation, useParams } from 'react-router'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import {
-  clearFocusCustomer,
-  getCustomer,
-} from 'src/store/customers/customerSlice'
+import { clearCustomer, getCustomer } from 'src/store/customers/customerSlice'
 import Spinner from 'src/components/shared/Spinner'
 import { useSelector } from 'react-redux'
 
@@ -30,7 +27,7 @@ const Page = () => {
 
   useEffect(() => {
     if (isEdit && customerId) fetchCustomer()
-    return () => dispatch(clearFocusCustomer())
+    return () => dispatch(clearCustomer())
   }, [isEdit])
 
   const fetchCustomer = () => {

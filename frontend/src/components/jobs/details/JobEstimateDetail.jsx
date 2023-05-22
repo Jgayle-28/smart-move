@@ -35,7 +35,6 @@ function JobEstimateDetail() {
     <>
       <Grid container spacing={2} sx={{ p: 0, m: 0 }}>
         {/* Top */}
-
         <Grid item xs={12}>
           <Stack direction='row' spacing={2}>
             <SeverityPill>

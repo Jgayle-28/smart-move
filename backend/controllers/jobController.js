@@ -85,6 +85,21 @@ const getJob = asyncHandler(async (req, res) => {
   }
 })
 
+// @desc GET customer jobs by company customerId
+// @route /api/jobs/customer/:id
+// @access private
+const getCustomerJobs = asyncHandler(async (req, res) => {
+  const jobs = await Job.find({
+    customer: req.params.id,
+  })
+
+  if (!jobs) {
+    res.status(404)
+    throw new Error('Error getting jobs, please refresh and try again.')
+  }
+  res.status(200).json(jobs)
+})
+
 // @desc DELETE job
 // @route /api/jobs
 // @access private
@@ -116,6 +131,7 @@ module.exports = {
   addJob,
   updateJob,
   getJobs,
+  getCustomerJobs,
   getJob,
   deleteJob,
 }
