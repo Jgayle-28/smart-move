@@ -176,6 +176,7 @@ export const InvoicePdfDocument = ({ focusJob, company, focusEstimate }) => {
             <Text style={styles.body2}>
               {formatPhoneNumber(company?.companyPhoneNumber) || ''}
             </Text>
+            <Text style={styles.body2}>{company?.companyWebsite || ''}</Text>
           </View>
         </View>
         {/*----- Invoice Data -----*/}
