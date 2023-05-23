@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import { useSelector, useDispatch } from 'react-redux'
 import {
   Button,
   Card,
@@ -12,16 +13,19 @@ import { PropertyList } from 'src/components/property-list'
 import { PropertyListItem } from 'src/components/property-list-item'
 import { SeverityPill } from 'src/components/severity-pill'
 import { format } from 'date-fns'
-import { useSelector } from 'react-redux'
 import { RouterLink } from 'src/components/router-link'
 import { PDFDownloadLink } from '@react-pdf/renderer'
 import { BlankEstimatePdf } from 'src/components/estimates/blank-estimate-pdf/BlankEstimatePdf'
 import { InvoicePdfDocument } from 'src/components/estimates/invoice/InvoicePdfDocument'
 import { EstimatePdfDocument } from 'src/components/estimates/review/EstimatePdfDocument'
+import { updateJob } from 'src/store/jobs/jobSlice'
+import { toast } from 'react-hot-toast'
 
 export const JobOverview = (props) => {
   const { focusJob } = useSelector((state) => state.jobs)
   const { company } = useSelector((state) => state.company)
+
+  const dispatch = useDispatch()
 
   const getJobPillLabel = () => {
     switch (focusJob.jobType) {
@@ -36,6 +40,17 @@ export const JobOverview = (props) => {
       default:
         return 'Move'
     }
+  }
+
+  const handleToggleJobPaid = () => {
+    const paidStatus = !focusJob.isPaid
+    const updatedJob = { ...focusJob, isPaid: paidStatus }
+
+    dispatch(updateJob(updatedJob))
+      .unwrap()
+      .then(() => {
+        toast.success('Job successfully updated')
+      })
   }
 
   if (focusJob !== null)
@@ -165,6 +180,27 @@ export const JobOverview = (props) => {
                       Print Estimate
                     </Button>
                   </PDFDownloadLink>
+                  <Button
+                    fullWidth
+                    component={RouterLink}
+                    href={`/dashboard/estimates/${focusJob?._id}/edit/${focusJob?.estimate._id}`}
+                    variant='contained'
+                    size='small'
+                    color='secondary'
+                  >
+                    View Estimate
+                  </Button>
+                  <Button
+                    fullWidth
+                    variant='contained'
+                    size='small'
+                    color={focusJob?.isPaid ? 'warning' : 'success'}
+                    onClick={handleToggleJobPaid}
+                  >
+                    {focusJob?.isPaid
+                      ? 'Mark Job As Not Paid'
+                      : 'Mark Job As Paid'}
+                  </Button>
                 </Stack>
               </>
             )}
