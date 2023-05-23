@@ -26,28 +26,38 @@ import { OverviewJobs } from 'src/sections/dashboard/overview/overview-jobs'
 import { NewJobs } from 'src/components/dashboard/NewJobs'
 import { OverviewTips } from 'src/sections/dashboard/overview/overview-tips'
 import { RouterLink } from 'src/components/router-link'
-import { useSelector } from 'react-redux'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { getCompany } from 'src/store/company/companySlice'
+import { RecentCustomers } from 'src/components/dashboard/RecentCustomers'
+import { clearCustomers, getCustomers } from 'src/store/customers/customerSlice'
+import Spinner from 'src/components/shared/Spinner'
 
 const now = new Date()
 
 const Page = () => {
+  // Hooks -------------------------------------------------------------------
   const settings = useSettings()
-
   const { user } = useSelector((state) => state.auth)
   const { company } = useSelector((state) => state.company)
+  const { customers } = useSelector((state) => state.customers)
+
   const dispatch = useDispatch()
 
-  // Retrieve the company
   useEffect(() => {
     if (!company) {
-      dispatch(getCompany(user.company))
+      dispatch(getCompany(user?.company))
+    }
+    if (!customers) {
+      dispatch(getCustomers(user?.company))
+    }
+    return () => {
+      dispatch(clearCustomers())
     }
   }, [company, user])
 
   usePageView()
 
+  if (!user || !company || !customers) return <Spinner />
   return (
     <>
       <Seo title='Dashboard' />
@@ -67,7 +77,7 @@ const Page = () => {
               lg: 4,
             }}
           >
-            {/* Header & title */}
+            {/*----- Header & title -----*/}
             <Grid xs={12}>
               <Stack direction='row' justifyContent='space-between' spacing={4}>
                 <div>
@@ -91,7 +101,7 @@ const Page = () => {
                 </div>
               </Stack>
             </Grid>
-            {/* Stat Cards */}
+            {/*----- Stat Cards -----*/}
             <Grid xs={12} md={4}>
               <NewClients amount={31} />
             </Grid>
@@ -102,7 +112,7 @@ const Page = () => {
               <OverviewPendingIssues amount={12} />
             </Grid>
 
-            {/* Overview */}
+            {/*------ Overview *------*/}
             <Grid xs={12} md={7}>
               <OverviewSubscriptionUsage
                 chartSeries={[
@@ -117,52 +127,9 @@ const Page = () => {
                 ]}
               />
             </Grid>
-            {/* Recent Clients */}
+            {/*------ Recent Customers ------*/}
             <Grid xs={12} md={5}>
-              <OverviewInbox
-                messages={[
-                  {
-                    id: 'b91cbe81ee3efefba6b915a7',
-                    content: 'Hello, we spoke earlier on the phone',
-                    createdAt: subMinutes(now, 2),
-                    senderAvatar: '/assets/avatars/avatar-alcides-antonio.png',
-                    senderName: 'Alcides Antonio',
-                    senderOnline: true,
-                  },
-                  {
-                    id: 'de0eb1ac517aae1aa57c0b7e',
-                    content: 'Is the job still available?',
-                    createdAt: subMinutes(now, 56),
-                    senderAvatar: '/assets/avatars/avatar-marcus-finn.png',
-                    senderName: 'Marcus Finn',
-                    senderOnline: false,
-                  },
-                  {
-                    id: '38e2b0942c90d0ad724e6f40',
-                    content: 'What is a screening task? I’d like to',
-                    createdAt: subHours(subMinutes(now, 23), 3),
-                    senderAvatar: '/assets/avatars/avatar-carson-darrin.png',
-                    senderName: 'Carson Darrin',
-                    senderOnline: true,
-                  },
-                  {
-                    id: '467505f3356f25a69f4c4890',
-                    content: 'Still waiting for feedback',
-                    createdAt: subHours(subMinutes(now, 6), 8),
-                    senderAvatar: '/assets/avatars/avatar-fran-perez.png',
-                    senderName: 'Fran Perez',
-                    senderOnline: true,
-                  },
-                  {
-                    id: '7e6af808e801a8361ce4cf8b',
-                    content: 'Need more information about campaigns',
-                    createdAt: subHours(subMinutes(now, 18), 10),
-                    senderAvatar: '/assets/avatars/avatar-jie-yan-song.png',
-                    senderName: 'Jie Yan Song',
-                    senderOnline: false,
-                  },
-                ]}
-              />
+              <RecentCustomers />
             </Grid>
             {/* <Grid xs={12} md={7}>
               <OverviewTransactions
@@ -236,6 +203,7 @@ const Page = () => {
                 ]}
               />
             </Grid> */}
+            {/*----- Help -----*/}
             <Grid xs={12} md={7}>
               <OverviewBanner />
             </Grid>

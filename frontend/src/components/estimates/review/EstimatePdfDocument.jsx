@@ -234,7 +234,7 @@ export const EstimatePdfDocument = ({ focusJob, company, focusEstimate }) => {
         {/*----- Totals -----*/}
         <TotalChargesTable focusEstimate={focusEstimate} styles={styles} />
         {/*----- Estimate Policy -----*/}
-        <EstimatePolicy styles={styles} />
+        <EstimatePolicy styles={styles} company={company} />
         {/* Items To Be Moved */}
         <ItemsTable focusEstimate={focusEstimate} styles={styles} />
       </Page>

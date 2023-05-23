@@ -2,7 +2,14 @@ import { useSelector, useDispatch } from 'react-redux'
 import { updateCompany } from 'src/store/company/companySlice'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
-import { Stack, TextField, Typography, Card, CardContent } from '@mui/material'
+import {
+  Stack,
+  TextField,
+  Typography,
+  Card,
+  CardContent,
+  Divider,
+} from '@mui/material'
 import LoadingButton from '@mui/lab/LoadingButton'
 import { toast } from 'react-hot-toast'
 
@@ -154,10 +161,23 @@ const UpdateCompanyForm = () => {
                 value={formik.values.companyWebsite}
               />
             </Stack>
+            <Divider sx={{ my: 3 }} />
+            <Stack spacing={3}>
+              <Typography variant='h5'>Company Policies</Typography>
+              <TextField
+                fullWidth
+                helperText='This is used on your estimates and will give your customers an idea of how you charge for your services.'
+                label='Estimate Policy'
+                name='companyEstimatePolicy'
+                onChange={formik.handleChange}
+                value={formik.values.companyEstimatePolicy}
+                multiline
+                rows={4}
+              />
+            </Stack>
             <LoadingButton
               loading={isLoading}
               loadingPosition='start'
-              // fullWidth
               size='large'
               sx={{ mt: 3 }}
               type='submit'
