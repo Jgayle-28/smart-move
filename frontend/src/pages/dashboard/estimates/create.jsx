@@ -124,7 +124,7 @@ const Page = () => {
       company: focusJob.company,
       customer: focusJob.customer._id,
       createdBy: user._id,
-      invoiceId: focusEstimate.invoiceId ? focusEstimate.invoiceId : nanoid(7),
+      invoiceId: focusEstimate?.invoiceId ? focusEstimate.invoiceId : nanoid(7),
       inventory: tempInventory,
       moveCharges,
       packing,

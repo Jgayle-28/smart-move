@@ -107,7 +107,7 @@ function CustomerEditPageHeader({ customer, isDetails }) {
                   size='small'
                   onClick={handleCustomerDelete}
                 >
-                  Delete Account
+                  Delete
                 </Button>
               </>
             )}

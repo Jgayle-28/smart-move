@@ -197,7 +197,9 @@ const Page = () => {
                     <Grid xs={12} lg={8}>
                       <Stack spacing={4}>
                         <CustomerJobs customerJobs={customerJobs} />
-                        <CustomerEstimates />
+                        <CustomerEstimates
+                          customerEstimates={customerEstimates}
+                        />
                         {/* <CustomerDataManagement /> */}
                       </Stack>
                     </Grid>

@@ -39,7 +39,6 @@ import TableItemDetails from './TableItemDetails'
 import { BlankEstimatePdf } from 'src/components/estimates/blank-estimate-pdf/BlankEstimatePdf'
 
 function JobListTableItem({ job, currentProduct, handleProductToggle }) {
-  console.log('job :>> ', job)
   const [anchorEl, setAnchorEl] = useState(null)
   const [showComments, setShowComments] = useState(false)
 
