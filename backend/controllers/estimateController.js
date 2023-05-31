@@ -60,7 +60,7 @@ const getEstimates = asyncHandler(async (req, res) => {
   })
     .populate('customer')
     .populate('createdBy')
-  // .populate('company')
+    .populate('job')
 
   if (!estimates) {
     res.status(404)

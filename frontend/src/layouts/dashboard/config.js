@@ -121,6 +121,15 @@ export const useSections = () => {
             // ],
           },
           {
+            title: t(tokens.nav.calendar),
+            path: paths.dashboard.calendar,
+            icon: (
+              <SvgIcon fontSize='small'>
+                <CalendarIcon />
+              </SvgIcon>
+            ),
+          },
+          {
             title: t(tokens.nav.analytics),
             path: paths.dashboard.analytics,
             icon: (
@@ -347,15 +356,6 @@ export const useSections = () => {
             icon: (
               <SvgIcon fontSize='small'>
                 <MessageChatSquareIcon />
-              </SvgIcon>
-            ),
-          },
-          {
-            title: t(tokens.nav.calendar),
-            path: paths.dashboard.calendar,
-            icon: (
-              <SvgIcon fontSize='small'>
-                <CalendarIcon />
               </SvgIcon>
             ),
           },
