@@ -1,11 +1,10 @@
 import axios from 'axios'
 import { getAxiosConfig } from 'src/utils/get-axios-config'
-
-const API_URL = `/api/users`
+import { USER_API_URL } from '../constants'
 
 // Register User
 const registerUser = async (userData) => {
-  const res = await axios.post(API_URL, userData)
+  const res = await axios.post(USER_API_URL, userData)
 
   if (res.data) {
     localStorage.setItem('sm-user', JSON.stringify(res.data))
@@ -14,7 +13,7 @@ const registerUser = async (userData) => {
 }
 
 const createUser = async (userData) => {
-  const res = await axios.post(API_URL, userData)
+  const res = await axios.post(USER_API_URL, userData)
 
   if (res.data) {
     return res.data
@@ -23,7 +22,7 @@ const createUser = async (userData) => {
 
 const updateUser = async (token, userData) => {
   const config = getAxiosConfig(token)
-  const res = await axios.put(`${API_URL}`, userData, config)
+  const res = await axios.put(`${USER_API_URL}`, userData, config)
 
   if (res.data) {
     res.data.token = token
@@ -34,7 +33,7 @@ const updateUser = async (token, userData) => {
 
 // Login User
 const loginUser = async (userData) => {
-  const res = await axios.post(`${API_URL}/login`, userData)
+  const res = await axios.post(`${USER_API_URL}/login`, userData)
 
   if (res.data) {
     localStorage.setItem('sm-user', JSON.stringify(res.data))
@@ -49,7 +48,7 @@ const logoutUser = () => {
 // Delete member -> used in admin account deleting team members and when deleting main account
 const deleteMember = async (token, memberId) => {
   const config = getAxiosConfig(token)
-  const res = await axios.delete(`${API_URL}/${memberId}`, config)
+  const res = await axios.delete(`${USER_API_URL}/${memberId}`, config)
 
   if (res.data) return res.data.memberId
 }
@@ -57,7 +56,7 @@ const deleteMember = async (token, memberId) => {
 // Delete member -> used in admin account deleting team members and when deleting main account
 const updateMember = async (token, memberData) => {
   const config = getAxiosConfig(token)
-  const res = await axios.put(`${API_URL}`, memberData, config)
+  const res = await axios.put(`${USER_API_URL}`, memberData, config)
 
   if (res.data) return res.data
 }

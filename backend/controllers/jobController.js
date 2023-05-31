@@ -1,5 +1,6 @@
 const asyncHandler = require('express-async-handler')
 const { userHasPermissions } = require('../utils/auth')
+const { startOfWeek, endOfWeek, isSameWeek } = require('date-fns')
 
 const Job = require('../models/jobModel')
 
@@ -48,6 +49,36 @@ const updateJob = asyncHandler(async (req, res) => {
     .populate('estimate')
 
   res.status(200).json(updatedJob)
+})
+
+// @desc GET jobs by company id for current week
+// @route /api/jobs/:id/current-week
+// @access private
+const getCurrentWeekJobs = asyncHandler(async (req, res) => {
+  const { company } = req.params
+
+  // Get the current date and calculate the start and end dates of the current week
+  const currentDate = new Date()
+  const startDate = startOfWeek(currentDate, { weekStartsOn: 1 }) // Start of the week (Monday)
+  const endDate = endOfWeek(currentDate, { weekStartsOn: 1 }) // End of the week (Sunday)
+
+  const jobs = await Job.find({
+    company: company,
+    date: {
+      $gte: startDate,
+      $lte: endDate,
+    },
+  })
+    .populate('customer')
+    .populate('createdBy')
+    .populate('estimate')
+
+  if (!jobs) {
+    res.status(404)
+    throw new Error('Error getting jobs, please refresh and try again.')
+  }
+
+  res.status(200).json(jobs)
 })
 
 // @desc GET jobs by company id
@@ -130,6 +161,7 @@ const deleteJob = asyncHandler(async (req, res) => {
 module.exports = {
   addJob,
   updateJob,
+  getCurrentWeekJobs,
   getJobs,
   getCustomerJobs,
   getJob,

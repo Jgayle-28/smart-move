@@ -1,11 +1,10 @@
 import axios from 'axios'
 import { getAxiosConfig } from 'src/utils/get-axios-config'
-
-const API_URL = `/api/companies`
+import { COMPANY_API_URL } from '../constants'
 
 // Register company
 const registerCompany = async (companyData) => {
-  const res = await axios.post(API_URL, companyData)
+  const res = await axios.post(COMPANY_API_URL, companyData)
 
   if (res.data) {
     localStorage.setItem('sm-company', JSON.stringify(res.data))
@@ -16,7 +15,7 @@ const registerCompany = async (companyData) => {
 // Get company
 const getCompany = async (token, companyId) => {
   const config = getAxiosConfig(token)
-  const res = await axios.get(`${API_URL}/${companyId}`, config)
+  const res = await axios.get(`${COMPANY_API_URL}/${companyId}`, config)
 
   if (res.data) return res.data
 }
@@ -24,7 +23,10 @@ const getCompany = async (token, companyId) => {
 // Get company team
 const getCompanyTeam = async (token, companyId) => {
   const config = getAxiosConfig(token)
-  const res = await axios.get(`${API_URL}/team-members/${companyId}`, config)
+  const res = await axios.get(
+    `${COMPANY_API_URL}/team-members/${companyId}`,
+    config
+  )
 
   if (res.data) return res.data
 }
@@ -33,7 +35,7 @@ const getCompanyTeam = async (token, companyId) => {
 const updateCompany = async (token, companyData) => {
   const config = getAxiosConfig(token)
   const res = await axios.put(
-    `${API_URL}/${companyData._id}`,
+    `${COMPANY_API_URL}/${companyData._id}`,
     companyData,
     config
   )
@@ -47,7 +49,7 @@ const updateCompany = async (token, companyData) => {
 // Delete company
 const deleteCompany = async (token, companyId) => {
   const config = getAxiosConfig(token)
-  const res = await axios.delete(`${API_URL}/${companyId}`, config)
+  const res = await axios.delete(`${COMPANY_API_URL}/${companyId}`, config)
 
   if (res.data) {
     localStorage.removeItem('sm-company')

@@ -1,26 +1,24 @@
 import axios from 'axios'
 import { getAxiosConfig } from 'src/utils/get-axios-config'
-
-const API_URL = `/api/estimates`
+import { ESTIMATE_API_URL } from '../constants'
 
 const addEstimate = async (token, estimateData) => {
   const config = getAxiosConfig(token)
-  const res = await axios.post(API_URL, estimateData, config)
+  const res = await axios.post(ESTIMATE_API_URL, estimateData, config)
 
   if (res.data) return res.data
 }
 
 const getEstimates = async (token, companyId) => {
   const config = getAxiosConfig(token)
-  const res = await axios.get(`${API_URL}/${companyId}`, config)
+  const res = await axios.get(`${ESTIMATE_API_URL}/${companyId}`, config)
 
   if (res.data) return res.data
 }
 
 const getEstimate = async (token, estimateId) => {
-  console.log('estimateId in service', estimateId)
   const config = getAxiosConfig(token)
-  const res = await axios.get(`${API_URL}/${estimateId}/get`, config)
+  const res = await axios.get(`${ESTIMATE_API_URL}/${estimateId}/get`, config)
 
   if (res.data) return res.data
 }
@@ -28,7 +26,7 @@ const getEstimate = async (token, estimateId) => {
 const updateEstimate = async (token, estimateData) => {
   const config = getAxiosConfig(token)
   const res = await axios.put(
-    `${API_URL}/${estimateData._id}`,
+    `${ESTIMATE_API_URL}/${estimateData._id}`,
     estimateData,
     config
   )
@@ -38,7 +36,7 @@ const updateEstimate = async (token, estimateData) => {
 
 const deleteEstimate = async (token, estimateId) => {
   const config = getAxiosConfig(token)
-  const res = await axios.delete(`${API_URL}/${estimateId}`, config)
+  const res = await axios.delete(`${ESTIMATE_API_URL}/${estimateId}`, config)
 
   if (res.data) return res.data.estimateId
 }

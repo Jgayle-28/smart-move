@@ -10,8 +10,6 @@ function EventDetailPopper({
   handleEventHoverToggle,
   currentEvent,
 }) {
-  console.log('currentEvent :>> ', currentEvent)
-
   const getIcon = () => {
     switch (currentEvent?.type) {
       case 'packing':
