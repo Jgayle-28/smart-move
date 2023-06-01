@@ -9,6 +9,7 @@ const initialState = {
   customerJobs: null,
   customerEstimates: null,
   createdCustomer: null,
+  currentWeekCustomers: null,
   isLoading: false,
 }
 
@@ -32,6 +33,20 @@ export const getCustomers = createAsyncThunk(
     try {
       const token = thunkAPI.getState().auth.user.token
       return await customerService.getCustomers(token, companyId)
+    } catch (error) {
+      const message = extractErrorMessage(error)
+      toast.error(message)
+      return thunkAPI.rejectWithValue(message)
+    }
+  }
+)
+
+export const getCurrentWeekCustomers = createAsyncThunk(
+  'customers/getCurrentWeekCustomers',
+  async (companyId, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token
+      return await customerService.getCurrentWeekCustomers(token, companyId)
     } catch (error) {
       const message = extractErrorMessage(error)
       toast.error(message)
@@ -151,6 +166,18 @@ export const customerSlice = createSlice({
       .addCase(getCustomers.rejected, (state) => {
         state.isLoading = false
         state.customers = null
+      })
+      // get current week customers
+      .addCase(getCurrentWeekCustomers.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(getCurrentWeekCustomers.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.currentWeekCustomers = action.payload
+      })
+      .addCase(getCurrentWeekCustomers.rejected, (state) => {
+        state.isLoading = false
+        state.currentWeekCustomers = null
       })
       // get customer
       .addCase(getCustomer.pending, (state) => {

@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import { Box, Card, CardHeader, Tab, Tabs } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { Chart } from 'src/components/chart'
+import { useSelector } from 'react-redux'
 
 const useChartOptions = () => {
   const theme = useTheme()
@@ -49,7 +50,7 @@ const useChartOptions = () => {
     },
     tooltip: {
       y: {
-        formatter: (value) => `${value}k events`,
+        formatter: (value) => `${value} job(s)`,
       },
     },
     xaxis: {
@@ -87,9 +88,20 @@ const useChartOptions = () => {
   }
 }
 
-export const OverviewSubscriptionUsage = (props) => {
-  const { chartSeries } = props
+export const OverviewSubscriptionUsage = () => {
+  const { annualJobs } = useSelector((state) => state.jobs)
   const chartOptions = useChartOptions()
+
+  //  chartSeries={[
+  //               {
+  //                 name: 'This year',
+  //                 data: [40, 37, 41, 42, 45, 42, 36, 45, 40, 44, 38, 41],
+  //               },
+  //               {
+  //                 name: 'Last year',
+  //                 data: [26, 22, 19, 22, 24, 28, 23, 25, 24, 21, 17, 19],
+  //               },
+  //             ]}
 
   return (
     <Card>
@@ -108,7 +120,7 @@ export const OverviewSubscriptionUsage = (props) => {
         <Chart
           height={300}
           options={chartOptions}
-          series={chartSeries}
+          series={[{ name: 'This Year', data: annualJobs }]}
           type='bar'
         />
       </Box>

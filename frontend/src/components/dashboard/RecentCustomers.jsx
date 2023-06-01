@@ -19,14 +19,16 @@ import { RouterLink } from 'src/components/router-link'
 import { useSelector } from 'react-redux'
 import Spinner from '../shared/Spinner'
 import { getInitials } from 'src/utils/get-initials'
+import { useRouter } from 'src/hooks/use-router'
 
 export const RecentCustomers = () => {
   const { customers } = useSelector((state) => state.customers)
+  const router = useRouter()
 
   if (!customers) return <Spinner />
   return (
     <Card>
-      <CardHeader title='Recent Customers new' />
+      <CardHeader title='Recent Customers' />
       <List disablePadding>
         {customers.slice(0, 4).map((customer) => {
           const ago = formatDistanceStrict(
@@ -47,6 +49,9 @@ export const RecentCustomers = () => {
                   cursor: 'pointer',
                 },
               }}
+              onClick={() =>
+                router.push(`/dashboard/customers/${customer._id}`)
+              }
             >
               <ListItemAvatar>
                 <Avatar
@@ -100,7 +105,7 @@ export const RecentCustomers = () => {
         })}
       </List>
       <Divider />
-      <CardActions>
+      {/* <CardActions>
         <Button
           component={RouterLink}
           href='/dashboard/customers'
@@ -114,7 +119,7 @@ export const RecentCustomers = () => {
         >
           Go to customers
         </Button>
-      </CardActions>
+      </CardActions> */}
     </Card>
   )
 }

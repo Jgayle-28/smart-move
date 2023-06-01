@@ -17,6 +17,7 @@ const initialState = {
   totalVolume: null,
   totalItemCount: null,
   totalCharges: null,
+  currentWeekEstimates: null,
   isLoading: false,
 }
 
@@ -40,6 +41,20 @@ export const getEstimates = createAsyncThunk(
     try {
       const token = thunkAPI.getState().auth.user.token
       return await estimateService.getEstimates(token, companyId)
+    } catch (error) {
+      const message = extractErrorMessage(error)
+      toast.error(message)
+      return thunkAPI.rejectWithValue(message)
+    }
+  }
+)
+
+export const getCurrentWeekEstimates = createAsyncThunk(
+  'estimates/getCurrentWeekEstimates',
+  async (companyId, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token
+      return await estimateService.getCurrentWeekEstimates(token, companyId)
     } catch (error) {
       const message = extractErrorMessage(error)
       toast.error(message)
@@ -155,6 +170,18 @@ export const estimateSlice = createSlice({
       .addCase(getEstimates.rejected, (state) => {
         state.isLoading = false
         state.estimates = null
+      })
+      // get current week estimates
+      .addCase(getCurrentWeekEstimates.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(getCurrentWeekEstimates.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.currentWeekEstimates = action.payload
+      })
+      .addCase(getCurrentWeekEstimates.rejected, (state) => {
+        state.isLoading = false
+        state.currentWeekEstimates = null
       })
       // get estimate
       .addCase(getEstimate.pending, (state) => {

@@ -5,6 +5,7 @@ import jobService from './jobService'
 
 const initialState = {
   jobs: null,
+  currentWeekJobs: null,
   focusJob: null,
   createdJob: null,
   isLoading: false,
@@ -30,6 +31,34 @@ export const getJobs = createAsyncThunk(
     try {
       const token = thunkAPI.getState().auth.user.token
       return await jobService.getJobs(token, companyId)
+    } catch (error) {
+      const message = extractErrorMessage(error)
+      toast.error(message)
+      return thunkAPI.rejectWithValue(message)
+    }
+  }
+)
+
+export const getAnnualJobs = createAsyncThunk(
+  'jobs/getAnnualJobs',
+  async (companyId, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token
+      return await jobService.getAnnualJobs(token, companyId)
+    } catch (error) {
+      const message = extractErrorMessage(error)
+      toast.error(message)
+      return thunkAPI.rejectWithValue(message)
+    }
+  }
+)
+
+export const getCurrentWeekJobs = createAsyncThunk(
+  'jobs/getCurrentWeekJobs',
+  async (companyId, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token
+      return await jobService.getCurrentWeekJobs(token, companyId)
     } catch (error) {
       const message = extractErrorMessage(error)
       toast.error(message)
@@ -123,6 +152,30 @@ export const jobSlice = createSlice({
       .addCase(getJobs.rejected, (state) => {
         state.isLoading = false
         state.jobs = null
+      })
+      // get current week jobs
+      .addCase(getCurrentWeekJobs.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(getCurrentWeekJobs.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.currentWeekJobs = action.payload
+      })
+      .addCase(getCurrentWeekJobs.rejected, (state) => {
+        state.isLoading = false
+        state.currentWeekJobs = null
+      })
+      // get annual jobs
+      .addCase(getAnnualJobs.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(getAnnualJobs.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.annualJobs = action.payload
+      })
+      .addCase(getAnnualJobs.rejected, (state) => {
+        state.isLoading = false
+        state.annualJobs = null
       })
       // get job
       .addCase(getJob.pending, (state) => {

@@ -1,5 +1,6 @@
 const asyncHandler = require('express-async-handler')
 const { userHasPermissions } = require('../utils/auth')
+const { startOfWeek, endOfWeek } = require('date-fns')
 
 const Customer = require('../models/customerModel')
 
@@ -87,6 +88,32 @@ const getCustomers = asyncHandler(async (req, res) => {
   res.status(200).json(customers)
 })
 
+// @desc GET customers company id & current week
+// @route /api/customers/:id/current-week
+// @access private
+const getCurrentWeekCustomers = asyncHandler(async (req, res) => {
+  const { id } = req.params
+
+  // Get the current date and calculate the start and end dates of the current week
+  const currentDate = new Date()
+  const startDate = startOfWeek(currentDate, { weekStartsOn: 1 }) // Start of the week (Monday)
+  const endDate = endOfWeek(currentDate, { weekStartsOn: 1 }) // End of the week (Sunday)
+
+  const customers = await Customer.find({
+    company: id,
+    createdAt: {
+      $gte: startDate,
+      $lte: endDate,
+    },
+  })
+
+  if (!customers) {
+    res.status(404)
+    throw new Error('Error getting customers, please refresh and try again.')
+  }
+  res.status(200).json(customers)
+})
+
 // @desc GET customer by id
 // @route /api/customers
 // @access private
@@ -136,5 +163,6 @@ module.exports = {
   updateCustomer,
   getCustomer,
   getCustomers,
+  getCurrentWeekCustomers,
   deleteCustomer,
 }

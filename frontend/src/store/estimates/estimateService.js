@@ -16,6 +16,16 @@ const getEstimates = async (token, companyId) => {
   if (res.data) return res.data
 }
 
+const getCurrentWeekEstimates = async (token, companyId) => {
+  const config = getAxiosConfig(token)
+  const res = await axios.get(
+    `${ESTIMATE_API_URL}/${companyId}/current-week`,
+    config
+  )
+
+  if (res.data) return res.data
+}
+
 const getEstimate = async (token, estimateId) => {
   const config = getAxiosConfig(token)
   const res = await axios.get(`${ESTIMATE_API_URL}/${estimateId}/get`, config)
@@ -47,6 +57,7 @@ const estimateService = {
   getEstimate,
   updateEstimate,
   deleteEstimate,
+  getCurrentWeekEstimates,
 }
 
 export default estimateService

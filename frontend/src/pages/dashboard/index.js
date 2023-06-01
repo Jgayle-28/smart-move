@@ -19,7 +19,10 @@ import { NewClients } from 'src/components/dashboard/NewClients'
 import { OverviewEvents } from 'src/sections/dashboard/overview/overview-events'
 import { OverviewInbox } from 'src/sections/dashboard/overview/overview-inbox'
 import { OverviewTransactions } from 'src/sections/dashboard/overview/overview-transactions'
-import { OverviewPendingIssues } from 'src/sections/dashboard/overview/overview-pending-issues'
+import {
+  NewEstimates,
+  OverviewPendingIssues,
+} from 'src/components/dashboard/NewEstimates'
 import { OverviewSubscriptionUsage } from 'src/sections/dashboard/overview/overview-subscription-usage'
 import { OverviewHelp } from 'src/sections/dashboard/overview/overview-help'
 import { OverviewJobs } from 'src/sections/dashboard/overview/overview-jobs'
@@ -29,8 +32,14 @@ import { RouterLink } from 'src/components/router-link'
 import { useDispatch, useSelector } from 'react-redux'
 import { getCompany } from 'src/store/company/companySlice'
 import { RecentCustomers } from 'src/components/dashboard/RecentCustomers'
-import { clearCustomers, getCustomers } from 'src/store/customers/customerSlice'
+import {
+  clearCustomers,
+  getCurrentWeekCustomers,
+  getCustomers,
+} from 'src/store/customers/customerSlice'
 import Spinner from 'src/components/shared/Spinner'
+import { getAnnualJobs, getCurrentWeekJobs } from 'src/store/jobs/jobSlice'
+import { getCurrentWeekEstimates } from 'src/store/estimates/estimateSlice'
 
 const now = new Date()
 
@@ -40,6 +49,8 @@ const Page = () => {
   const { user } = useSelector((state) => state.auth)
   const { company } = useSelector((state) => state.company)
   const { customers } = useSelector((state) => state.customers)
+  const { currentWeekJobs, annualJobs } = useSelector((state) => state.jobs)
+  const { currentWeekEstimates } = useSelector((state) => state.estimates)
 
   const dispatch = useDispatch()
 
@@ -50,6 +61,11 @@ const Page = () => {
     if (!customers) {
       dispatch(getCustomers(user?.company))
     }
+    // Get dashboard stat data
+    if (user) {
+      getDashboardData()
+    }
+
     return () => {
       dispatch(clearCustomers())
     }
@@ -57,7 +73,22 @@ const Page = () => {
 
   usePageView()
 
-  if (!user || !company || !customers) return <Spinner />
+  const getDashboardData = async () => {
+    dispatch(getCurrentWeekJobs(user?.company))
+    dispatch(getCurrentWeekEstimates(user?.company))
+    dispatch(getCurrentWeekCustomers(user?.company))
+    dispatch(getAnnualJobs(user?.company))
+  }
+
+  if (
+    !user ||
+    !company ||
+    !customers ||
+    !currentWeekJobs ||
+    !annualJobs ||
+    !currentWeekEstimates
+  )
+    return <Spinner />
   return (
     <>
       <Seo title='Dashboard' />
@@ -84,7 +115,20 @@ const Page = () => {
                   <Typography variant='h4'>Dashboard</Typography>
                 </div>
                 <div>
-                  <Stack direction='row' spacing={4}>
+                  <Stack direction='row' spacing={2}>
+                    <Button
+                      component={RouterLink}
+                      href='/dashboard/customers/add'
+                      startIcon={
+                        <SvgIcon>
+                          <PersonAddAlt1RoundedIcon />
+                        </SvgIcon>
+                      }
+                      variant='outlined'
+                      size='small'
+                    >
+                      Add Customer
+                    </Button>
                     <Button
                       component={RouterLink}
                       href='/dashboard/customers/add'
@@ -94,8 +138,9 @@ const Page = () => {
                         </SvgIcon>
                       }
                       variant='contained'
+                      size='small'
                     >
-                      Add Customer
+                      Add Job
                     </Button>
                   </Stack>
                 </div>
@@ -109,23 +154,12 @@ const Page = () => {
               <NewJobs amount={5} />
             </Grid>
             <Grid xs={12} md={4}>
-              <OverviewPendingIssues amount={12} />
+              <NewEstimates amount={12} />
             </Grid>
 
             {/*------ Overview *------*/}
             <Grid xs={12} md={7}>
-              <OverviewSubscriptionUsage
-                chartSeries={[
-                  {
-                    name: 'This year',
-                    data: [40, 37, 41, 42, 45, 42, 36, 45, 40, 44, 38, 41],
-                  },
-                  {
-                    name: 'Last year',
-                    data: [26, 22, 19, 22, 24, 28, 23, 25, 24, 21, 17, 19],
-                  },
-                ]}
-              />
+              <OverviewSubscriptionUsage />
             </Grid>
             {/*------ Recent Customers ------*/}
             <Grid xs={12} md={5}>
@@ -204,9 +238,9 @@ const Page = () => {
               />
             </Grid> */}
             {/*----- Help -----*/}
-            <Grid xs={12} md={7}>
+            {/* <Grid xs={12} md={7}>
               <OverviewBanner />
-            </Grid>
+            </Grid> */}
             {/* <Grid xs={12} md={5}>
               <OverviewTips
                 sx={{ height: '100%' }}

@@ -1,6 +1,13 @@
 const asyncHandler = require('express-async-handler')
 const { userHasPermissions } = require('../utils/auth')
-const { startOfWeek, endOfWeek, isSameWeek } = require('date-fns')
+const {
+  startOfWeek,
+  endOfWeek,
+  startOfYear,
+  endOfYear,
+  startOfMonth,
+  endOfMonth,
+} = require('date-fns')
 
 const Job = require('../models/jobModel')
 
@@ -55,7 +62,7 @@ const updateJob = asyncHandler(async (req, res) => {
 // @route /api/jobs/:id/current-week
 // @access private
 const getCurrentWeekJobs = asyncHandler(async (req, res) => {
-  const { company } = req.params
+  const { id } = req.params
 
   // Get the current date and calculate the start and end dates of the current week
   const currentDate = new Date()
@@ -63,15 +70,15 @@ const getCurrentWeekJobs = asyncHandler(async (req, res) => {
   const endDate = endOfWeek(currentDate, { weekStartsOn: 1 }) // End of the week (Sunday)
 
   const jobs = await Job.find({
-    company: company,
-    date: {
+    company: id,
+    createdAt: {
       $gte: startDate,
       $lte: endDate,
     },
   })
-    .populate('customer')
-    .populate('createdBy')
-    .populate('estimate')
+  // .populate('customer')
+  // .populate('createdBy')
+  // .populate('estimate')
 
   if (!jobs) {
     res.status(404)
@@ -97,6 +104,43 @@ const getJobs = asyncHandler(async (req, res) => {
     throw new Error('Error getting jobs, please refresh and try again.')
   }
   res.status(200).json(jobs)
+})
+
+// @desc GET jobs by company id per month
+// @route /api/jobs/:id/annual-jobs
+// @access private
+const getAnnualJobs = asyncHandler(async (req, res) => {
+  const { id } = req.params
+  // Get the current date and calculate the start and end dates of the current year
+  const currentDate = new Date()
+  const startYear = startOfYear(currentDate) // Start of the year (January 1st)
+  const endYear = endOfYear(currentDate) // End of the year (December 31st)
+
+  const jobs = await Job.find({
+    company: id,
+    jobDate: {
+      $gte: startYear,
+      $lte: endYear,
+    },
+  })
+
+  // Calculate the number of jobs per month
+  const jobsCountPerMonth = []
+  for (let i = 0; i < 12; i++) {
+    const startMonth = startOfMonth(new Date(currentDate.getFullYear(), i)) // Start of the month
+    const endMonth = endOfMonth(new Date(currentDate.getFullYear(), i)) // End of the month
+
+    const jobsCount = jobs.filter(
+      (job) => job.jobDate >= startMonth && job.jobDate <= endMonth
+    ).length
+    jobsCountPerMonth.push(jobsCount)
+  }
+
+  if (!jobs) {
+    res.status(404)
+    throw new Error('Error getting jobs, please refresh and try again.')
+  }
+  res.status(200).json(jobsCountPerMonth)
 })
 
 // @desc GET job by id
@@ -162,6 +206,7 @@ module.exports = {
   addJob,
   updateJob,
   getCurrentWeekJobs,
+  getAnnualJobs,
   getJobs,
   getCustomerJobs,
   getJob,

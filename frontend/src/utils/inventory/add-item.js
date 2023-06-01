@@ -8,19 +8,15 @@ export const addItem = (item, inventory) => {
   // if room is in inventory update room items
   if (roomInInventory) {
     // find current index room of passed in item then find the element
-    var roomToUpdate = [
-      ...newInventory.filter(function (element) {
-        return element.roomName === item.roomName
-      }),
-    ]
+    var roomToUpdate = newInventory.filter(function (element) {
+      return element.roomName === item.roomName
+    })
 
     // Gets room items from current room
     let roomItems = roomToUpdate[0].items
 
     // checks to see if item is in room items
-    let itemInRoom = {
-      ...roomItems.find((elem) => elem.name === item.item.name),
-    }
+    let itemInRoom = roomItems.find((elem) => elem.name === item.item.name)
 
     // If item in room items
     if (itemInRoom) {

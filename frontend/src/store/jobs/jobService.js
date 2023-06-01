@@ -16,6 +16,23 @@ const getJobs = async (token, companyId) => {
   if (res.data) return res.data
 }
 
+const getCurrentWeekJobs = async (token, companyId) => {
+  const config = getAxiosConfig(token)
+  const res = await axios.get(
+    `${JOB_API_URL}/${companyId}/current-week`,
+    config
+  )
+
+  if (res.data) return res.data
+}
+
+const getAnnualJobs = async (token, companyId) => {
+  const config = getAxiosConfig(token)
+  const res = await axios.get(`${JOB_API_URL}/${companyId}/annual-jobs`, config)
+
+  if (res.data) return res.data
+}
+
 const getJob = async (token, jobId) => {
   const config = getAxiosConfig(token)
   const res = await axios.get(`${JOB_API_URL}/${jobId}/get`, config)
@@ -40,6 +57,8 @@ const deleteJob = async (token, jobId) => {
 const jobService = {
   addJob,
   getJobs,
+  getCurrentWeekJobs,
+  getAnnualJobs,
   getJob,
   updateJob,
   deleteJob,

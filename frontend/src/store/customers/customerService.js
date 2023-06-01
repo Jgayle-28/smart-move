@@ -16,6 +16,16 @@ const getCustomers = async (token, companyId) => {
   if (res.data) return res.data
 }
 
+const getCurrentWeekCustomers = async (token, companyId) => {
+  const config = getAxiosConfig(token)
+  const res = await axios.get(
+    `${CUSTOMER_API_URL}/${companyId}/current-week`,
+    config
+  )
+
+  if (res.data) return res.data
+}
+
 const getCustomer = async (token, customerId) => {
   const config = getAxiosConfig(token)
   const res = await axios.get(`${CUSTOMER_API_URL}/${customerId}/get`, config)
@@ -61,6 +71,7 @@ const deleteCustomer = async (token, customerId) => {
 const customerService = {
   addCustomer,
   getCustomers,
+  getCurrentWeekCustomers,
   getCustomer,
   getCustomerJobs,
   getCustomerEstimates,

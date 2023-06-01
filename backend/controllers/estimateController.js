@@ -1,5 +1,6 @@
 const asyncHandler = require('express-async-handler')
 const { userHasPermissions } = require('../utils/auth')
+const { startOfWeek, endOfWeek } = require('date-fns')
 
 const Estimate = require('../models/estimateModel')
 
@@ -61,6 +62,35 @@ const getEstimates = asyncHandler(async (req, res) => {
     .populate('customer')
     .populate('createdBy')
     .populate('job')
+
+  if (!estimates) {
+    res.status(404)
+    throw new Error('Error getting estimates, please refresh and try again.')
+  }
+  res.status(200).json(estimates)
+})
+
+// @desc GET estimates by company id & current week
+// @route /api/estimates/:id/current-week
+// @access private
+const getCurrentWeekEstimates = asyncHandler(async (req, res) => {
+  const { id } = req.params
+
+  // Get the current date and calculate the start and end dates of the current week
+  const currentDate = new Date()
+  const startDate = startOfWeek(currentDate, { weekStartsOn: 1 }) // Start of the week (Monday)
+  const endDate = endOfWeek(currentDate, { weekStartsOn: 1 }) // End of the week (Sunday)
+
+  const estimates = await Estimate.find({
+    company: id,
+    createdAt: {
+      $gte: startDate,
+      $lte: endDate,
+    },
+  })
+  // .populate('customer')
+  // .populate('createdBy')
+  // .populate('job')
 
   if (!estimates) {
     res.status(404)
@@ -132,6 +162,7 @@ module.exports = {
   addEstimate,
   updateEstimate,
   getEstimates,
+  getCurrentWeekEstimates,
   getCustomerEstimates,
   getEstimate,
   deleteEstimate,
