@@ -164,6 +164,10 @@ const Page = () => {
     try {
       if (estimateId) {
         dispatch(updateEstimate({ ...focusEstimate, ...estimateData }))
+          .unwrap()
+          .then(() => {
+            toast.success('Estimate successfully updated')
+          })
       } else {
         // Only need to add estimate id to job if it is a new estimate
         dispatch(addEstimate(estimateData))

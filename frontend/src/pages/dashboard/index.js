@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { addDays, subDays, subHours, subMinutes } from 'date-fns'
 import PersonAddAlt1RoundedIcon from '@mui/icons-material/PersonAddAlt1Rounded'
+import AddLocationAltOutlinedIcon from '@mui/icons-material/AddLocationAltOutlined'
 import {
   Box,
   Button,
@@ -131,10 +132,10 @@ const Page = () => {
                     </Button>
                     <Button
                       component={RouterLink}
-                      href='/dashboard/customers/add'
+                      href='/dashboard/jobs/create'
                       startIcon={
                         <SvgIcon>
-                          <PersonAddAlt1RoundedIcon />
+                          <AddLocationAltOutlinedIcon />
                         </SvgIcon>
                       }
                       variant='contained'
