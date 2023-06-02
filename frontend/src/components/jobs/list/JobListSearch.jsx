@@ -8,9 +8,12 @@ import {
   Input,
   Stack,
   SvgIcon,
+  TextField,
   Typography,
+  Button,
 } from '@mui/material'
 import { MultiSelect } from 'src/components/multi-select'
+import { MobileDatePicker, MobileTimePicker } from '@mui/x-date-pickers'
 
 const categoryOptions = [
   {
@@ -43,10 +46,18 @@ const statusOptions = [
 ]
 
 export const JobListSearch = (props) => {
-  const { handleFilterJobs, onFiltersChange, setSearchQuery, ...other } = props
+  const {
+    handleFilterJobs,
+    onFiltersChange,
+    setSearchQuery,
+    handleResetFilters,
+    searchDate,
+    ...other
+  } = props
   const queryRef = useRef(null)
   const [query, setQuery] = useState('')
   const [chips, setChips] = useState([])
+  // const [date, setDate] = useState(new Date())
 
   const handleChipsUpdate = useCallback(() => {
     const filters = {
@@ -54,6 +65,7 @@ export const JobListSearch = (props) => {
       category: [],
       status: [],
       inStock: undefined,
+      searchDate: searchDate ? searchDate : null,
     }
 
     chips.forEach((chip) => {
@@ -109,10 +121,26 @@ export const JobListSearch = (props) => {
       category: [],
       status: [],
       inStock: undefined,
+      searchDate: searchDate ? searchDate : null,
     }
     onFiltersChange?.(filters)
     // Update search query
     setSearchQuery(queryRef.current?.value || '')
+  }, [])
+
+  const handleDateChange = useCallback((date) => {
+    console.log('date', date)
+
+    // setDate(date)
+    // Update filters
+    const filters = {
+      name: queryRef.current?.value || '',
+      category: [],
+      status: [],
+      inStock: undefined,
+      searchDate: date,
+    }
+    onFiltersChange?.(filters)
   }, [])
 
   const handleCategoryChange = useCallback((values) => {
@@ -199,40 +227,9 @@ export const JobListSearch = (props) => {
     })
   }, [])
 
-  const handleStockChange = useCallback((values) => {
-    // Stock can only have one value, even if displayed as multi-select, so we select the first one.
-    // This example allows you to select one value or "All", which is not included in the
-    // rest of multi-selects.
-
-    setChips((prevChips) => {
-      // First cleanup the previous chips
-      const newChips = prevChips.filter((chip) => chip.field !== 'inStock')
-      const latestValue = values[values.length - 1]
-
-      switch (latestValue) {
-        case 'available':
-          newChips.push({
-            label: 'Stock',
-            field: 'inStock',
-            value: 'available',
-            displayValue: 'Available',
-          })
-          break
-        case 'outOfStock':
-          newChips.push({
-            label: 'Stock',
-            field: 'inStock',
-            value: 'outOfStock',
-            displayValue: 'Out of Stock',
-          })
-          break
-        default:
-          // Should be "all", so we do not add this filter
-          break
-      }
-
-      return newChips
-    })
+  const handleFiltersReset = useCallback(() => {
+    setChips([])
+    handleResetFilters()
   }, [])
 
   // We memoize this part to prevent re-render issues
@@ -249,19 +246,6 @@ export const JobListSearch = (props) => {
       chips.filter((chip) => chip.field === 'status').map((chip) => chip.value),
     [chips]
   )
-
-  const stockValues = useMemo(() => {
-    const values = chips
-      .filter((chip) => chip.field === 'inStock')
-      .map((chip) => chip.value)
-
-    // Since we do not display the "all" as chip, we add it to the multi-select as a selected value
-    if (values.length === 0) {
-      values.unshift('all')
-    }
-
-    return values
-  }, [chips])
 
   const showChips = chips.length > 0
 
@@ -282,7 +266,7 @@ export const JobListSearch = (props) => {
           disableUnderline
           fullWidth
           inputProps={{ ref: queryRef }}
-          placeholder='Search by product name'
+          placeholder='Search by customer name'
           sx={{ flexGrow: 1 }}
           value={query}
           onChange={handleQueryChange}
@@ -330,23 +314,43 @@ export const JobListSearch = (props) => {
       <Divider />
       <Stack
         alignItems='center'
+        justifyContent='space-between'
         direction='row'
         flexWrap='wrap'
         spacing={1}
         sx={{ p: 1 }}
       >
-        <MultiSelect
-          label='Category'
-          onChange={handleCategoryChange}
-          options={categoryOptions}
-          value={categoryValues}
-        />
-        <MultiSelect
-          label='Status'
-          onChange={handleStatusChange}
-          options={statusOptions}
-          value={statusValues}
-        />
+        <Stack alignItems='center' direction='row' flexWrap='wrap' spacing={1}>
+          <MultiSelect
+            label='Category'
+            onChange={handleCategoryChange}
+            options={categoryOptions}
+            value={categoryValues}
+          />
+          <MultiSelect
+            label='Status'
+            onChange={handleStatusChange}
+            options={statusOptions}
+            value={statusValues}
+          />
+          <MobileDatePicker
+            name='packDate'
+            label='Filter By Date'
+            inputFormat='MM/dd/yyyy'
+            onChange={handleDateChange}
+            renderInput={(inputProps) => (
+              <TextField {...inputProps} size='small' />
+            )}
+            value={searchDate}
+          />
+        </Stack>
+        <Button
+          variant='outlined'
+          sx={{ marginLeft: 'auto' }}
+          onClick={handleFiltersReset}
+        >
+          Reset Filters
+        </Button>
       </Stack>
     </div>
   )

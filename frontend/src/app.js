@@ -28,10 +28,12 @@ import 'simplebar-react/dist/simplebar.min.css'
 import 'mapbox-gl/dist/mapbox-gl.css'
 // Remove if locales are not used
 import './locales/i18n'
+import useScrollToTop from './hooks/use-scroll-to-top'
 
 export const App = () => {
   useAnalytics(gtmConfig)
   useNprogress()
+  useScrollToTop()
 
   const element = useRoutes(routes)
 

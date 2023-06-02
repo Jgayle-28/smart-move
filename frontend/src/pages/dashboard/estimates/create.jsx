@@ -31,12 +31,15 @@ import Actions from 'src/components/estimates/Actions'
 import { calculateTotalMoveCost } from 'src/utils/services/move-charges'
 import { nanoid } from 'nanoid'
 
-const tabs = [
+const editTabs = [
   { label: 'Inventory', value: 'inventory' },
   { label: 'Services', value: 'services' },
   { label: 'Review', value: 'review' },
   { label: 'Invoice', value: 'invoice' },
-  // { label: 'Actions', value: 'actions' },
+]
+const createTabs = [
+  { label: 'Inventory', value: 'inventory' },
+  { label: 'Services', value: 'services' },
 ]
 const useInvoice = () => {
   const isMounted = useMounted()
@@ -93,6 +96,8 @@ const Page = () => {
     totalItemCount,
   } = useSelector((state) => state.estimates)
 
+  const tabs = focusEstimate ? editTabs : createTabs
+
   useEffect(() => {
     if (jobId) {
       dispatch(getJob(jobId))
@@ -143,8 +148,13 @@ const Page = () => {
       ),
     }
     // check for required fields
-    if (tempInventory?.length === 0 || tempInventory === null) {
-      return toast.error('Please add inventory items to the estimate')
+    if (
+      tempInventory?.length === 0 ||
+      (tempInventory === null && moveCharges === null)
+    ) {
+      return toast.error(
+        'Please add inventory items to the estimate and services'
+      )
     }
     if (moveCharges === null) {
       return toast.error(

@@ -56,25 +56,25 @@ const Page = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
+    // Get dashboard data
+    if (user) {
+      getDashboardData()
+    }
+
+    return () => {
+      // dispatch(clearCustomers())
+    }
+  }, [user])
+
+  usePageView()
+
+  const getDashboardData = async () => {
     if (!company) {
       dispatch(getCompany(user?.company))
     }
     if (!customers) {
       dispatch(getCustomers(user?.company))
     }
-    // Get dashboard stat data
-    if (user) {
-      getDashboardData()
-    }
-
-    return () => {
-      dispatch(clearCustomers())
-    }
-  }, [company, user])
-
-  usePageView()
-
-  const getDashboardData = async () => {
     dispatch(getCurrentWeekJobs(user?.company))
     dispatch(getCurrentWeekEstimates(user?.company))
     dispatch(getCurrentWeekCustomers(user?.company))

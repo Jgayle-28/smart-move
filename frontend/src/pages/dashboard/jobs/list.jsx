@@ -22,22 +22,28 @@ import Spinner from 'src/components/shared/Spinner'
 import { filterJobs } from 'src/utils/filter-jobs'
 import { applyPagination } from 'src/utils/apply-pagination'
 
+const initialFilterState = {
+  filters: {
+    name: undefined,
+    category: [],
+    status: [],
+    inStock: undefined,
+    searchDate: null,
+  },
+  page: 0,
+  rowsPerPage: 5,
+}
+
 const Page = () => {
   const [currentJobs, setCurrentJobs] = useState([])
   const [filterState, setFilterState] = useState({
-    filters: {
-      name: undefined,
-      category: [],
-      status: [],
-      inStock: undefined,
-    },
-    page: 0,
-    rowsPerPage: 5,
+    ...initialFilterState,
   })
   const [searchQuery, setSearchQuery] = useState('')
 
   const { user } = useSelector((state) => state.auth)
   const { jobs, isLoading } = useSelector((state) => state.jobs)
+  console.log('filterState searchDate', filterState.filters.searchDate)
 
   const dispatch = useDispatch()
 
@@ -54,26 +60,35 @@ const Page = () => {
 
   useEffect(() => {
     handleFilterJobs()
-  }, [filterState])
+  }, [filterState, searchQuery])
 
   const handleFilterJobs = useCallback(() => {
     const {
-      filters: { category, status },
+      filters: { category, status, searchDate },
     } = filterState
 
-    if (
-      category.length === 0 &&
-      status.length === 0 &&
-      searchQuery.length === 0
-    ) {
-      setCurrentJobs(jobs)
-    } else {
-      const filteredJobs = filterJobs(filterState, jobs || [])
-      setCurrentJobs(filteredJobs)
-    }
+    // if (
+    //   category.length === 0 &&
+    //   status.length === 0 &&
+    //   searchQuery.length === 0
+    //   // && searchDate === null
+    // ) {
+    //   console.log('I AM IN THE IF')
+    //   setCurrentJobs(jobs)
+    //   // setFilterState(initialFilterState)
+    // } else {
+    console.log('I AM IN THE ELSE')
+    const filteredJobs = filterJobs(filterState, jobs || [], searchQuery)
+    setCurrentJobs(filteredJobs)
+    // }
   }, [filterState, currentJobs])
 
+  const handleResetFilters = () => {
+    setFilterState(initialFilterState)
+  }
+
   const handleFiltersChange = useCallback((filters) => {
+    console.log('filters :>> ', filters)
     setFilterState((prevState) => ({
       ...prevState,
       filters,
@@ -136,6 +151,8 @@ const Page = () => {
                 handleFilterJobs={handleFilterJobs}
                 onFiltersChange={handleFiltersChange}
                 setSearchQuery={setSearchQuery}
+                handleResetFilters={handleResetFilters}
+                searchDate={filterState.filters.searchDate}
               />
               <JobListTable
                 jobs={applyPagination(

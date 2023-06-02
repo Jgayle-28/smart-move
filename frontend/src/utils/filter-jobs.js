@@ -1,8 +1,8 @@
 import { applyPagination } from 'src/utils/apply-pagination'
 import { deepCopy } from 'src/utils/deep-copy'
-// import { products } from './data'
+import { isSameDay, format, parseISO, startOfDay } from 'date-fns'
 
-export function filterJobs(filterSate, jobs) {
+export function filterJobs(filterSate, jobs, searchQuery) {
   const { filters, page, rowsPerPage } = filterSate
 
   let data = deepCopy(jobs)
@@ -43,27 +43,29 @@ export function filterJobs(filterSate, jobs) {
         }
       }
 
-      // Stock
-      // if (typeof filters.inStock !== 'undefined') {
-      //   const stockMatched = product.inStock === filters.inStock
-
-      //   if (!stockMatched) {
-      //     return false
-      //   }
-      // }
-
       return true
     })
     count = data.length
   }
+  // Search by customer name
+  if (searchQuery.length > 0) {
+    data = data.filter(
+      (job) => job.customer && job.customer.customerName !== searchQuery
+    )
+  }
+
+  // Date
+  if (filters.searchDate !== null && filters.searchDate !== undefined) {
+    const formattedSearchDate = startOfDay(filters.searchDate)
+    data = data.filter((job) => {
+      const jobDate = startOfDay(parseISO(job.jobDate))
+      return isSameDay(jobDate, formattedSearchDate)
+    })
+  }
+
   // Page
   if (typeof page !== 'undefined' && typeof rowsPerPage !== 'undefined') {
     data = applyPagination(data, page, rowsPerPage)
   }
   return data
-
-  // return Promise.resolve({
-  //   data,
-  //   count,
-  // })
 }

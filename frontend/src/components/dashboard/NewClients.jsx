@@ -11,6 +11,7 @@ import {
   Typography,
 } from '@mui/material'
 import { useSelector } from 'react-redux'
+import { RouterLink } from '../router-link'
 
 export const NewClients = () => {
   const { currentWeekCustomers } = useSelector((state) => state.customers)
@@ -44,6 +45,8 @@ export const NewClients = () => {
         <Divider />
         <CardActions>
           <Button
+            component={RouterLink}
+            href='/dashboard/customers'
             color='inherit'
             endIcon={
               <SvgIcon>
