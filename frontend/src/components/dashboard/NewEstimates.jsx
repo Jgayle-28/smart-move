@@ -10,6 +10,7 @@ import {
   Typography,
 } from '@mui/material'
 import { useSelector } from 'react-redux'
+import { RouterLink } from '../router-link'
 
 export const NewEstimates = () => {
   const { currentWeekEstimates } = useSelector((state) => state.estimates)
@@ -44,6 +45,8 @@ export const NewEstimates = () => {
         <Divider />
         <CardActions>
           <Button
+            component={RouterLink}
+            href='/dashboard/estimates'
             color='inherit'
             endIcon={
               <SvgIcon>
@@ -52,7 +55,7 @@ export const NewEstimates = () => {
             }
             size='small'
           >
-            See all issues
+            See All Estimates
           </Button>
         </CardActions>
       </Card>

@@ -43,7 +43,6 @@ const Page = () => {
 
   const { user } = useSelector((state) => state.auth)
   const { jobs, isLoading } = useSelector((state) => state.jobs)
-  console.log('filterState searchDate', filterState.filters.searchDate)
 
   const dispatch = useDispatch()
 
@@ -63,24 +62,8 @@ const Page = () => {
   }, [filterState, searchQuery])
 
   const handleFilterJobs = useCallback(() => {
-    const {
-      filters: { category, status, searchDate },
-    } = filterState
-
-    // if (
-    //   category.length === 0 &&
-    //   status.length === 0 &&
-    //   searchQuery.length === 0
-    //   // && searchDate === null
-    // ) {
-    //   console.log('I AM IN THE IF')
-    //   setCurrentJobs(jobs)
-    //   // setFilterState(initialFilterState)
-    // } else {
-    console.log('I AM IN THE ELSE')
     const filteredJobs = filterJobs(filterState, jobs || [], searchQuery)
     setCurrentJobs(filteredJobs)
-    // }
   }, [filterState, currentJobs])
 
   const handleResetFilters = () => {
@@ -88,7 +71,6 @@ const Page = () => {
   }
 
   const handleFiltersChange = useCallback((filters) => {
-    console.log('filters :>> ', filters)
     setFilterState((prevState) => ({
       ...prevState,
       filters,

@@ -55,7 +55,7 @@ export const NewClients = () => {
             }
             size='small'
           >
-            See all customers
+            See All Customers
           </Button>
         </CardActions>
       </Card>

@@ -13,37 +13,8 @@ import {
   Button,
 } from '@mui/material'
 import { MultiSelect } from 'src/components/multi-select'
-import { MobileDatePicker, MobileTimePicker } from '@mui/x-date-pickers'
-
-const categoryOptions = [
-  {
-    label: 'Move',
-    value: 'move',
-  },
-  {
-    label: 'Delivery',
-    value: 'delivery',
-  },
-  {
-    label: 'Pick Up and Drop Off',
-    value: 'pu_do',
-  },
-  {
-    label: 'Other',
-    value: 'other',
-  },
-]
-
-const statusOptions = [
-  {
-    label: 'Paid',
-    value: 'paid',
-  },
-  {
-    label: 'Unpaid',
-    value: 'unpaid',
-  },
-]
+import { MobileDatePicker } from '@mui/x-date-pickers'
+import { categoryOptions, statusOptions } from 'src/constants/job-constants'
 
 export const JobListSearch = (props) => {
   const {
@@ -57,7 +28,6 @@ export const JobListSearch = (props) => {
   const queryRef = useRef(null)
   const [query, setQuery] = useState('')
   const [chips, setChips] = useState([])
-  // const [date, setDate] = useState(new Date())
 
   const handleChipsUpdate = useCallback(() => {
     const filters = {
@@ -129,10 +99,6 @@ export const JobListSearch = (props) => {
   }, [])
 
   const handleDateChange = useCallback((date) => {
-    console.log('date', date)
-
-    // setDate(date)
-    // Update filters
     const filters = {
       name: queryRef.current?.value || '',
       category: [],

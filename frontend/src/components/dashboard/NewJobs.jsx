@@ -11,6 +11,7 @@ import {
   Typography,
 } from '@mui/material'
 import { useSelector } from 'react-redux'
+import { RouterLink } from '../router-link'
 
 export const NewJobs = (props) => {
   const { amount } = props
@@ -46,6 +47,8 @@ export const NewJobs = (props) => {
         <Divider />
         <CardActions>
           <Button
+            component={RouterLink}
+            href='/dashboard/jobs'
             color='inherit'
             endIcon={
               <SvgIcon>
@@ -54,7 +57,7 @@ export const NewJobs = (props) => {
             }
             size='small'
           >
-            See all jobs
+            See All Jobs
           </Button>
         </CardActions>
       </Card>

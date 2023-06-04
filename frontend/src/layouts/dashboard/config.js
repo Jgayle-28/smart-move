@@ -97,29 +97,29 @@ export const useSections = () => {
             //   },
             // ],
           },
-          // {
-          //   title: t(tokens.nav.estimates),
-          //   path: paths.dashboard.estimates.index,
-          //   icon: (
-          //     <SvgIcon fontSize='small'>
-          //       <LayoutAlt02Icon />
-          //     </SvgIcon>
-          //   ),
-          // items: [
-          //   {
-          //     title: t(tokens.nav.postList),
-          //     path: paths.dashboard.blog.index,
-          //   },
-          //   {
-          //     title: t(tokens.nav.postDetails),
-          //     path: paths.dashboard.blog.postDetails,
-          //   },
-          //   {
-          //     title: t(tokens.nav.postCreate),
-          //     path: paths.dashboard.blog.postCreate,
-          //   },
-          // ],
-          // },
+          {
+            title: t(tokens.nav.estimates),
+            path: paths.dashboard.estimates.index,
+            icon: (
+              <SvgIcon fontSize='small'>
+                <LayoutAlt02Icon />
+              </SvgIcon>
+            ),
+            // items: [
+            //   {
+            //     title: t(tokens.nav.postList),
+            //     path: paths.dashboard.blog.index,
+            //   },
+            //   {
+            //     title: t(tokens.nav.postDetails),
+            //     path: paths.dashboard.blog.postDetails,
+            //   },
+            //   {
+            //     title: t(tokens.nav.postCreate),
+            //     path: paths.dashboard.blog.postCreate,
+            //   },
+            // ],
+          },
           {
             title: t(tokens.nav.calendar),
             path: paths.dashboard.calendar,
