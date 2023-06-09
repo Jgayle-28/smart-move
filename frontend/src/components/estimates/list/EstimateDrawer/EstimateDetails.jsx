@@ -71,16 +71,16 @@ export const EstimateDetails = ({ estimate }) => {
             label='Customer'
           >
             <Typography color='text.secondary' variant='body2'>
-              {estimate.customer.customerName}
+              Name: {estimate.customer.customerName}
             </Typography>
             <Typography color='text.secondary' variant='body2'>
-              {estimate.customer.customerEmail}
+              Email: {estimate.customer.customerEmail}
             </Typography>
             <Typography color='text.secondary' variant='body2'>
-              {estimate.customer.customerPhone}
+              Phone: {estimate.customer.customerPhone}
             </Typography>
             <Typography color='text.secondary' variant='body2'>
-              {estimate.customer.customerAddress}
+              Address: {estimate.customer.customerAddress}
             </Typography>
           </PropertyListItem>
           <PropertyListItem
@@ -109,6 +109,9 @@ export const EstimateDetails = ({ estimate }) => {
             </Typography>
             <Typography color='text.secondary' variant='body2'>
               Volume: {estimate.totalVolume}
+            </Typography>
+            <Typography color='text.secondary' variant='body2'>
+              Created By: {estimate.createdBy.name}
             </Typography>
           </PropertyListItem>
           <Stack direction='row' spacing={2} sx={{ marginTop: 3 }}>

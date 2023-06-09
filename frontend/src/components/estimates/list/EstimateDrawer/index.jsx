@@ -43,7 +43,7 @@ export const EstimateDrawer = (props) => {
         <Box
           sx={{
             px: 3,
-            py: 4,
+            // py: 4,
           }}
         >
           <EstimateDetails estimate={estimate} />

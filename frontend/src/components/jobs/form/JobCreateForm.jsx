@@ -94,6 +94,8 @@ export const JobCreateForm = () => {
     onSubmit: () => handleSubmit(),
   })
 
+  console.log('formik :>> ', formik)
+
   const { user } = useSelector((state) => state.auth)
 
   const handleSubmit = () => {
@@ -197,7 +199,7 @@ export const JobCreateForm = () => {
   }
 
   return (
-    <form noValidate onSubmit={formik.handleSubmit}>
+    <form noValidate onSubmit={formik.handleSubmit} autocomplete='off'>
       <Stepper
         activeStep={activeStep}
         orientation='vertical'

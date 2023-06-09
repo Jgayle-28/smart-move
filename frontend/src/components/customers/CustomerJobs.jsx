@@ -54,8 +54,12 @@ function CustomerJobs({ customerJobs }) {
                 <TableCell>
                   {format(new Date(job.jobDate), 'MM/dd/yyyy')}
                 </TableCell>
-                <TableCell>{job.pickUpAddress || 'TBD'}</TableCell>
-                <TableCell>{job.dropOffAddress || 'TBD'}</TableCell>
+                <TableCell>
+                  {job?.pickUpAddress?.description || 'TBD'}
+                </TableCell>
+                <TableCell>
+                  {job?.dropOffAddress?.description || 'TBD'}
+                </TableCell>
                 <TableCell>
                   <Tooltip title='View Job'>
                     <IconButton

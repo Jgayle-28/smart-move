@@ -1,6 +1,14 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import PlusIcon from '@untitled-ui/icons-react/build/esm/Plus'
-import { Box, Button, Divider, Stack, SvgIcon, Typography } from '@mui/material'
+import {
+  Box,
+  Button,
+  Card,
+  Divider,
+  Stack,
+  SvgIcon,
+  Typography,
+} from '@mui/material'
 import { ordersApi } from 'src/api/orders'
 import { Seo } from 'src/components/seo'
 import { useDialog } from 'src/hooks/use-dialog'
@@ -10,7 +18,7 @@ import { EstimateListContainer } from 'src/components/estimates/list/EstimateLis
 import { EstimateDrawer } from 'src/components/estimates/list/EstimateDrawer'
 import { EstimateListSearch } from 'src/components/estimates/list/EstimateListSearch'
 import { EstimateListTable } from 'src/components/estimates/list/EstimateListTable'
-import { getEstimates } from 'src/store/estimates/estimateSlice'
+import { clearEstimates, getEstimates } from 'src/store/estimates/estimateSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import Spinner from 'src/components/shared/Spinner'
 
@@ -111,6 +119,16 @@ const useCurrentOrder = (orders, orderId) => {
 const Page = () => {
   const [currentEstimates, setCurrentEstimates] = useState(null)
   const [focusEstimate, setFocusEstimate] = useState(null)
+  const [filterState, setFilterState] = useState({
+    filters: {
+      query: undefined,
+      status: undefined,
+    },
+    page: 0,
+    rowsPerPage: 5,
+    sortBy: 'createdAt',
+    sortDir: 'desc',
+  })
 
   const rootRef = useRef(null)
   const ordersSearch = useEstimateSearch()
@@ -124,6 +142,9 @@ const Page = () => {
 
   useEffect(() => {
     if (user) dispatch(getEstimates(user?.company))
+    return () => {
+      dispatch(clearEstimates())
+    }
   }, [user, dispatch])
 
   useEffect(() => {
@@ -134,7 +155,7 @@ const Page = () => {
 
   usePageView()
 
-  const handleOrderOpen = useCallback(
+  const handleEstimateOpen = useCallback(
     (estimate) => {
       // Close drawer if is the same order
 
@@ -148,6 +169,34 @@ const Page = () => {
     },
     [dialog]
   )
+
+  const handleFiltersChange = useCallback((filters) => {
+    setFilterState((prevState) => ({
+      ...prevState,
+      filters,
+    }))
+  }, [])
+
+  const handleSortChange = useCallback((sortDir) => {
+    setFilterState((prevState) => ({
+      ...prevState,
+      sortDir,
+    }))
+  }, [])
+
+  const handlePageChange = useCallback((event, page) => {
+    setFilterState((prevState) => ({
+      ...prevState,
+      page,
+    }))
+  }, [])
+
+  const handleRowsPerPageChange = useCallback((event) => {
+    setFilterState((prevState) => ({
+      ...prevState,
+      rowsPerPage: parseInt(event.target.value, 10),
+    }))
+  }, [])
 
   if (!estimates || !currentEstimates) return <Spinner />
   return (
@@ -201,22 +250,43 @@ const Page = () => {
               </Stack>
             </Box>
             {/* <Divider /> */}
-            <EstimateListSearch
-              onFiltersChange={ordersSearch.handleFiltersChange}
-              onSortChange={ordersSearch.handleSortChange}
-              sortBy={ordersSearch.state.sortBy}
-              sortDir={ordersSearch.state.sortDir}
-            />
-            <Divider />
-            <EstimateListTable
-              count={ordersStore.ordersCount}
-              estimates={currentEstimates}
-              onPageChange={ordersSearch.handlePageChange}
-              onRowsPerPageChange={ordersSearch.handleRowsPerPageChange}
-              onSelect={handleOrderOpen}
-              page={ordersSearch.state.page}
-              rowsPerPage={ordersSearch.state.rowsPerPage}
-            />
+            {currentEstimates.length > 0 ? (
+              <>
+                <EstimateListSearch
+                  onFiltersChange={handleFiltersChange}
+                  onSortChange={handleSortChange}
+                  sortBy={filterState.sortBy}
+                  sortDir={filterState.sortDir}
+                />
+                <Divider />
+                <EstimateListTable
+                  count={estimates.length}
+                  estimates={currentEstimates}
+                  onPageChange={handlePageChange}
+                  onRowsPerPageChange={handleRowsPerPageChange}
+                  onSelect={handleEstimateOpen}
+                  page={filterState.page}
+                  rowsPerPage={filterState.rowsPerPage}
+                />
+              </>
+            ) : (
+              <Box sx={{ mt: 3, p: 6 }}>
+                <Card variant='outlined'>
+                  <Stack spacing={1} sx={{ px: 2, py: 1.5 }}>
+                    <Typography textAlign='center'>
+                      Looks like you have not created any estimates yet.
+                    </Typography>
+                    <Typography
+                      textAlign='center'
+                      variant='caption'
+                      color='text.secondary'
+                    >
+                      Create your first job to add an estimate
+                    </Typography>
+                  </Stack>
+                </Card>
+              </Box>
+            )}
           </EstimateListContainer>
           <EstimateDrawer
             container={rootRef.current}

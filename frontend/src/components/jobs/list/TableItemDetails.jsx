@@ -12,10 +12,6 @@ import Collapse from '@mui/material/Collapse'
 import { SeverityPill } from 'src/components/severity-pill'
 
 function TableItemDetails({ job, toggleShowComments }) {
-  console.log(
-    'job?.estimate?.packing?.packDate :>> ',
-    job.estimate.packing.packDate
-  )
   return (
     <>
       <CardContent>
@@ -54,14 +50,14 @@ function TableItemDetails({ job, toggleShowComments }) {
                   <div>
                     <Typography variant='subtitle1'>Pick Up</Typography>
                     <Typography color='text.secondary' variant='caption'>
-                      1. {job.pickUpAddress || 'TBD'}
+                      1. {job.pickUpAddress?.description || 'TBD'}
                       {job.pickUpAddress2 && (
                         <Typography
                           component='p'
                           color='text.secondary'
                           variant='caption'
                         >
-                          2. {job.pickUpAddress2}
+                          2. {job.pickUpAddress2.description}
                         </Typography>
                       )}
                     </Typography>
@@ -73,14 +69,14 @@ function TableItemDetails({ job, toggleShowComments }) {
                   <div>
                     <Typography variant='subtitle1'>Drop Off</Typography>
                     <Typography color='text.secondary' variant='caption'>
-                      1. {job.dropOffAddress || 'TBD'}
+                      1. {job.dropOffAddress?.description || 'TBD'}
                       {job.dropOffAddress2 && (
                         <Typography
                           component='p'
                           color='text.secondary'
                           variant='caption'
                         >
-                          2. {job.dropOffAddress2}
+                          2. {job?.dropOffAddress2?.description}
                         </Typography>
                       )}
                     </Typography>

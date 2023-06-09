@@ -111,8 +111,8 @@ export const EstimatePreview = (props) => {
           <Grid xs={12} md={6}>
             <Typography gutterBottom variant='body2'>
               Moving From:{' '}
-              {focusJob?.pickUpAddress?.length
-                ? focusJob?.pickUpAddress
+              {focusJob?.pickUpAddress?.description?.length
+                ? focusJob?.pickUpAddress?.description
                 : 'TBD'}
             </Typography>
           </Grid>
@@ -120,7 +120,7 @@ export const EstimatePreview = (props) => {
             <Typography gutterBottom variant='body2'>
               Moving To:{' '}
               {focusJob?.dropOffAddress?.length
-                ? focusJob?.dropOffAddress
+                ? focusJob?.dropOffAddress?.description
                 : 'TBD'}
             </Typography>
           </Grid>

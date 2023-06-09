@@ -110,7 +110,8 @@ const Page = () => {
               <Stack spacing={1}>
                 <Typography variant='h4'>Jobs</Typography>
                 <Typography variant='subtitle2' color='text.secondary'>
-                  All your upcoming jobs & past jobs
+                  {currentJobs.length > 0 &&
+                    'All your upcoming jobs & past jobs'}
                 </Typography>
               </Stack>
               <Stack alignItems='center' direction='row' spacing={3}>
@@ -128,27 +129,48 @@ const Page = () => {
                 </Button>
               </Stack>
             </Stack>
-            <Card>
-              <JobListSearch
-                handleFilterJobs={handleFilterJobs}
-                onFiltersChange={handleFiltersChange}
-                setSearchQuery={setSearchQuery}
-                handleResetFilters={handleResetFilters}
-                searchDate={filterState.filters.searchDate}
-              />
-              <JobListTable
-                jobs={applyPagination(
-                  currentJobs,
-                  filterState.page,
-                  filterState.rowsPerPage
-                )}
-                onPageChange={handlePageChange}
-                onRowsPerPageChange={handleRowsPerPageChange}
-                page={filterState.page}
-                count={currentJobs.length || 0}
-                rowsPerPage={filterState.rowsPerPage}
-              />
-            </Card>
+            {currentJobs.length > 0 ? (
+              <>
+                <Card>
+                  <JobListSearch
+                    handleFilterJobs={handleFilterJobs}
+                    onFiltersChange={handleFiltersChange}
+                    setSearchQuery={setSearchQuery}
+                    handleResetFilters={handleResetFilters}
+                    searchDate={filterState.filters.searchDate}
+                  />
+                  <JobListTable
+                    jobs={applyPagination(
+                      currentJobs,
+                      filterState.page,
+                      filterState.rowsPerPage
+                    )}
+                    onPageChange={handlePageChange}
+                    onRowsPerPageChange={handleRowsPerPageChange}
+                    page={filterState.page}
+                    count={currentJobs.length || 0}
+                    rowsPerPage={filterState.rowsPerPage}
+                  />
+                </Card>
+              </>
+            ) : (
+              <Box sx={{ mt: 3, p: 6 }}>
+                <Card variant='outlined'>
+                  <Stack spacing={1} sx={{ px: 2, py: 1.5 }}>
+                    <Typography textAlign='center'>
+                      Looks like you have not created any Jobs yet.
+                    </Typography>
+                    <Typography
+                      textAlign='center'
+                      variant='caption'
+                      color='text.secondary'
+                    >
+                      Click the Add New Job button to create your first job
+                    </Typography>
+                  </Stack>
+                </Card>
+              </Box>
+            )}
           </Stack>
         </Container>
       </Box>

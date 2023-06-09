@@ -13,6 +13,7 @@ import {
 
 import { Add, Remove } from '@mui/icons-material'
 import CustomerSelect from 'src/components/shared/CustomerSelect'
+import AddressSelect from 'src/components/shared/AddressSelect'
 
 export const CustomerDetailsStep = (props) => {
   const {
@@ -35,6 +36,9 @@ export const CustomerDetailsStep = (props) => {
   const handleToggleSecondDropAddress = useCallback(() => {
     setShowSecondDropOffAddress((prevState) => !prevState)
   }, [])
+  const handleAddressChange = (name, newValue) => {
+    formik.setFieldValue(name, newValue)
+  }
 
   return (
     <Stack spacing={3} {...other}>
@@ -55,13 +59,12 @@ export const CustomerDetailsStep = (props) => {
         <Typography variant='h6'>Pickup & Drop Off Locations</Typography>
       </div>
       <Stack spacing={2}>
-        {/* PU Address */}
+        {/*---------- PU Address ----------*/}
         <Stack spacing={1} direction='row'>
-          <TextField
-            fullWidth
+          <AddressSelect
             label='Pickup Address'
             name='pickUpAddress'
-            onChange={formik.handleChange}
+            onChange={handleAddressChange}
             onBlur={formik.handleBlur}
             error={
               !!(formik.touched.pickUpAddress && formik.errors.pickUpAddress)
@@ -69,7 +72,7 @@ export const CustomerDetailsStep = (props) => {
             helperText={
               formik.touched.pickUpAddress && formik.errors.pickUpAddress
             }
-            value={formik.values.pickUpAddress}
+            savedValue={formik.values.pickUpAddress}
           />
           {!showSecondAddress && (
             <Tooltip title='Add second pickup address'>
@@ -87,18 +90,16 @@ export const CustomerDetailsStep = (props) => {
             </Tooltip>
           )}
         </Stack>
-        {/* PU Address 2 */}
+        {/*---------- PU Address 2 ----------*/}
         {showSecondAddress && (
           <Stack spacing={1} direction='row'>
-            <TextField
-              fullWidth
+            <AddressSelect
               label='Second Pickup Address'
               name='pickUpAddress2'
-              placeholder=''
-              onChange={formik.handleChange}
-              value={formik.values.pickUpAddress2}
+              onChange={handleAddressChange}
+              onBlur={formik.handleBlur}
+              savedValue={formik.values.pickUpAddress2}
             />
-
             <Tooltip title='Remove second pickup address'>
               <IconButton
                 size='small'
@@ -114,16 +115,14 @@ export const CustomerDetailsStep = (props) => {
             </Tooltip>
           </Stack>
         )}
-        {/* DO Address 2 */}
+        {/*---------- DO Address ----------*/}
         <Stack spacing={1} direction='row'>
-          <TextField
-            fullWidth
+          <AddressSelect
             label='Drop Off Address'
             name='dropOffAddress'
-            placeholder=''
+            onChange={handleAddressChange}
             onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-            value={formik.values.dropOffAddress}
+            savedValue={formik.values.dropOffAddress}
           />
           {!showSecondDropOffAddress && (
             <Tooltip title='Add second pickup address'>
@@ -141,18 +140,16 @@ export const CustomerDetailsStep = (props) => {
             </Tooltip>
           )}
         </Stack>
-        {/* DO Address 2 */}
+        {/*---------- DO Address 2 ----------*/}
         {showSecondDropOffAddress && (
           <Stack spacing={1} direction='row'>
-            <TextField
-              fullWidth
+            <AddressSelect
               label='Second Drop Off Address'
               name='dropOffAddress2'
-              placeholder=''
-              onChange={formik.handleChange}
-              value={formik.values.dropOffAddress2}
+              onChange={handleAddressChange}
+              onBlur={formik.handleBlur}
+              savedValue={formik.values.dropOffAddress2}
             />
-
             <Tooltip title='Remove second drop off address'>
               <IconButton
                 size='small'

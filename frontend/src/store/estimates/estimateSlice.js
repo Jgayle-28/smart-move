@@ -144,6 +144,9 @@ export const estimateSlice = createSlice({
       state.totalVolume = null
       state.totalItemCount = null
     },
+    clearEstimates(state) {
+      state.estimates = null
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -264,5 +267,6 @@ export const {
   updateTotals,
   clearTempInventory,
   clearFocusEstimate,
+  clearEstimates,
 } = estimateSlice.actions
 export default estimateSlice.reducer
