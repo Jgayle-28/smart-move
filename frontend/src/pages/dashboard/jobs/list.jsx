@@ -21,6 +21,7 @@ import { useSelector } from 'react-redux'
 import Spinner from 'src/components/shared/Spinner'
 import { filterJobs } from 'src/utils/filter-jobs'
 import { applyPagination } from 'src/utils/apply-pagination'
+import EmptyState from 'src/components/shared/EmptyState'
 
 const initialFilterState = {
   filters: {
@@ -154,22 +155,26 @@ const Page = () => {
                 </Card>
               </>
             ) : (
-              <Box sx={{ mt: 3, p: 6 }}>
-                <Card variant='outlined'>
-                  <Stack spacing={1} sx={{ px: 2, py: 1.5 }}>
-                    <Typography textAlign='center'>
-                      Looks like you have not created any Jobs yet.
-                    </Typography>
-                    <Typography
-                      textAlign='center'
-                      variant='caption'
-                      color='text.secondary'
-                    >
-                      Click the Add New Job button to create your first job
-                    </Typography>
-                  </Stack>
-                </Card>
-              </Box>
+              <EmptyState
+                title='Looks like you have not created any Jobs yet.'
+                subtitle='Click the Add New Job button to create your first job'
+              />
+              // <Box sx={{ mt: 3, p: 6 }}>
+              //   <Card variant='outlined'>
+              //     <Stack spacing={1} sx={{ px: 2, py: 1.5 }}>
+              //       <Typography textAlign='center'>
+              //         Looks like you have not created any Jobs yet.
+              //       </Typography>
+              //       <Typography
+              //         textAlign='center'
+              //         variant='caption'
+              //         color='text.secondary'
+              //       >
+              //         Click the Add New Job button to create your first job
+              //       </Typography>
+              //     </Stack>
+              //   </Card>
+              // </Box>
             )}
           </Stack>
         </Container>

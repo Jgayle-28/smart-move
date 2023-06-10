@@ -21,6 +21,7 @@ import { EstimateListTable } from 'src/components/estimates/list/EstimateListTab
 import { clearEstimates, getEstimates } from 'src/store/estimates/estimateSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import Spinner from 'src/components/shared/Spinner'
+import EmptyState from 'src/components/shared/EmptyState'
 
 const useEstimateSearch = () => {
   const [state, setState] = useState({
@@ -270,22 +271,26 @@ const Page = () => {
                 />
               </>
             ) : (
-              <Box sx={{ mt: 3, p: 6 }}>
-                <Card variant='outlined'>
-                  <Stack spacing={1} sx={{ px: 2, py: 1.5 }}>
-                    <Typography textAlign='center'>
-                      Looks like you have not created any estimates yet.
-                    </Typography>
-                    <Typography
-                      textAlign='center'
-                      variant='caption'
-                      color='text.secondary'
-                    >
-                      Create your first job to add an estimate
-                    </Typography>
-                  </Stack>
-                </Card>
-              </Box>
+              <EmptyState
+                title='Looks like you have not created any estimates yet.'
+                subtitle='Create your first job to add an estimate'
+              />
+              // <Box sx={{ mt: 3, p: 6 }}>
+              //   <Card variant='outlined'>
+              //     <Stack spacing={1} sx={{ px: 2, py: 1.5 }}>
+              //       <Typography textAlign='center'>
+              //         Looks like you have not created any estimates yet.
+              //       </Typography>
+              //       <Typography
+              //         textAlign='center'
+              //         variant='caption'
+              //         color='text.secondary'
+              //       >
+              //         Create your first job to add an estimate
+              //       </Typography>
+              //     </Stack>
+              //   </Card>
+              // </Box>
             )}
           </EstimateListContainer>
           <EstimateDrawer
