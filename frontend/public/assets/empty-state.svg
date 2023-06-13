@@ -7,7 +7,7 @@
       }
 
       .cls-2 {
-        fill: 'red';
+        fill: #fff;
       }
 
       .cls-3 {

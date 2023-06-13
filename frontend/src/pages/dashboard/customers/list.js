@@ -50,7 +50,7 @@ const Page = () => {
         <Container maxWidth='xl'>
           {/* Header */}
           <Stack spacing={4}>
-            <CustomerPageHeader />
+            <CustomerPageHeader customers={customers} />
             <Card>
               {isLoading || customers === null ? (
                 <Spinner />

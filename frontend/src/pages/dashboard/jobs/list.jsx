@@ -22,6 +22,8 @@ import Spinner from 'src/components/shared/Spinner'
 import { filterJobs } from 'src/utils/filter-jobs'
 import { applyPagination } from 'src/utils/apply-pagination'
 import EmptyState from 'src/components/shared/EmptyState'
+import { exportToExcel } from 'src/utils/export-to-excel'
+import Download01Icon from '@untitled-ui/icons-react/build/esm/Download01'
 
 const initialFilterState = {
   filters: {
@@ -42,6 +44,7 @@ const Page = () => {
   })
   const [searchQuery, setSearchQuery] = useState('')
 
+  const { company } = useSelector((state) => state.company)
   const { user } = useSelector((state) => state.auth)
   const { jobs, isLoading } = useSelector((state) => state.jobs)
 
@@ -92,6 +95,26 @@ const Page = () => {
     }))
   }, [])
 
+  const exportJobs = useCallback(() => {
+    console.log('currentJobs -----> ', currentJobs)
+    const exportJobs = currentJobs.map((job) => {
+      return {
+        customer: job.customer?.customerName,
+        jobDate: new Date(job.jobDate).toLocaleDateString(),
+        jobType: job.jobType,
+        pickUpAddress: job.pickUpAddress.description || '',
+        dropOffAddress: job.dropOffAddress.description || '',
+        isPaid: job.isPaid,
+        estimateTotal: job.estimate.totalCharges,
+        createdBy: job.createdBy?.name,
+      }
+    })
+    exportToExcel(
+      exportJobs,
+      `${company.companyName}-Jobs(${new Date().toLocaleDateString()})`
+    )
+  }, [currentJobs, company])
+
   usePageView()
 
   if (isLoading || currentJobs === null) return <Spinner />
@@ -110,10 +133,20 @@ const Page = () => {
             <Stack direction='row' justifyContent='space-between' spacing={4}>
               <Stack spacing={1}>
                 <Typography variant='h4'>Jobs</Typography>
-                <Typography variant='subtitle2' color='text.secondary'>
-                  {currentJobs.length > 0 &&
-                    'All your upcoming jobs & past jobs'}
-                </Typography>
+                <Stack alignItems='center' direction='row' spacing={1}>
+                  <Button
+                    color='inherit'
+                    size='small'
+                    onClick={exportJobs}
+                    startIcon={
+                      <SvgIcon>
+                        <Download01Icon />
+                      </SvgIcon>
+                    }
+                  >
+                    Export
+                  </Button>
+                </Stack>
               </Stack>
               <Stack alignItems='center' direction='row' spacing={3}>
                 <Button
@@ -155,26 +188,19 @@ const Page = () => {
                 </Card>
               </>
             ) : (
-              <EmptyState
-                title='Looks like you have not created any Jobs yet.'
-                subtitle='Click the Add New Job button to create your first job'
-              />
-              // <Box sx={{ mt: 3, p: 6 }}>
-              //   <Card variant='outlined'>
-              //     <Stack spacing={1} sx={{ px: 2, py: 1.5 }}>
-              //       <Typography textAlign='center'>
-              //         Looks like you have not created any Jobs yet.
-              //       </Typography>
-              //       <Typography
-              //         textAlign='center'
-              //         variant='caption'
-              //         color='text.secondary'
-              //       >
-              //         Click the Add New Job button to create your first job
-              //       </Typography>
-              //     </Stack>
-              //   </Card>
-              // </Box>
+              <>
+                {!isLoading ? (
+                  <EmptyState
+                    title='Looks no jobs match your filter criteria.'
+                    // subtitle='Click the Add New Job button to create your first job'
+                  />
+                ) : (
+                  <EmptyState
+                    title='Looks like you have not created any Jobs yet.'
+                    subtitle='Click the Add New Job button to create your first job'
+                  />
+                )}
+              </>
             )}
           </Stack>
         </Container>

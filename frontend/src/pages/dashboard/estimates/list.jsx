@@ -9,6 +9,7 @@ import {
   SvgIcon,
   Typography,
 } from '@mui/material'
+import AddLocationAltOutlinedIcon from '@mui/icons-material/AddLocationAltOutlined'
 import { ordersApi } from 'src/api/orders'
 import { Seo } from 'src/components/seo'
 import { useDialog } from 'src/hooks/use-dialog'
@@ -22,6 +23,9 @@ import { clearEstimates, getEstimates } from 'src/store/estimates/estimateSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import Spinner from 'src/components/shared/Spinner'
 import EmptyState from 'src/components/shared/EmptyState'
+import { RouterLink } from 'src/components/router-link'
+import { exportToExcel } from 'src/utils/export-to-excel'
+import Download01Icon from '@untitled-ui/icons-react/build/esm/Download01'
 
 const useEstimateSearch = () => {
   const [state, setState] = useState({
@@ -137,6 +141,7 @@ const Page = () => {
   const dialog = useDialog()
   const currentOrder = useCurrentOrder(ordersStore.orders, dialog.data)
 
+  const { company } = useSelector((state) => state.company)
   const { estimates } = useSelector((state) => state.estimates)
   const { user } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
@@ -199,6 +204,36 @@ const Page = () => {
     }))
   }, [])
 
+  const exportEstimates = useCallback(() => {
+    const exportEstimates = estimates.map((estimate) => {
+      return {
+        customer: estimate.customer?.customerName,
+        totalMen: estimate.moveCharges.totalMen || 0,
+        totalTrucks: estimate.moveCharges.totalTrucks || 0,
+        ratePerHour: estimate.moveCharges.ratePerHour || 0,
+        driveTime: estimate.moveCharges.driveTime || 0,
+        stairHours: estimate.moveCharges.stairHours || 0,
+        longCarryHours: estimate.moveCharges.longCarryHours || 0,
+        adjustmentTime: estimate.moveCharges.adjustmentTime || 0,
+        totalMoveHours: estimate.moveCharges.totalMoveHours || 0,
+        packingTotal: estimate.packing?.packingTotal || 0,
+        additionalServicesTotal:
+          estimate.additionalServices?.additionalServicesTotal || 0,
+        storage: estimate.storage?.storageTotal || 0,
+        fees: estimate.fees?.feesTotal || 0,
+        totalCharges: estimate.totalCharges,
+        totalWeight: estimate.totalWeight,
+        totalVolume: estimate.totalVolume,
+        totalItemCount: estimate.totalItemCount,
+        createdBy: estimate.createdBy?.name,
+      }
+    })
+    exportToExcel(
+      exportEstimates,
+      `${company.companyName}-Estimates(${new Date().toLocaleDateString()})`
+    )
+  }, [estimates, company])
+
   if (!estimates || !currentEstimates) return <Spinner />
   return (
     <>
@@ -233,9 +268,23 @@ const Page = () => {
                 justifyContent='space-between'
                 spacing={4}
               >
-                <div>
+                <Stack spacing={1}>
                   <Typography variant='h4'>Estimates</Typography>
-                </div>
+                  <Stack alignItems='center' direction='row' spacing={1}>
+                    <Button
+                      color='inherit'
+                      size='small'
+                      onClick={exportEstimates}
+                      startIcon={
+                        <SvgIcon>
+                          <Download01Icon />
+                        </SvgIcon>
+                      }
+                    >
+                      Export
+                    </Button>
+                  </Stack>
+                </Stack>
                 <div>
                   {/* <Button
                     startIcon={
@@ -274,23 +323,24 @@ const Page = () => {
               <EmptyState
                 title='Looks like you have not created any estimates yet.'
                 subtitle='Create your first job to add an estimate'
+                action={
+                  <Box display='flex' justifyContent='center'>
+                    <Button
+                      component={RouterLink}
+                      href='/dashboard/jobs/create'
+                      startIcon={
+                        <SvgIcon>
+                          <AddLocationAltOutlinedIcon />
+                        </SvgIcon>
+                      }
+                      variant='contained'
+                      size='small'
+                    >
+                      Add Job
+                    </Button>
+                  </Box>
+                }
               />
-              // <Box sx={{ mt: 3, p: 6 }}>
-              //   <Card variant='outlined'>
-              //     <Stack spacing={1} sx={{ px: 2, py: 1.5 }}>
-              //       <Typography textAlign='center'>
-              //         Looks like you have not created any estimates yet.
-              //       </Typography>
-              //       <Typography
-              //         textAlign='center'
-              //         variant='caption'
-              //         color='text.secondary'
-              //       >
-              //         Create your first job to add an estimate
-              //       </Typography>
-              //     </Stack>
-              //   </Card>
-              // </Box>
             )}
           </EstimateListContainer>
           <EstimateDrawer
