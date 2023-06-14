@@ -118,7 +118,7 @@ export const CustomerListTable = (props) => {
                 // )
 
                 return (
-                  <TableRow hover key={customer.id}>
+                  <TableRow hover key={customer._id}>
                     {/* <TableCell padding='checkbox'>
                     <Checkbox
                       checked={isSelected}

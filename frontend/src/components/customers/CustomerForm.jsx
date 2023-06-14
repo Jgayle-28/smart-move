@@ -10,6 +10,8 @@ import {
   Stack,
   TextField,
   Unstable_Grid2 as Grid,
+  Switch,
+  FormControlLabel,
 } from '@mui/material'
 import { RouterLink } from 'src/components/router-link'
 import { paths } from 'src/paths'
@@ -18,8 +20,10 @@ import { addCustomer, updateCustomer } from 'src/store/customers/customerSlice'
 import { useDispatch } from 'react-redux'
 import { useRouter } from 'src/hooks/use-router'
 import { formatPhoneNumber } from 'src/utils/format-phone-number'
+import { useState } from 'react'
 
 export const CustomerForm = (props) => {
+  const [createJob, setCreateJob] = useState(false)
   const { customer, isEdit, ...other } = props
   const { user } = useAuth()
   const router = useRouter()
@@ -77,7 +81,11 @@ export const CustomerForm = (props) => {
       dispatch(updateCustomer(customerData))
         .unwrap()
         .then(() => {
+          // if (!isEdit && createJob) {
+          //   router.push('/dashboard/jobs/create')
+          // } else {
           router.push(paths.dashboard.customers.index)
+          // }
           toast.success('Customer successfully updated')
           helpers.resetForm()
         })
@@ -223,6 +231,21 @@ export const CustomerForm = (props) => {
                 rows={4}
               />
             </Grid>
+            {/* switch controls whether we route to job create or back to customers */}
+            {!isEdit && (
+              <Grid xs={12} md={12}>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={createJob}
+                      name='createJob'
+                      onChange={() => setCreateJob((prevState) => !prevState)}
+                    />
+                  }
+                  label='Immediately create Job for this customer'
+                />
+              </Grid>
+            )}
           </Grid>
 
           {/* <Stack divider={<Divider />} spacing={3} sx={{ mt: 3 }}>

@@ -22,7 +22,10 @@ const Page = () => {
             xs={12}
             sm={4}
             sx={{
-              backgroundImage: 'url(/assets/people-talking.png)',
+              backgroundImage: (theme) =>
+                `url(/assets/${
+                  theme.palette.mode === 'dark' ? 'job-form' : 'job-form-light'
+                }.png)`,
               backgroundPosition: 'center',
               backgroundRepeat: 'no-repeat',
               backgroundSize: 'cover',
