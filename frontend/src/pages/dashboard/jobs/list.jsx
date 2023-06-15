@@ -96,7 +96,6 @@ const Page = () => {
   }, [])
 
   const exportJobs = useCallback(() => {
-    console.log('currentJobs -----> ', currentJobs)
     const exportJobs = currentJobs.map((job) => {
       return {
         customer: job.customer?.customerName,

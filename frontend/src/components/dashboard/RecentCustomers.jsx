@@ -20,17 +20,35 @@ import { useSelector } from 'react-redux'
 import Spinner from '../shared/Spinner'
 import { getInitials } from 'src/utils/get-initials'
 import { useRouter } from 'src/hooks/use-router'
+import { useEffect, useState } from 'react'
+import { set } from 'lodash'
 
 export const RecentCustomers = () => {
+  const [orderedCustomers, setOrderedCustomers] = useState(null)
+
   const { customers } = useSelector((state) => state.customers)
   const router = useRouter()
 
-  if (!customers) return <Spinner />
+  useEffect(() => {
+    if (customers) {
+      console.log('customers', customers)
+      const tempCustomers = [...customers]
+
+      tempCustomers.sort((a, b) => {
+        const dateA = new Date(a.createdAt)
+        const dateB = new Date(b.createdAt)
+        return dateB - dateA // Sort in descending order (most recent first)
+      })
+      setOrderedCustomers(tempCustomers)
+    }
+  }, [customers])
+
+  if (!customers || !orderedCustomers) return <Spinner />
   return (
     <Card>
       <CardHeader title='Recent Customers' />
       <List disablePadding>
-        {customers.slice(0, 4).map((customer) => {
+        {orderedCustomers.slice(0, 4).map((customer) => {
           const ago = formatDistanceStrict(
             new Date(customer.createdAt),
             new Date(),

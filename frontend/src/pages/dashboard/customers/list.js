@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import { Box, Card, Container, Stack } from '@mui/material'
 import { Seo } from 'src/components/seo'
@@ -15,8 +15,29 @@ import { getCustomers, clearCustomers } from 'src/store/customers/customerSlice'
 import { useAuth } from 'src/hooks/use-auth'
 import { useSelector } from 'react-redux'
 import Spinner from 'src/components/shared/Spinner'
+import { applyPagination } from 'src/utils/apply-pagination'
+import { filter } from 'lodash'
+
+const initialFilterState = {
+  filters: {
+    name: undefined,
+    category: [],
+    status: [],
+    inStock: undefined,
+    searchDate: null,
+  },
+  page: 0,
+  rowsPerPage: 5,
+}
 
 const Page = () => {
+  const [currentCustomers, setCurrentCustomers] = useState(null)
+  const [filterState, setFilterState] = useState({
+    ...initialFilterState,
+  })
+
+  const [searchQuery, setSearchQuery] = useState('')
+
   const customersSearch = useCustomersSearch()
   const customersStore = useCustomersStore(customersSearch.state)
   const customersIds = useCustomersIds(customersStore.customers)
@@ -25,17 +46,50 @@ const Page = () => {
   const dispatch = useDispatch()
   const { user } = useAuth()
   const { customers, isLoading } = useSelector((state) => state.customers)
+  usePageView()
 
   useEffect(() => {
     fetchCustomers()
     return () => dispatch(clearCustomers())
   }, [])
 
+  useEffect(() => {
+    if (customers !== null && !isLoading) setCurrentCustomers(customers)
+  }, [customers, isLoading])
+
   const fetchCustomers = () => {
     dispatch(getCustomers(user.company))
   }
 
-  usePageView()
+  // const handleFilterJobs = useCallback(() => {
+  //   const filteredJobs = filterJobs(filterState, jobs || [], searchQuery)
+  //   setCurrentJobs(filteredJobs)
+  // }, [filterState, currentJobs])
+
+  const handleResetFilters = () => {
+    setFilterState(initialFilterState)
+  }
+
+  const handleFiltersChange = useCallback((filters) => {
+    setFilterState((prevState) => ({
+      ...prevState,
+      filters,
+    }))
+  }, [])
+
+  const handlePageChange = useCallback((event, page) => {
+    setFilterState((prevState) => ({
+      ...prevState,
+      page,
+    }))
+  }, [])
+
+  const handleRowsPerPageChange = useCallback((event) => {
+    setFilterState((prevState) => ({
+      ...prevState,
+      rowsPerPage: parseInt(event.target.value, 10),
+    }))
+  }, [])
 
   return (
     <>
@@ -52,7 +106,7 @@ const Page = () => {
           <Stack spacing={4}>
             <CustomerPageHeader customers={customers} />
             <Card>
-              {isLoading || customers === null ? (
+              {isLoading || !customers || !currentCustomers ? (
                 <Spinner />
               ) : (
                 <>
@@ -63,18 +117,20 @@ const Page = () => {
                     sortDir={customersSearch.state.sortDir}
                   />
                   <CustomerListTable
-                    count={customersStore.customersCount}
-                    customers={customers}
+                    count={currentCustomers.length || 0}
+                    customers={applyPagination(
+                      currentCustomers,
+                      filterState.page,
+                      filterState.rowsPerPage
+                    )}
                     onDeselectAll={customersSelection.handleDeselectAll}
                     onDeselectOne={customersSelection.handleDeselectOne}
-                    onPageChange={customersSearch.handlePageChange}
-                    onRowsPerPageChange={
-                      customersSearch.handleRowsPerPageChange
-                    }
+                    onPageChange={handlePageChange}
+                    onRowsPerPageChange={handleRowsPerPageChange}
                     onSelectAll={customersSelection.handleSelectAll}
                     onSelectOne={customersSelection.handleSelectOne}
-                    page={customersSearch.state.page}
-                    rowsPerPage={customersSearch.state.rowsPerPage}
+                    page={filterState.page}
+                    rowsPerPage={filterState.rowsPerPage}
                     selected={customersSelection.selected}
                   />
                 </>
