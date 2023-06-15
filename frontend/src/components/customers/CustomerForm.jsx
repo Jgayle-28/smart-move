@@ -21,6 +21,7 @@ import { useDispatch } from 'react-redux'
 import { useRouter } from 'src/hooks/use-router'
 import { formatPhoneNumber } from 'src/utils/format-phone-number'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export const CustomerForm = (props) => {
   const [createJob, setCreateJob] = useState(false)
@@ -28,6 +29,7 @@ export const CustomerForm = (props) => {
   const { user } = useAuth()
   const router = useRouter()
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const formik = useFormik({
     initialValues: {
@@ -78,24 +80,40 @@ export const CustomerForm = (props) => {
     }
 
     if (isEdit) {
-      dispatch(updateCustomer(customerData))
-        .unwrap()
-        .then(() => {
-          // if (!isEdit && createJob) {
-          //   router.push('/dashboard/jobs/create')
-          // } else {
-          router.push(paths.dashboard.customers.index)
-          // }
-          toast.success('Customer successfully updated')
-          helpers.resetForm()
-        })
+      try {
+        dispatch(updateCustomer(customerData))
+          .unwrap()
+          .then(() => {
+            router.push(paths.dashboard.customers.index)
+            toast.success('Customer successfully updated')
+            helpers.resetForm()
+          })
+      } catch (error) {
+        console.log('error ----->', error)
+        toast.error(error.message)
+      }
     } else {
-      dispatch(addCustomer(customerData))
-        .unwrap()
-        .then(() => {
-          router.push(paths.dashboard.customers.index)
-          toast.success('Customer successfully added')
-        })
+      try {
+        dispatch(addCustomer(customerData))
+          .unwrap()
+          .then((res) => {
+            console.log('res ----->', res)
+            if (res.status === 201) {
+              // If adding a customer and user wants to create a job for them
+              if (!isEdit && createJob) {
+                navigate('/dashboard/jobs/create', {
+                  state: { customer: res.customer },
+                })
+              } else {
+                router.push(paths.dashboard.customers.index)
+              }
+              toast.success('Customer successfully added')
+            }
+          })
+      } catch (error) {
+        console.log('error ----->', error)
+        toast.error(error.message)
+      }
     }
   }
 

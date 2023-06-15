@@ -2,8 +2,13 @@ import { Box, Stack, Typography, Unstable_Grid2 as Grid } from '@mui/material'
 import { Seo } from 'src/components/seo'
 import { usePageView } from 'src/hooks/use-page-view'
 import { JobCreateForm } from 'src/components/jobs/form/JobCreateForm'
+import { useLocation } from 'react-router-dom'
 
 const Page = () => {
+  const location = useLocation()
+  const { state } = location
+  console.log('state ----->', state)
+
   usePageView()
 
   return (
@@ -47,7 +52,12 @@ const Page = () => {
             }}
           >
             <Stack maxWidth='sm' spacing={3}>
-              <Typography variant='h4'>Add A New Job</Typography>
+              <Typography variant='h4'>
+                Add A New Job{' '}
+                {state?.customer
+                  ? ` For ${state?.customer?.customerName.replace(/ .*/, '')}`
+                  : ''}
+              </Typography>
               <JobCreateForm />
             </Stack>
           </Grid>

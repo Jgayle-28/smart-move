@@ -44,7 +44,7 @@ const addCustomer = asyncHandler(async (req, res) => {
   })
 
   if (customer) {
-    res.status(201).json(customer)
+    res.status(201).json({ status: 201, customer })
   } else {
     res.status(400)
     throw new Error('Invalid company data')

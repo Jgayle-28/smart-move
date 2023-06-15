@@ -21,6 +21,7 @@ import { addJob, clearCreatedJob } from 'src/store/jobs/jobSlice'
 import { toast } from 'react-hot-toast'
 import { useSelector } from 'react-redux'
 import { EstimateStep } from './EstimateStep'
+import { useLocation } from 'react-router-dom'
 
 const initialValues = {
   jobTitle: '',
@@ -81,6 +82,8 @@ export const JobCreateForm = () => {
   const [selectedCustomer, setSelectedCustomer] = useState('')
 
   const dispatch = useDispatch()
+  const location = useLocation()
+  const { state } = location
 
   useEffect(() => {
     return () => {
@@ -88,13 +91,19 @@ export const JobCreateForm = () => {
     }
   }, [])
 
+  // If the user just created a customer, we want to pre-populate the customer select field
+  useEffect(() => {
+    if (state?.customer) {
+      initialValues.customer = state?.customer?._id
+      setSelectedCustomer(state?.customer.customerName)
+    }
+  }, [state?.customer])
+
   const formik = useFormik({
     initialValues,
     validationSchema,
     onSubmit: () => handleSubmit(),
   })
-
-  console.log('formik :>> ', formik)
 
   const { user } = useSelector((state) => state.auth)
 
@@ -161,6 +170,7 @@ export const JobCreateForm = () => {
         content: (
           <CustomerDetailsStep
             formik={formik}
+            selectedCustomer={selectedCustomer}
             setSelectedCustomer={setSelectedCustomer}
             onBack={handleBack}
             onNext={handleNext}
@@ -192,14 +202,14 @@ export const JobCreateForm = () => {
         content: <PaymentDetailStep formik={formik} onBack={handleBack} />,
       },
     ]
-  }, [handleBack, handleNext, handleComplete, formik])
+  }, [handleBack, handleNext, handleComplete, formik, selectedCustomer])
 
   if (isComplete) {
     return <JobPreview selectedCustomer={selectedCustomer} formik={formik} />
   }
 
   return (
-    <form noValidate onSubmit={formik.handleSubmit} autocomplete='off'>
+    <form noValidate onSubmit={formik.handleSubmit}>
       <Stepper
         activeStep={activeStep}
         orientation='vertical'
