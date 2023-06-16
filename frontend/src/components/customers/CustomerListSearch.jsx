@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import SearchMdIcon from '@untitled-ui/icons-react/build/esm/SearchMd'
 import {
   Box,
+  Divider,
   InputAdornment,
   OutlinedInput,
   Stack,
@@ -22,7 +23,7 @@ const sortOptions = [
   },
 ]
 
-export const EstimateListSearch = (props) => {
+export const CustomerListSearch = (props) => {
   const {
     setSortBy,
     sortBy,
@@ -43,12 +44,13 @@ export const EstimateListSearch = (props) => {
   }
 
   return (
-    <div>
+    <>
+      <Divider />
       <Stack
         alignItems='center'
         direction='row'
         flexWrap='wrap'
-        gap={3}
+        spacing={3}
         sx={{ p: 3 }}
       >
         <Box component='form' onSubmit={handleQueryChange} sx={{ flexGrow: 1 }}>
@@ -56,10 +58,10 @@ export const EstimateListSearch = (props) => {
             defaultValue=''
             fullWidth
             inputProps={{ ref: queryRef }}
-            name='orderNumber'
-            placeholder='Search by customer name'
+            placeholder='Search customers'
             onChange={(e) => setSearchQuery(e.target.value)}
             value={searchQuery}
+            size='medium'
             startAdornment={
               <InputAdornment position='start'>
                 <SvgIcon>
@@ -72,10 +74,11 @@ export const EstimateListSearch = (props) => {
         <TextField
           label='Sort By'
           name='sort'
-          select
-          SelectProps={{ native: true }}
           onChange={handleSortChange}
           value={sortBy}
+          select
+          SelectProps={{ native: true }}
+          size='small'
         >
           {sortOptions.map((option) => (
             <option key={option.value} value={option.value}>
@@ -91,11 +94,11 @@ export const EstimateListSearch = (props) => {
           Reset Filters
         </Button>
       </Stack>
-    </div>
+    </>
   )
 }
 
-EstimateListSearch.propTypes = {
+CustomerListSearch.propTypes = {
   onFiltersChange: PropTypes.func,
   setSortBy: PropTypes.func,
   sortBy: PropTypes.string,

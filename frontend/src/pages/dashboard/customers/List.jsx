@@ -1,11 +1,10 @@
 import { useCallback, useEffect, useState } from 'react'
-
 import { Box, Card, Container, Stack } from '@mui/material'
 import { Seo } from 'src/components/seo'
 import { usePageView } from 'src/hooks/use-page-view'
 import { useSelection } from 'src/hooks/use-selection'
-import { CustomerListSearch } from 'src/components/customers/customer-list-search'
-import { CustomerListTable } from 'src/components/customers/customer-list-table'
+import { CustomerListSearch } from 'src/components/customers/CustomerListSearch'
+import { CustomerListTable } from 'src/components/customers/CustomerListTable'
 import CustomerPageHeader from '../../../components/customers/CustomerPageHeader'
 import { useCustomersSearch } from 'src/hooks/use-customer-search'
 import { useCustomersStore } from 'src/hooks/use-customer-store'
@@ -16,7 +15,6 @@ import { useAuth } from 'src/hooks/use-auth'
 import { useSelector } from 'react-redux'
 import Spinner from 'src/components/shared/Spinner'
 import { applyPagination } from 'src/utils/apply-pagination'
-import { filter } from 'lodash'
 
 const initialFilterState = {
   filters: {
@@ -37,6 +35,7 @@ const Page = () => {
   })
 
   const [searchQuery, setSearchQuery] = useState('')
+  const [sortBy, setSortBy] = useState('Newest')
 
   const customersSearch = useCustomersSearch()
   const customersStore = useCustomersStore(customersSearch.state)
@@ -54,28 +53,58 @@ const Page = () => {
   }, [])
 
   useEffect(() => {
-    if (customers !== null && !isLoading) setCurrentCustomers(customers)
+    if (customers !== null && !isLoading) handleSortCustomers(customers)
   }, [customers, isLoading])
+
+  // Sort customers
+  useEffect(() => {
+    if (customers) {
+      handleSortCustomers()
+    }
+  }, [sortBy, customers])
+
+  // Filter by name
+  useEffect(() => {
+    if (customers) {
+      if (searchQuery.length > 0) {
+        handleCustomerSearch()
+      } else {
+        handleSortCustomers()
+      }
+    }
+  }, [searchQuery, customers])
+
+  const handleCustomerSearch = () => {
+    const searchResults = customers.filter((customer) => {
+      const customerName = customer.customerName.toLowerCase()
+      const search = searchQuery.toLowerCase()
+      return customerName.includes(search)
+    })
+
+    handleSortCustomers(searchResults)
+  }
+
+  const handleSortCustomers = (passedCustomers = null) => {
+    // if customers is passed in, use that instead of the state
+    const objectsCopy = passedCustomers ? [...passedCustomers] : [...customers] // Create a shallow copy of the array
+
+    objectsCopy.sort((a, b) => {
+      const dateA = new Date(a.createdAt)
+      const dateB = new Date(b.createdAt)
+      return sortBy === 'Newest' ? dateB - dateA : dateA - dateB // Sort depending on customer selection
+    })
+
+    setCurrentCustomers(objectsCopy)
+  }
 
   const fetchCustomers = () => {
     dispatch(getCustomers(user.company))
   }
 
-  // const handleFilterJobs = useCallback(() => {
-  //   const filteredJobs = filterJobs(filterState, jobs || [], searchQuery)
-  //   setCurrentJobs(filteredJobs)
-  // }, [filterState, currentJobs])
-
   const handleResetFilters = () => {
-    setFilterState(initialFilterState)
+    setSearchQuery('')
+    setSortBy('Newest')
   }
-
-  const handleFiltersChange = useCallback((filters) => {
-    setFilterState((prevState) => ({
-      ...prevState,
-      filters,
-    }))
-  }, [])
 
   const handlePageChange = useCallback((event, page) => {
     setFilterState((prevState) => ({
@@ -112,9 +141,12 @@ const Page = () => {
                 <>
                   <CustomerListSearch
                     onFiltersChange={customersSearch.handleFiltersChange}
-                    onSortChange={customersSearch.handleSortChange}
-                    sortBy={customersSearch.state.sortBy}
-                    sortDir={customersSearch.state.sortDir}
+                    setSortBy={setSortBy}
+                    sortBy={sortBy}
+                    searchQuery={searchQuery}
+                    setSearchQuery={setSearchQuery}
+                    handleCustomerSearch={handleCustomerSearch}
+                    handleResetFilters={handleResetFilters}
                   />
                   <CustomerListTable
                     count={currentCustomers.length || 0}
@@ -132,6 +164,7 @@ const Page = () => {
                     page={filterState.page}
                     rowsPerPage={filterState.rowsPerPage}
                     selected={customersSelection.selected}
+                    isSearching={searchQuery.length > 0}
                   />
                 </>
               )}

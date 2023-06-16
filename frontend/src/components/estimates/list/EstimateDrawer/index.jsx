@@ -15,8 +15,6 @@ export const EstimateDrawer = (props) => {
   const { container, onClose, open, order, estimate } = props
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'))
 
-  console.log('EstimateDrawer.jsx: estimate: ', estimate)
-
   let content = null
 
   if (estimate) {

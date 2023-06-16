@@ -19,7 +19,7 @@ const BlogPostCreatePage = lazy(() => import('src/pages/dashboard/blog/create'))
 
 // Customers
 const CustomerListPage = lazy(() =>
-  import('src/pages/dashboard/customers/list')
+  import('src/pages/dashboard/customers/List')
 )
 const CustomerDetailPage = lazy(() =>
   import('src/pages/dashboard/customers/detail')
@@ -36,7 +36,7 @@ const InvoiceDetailPage = lazy(() =>
 )
 
 // Jobs
-const JobsList = lazy(() => import('src/pages/dashboard/jobs/list'))
+const JobsList = lazy(() => import('src/pages/dashboard/jobs/List'))
 const JobCreatePage = lazy(() => import('src/pages/dashboard/jobs/create'))
 const JobDetailPage = lazy(() => import('src/pages/dashboard/jobs/detail'))
 // Estimates

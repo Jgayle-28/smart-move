@@ -97,7 +97,6 @@ export const CustomerForm = (props) => {
         dispatch(addCustomer(customerData))
           .unwrap()
           .then((res) => {
-            console.log('res ----->', res)
             if (res.status === 201) {
               // If adding a customer and user wants to create a job for them
               if (!isEdit && createJob) {

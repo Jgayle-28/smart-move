@@ -49,9 +49,14 @@ export function filterJobs(filterSate, jobs, searchQuery) {
   }
   // Search by customer name
   if (searchQuery.length > 0) {
-    data = data.filter(
-      (job) => job.customer && job.customer.customerName !== searchQuery
-    )
+    data = data.filter((job) => {
+      const customerName = job?.customer?.customerName?.toLowerCase()
+      const search = searchQuery?.toLowerCase()
+      return customerName.includes(search)
+    })
+    // data = data.filter(
+    //   (job) => job.customer && job.customer.customerName !== searchQuery
+    // )
   }
 
   // Date

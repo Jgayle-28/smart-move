@@ -1,19 +1,7 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import PlusIcon from '@untitled-ui/icons-react/build/esm/Plus'
-import {
-  Box,
-  Button,
-  Card,
-  Divider,
-  Stack,
-  SvgIcon,
-  Typography,
-} from '@mui/material'
-import AddLocationAltOutlinedIcon from '@mui/icons-material/AddLocationAltOutlined'
-import { ordersApi } from 'src/api/orders'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { Box, Button, Divider, Stack, SvgIcon, Typography } from '@mui/material'
 import { Seo } from 'src/components/seo'
 import { useDialog } from 'src/hooks/use-dialog'
-import { useMounted } from 'src/hooks/use-mounted'
 import { usePageView } from 'src/hooks/use-page-view'
 import { EstimateListContainer } from 'src/components/estimates/list/EstimateListContainer'
 import { EstimateDrawer } from 'src/components/estimates/list/EstimateDrawer'
@@ -22,129 +10,33 @@ import { EstimateListTable } from 'src/components/estimates/list/EstimateListTab
 import { clearEstimates, getEstimates } from 'src/store/estimates/estimateSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import Spinner from 'src/components/shared/Spinner'
-import EmptyState from 'src/components/shared/EmptyState'
-import { RouterLink } from 'src/components/router-link'
 import { exportToExcel } from 'src/utils/export-to-excel'
 import Download01Icon from '@untitled-ui/icons-react/build/esm/Download01'
+import { applyPagination } from 'src/utils/apply-pagination'
 
-const useEstimateSearch = () => {
-  const [state, setState] = useState({
-    filters: {
-      query: undefined,
-      status: undefined,
-    },
-    page: 0,
-    rowsPerPage: 5,
-    sortBy: 'createdAt',
-    sortDir: 'desc',
-  })
-
-  const handleFiltersChange = useCallback((filters) => {
-    setState((prevState) => ({
-      ...prevState,
-      filters,
-    }))
-  }, [])
-
-  const handleSortChange = useCallback((sortDir) => {
-    setState((prevState) => ({
-      ...prevState,
-      sortDir,
-    }))
-  }, [])
-
-  const handlePageChange = useCallback((event, page) => {
-    setState((prevState) => ({
-      ...prevState,
-      page,
-    }))
-  }, [])
-
-  const handleRowsPerPageChange = useCallback((event) => {
-    setState((prevState) => ({
-      ...prevState,
-      rowsPerPage: parseInt(event.target.value, 10),
-    }))
-  }, [])
-
-  return {
-    handleFiltersChange,
-    handleSortChange,
-    handlePageChange,
-    handleRowsPerPageChange,
-    state,
-  }
-}
-
-const useOrdersStore = (searchState) => {
-  const isMounted = useMounted()
-  const [state, setState] = useState({
-    orders: [],
-    ordersCount: 0,
-  })
-
-  const handleOrdersGet = useCallback(async () => {
-    try {
-      const response = await ordersApi.getOrders(searchState)
-
-      if (isMounted()) {
-        setState({
-          orders: response.data,
-          ordersCount: response.count,
-        })
-      }
-    } catch (err) {
-      console.error(err)
-    }
-  }, [searchState, isMounted])
-
-  useEffect(
-    () => {
-      handleOrdersGet()
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [searchState]
-  )
-
-  return {
-    ...state,
-  }
-}
-
-const useCurrentOrder = (orders, orderId) => {
-  return useMemo(() => {
-    if (!orderId) {
-      return undefined
-    }
-
-    return orders.find((order) => order.id === orderId)
-  }, [orders, orderId])
+const initialFilterState = {
+  page: 0,
+  rowsPerPage: 5,
+  sortBy: 'createdAt',
+  sortDir: 'desc',
 }
 
 const Page = () => {
   const [currentEstimates, setCurrentEstimates] = useState(null)
   const [focusEstimate, setFocusEstimate] = useState(null)
-  const [filterState, setFilterState] = useState({
-    filters: {
-      query: undefined,
-      status: undefined,
-    },
-    page: 0,
-    rowsPerPage: 5,
-    sortBy: 'createdAt',
-    sortDir: 'desc',
-  })
+  const [filterState, setFilterState] = useState(initialFilterState)
+
+  const [searchQuery, setSearchQuery] = useState('')
+  const [sortBy, setSortBy] = useState('Newest')
 
   const rootRef = useRef(null)
-  const ordersSearch = useEstimateSearch()
-  const ordersStore = useOrdersStore(ordersSearch.state)
   const dialog = useDialog()
-  const currentOrder = useCurrentOrder(ordersStore.orders, dialog.data)
 
   const { company } = useSelector((state) => state.company)
   const { estimates } = useSelector((state) => state.estimates)
   const { user } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
+  usePageView()
 
   useEffect(() => {
     if (user) dispatch(getEstimates(user?.company))
@@ -155,40 +47,55 @@ const Page = () => {
 
   useEffect(() => {
     if (estimates) {
-      setCurrentEstimates(estimates)
+      handleSortEstimates(estimates)
     }
   }, [estimates])
 
-  usePageView()
+  // Sort customers
+  useEffect(() => {
+    if (estimates) {
+      handleSortEstimates()
+    }
+  }, [sortBy, estimates])
 
-  const handleEstimateOpen = useCallback(
-    (estimate) => {
-      // Close drawer if is the same order
-
-      if (dialog.open && estimate._id === focusEstimate._id) {
-        dialog.handleClose()
-        return
+  // Filter by name
+  useEffect(() => {
+    if (estimates) {
+      if (searchQuery.length > 0) {
+        handleCustomerSearch()
+      } else {
+        handleSortEstimates()
       }
+    }
+  }, [searchQuery, estimates])
 
-      dialog.handleOpen(estimate._id)
-      setFocusEstimate(estimate)
-    },
-    [dialog]
-  )
+  const handleCustomerSearch = () => {
+    const searchResults = estimates.filter((estimate) => {
+      const customerName = estimate.customer.customerName.toLowerCase()
+      const search = searchQuery.toLowerCase()
+      return customerName.includes(search)
+    })
 
-  const handleFiltersChange = useCallback((filters) => {
-    setFilterState((prevState) => ({
-      ...prevState,
-      filters,
-    }))
-  }, [])
+    handleSortEstimates(searchResults)
+  }
 
-  const handleSortChange = useCallback((sortDir) => {
-    setFilterState((prevState) => ({
-      ...prevState,
-      sortDir,
-    }))
-  }, [])
+  const handleSortEstimates = (passedEstimates = null) => {
+    // if estimates is passed in, use that instead of the state
+    const objectsCopy = passedEstimates ? [...passedEstimates] : [...estimates] // Create a shallow copy of the array
+
+    objectsCopy.sort((a, b) => {
+      const dateA = new Date(a.createdAt)
+      const dateB = new Date(b.createdAt)
+      return sortBy === 'Newest' ? dateB - dateA : dateA - dateB // Sort depending on customer selection
+    })
+
+    setCurrentEstimates(objectsCopy)
+  }
+
+  const handleResetFilters = () => {
+    setSearchQuery('')
+    setSortBy('Newest')
+  }
 
   const handlePageChange = useCallback((event, page) => {
     setFilterState((prevState) => ({
@@ -203,6 +110,20 @@ const Page = () => {
       rowsPerPage: parseInt(event.target.value, 10),
     }))
   }, [])
+
+  const handleEstimateOpen = useCallback(
+    (estimate) => {
+      // Close drawer if is the same order
+      if (dialog.open && estimate._id === focusEstimate._id) {
+        dialog.handleClose()
+        return
+      }
+
+      dialog.handleOpen(estimate._id)
+      setFocusEstimate(estimate)
+    },
+    [dialog]
+  )
 
   const exportEstimates = useCallback(() => {
     const exportEstimates = estimates.map((estimate) => {
@@ -285,69 +206,37 @@ const Page = () => {
                     </Button>
                   </Stack>
                 </Stack>
-                <div>
-                  {/* <Button
-                    startIcon={
-                      <SvgIcon>
-                        <PlusIcon />
-                      </SvgIcon>
-                    }
-                    variant='contained'
-                  >
-                    Add
-                  </Button> */}
-                </div>
               </Stack>
             </Box>
-            {/* <Divider /> */}
-            {currentEstimates.length > 0 ? (
-              <>
-                <EstimateListSearch
-                  onFiltersChange={handleFiltersChange}
-                  onSortChange={handleSortChange}
-                  sortBy={filterState.sortBy}
-                  sortDir={filterState.sortDir}
-                />
-                <Divider />
-                <EstimateListTable
-                  count={estimates.length}
-                  estimates={currentEstimates}
-                  onPageChange={handlePageChange}
-                  onRowsPerPageChange={handleRowsPerPageChange}
-                  onSelect={handleEstimateOpen}
-                  page={filterState.page}
-                  rowsPerPage={filterState.rowsPerPage}
-                />
-              </>
-            ) : (
-              <EmptyState
-                title='Looks like you have not created any estimates yet.'
-                subtitle='Create your first job to add an estimate'
-                action={
-                  <Box display='flex' justifyContent='center'>
-                    <Button
-                      component={RouterLink}
-                      href='/dashboard/jobs/create'
-                      startIcon={
-                        <SvgIcon>
-                          <AddLocationAltOutlinedIcon />
-                        </SvgIcon>
-                      }
-                      variant='contained'
-                      size='small'
-                    >
-                      Add Job
-                    </Button>
-                  </Box>
-                }
-              />
-            )}
+
+            <EstimateListSearch
+              setSortBy={setSortBy}
+              sortBy={sortBy}
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+              handleCustomerSearch={handleCustomerSearch}
+              handleResetFilters={handleResetFilters}
+            />
+            <Divider />
+            <EstimateListTable
+              count={estimates.length}
+              estimates={applyPagination(
+                currentEstimates,
+                filterState.page,
+                filterState.rowsPerPage
+              )}
+              onPageChange={handlePageChange}
+              onRowsPerPageChange={handleRowsPerPageChange}
+              onSelect={handleEstimateOpen}
+              page={filterState.page}
+              rowsPerPage={filterState.rowsPerPage}
+              isSearching={searchQuery.length > 0}
+            />
           </EstimateListContainer>
           <EstimateDrawer
             container={rootRef.current}
             onClose={dialog.handleClose}
             open={dialog.open}
-            order={currentOrder}
             estimate={focusEstimate}
           />
         </Box>

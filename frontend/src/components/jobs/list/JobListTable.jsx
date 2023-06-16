@@ -11,6 +11,7 @@ import {
 } from '@mui/material'
 import { Scrollbar } from 'src/components/scrollbar'
 import JobListTableItem from './JobListTableItem'
+import EmptyState from 'src/components/shared/EmptyState'
 
 export const JobListTable = (props) => {
   const {
@@ -21,7 +22,9 @@ export const JobListTable = (props) => {
     onRowsPerPageChange,
     page = 0,
     rowsPerPage = 0,
+    isSearching = false,
   } = props
+
   const [currentProduct, setCurrentProduct] = useState(null)
 
   const handleProductToggle = useCallback((productId) => {
@@ -32,19 +35,6 @@ export const JobListTable = (props) => {
 
       return productId
     })
-  }, [])
-
-  const handleProductClose = useCallback(() => {
-    setCurrentProduct(null)
-  }, [])
-
-  const handleProductUpdate = useCallback(() => {
-    setCurrentProduct(null)
-    toast.success('Product updated')
-  }, [])
-
-  const handleProductDelete = useCallback(() => {
-    toast.error('Product cannot be deleted')
   }, [])
 
   return (
@@ -63,13 +53,7 @@ export const JobListTable = (props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {jobs && jobs.length === 0 ? (
-              <TableRow>
-                <TableCell align='center' colSpan={7} sx={{ py: 3, px: 2 }}>
-                  You have not added any jobs yet
-                </TableCell>
-              </TableRow>
-            ) : (
+            {jobs && jobs.length ? (
               jobs.map((job) => {
                 return (
                   <JobListTableItem
@@ -77,12 +61,21 @@ export const JobListTable = (props) => {
                     job={job}
                     currentProduct={currentProduct}
                     handleProductToggle={handleProductToggle}
-                    handleProductClose={handleProductClose}
-                    handleProductUpdate={handleProductUpdate}
-                    handleProductDelete={handleProductDelete}
                   />
                 )
               })
+            ) : (
+              <TableRow>
+                <TableCell align='center' colSpan={7} sx={{ py: 3, px: 2 }}>
+                  <EmptyState
+                    title={
+                      isSearching
+                        ? 'No jobs match your search'
+                        : 'You Have not added any jobs yet'
+                    }
+                  />
+                </TableCell>
+              </TableRow>
             )}
           </TableBody>
         </Table>

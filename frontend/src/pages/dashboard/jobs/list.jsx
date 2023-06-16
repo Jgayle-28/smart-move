@@ -116,7 +116,7 @@ const Page = () => {
 
   usePageView()
 
-  if (isLoading || currentJobs === null) return <Spinner />
+  if (isLoading || !jobs || !currentJobs) return <Spinner />
   return (
     <>
       <Seo title='Dashboard: Job List' />
@@ -162,7 +162,7 @@ const Page = () => {
                 </Button>
               </Stack>
             </Stack>
-            {currentJobs.length > 0 ? (
+            {jobs.length > 0 && (
               <>
                 <Card>
                   <JobListSearch
@@ -183,22 +183,14 @@ const Page = () => {
                     page={filterState.page}
                     count={currentJobs.length || 0}
                     rowsPerPage={filterState.rowsPerPage}
+                    isSearching={
+                      searchQuery.length > 0 ||
+                      filterState.filters.status.length > 0 ||
+                      filterState.filters.category.length > 0 ||
+                      filterState.filters.searchDate !== null
+                    }
                   />
                 </Card>
-              </>
-            ) : (
-              <>
-                {!isLoading ? (
-                  <EmptyState
-                    title='Looks no jobs match your filter criteria.'
-                    // subtitle='Click the Add New Job button to create your first job'
-                  />
-                ) : (
-                  <EmptyState
-                    title='Looks like you have not created any Jobs yet.'
-                    subtitle='Click the Add New Job button to create your first job'
-                  />
-                )}
               </>
             )}
           </Stack>
