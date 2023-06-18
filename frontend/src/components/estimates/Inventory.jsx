@@ -37,7 +37,6 @@ function Inventory({ tempInventoryRef, toggleSidebar, sideBarOpen }) {
   const [currentRoomItems, setCurrentRoomItems] = useState([])
   const [currentTotalRoom, setCurrentTotalRoom] = useState(0)
   const [inventory, setInventory] = useState([])
-  console.log('inventory', inventory)
 
   const inventoryRef = useRef([])
   const { tempInventory } = useSelector((state) => state.estimates)

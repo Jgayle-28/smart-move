@@ -8,10 +8,27 @@ import {
   SvgIcon,
   TextField,
   Typography,
+  Autocomplete,
 } from '@mui/material'
+import { createFilterOptions } from '@mui/material/Autocomplete'
+import { Tip } from 'src/components/tip'
+
+const paymentItemList = [
+  'Card',
+  'Cash',
+  'Check',
+  'Zelle',
+  'Venmo',
+  'Cash App',
+  'Other',
+]
+
+const filter = createFilterOptions()
 
 export const PaymentDetailStep = (props) => {
   const { formik, onBack, onNext, isEdit = false, ...other } = props
+
+  console.log('formik.values', formik.values)
 
   return (
     <Stack spacing={3} {...other}>
@@ -46,13 +63,42 @@ export const PaymentDetailStep = (props) => {
             Billing same as customer
           </Typography>
         </Box>
-        <TextField
-          fullWidth
-          label='Payment Type'
-          name='paymentType'
-          onChange={formik.handleChange}
+        <Tip message='To add a payment type not listed, type in the INPUT and then hit ENTER.' />
+        <Autocomplete
           value={formik.values.paymentType}
-          placeholder=''
+          onChange={(event, newValue) => {
+            formik.setFieldValue('paymentType', newValue)
+          }}
+          filterOptions={(options, params) => {
+            const filtered = filter(options, params)
+            const { inputValue } = params
+            // Suggest the creation of a new value
+            const isExisting = options.some((option) => inputValue === option)
+            if (inputValue !== '' && !isExisting) {
+              filtered.push(inputValue)
+            }
+
+            return filtered
+          }}
+          id='free-solo-with-text-demo'
+          options={paymentItemList}
+          getOptionLabel={(option) => {
+            // Value selected with enter, right from the input
+            if (typeof option === 'string') {
+              return option
+            }
+            // Add "xxx" option created dynamically
+            if (option.inputValue) {
+              return option.inputValue
+            }
+            // Regular option
+            return option.value
+          }}
+          renderOption={(props, option) => <li {...props}>{option}</li>}
+          freeSolo
+          renderInput={(params) => (
+            <TextField {...params} label='Payment Type' />
+          )}
         />
       </Stack>
       {!isEdit && (

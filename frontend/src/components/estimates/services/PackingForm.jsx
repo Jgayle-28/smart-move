@@ -5,6 +5,7 @@ import {
   Unstable_Grid2 as Grid,
   Box,
   Divider,
+  Autocomplete,
 } from '@mui/material'
 import { MobileDatePicker, MobileTimePicker } from '@mui/x-date-pickers'
 import _ from 'lodash'
@@ -12,15 +13,14 @@ import { useEffect, useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { Scrollbar } from 'src/components/scrollbar'
 import { Tip } from 'src/components/tip'
-import {
-  addPackingItem,
-  calculateTotalPackingFees,
-  removePackingItem,
-} from 'src/utils/services/packing'
+import { addPackingItem, removePackingItem } from 'src/utils/services/packing'
 import PackingItemsTable from './PackingItemsTable'
 import { useSelector, useDispatch } from 'react-redux'
 import { SeverityPill } from 'src/components/severity-pill'
 import { updatePacking } from 'src/store/estimates/estimateSlice'
+import { createFilterOptions } from '@mui/material/Autocomplete'
+
+const filter = createFilterOptions()
 
 const initialItemValues = {
   packingItem: '',
@@ -28,7 +28,18 @@ const initialItemValues = {
   packingItemPrice: '',
 }
 
+const packingItemList = [
+  'Carton 1.5 Cu Ft.',
+  'Carton 3.0 Cu Ft.',
+  'Carton 4.5 Cu Ft.',
+  'Packing Paper',
+  'Roll of Tape',
+  'Bubble Wrap',
+  'Wardrobe',
+]
+
 function PackingForm({ formik }) {
+  const [value, setValue] = useState(null)
   const [packingItems, setPackingItems] = useState([])
   const [packingObj, setPackingObj] = useState(initialItemValues)
   const { packingItem, packingItemQty, packingItemPrice } = packingObj
@@ -60,11 +71,18 @@ function PackingForm({ formik }) {
   }
 
   const updatePackingItem = (e) => {
-    const { value, name } = e.target
-    setPackingObj((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }))
+    if (typeof e === 'object') {
+      const { value, name } = e.target
+      setPackingObj((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }))
+    } else {
+      setPackingObj((prevState) => ({
+        ...prevState,
+        ['packingItem']: e,
+      }))
+    }
   }
 
   const updatePackingItems = () => {
@@ -130,15 +148,51 @@ function PackingForm({ formik }) {
             <Grid xs={12} md={12}>
               <Divider />
             </Grid>
+            <Grid xs={12} md={12}>
+              <Tip message='If you need to add packing material not listed, type your material in the INPUT and then hit ENTER.' />
+            </Grid>
             <Grid xs={12} md={3}>
-              <TextField
-                fullWidth
-                label='Material'
-                name='packingItem'
-                variant='standard'
-                size='small'
-                onChange={updatePackingItem}
+              <Autocomplete
                 value={packingObj.packingItem}
+                onChange={(event, newValue) => {
+                  updatePackingItem(newValue)
+                }}
+                filterOptions={(options, params) => {
+                  const filtered = filter(options, params)
+                  const { inputValue } = params
+                  // Suggest the creation of a new value
+                  const isExisting = options.some(
+                    (option) => inputValue === option
+                  )
+                  if (inputValue !== '' && !isExisting) {
+                    filtered.push(inputValue)
+                  }
+
+                  return filtered
+                }}
+                id='free-solo-with-text-demo'
+                options={packingItemList}
+                getOptionLabel={(option) => {
+                  // Value selected with enter, right from the input
+                  if (typeof option === 'string') {
+                    return option
+                  }
+                  // Add "xxx" option created dynamically
+                  if (option.inputValue) {
+                    return option.inputValue
+                  }
+                  // Regular option
+                  return option.value
+                }}
+                renderOption={(props, option) => <li {...props}>{option}</li>}
+                freeSolo
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label='Packing Material'
+                    variant='standard'
+                  />
+                )}
               />
             </Grid>
             <Grid xs={12} md={3}>
