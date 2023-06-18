@@ -1,25 +1,25 @@
-import PropTypes from 'prop-types';
-import { Stack } from '@mui/material';
-import { TopNavItem } from './top-nav-item';
+import PropTypes from 'prop-types'
+import { Stack } from '@mui/material'
+import { TopNavItem } from './top-nav-item'
 
 export const TopNavSection = (props) => {
-  const { items = [], pathname } = props;
+  const { items = [], pathname } = props
 
   return (
     <Stack
-      component="ul"
-      direction="row"
+      component='ul'
+      direction='row'
       spacing={1}
       sx={{
         listStyle: 'none',
         m: 0,
-        p: 0
+        p: 0,
       }}
     >
       {items.map((item) => {
-        const checkPath = !!(item.path && pathname);
-        const partialMatch = checkPath ? pathname.includes(item.path) : false;
-        const exactMatch = checkPath ? pathname === item.path : false;
+        const checkPath = !!(item.path && pathname)
+        const partialMatch = checkPath ? pathname.includes(item.path) : false
+        const exactMatch = checkPath ? pathname === item.path : false
 
         // Branch
 
@@ -34,7 +34,7 @@ export const TopNavSection = (props) => {
               label={item.label}
               title={item.title}
             />
-          );
+          )
         }
 
         // Leaf
@@ -50,14 +50,14 @@ export const TopNavSection = (props) => {
             path={item.path}
             title={item.title}
           />
-        );
+        )
       })}
     </Stack>
-  );
-};
+  )
+}
 
 TopNavSection.propTypes = {
   items: PropTypes.array,
   pathname: PropTypes.string,
-  subheader: PropTypes.string
-};
+  subheader: PropTypes.string,
+}

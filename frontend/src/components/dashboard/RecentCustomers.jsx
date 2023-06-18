@@ -31,7 +31,6 @@ export const RecentCustomers = () => {
 
   useEffect(() => {
     if (customers) {
-      console.log('customers', customers)
       const tempCustomers = [...customers]
 
       tempCustomers.sort((a, b) => {

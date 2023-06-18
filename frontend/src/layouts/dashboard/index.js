@@ -1,31 +1,40 @@
-import PropTypes from 'prop-types';
-import { withAuthGuard } from 'src/hocs/with-auth-guard';
-import { useSettings } from 'src/hooks/use-settings';
-import { useSections } from './config';
-import { HorizontalLayout } from './horizontal-layout';
-import { VerticalLayout } from './vertical-layout';
+import PropTypes from 'prop-types'
+import { withAuthGuard } from 'src/hocs/with-auth-guard'
+import { useSettings } from 'src/hooks/use-settings'
+import { HorizontalLayout } from './horizontal-layout'
+import { VerticalLayout } from './vertical-layout'
+import { useSelector } from 'react-redux'
+import { useSections } from './config'
+import { useStandardRoutes } from 'src/routes/standard-routes'
+import { useBusinessRoutes } from 'src/routes/business-routes'
 
 export const Layout = withAuthGuard((props) => {
-  const settings = useSettings();
-  const sections = useSections();
+  const { company } = useSelector((state) => state.company)
+  const settings = useSettings()
+  const subscriptionLevel = company.subscription.toLowerCase()
+
+  const routes =
+    subscriptionLevel === 'standard'
+      ? useStandardRoutes()
+      : subscriptionLevel === 'business'
+      ? useBusinessRoutes()
+      : useSections()
 
   if (settings.layout === 'horizontal') {
     return (
       <HorizontalLayout
-        sections={sections}
+        sections={routes}
         navColor={settings.navColor}
-        {...props} />
-    );
+        {...props}
+      />
+    )
   }
 
   return (
-    <VerticalLayout
-      sections={sections}
-      navColor={settings.navColor}
-      {...props} />
-  );
-});
+    <VerticalLayout sections={routes} navColor={settings.navColor} {...props} />
+  )
+})
 
 Layout.propTypes = {
-  children: PropTypes.node
-};
+  children: PropTypes.node,
+}

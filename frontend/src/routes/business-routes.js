@@ -36,9 +36,8 @@ import { useSelector } from 'react-redux'
  * Updates the side nav routes
  */
 
-export const useSections = () => {
+export const useBusinessRoutes = () => {
   const { t } = useTranslation()
-  const { company } = useSelector((state) => state.company)
 
   return useMemo(() => {
     return [
@@ -61,24 +60,6 @@ export const useSections = () => {
                 <Users03Icon />
               </SvgIcon>
             ),
-            // items: [
-            //   {
-            //     title: t(tokens.nav.list),
-            //     path: paths.dashboard.customers.index,
-            //   },
-            //   {
-            //     title: t(tokens.nav.add),
-            //     path: paths.dashboard.customers.add,
-            //   },
-            //   {
-            //     title: t(tokens.nav.details),
-            //     path: paths.dashboard.customers.details,
-            //   },
-            //   {
-            //     title: t(tokens.nav.edit),
-            //     path: paths.dashboard.customers.edit,
-            //   },
-            // ],
           },
           {
             title: t(tokens.nav.jobs),
@@ -88,16 +69,6 @@ export const useSections = () => {
                 <Truck01Icon />
               </SvgIcon>
             ),
-            // items: [
-            //   {
-            //     title: t(tokens.nav.dashboard),
-            //     path: paths.dashboard.logistics.index,
-            //   },
-            //   {
-            //     title: t(tokens.nav.fleet),
-            //     path: paths.dashboard.logistics.fleet,
-            //   },
-            // ],
           },
           {
             title: t(tokens.nav.estimates),
@@ -107,20 +78,6 @@ export const useSections = () => {
                 <LayoutAlt02Icon />
               </SvgIcon>
             ),
-            // items: [
-            //   {
-            //     title: t(tokens.nav.postList),
-            //     path: paths.dashboard.blog.index,
-            //   },
-            //   {
-            //     title: t(tokens.nav.postDetails),
-            //     path: paths.dashboard.blog.postDetails,
-            //   },
-            //   {
-            //     title: t(tokens.nav.postCreate),
-            //     path: paths.dashboard.blog.postCreate,
-            //   },
-            // ],
           },
           {
             title: t(tokens.nav.calendar),
@@ -131,7 +88,6 @@ export const useSections = () => {
               </SvgIcon>
             ),
           },
-
           {
             title: t(tokens.nav.analytics),
             path: paths.dashboard.analytics,
