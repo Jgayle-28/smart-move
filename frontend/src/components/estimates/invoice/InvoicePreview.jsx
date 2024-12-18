@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import { addDays, format } from 'date-fns'
 import {
   Box,
@@ -17,7 +16,7 @@ import Spinner from 'src/components/shared/Spinner'
 import { useSelector } from 'react-redux'
 import { formatPhoneNumber } from 'src/utils/format-phone-number'
 
-export const InvoicePreview = (props) => {
+export const InvoicePreview = () => {
   const { focusJob } = useSelector((state) => state.jobs)
   const { company } = useSelector((state) => state.company)
   const { focusEstimate } = useSelector((state) => state.estimates)
@@ -66,7 +65,7 @@ export const InvoicePreview = (props) => {
         <Grid container justifyContent='space-between'>
           <Grid xs={12} md={4}>
             <Typography variant='body2'>
-              {company?.companyAddress}
+              {company?.companyAddress || company?.companyAddress?.description}
               {/* <br />
               Level 2, C, 442456
               <br />
@@ -127,7 +126,7 @@ export const InvoicePreview = (props) => {
         <Typography variant='body2'>
           {focusJob.billTo ? focusJob.billTo : focusJob.customer.customerName}
           <br />
-          {focusJob.customer.customerAddress}
+          {focusJob?.customer?.customerAddress?.description || ''}
           {/* <br />
           {invoice.customer.taxId}
           <br />
@@ -213,8 +212,4 @@ export const InvoicePreview = (props) => {
       </Box> */}
     </Card>
   )
-}
-
-InvoicePreview.propTypes = {
-  invoice: PropTypes.object.isRequired,
 }

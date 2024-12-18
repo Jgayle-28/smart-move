@@ -85,7 +85,7 @@ export const CustomerListTable = (props) => {
                     <TableCell>{customer.customerEmail}</TableCell>
                     <TableCell>
                       <Typography variant='subtitle2'>
-                        {customer.customerAddress}
+                        {customer.customerAddress.description}
                       </Typography>
                     </TableCell>
                     <TableCell align='right'>

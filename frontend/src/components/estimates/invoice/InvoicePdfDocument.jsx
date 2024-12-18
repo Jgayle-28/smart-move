@@ -134,7 +134,7 @@ export const InvoicePdfDocument = ({ focusJob, company, focusEstimate }) => {
   const dueDate = format(addDays(today, 7).getTime(), 'MM/dd/yyyy')
   const styles = useStyles()
 
-  if (!focusEstimate || !focusJob || !company) return <Spinner />
+  if (!focusEstimate || !focusJob || !company) return <></>
   return (
     <Document>
       <Page size='A4' style={styles.page}>
@@ -156,7 +156,7 @@ export const InvoicePdfDocument = ({ focusJob, company, focusEstimate }) => {
             )}
 
             <Text style={styles.subtitle2}>
-              {focusEstimate?.invoiceId.toUpperCase() || ''}
+              {focusEstimate?.invoiceId?.toUpperCase() || ''}
             </Text>
           </View>
         </View>
@@ -198,7 +198,7 @@ export const InvoicePdfDocument = ({ focusJob, company, focusEstimate }) => {
           <View>
             <Text style={[styles.subtitle2, styles.gutterBottom]}>Number</Text>
             <Text style={styles.body2}>
-              {focusEstimate?.invoiceId.toUpperCase() || ''}
+              {focusEstimate?.invoiceId?.toUpperCase() || ''}
             </Text>
           </View>
         </View>
@@ -207,16 +207,12 @@ export const InvoicePdfDocument = ({ focusJob, company, focusEstimate }) => {
           <Text style={[styles.subtitle2, styles.gutterBottom]}>Billed to</Text>
           <Text style={styles.body2}>
             {focusJob?.billTo
-              ? focusJob.billTo
-              : focusJob.customer.customerName || ''}
+              ? focusJob?.billTo
+              : focusJob?.customer?.customerName || ''}
           </Text>
           <Text style={styles.body2}>
-            {focusJob.customer.customerAddress || ''}
+            {focusJob?.customer?.customerAddress.description || ''}
           </Text>
-          {/* <Text style={styles.body2}>6934656584231</Text>
-          <Text style={styles.body2}>
-            271 Richmond Rd, Grey Lynn, Auckland 1022, New Zealand
-          </Text> */}
         </View>
         {/*----- Billing Table -----*/}
         <View style={styles.items}>

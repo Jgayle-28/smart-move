@@ -1,7 +1,6 @@
 import { Text, View } from '@react-pdf/renderer'
 
 function EstimatePolicy({ company, styles }) {
-  console.log('company', company)
   return (
     <>
       <View style={styles.section}>

@@ -41,6 +41,7 @@ function Invoice() {
               <Button color='inherit' onClick={dialog.handleOpen}>
                 Preview
               </Button>
+
               <PDFDownloadLink
                 document={
                   <InvoicePdfDocument
@@ -49,7 +50,9 @@ function Invoice() {
                     focusEstimate={focusEstimate}
                   />
                 }
-                fileName={`${focusEstimate?.customer?.customerName}-${focusEstimate?.invoiceId}.pdf`}
+                fileName={`${focusEstimate?.customer?.customerName}-${
+                  focusEstimate?.invoiceId || ''
+                }.pdf`}
                 style={{ textDecoration: 'none' }}
               >
                 <Button color='primary' variant='contained'>

@@ -4,10 +4,11 @@ import * as Yup from 'yup'
 import { useFormik } from 'formik'
 import { Stack, TextField, Typography } from '@mui/material'
 import LoadingButton from '@mui/lab/LoadingButton'
-import { paths } from 'src/paths'
+
 import { toast } from 'react-hot-toast'
 import { useRouter } from 'src/hooks/use-router'
 import { updateUser } from 'src/store/auth/authSlice'
+import { formatPhoneNumber } from 'src/utils/format-phone-number'
 
 const initialValues = {
   companyName: '',
@@ -17,20 +18,13 @@ const initialValues = {
   companyWebsite: '',
 }
 
-const phoneRegExp =
-  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
-
 const validationSchema = Yup.object({
   companyEmail: Yup.string()
     .email('Must be a valid email')
     .max(255)
     .required('Email is required'),
   companyName: Yup.string().max(255).required('Name is required'),
-  companyPhoneNumber: Yup.string().matches(
-    phoneRegExp,
-    'Phone number is not valid'
-  ),
-  companyName: Yup.string().max(255).required('Address is required'),
+  companyAddress: Yup.string().max(255).required('Address is required'),
 })
 
 const CreateCompanyForm = ({ creationCallback }) => {
@@ -70,10 +64,8 @@ const CreateCompanyForm = ({ creationCallback }) => {
             .unwrap()
             .then((res) => {
               console.log('res :>> ', res)
-              toast.success(
-                'Registration complete, hang tight while we redirect you to your dashboard'
-              )
-              setTimeout(() => router.push(paths.dashboard.index), 700)
+              toast.success('Company account created.')
+              creationCallback(3)
             })
         })
     } catch (error) {
@@ -137,7 +129,7 @@ const CreateCompanyForm = ({ creationCallback }) => {
               name='companyPhoneNumber'
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              value={formik.values.companyPhoneNumber}
+              value={formatPhoneNumber(formik.values.companyPhoneNumber)}
             />
             <TextField
               error={
@@ -233,7 +225,7 @@ const CreateCompanyForm = ({ creationCallback }) => {
             type='submit'
             variant='contained'
           >
-            Get Started With Smart Move
+            Next
           </LoadingButton>
         </form>
       </div>

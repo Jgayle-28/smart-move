@@ -22,6 +22,7 @@ app.use('/api/companies', require('./routes/companyRoutes'))
 app.use('/api/customers', require('./routes/customerRoutes'))
 app.use('/api/jobs', require('./routes/jobRoutes'))
 app.use('/api/estimates', require('./routes/estimateRoutes'))
+app.use('/api/payments', require('./routes/paymentRoutes'))
 
 app.use(errorHandler)
 

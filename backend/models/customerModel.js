@@ -31,8 +31,8 @@ const customerSchema = mongoose.Schema(
       default: '',
     },
     customerAddress: {
-      type: String,
-      required: [true, 'Please add a customer address'],
+      type: Object,
+      // required: [true, 'Please add a customer address'],
       // formattedAddress: String,
       // street: String,
       // city: String,

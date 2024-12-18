@@ -13,6 +13,7 @@ import Spinner from 'src/components/shared/Spinner'
 import { exportToExcel } from 'src/utils/export-to-excel'
 import Download01Icon from '@untitled-ui/icons-react/build/esm/Download01'
 import { applyPagination } from 'src/utils/apply-pagination'
+import { clearJobs, getJobs } from 'src/store/jobs/jobSlice'
 
 const initialFilterState = {
   page: 0,
@@ -34,6 +35,7 @@ const Page = () => {
 
   const { company } = useSelector((state) => state.company)
   const { estimates } = useSelector((state) => state.estimates)
+  const { jobs } = useSelector((state) => state.jobs)
   const { user } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
   usePageView()
@@ -42,6 +44,13 @@ const Page = () => {
     if (user) dispatch(getEstimates(user?.company))
     return () => {
       dispatch(clearEstimates())
+    }
+  }, [user, dispatch])
+
+  useEffect(() => {
+    dispatch(getJobs(user.company))
+    return () => {
+      dispatch(clearJobs())
     }
   }, [user, dispatch])
 
@@ -155,7 +164,7 @@ const Page = () => {
     )
   }, [estimates, company])
 
-  if (!estimates || !currentEstimates) return <Spinner />
+  if (!estimates || !currentEstimates || !jobs) return <Spinner />
   return (
     <>
       <Seo title='Dashboard: Order List' />
@@ -196,6 +205,7 @@ const Page = () => {
                       color='inherit'
                       size='small'
                       onClick={exportEstimates}
+                      disabled={!estimates?.length}
                       startIcon={
                         <SvgIcon>
                           <Download01Icon />

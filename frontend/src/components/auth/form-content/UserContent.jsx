@@ -30,7 +30,8 @@ function UserContent() {
     >
       <Box maxWidth='md'>
         <Typography sx={{ mb: 1 }} variant='h4'>
-          Welcome to Smart Move PRO
+          {/* Welcome to  */}
+          Smart Move PRO
         </Typography>
         <Typography color='text.secondary' sx={{ mb: 1 }}>
           The most trusted CRM in the industry.

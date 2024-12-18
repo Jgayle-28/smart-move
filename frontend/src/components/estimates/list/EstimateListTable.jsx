@@ -17,6 +17,7 @@ import { SeverityPill } from 'src/components/severity-pill'
 import EmptyState from 'src/components/shared/EmptyState'
 import AddLocationAltOutlinedIcon from '@mui/icons-material/AddLocationAltOutlined'
 import { RouterLink } from 'src/components/router-link'
+import { useSelector } from 'react-redux'
 
 const statusMap = {
   complete: 'success',
@@ -36,6 +37,9 @@ export const EstimateListTable = (props) => {
     rowsPerPage = 0,
     isSearching = false,
   } = props
+
+  const { jobs } = useSelector((state) => state.jobs)
+  console.log('jobs :>> ', jobs)
 
   return (
     <div>
@@ -94,7 +98,7 @@ export const EstimateListTable = (props) => {
                     </Tooltip>
                     <Box sx={{ ml: 2 }}>
                       <Typography variant='subtitle2'>
-                        {estimate.customer.customerName}
+                        {estimate?.customer?.customerName}
                       </Typography>
                       <Typography color='text.secondary' variant='body2'>
                         Total of ${totalAmount}
@@ -103,7 +107,7 @@ export const EstimateListTable = (props) => {
                   </TableCell>
                   <TableCell align='right'>
                     <SeverityPill color='primary'>
-                      {estimate.job.jobType}
+                      {estimate?.job?.jobType || estimate?.jobType}
                     </SeverityPill>
                   </TableCell>
                 </TableRow>
@@ -117,10 +121,13 @@ export const EstimateListTable = (props) => {
                   : 'Looks like you have not created any estimates yet.'
               }
               subtitle={
-                !isSearching && 'Create your first job to add an estimate'
+                !isSearching &&
+                !jobs?.length &&
+                'Create your first job to add an estimate'
               }
               action={
-                !isSearching && (
+                !isSearching &&
+                !jobs?.length && (
                   <Box display='flex' justifyContent='center'>
                     <Button
                       component={RouterLink}

@@ -10,8 +10,9 @@ import { useBusinessRoutes } from 'src/routes/business-routes'
 
 export const Layout = withAuthGuard((props) => {
   const { company } = useSelector((state) => state.company)
+  console.log('company :>> ', company)
   const settings = useSettings()
-  const subscriptionLevel = company.subscription.toLowerCase()
+  const subscriptionLevel = company?.subscription?.toLowerCase()
 
   const routes =
     subscriptionLevel === 'standard'

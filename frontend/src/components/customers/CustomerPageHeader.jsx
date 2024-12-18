@@ -28,6 +28,7 @@ function CustomerPageHeader() {
           <Button
             color='inherit'
             size='small'
+            disabled={!customers?.length}
             onClick={() =>
               exportToExcel(
                 customers,

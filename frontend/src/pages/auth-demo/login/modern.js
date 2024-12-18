@@ -1,67 +1,64 @@
-import * as Yup from 'yup';
-import { useFormik } from 'formik';
-import ArrowLeftIcon from '@untitled-ui/icons-react/build/esm/ArrowLeft';
-import { Box, Button, Link, Stack, SvgIcon, TextField, Typography } from '@mui/material';
-import { RouterLink } from 'src/components/router-link';
-import { Seo } from 'src/components/seo';
-import { paths } from 'src/paths';
+import * as Yup from 'yup'
+import { useFormik } from 'formik'
+import ArrowLeftIcon from '@untitled-ui/icons-react/build/esm/ArrowLeft'
+import {
+  Box,
+  Button,
+  Link,
+  Stack,
+  SvgIcon,
+  TextField,
+  Typography,
+} from '@mui/material'
+import { RouterLink } from 'src/components/router-link'
+import { Seo } from 'src/components/seo'
+import { paths } from 'src/paths'
 
 const initialValues = {
   email: '',
   password: '',
-  submit: null
-};
+  submit: null,
+}
 
 const validationSchema = Yup.object({
-  email: Yup
-    .string()
+  email: Yup.string()
     .email('Must be a valid email')
     .max(255)
     .required('Email is required'),
-  password: Yup
-    .string()
-    .max(255)
-    .required('Password is required')
-});
+  password: Yup.string().max(255).required('Password is required'),
+})
 
 const Page = () => {
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: () => { }
-  });
+    onSubmit: () => {},
+  })
 
   return (
     <>
-      <Seo title="Login" />
+      <Seo title='Login' />
       <div>
         <Box sx={{ mb: 4 }}>
           <Link
-            color="text.primary"
+            color='text.primary'
             component={RouterLink}
             href={paths.dashboard.index}
             sx={{
               alignItems: 'center',
-              display: 'inline-flex'
+              display: 'inline-flex',
             }}
-            underline="hover"
+            underline='hover'
           >
             <SvgIcon sx={{ mr: 1 }}>
               <ArrowLeftIcon />
             </SvgIcon>
-            <Typography variant="subtitle2">
-              Dashboard
-            </Typography>
+            <Typography variant='subtitle2'>Dashboard</Typography>
           </Link>
         </Box>
-        <Stack
-          sx={{ mb: 4 }}
-          spacing={1}
-        >
-          <Typography variant="h5">
-            Log in
-          </Typography>
-          <Typography
+        <Stack sx={{ mb: 4 }} spacing={1}>
+          <Typography variant='h5'>Log in</Typography>
+          {/* <Typography
             color="text.secondary"
             variant="body2"
           >
@@ -74,59 +71,52 @@ const Page = () => {
             >
               Register
             </Link>
-          </Typography>
+          </Typography> */}
         </Stack>
-        <form
-          noValidate
-          onSubmit={formik.handleSubmit}
-        >
+        <form noValidate onSubmit={formik.handleSubmit}>
           <Stack spacing={3}>
             <TextField
               autoFocus
               error={!!(formik.touched.email && formik.errors.email)}
               fullWidth
               helperText={formik.touched.email && formik.errors.email}
-              label="Email Address"
-              name="email"
+              label='Email Address'
+              name='email'
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              type="email"
+              type='email'
               value={formik.values.email}
             />
             <TextField
               error={!!(formik.touched.password && formik.errors.password)}
               fullWidth
               helperText={formik.touched.password && formik.errors.password}
-              label="Password"
-              name="password"
+              label='Password'
+              name='password'
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              type="password"
+              type='password'
               value={formik.values.password}
             />
           </Stack>
           <Button
             fullWidth
             sx={{ mt: 3 }}
-            size="large"
-            type="submit"
-            variant="contained"
+            size='large'
+            type='submit'
+            variant='contained'
           >
             Continue
           </Button>
           <Box sx={{ mt: 3 }}>
-            <Link
-              href="#"
-              underline="hover"
-              variant="subtitle2"
-            >
+            <Link href='#' underline='hover' variant='subtitle2'>
               Forgot password?
             </Link>
           </Box>
         </form>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Page;
+export default Page

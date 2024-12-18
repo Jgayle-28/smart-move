@@ -66,7 +66,7 @@ const updateCompany = asyncHandler(async (req, res) => {
     res.status(404)
     throw new Error('Company not found')
   }
-  // Update and return new patient
+  // Update and return the updated company
   const updatedCompany = await Company.findByIdAndUpdate(
     req.params.id,
     req.body,

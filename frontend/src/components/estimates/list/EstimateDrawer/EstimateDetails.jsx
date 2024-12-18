@@ -28,6 +28,7 @@ const statusMap = {
 }
 
 export const EstimateDetails = ({ estimate }) => {
+  console.log('estimate :>> ', estimate)
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'))
 
   const align = lgUp ? 'horizontal' : 'vertical'
@@ -71,7 +72,7 @@ export const EstimateDetails = ({ estimate }) => {
             label='Customer'
           >
             <Typography color='text.secondary' variant='body2'>
-              Name: {estimate.customer.customerName}
+              Name: {estimate.customer?.customerName}
             </Typography>
             <Typography color='text.secondary' variant='body2'>
               Email: {estimate.customer.customerEmail}

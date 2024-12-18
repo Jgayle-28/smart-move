@@ -28,8 +28,6 @@ const filter = createFilterOptions()
 export const PaymentDetailStep = (props) => {
   const { formik, onBack, onNext, isEdit = false, ...other } = props
 
-  console.log('formik.values', formik.values)
-
   return (
     <Stack spacing={3} {...other}>
       <Stack spacing={1}>

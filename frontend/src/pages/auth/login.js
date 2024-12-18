@@ -61,12 +61,13 @@ const Page = () => {
         <Card elevation={16}>
           <CardHeader
             subheader={
-              <Typography color='text.secondary' variant='body2'>
-                Don&apos;t have an account? &nbsp;
-                <Link href='/register' underline='hover' variant='subtitle2'>
-                  Register
-                </Link>
-              </Typography>
+              <></>
+              // <Typography color='text.secondary' variant='body2'>
+              //   Don&apos;t have an account? &nbsp;
+              //   <Link href='/register' underline='hover' variant='subtitle2'>
+              //     Register
+              //   </Link>
+              // </Typography>
             }
             sx={{ pb: 0 }}
             title='Log in'

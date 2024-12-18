@@ -7,7 +7,6 @@ import { useLocation } from 'react-router-dom'
 const Page = () => {
   const location = useLocation()
   const { state } = location
-  console.log('state ----->', state)
 
   usePageView()
 

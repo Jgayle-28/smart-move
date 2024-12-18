@@ -10,10 +10,9 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material'
-
 import { Add, Remove } from '@mui/icons-material'
 import CustomerSelect from 'src/components/shared/CustomerSelect'
-import AddressSelect from 'src/components/shared/AddressSelect'
+// import AddressSelect from 'src/components/shared/AddressSelect'
 
 export const CustomerDetailsStep = (props) => {
   const {
@@ -61,7 +60,21 @@ export const CustomerDetailsStep = (props) => {
       <Stack spacing={2}>
         {/*---------- PU Address ----------*/}
         <Stack spacing={1} direction='row'>
-          <AddressSelect
+          <TextField
+            fullWidth
+            label='Pickup Address'
+            name='pickUpAddress'
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            value={formik.values.pickUpAddress}
+            error={
+              !!(formik.touched.pickUpAddress && formik.errors.pickUpAddress)
+            }
+            helperText={
+              formik.touched.pickUpAddress && formik.errors.pickUpAddress
+            }
+          />
+          {/* <AddressSelect
             label='Pickup Address'
             name='pickUpAddress'
             onChange={handleAddressChange}
@@ -73,7 +86,7 @@ export const CustomerDetailsStep = (props) => {
               formik.touched.pickUpAddress && formik.errors.pickUpAddress
             }
             savedValue={formik.values.pickUpAddress}
-          />
+          /> */}
           {!showSecondAddress && (
             <Tooltip title='Add second pickup address'>
               <IconButton
@@ -93,13 +106,29 @@ export const CustomerDetailsStep = (props) => {
         {/*---------- PU Address 2 ----------*/}
         {showSecondAddress && (
           <Stack spacing={1} direction='row'>
-            <AddressSelect
+            <TextField
+              fullWidth
+              label='Second Pickup Address'
+              name='pickUpAddress2'
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.pickUpAddress2}
+              error={
+                !!(
+                  formik.touched.pickUpAddress2 && formik.errors.pickUpAddress2
+                )
+              }
+              helperText={
+                formik.touched.pickUpAddress2 && formik.errors.pickUpAddress2
+              }
+            />
+            {/* <AddressSelect
               label='Second Pickup Address'
               name='pickUpAddress2'
               onChange={handleAddressChange}
               onBlur={formik.handleBlur}
               savedValue={formik.values.pickUpAddress2}
-            />
+            /> */}
             <Tooltip title='Remove second pickup address'>
               <IconButton
                 size='small'
@@ -117,13 +146,21 @@ export const CustomerDetailsStep = (props) => {
         )}
         {/*---------- DO Address ----------*/}
         <Stack spacing={1} direction='row'>
-          <AddressSelect
+          <TextField
+            fullWidth
+            label='Drop Off Address'
+            name='dropOffAddress'
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            value={formik.values.dropOffAddress}
+          />
+          {/* <AddressSelect
             label='Drop Off Address'
             name='dropOffAddress'
             onChange={handleAddressChange}
             onBlur={formik.handleBlur}
             savedValue={formik.values.dropOffAddress}
-          />
+          /> */}
           {!showSecondDropOffAddress && (
             <Tooltip title='Add second pickup address'>
               <IconButton
@@ -143,13 +180,21 @@ export const CustomerDetailsStep = (props) => {
         {/*---------- DO Address 2 ----------*/}
         {showSecondDropOffAddress && (
           <Stack spacing={1} direction='row'>
-            <AddressSelect
+            <TextField
+              fullWidth
+              label='Second Drop Off Address'
+              name='dropOffAddress2'
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              savedValue={formik.values.dropOffAddress2}
+            />
+            {/* <AddressSelect
               label='Second Drop Off Address'
               name='dropOffAddress2'
               onChange={handleAddressChange}
               onBlur={formik.handleBlur}
               savedValue={formik.values.dropOffAddress2}
-            />
+            /> */}
             <Tooltip title='Remove second drop off address'>
               <IconButton
                 size='small'

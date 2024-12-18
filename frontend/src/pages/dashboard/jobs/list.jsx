@@ -55,7 +55,7 @@ const Page = () => {
     return () => {
       dispatch(clearJobs())
     }
-  }, [])
+  }, [user, dispatch])
 
   useEffect(() => {
     if (jobs !== null && !isLoading) setCurrentJobs(jobs)
@@ -137,6 +137,7 @@ const Page = () => {
                     color='inherit'
                     size='small'
                     onClick={exportJobs}
+                    disabled={!jobs?.length}
                     startIcon={
                       <SvgIcon>
                         <Download01Icon />
@@ -162,37 +163,36 @@ const Page = () => {
                 </Button>
               </Stack>
             </Stack>
-            {jobs.length > 0 && (
-              <>
-                <Card>
-                  <JobListSearch
-                    handleFilterJobs={handleFilterJobs}
-                    onFiltersChange={handleFiltersChange}
-                    setSearchQuery={setSearchQuery}
-                    handleResetFilters={handleResetFilters}
-                    searchDate={filterState.filters.searchDate}
-                  />
-                  <JobListTable
-                    jobs={applyPagination(
-                      currentJobs,
-                      filterState.page,
-                      filterState.rowsPerPage
-                    )}
-                    onPageChange={handlePageChange}
-                    onRowsPerPageChange={handleRowsPerPageChange}
-                    page={filterState.page}
-                    count={currentJobs.length || 0}
-                    rowsPerPage={filterState.rowsPerPage}
-                    isSearching={
-                      searchQuery.length > 0 ||
-                      filterState.filters.status.length > 0 ||
-                      filterState.filters.category.length > 0 ||
-                      filterState.filters.searchDate !== null
-                    }
-                  />
-                </Card>
-              </>
-            )}
+
+            <>
+              <Card>
+                <JobListSearch
+                  handleFilterJobs={handleFilterJobs}
+                  onFiltersChange={handleFiltersChange}
+                  setSearchQuery={setSearchQuery}
+                  handleResetFilters={handleResetFilters}
+                  searchDate={filterState.filters.searchDate}
+                />
+                <JobListTable
+                  jobs={applyPagination(
+                    currentJobs,
+                    filterState.page,
+                    filterState.rowsPerPage
+                  )}
+                  onPageChange={handlePageChange}
+                  onRowsPerPageChange={handleRowsPerPageChange}
+                  page={filterState.page}
+                  count={currentJobs.length || 0}
+                  rowsPerPage={filterState.rowsPerPage}
+                  isSearching={
+                    searchQuery.length > 0 ||
+                    filterState.filters.status.length > 0 ||
+                    filterState.filters.category.length > 0 ||
+                    filterState.filters.searchDate !== null
+                  }
+                />
+              </Card>
+            </>
           </Stack>
         </Container>
       </Box>

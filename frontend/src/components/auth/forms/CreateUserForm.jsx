@@ -62,7 +62,7 @@ const CreateUserForm = ({ creationCallback }) => {
       dispatch(registerUser(newUser))
         .unwrap()
         .then(() => {
-          toast.success('Account creation successful')
+          toast.success('User account successfully created!')
           creationCallback(2)
           // setTimeout(() => router.push(paths.dashboard.index), 500)
         })

@@ -7,7 +7,6 @@ import { format } from 'date-fns'
 
 export const JobPreview = ({ selectedCustomer, formik }) => {
   const { createdJob } = useSelector((state) => state.jobs)
-  console.log('createdJob :>> ', createdJob)
 
   const getJobPillLabel = () => {
     switch (formik.values.jobType) {

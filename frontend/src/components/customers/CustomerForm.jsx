@@ -22,10 +22,13 @@ import { useRouter } from 'src/hooks/use-router'
 import { formatPhoneNumber } from 'src/utils/format-phone-number'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import AddressSelect from '../shared/AddressSelect'
 
 export const CustomerForm = (props) => {
-  const [createJob, setCreateJob] = useState(false)
   const { customer, isEdit, ...other } = props
+
+  const [createJob, setCreateJob] = useState(false)
+
   const { user } = useAuth()
   const router = useRouter()
   const dispatch = useDispatch()
@@ -61,6 +64,7 @@ export const CustomerForm = (props) => {
       handleSubmit(helpers)
     },
   })
+  console.log('formik :>> ', formik.values)
 
   const handleSubmit = (helpers) => {
     const customerData = {
@@ -114,6 +118,10 @@ export const CustomerForm = (props) => {
         toast.error(error.message)
       }
     }
+  }
+
+  const handleAddressChange = (name, newValue) => {
+    formik.setFieldValue(name, newValue)
   }
 
   return (
@@ -217,6 +225,24 @@ export const CustomerForm = (props) => {
                 onChange={formik.handleChange}
                 value={formik.values.customerAddress}
               />
+              {/* <AddressSelect
+                error={
+                  !!(
+                    formik.touched.customerAddress &&
+                    formik.errors.customerAddress
+                  )
+                }
+                fullWidth
+                helperText={
+                  formik.touched.customerAddress &&
+                  formik.errors.customerAddress
+                }
+                label='Address'
+                name='customerAddress'
+                onBlur={formik.handleBlur}
+                savedValue={formik.values.customerAddress}
+                onChange={handleAddressChange}
+              /> */}
             </Grid>
             <Grid xs={12} md={6}>
               <TextField

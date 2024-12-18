@@ -145,7 +145,6 @@ export const customerSlice = createSlice({
         state.isLoading = true
       })
       .addCase(addCustomer.fulfilled, (state, action) => {
-        console.log('action.payload', action.payload)
         state.isLoading = false
         state.customers =
           state.customers !== null

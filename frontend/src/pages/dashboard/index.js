@@ -72,9 +72,7 @@ const Page = () => {
     if (!company) {
       dispatch(getCompany(user?.company))
     }
-    if (!customers) {
-      dispatch(getCustomers(user?.company))
-    }
+    dispatch(getCustomers(user?.company))
     dispatch(getCurrentWeekJobs(user?.company))
     dispatch(getCurrentWeekEstimates(user?.company))
     dispatch(getCurrentWeekCustomers(user?.company))
@@ -88,8 +86,9 @@ const Page = () => {
     !currentWeekJobs ||
     !annualJobs ||
     !currentWeekEstimates
-  )
+  ) {
     return <Spinner />
+  }
   return (
     <>
       <Seo title='Dashboard' />

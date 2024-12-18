@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 
 const companySchema = mongoose.Schema(
   {
+    // Company Info
     companyName: {
       type: String,
       required: [true, 'Please add a company name'],
@@ -23,21 +24,21 @@ const companySchema = mongoose.Schema(
     companyAddress: {
       type: String,
       required: false,
-      // formattedAddress: String,
-      // street: String,
-      // city: String,
-      // state: String,
-      // zip: String,
     },
     companyWebsite: { type: String, default: '', required: false },
     companyEstimatePolicy: { type: String, default: '', required: false },
-    billing: { type: Object },
+    // Billing
+    isCurrent: { type: Boolean, default: null },
     subscription: {
       type: String,
       enum: ['Standard', 'Business', 'Elite'],
-      default: 'Standard',
+    },
+    owner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
       required: true,
     },
+    // Not sure if these are being used
     staff: {
       type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
       default: [],
@@ -47,11 +48,6 @@ const companySchema = mongoose.Schema(
       type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
       default: [],
       required: false,
-    },
-    owner: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-      required: true,
     },
   },
   {

@@ -204,9 +204,9 @@ export const TopNav = (props) => {
           <TenantSwitch />
         </Stack>
         <Stack alignItems='center' direction='row' spacing={2}>
-          <LanguageSwitch />
+          {/* <LanguageSwitch /> */}
           <NotificationsButton />
-          <ContactsButton />
+          {/* <ContactsButton /> */}
           <AccountButton />
         </Stack>
       </Stack>
