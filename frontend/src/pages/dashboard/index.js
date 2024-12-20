@@ -38,9 +38,11 @@ import {
   getCurrentWeekCustomers,
   getCustomers,
 } from 'src/store/customers/customerSlice'
+import { clearJobs, getJobs } from 'src/store/jobs/jobSlice'
 import Spinner from 'src/components/shared/Spinner'
 import { getAnnualJobs, getCurrentWeekJobs } from 'src/store/jobs/jobSlice'
 import { getCurrentWeekEstimates } from 'src/store/estimates/estimateSlice'
+import { RecentJobs } from 'src/components/dashboard/RecentJobs'
 
 const now = new Date()
 
@@ -77,6 +79,7 @@ const Page = () => {
     dispatch(getCurrentWeekEstimates(user?.company))
     dispatch(getCurrentWeekCustomers(user?.company))
     dispatch(getAnnualJobs(user?.company))
+    dispatch(getJobs(user.company))
   }
 
   if (
@@ -159,11 +162,15 @@ const Page = () => {
 
             {/*------ Overview *------*/}
             <Grid xs={12} md={7}>
-              <OverviewSubscriptionUsage />
+              <RecentJobs />
             </Grid>
             {/*------ Recent Customers ------*/}
             <Grid xs={12} md={5}>
               <RecentCustomers />
+            </Grid>
+            {/* Analytics */}
+            <Grid xs={12} md={12}>
+              <OverviewSubscriptionUsage />
             </Grid>
             {/* <Grid xs={12} md={7}>
               <OverviewTransactions
