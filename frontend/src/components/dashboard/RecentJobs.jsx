@@ -17,10 +17,8 @@ import {
   Stack,
 } from '@mui/material'
 import { customLocale } from 'src/utils/date-locale'
-import { RouterLink } from 'src/components/router-link'
 import { useSelector } from 'react-redux'
 import Spinner from '../shared/Spinner'
-import { getInitials } from 'src/utils/get-initials'
 import { useRouter } from 'src/hooks/use-router'
 import Users03Icon from 'src/icons/untitled-ui/duocolor/users-03'
 import { SeverityPill } from '../severity-pill'
@@ -71,17 +69,6 @@ export const RecentJobs = () => {
                 }}
                 onClick={() => router.push(`/dashboard/jobs/${job._id}`)}
               >
-                {/* <ListItemAvatar>
-                  <Avatar
-                    sx={{
-                      height: 42,
-                      width: 42,
-                    }}
-                  >
-                    
-                    PH
-                  </Avatar>
-                </ListItemAvatar> */}
                 <ListItemText
                   disableTypography
                   primary={
@@ -135,23 +122,6 @@ export const RecentJobs = () => {
           <Typography variant='body2'>No Jobs found</Typography>
         </Stack>
       )}
-
-      {/* <Divider /> */}
-      {/* <CardActions>
-        <Button
-          component={RouterLink}
-          href='/dashboard/customers'
-          color='inherit'
-          endIcon={
-            <SvgIcon>
-              <ArrowRightIcon />
-            </SvgIcon>
-          }
-          size='small'
-        >
-          Go to customers
-        </Button>
-      </CardActions> */}
     </Card>
   )
 }

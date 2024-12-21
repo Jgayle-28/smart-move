@@ -1,5 +1,18 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { Box, Button, Divider, Stack, SvgIcon, Typography } from '@mui/material'
+import {
+  Box,
+  Button,
+  Divider,
+  Stack,
+  SvgIcon,
+  Typography,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  useMediaQuery,
+} from '@mui/material'
 import { Seo } from 'src/components/seo'
 import { useDialog } from 'src/hooks/use-dialog'
 import { usePageView } from 'src/hooks/use-page-view'
@@ -13,7 +26,13 @@ import Spinner from 'src/components/shared/Spinner'
 import { exportToExcel } from 'src/utils/export-to-excel'
 import Download01Icon from '@untitled-ui/icons-react/build/esm/Download01'
 import { applyPagination } from 'src/utils/apply-pagination'
-import { clearJobs, getJobs } from 'src/store/jobs/jobSlice'
+import { clearJobs, getJobs, updateJob } from 'src/store/jobs/jobSlice'
+import { addEstimate } from 'src/store/estimates/estimateSlice'
+import { useTheme } from '@emotion/react'
+import { useRouter } from 'src/hooks/use-router'
+import JobSelect from 'src/components/shared/JobSelect'
+import toast from 'react-hot-toast'
+import { paths } from 'src/paths'
 
 const initialFilterState = {
   page: 0,
@@ -29,6 +48,8 @@ const Page = () => {
 
   const [searchQuery, setSearchQuery] = useState('')
   const [sortBy, setSortBy] = useState('Newest')
+  const [coneModalOpen, setConeModalOpen] = useState(false)
+  const [jobToCloneTo, setJobToCloneTo] = useState(null)
 
   const rootRef = useRef(null)
   const dialog = useDialog()
@@ -38,7 +59,10 @@ const Page = () => {
   const { jobs } = useSelector((state) => state.jobs)
   const { user } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
+  const router = useRouter()
   usePageView()
+  const theme = useTheme()
+  const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
 
   useEffect(() => {
     if (user) dispatch(getEstimates(user?.company))
@@ -164,10 +188,36 @@ const Page = () => {
     )
   }, [estimates, company])
 
+  const handleCloneClick = () => {
+    const job = jobs.find((job) => job._id === jobToCloneTo)
+    // Clone estimate to job
+    const estimateData = {
+      ...focusEstimate,
+      job: job._id,
+      company: job.company,
+      customer: job.customer._id,
+      createdBy: user._id,
+    }
+    // delete estimate id to prevent duplicate
+    delete estimateData._id
+    dispatch(addEstimate(estimateData))
+      .unwrap()
+      .then((res) => {
+        if (res) {
+          dispatch(updateJob({ ...job, estimate: res._id }))
+        }
+        toast.success('Estimate successfully cloned')
+        router.push(
+          `${paths.dashboard.estimates.index}/${job._id}/edit/${res._id}`
+        )
+      })
+    setConeModalOpen(false)
+  }
+
   if (!estimates || !currentEstimates || !jobs) return <Spinner />
   return (
     <>
-      <Seo title='Dashboard: Order List' />
+      <Seo title='Dashboard: Estimate List' />
       <Divider />
       <Box
         component='main'
@@ -241,6 +291,8 @@ const Page = () => {
               page={filterState.page}
               rowsPerPage={filterState.rowsPerPage}
               isSearching={searchQuery.length > 0}
+              coneModalOpen={coneModalOpen}
+              setConeModalOpen={setConeModalOpen}
             />
           </EstimateListContainer>
           <EstimateDrawer
@@ -248,7 +300,53 @@ const Page = () => {
             onClose={dialog.handleClose}
             open={dialog.open}
             estimate={focusEstimate}
+            coneModalOpen={coneModalOpen}
+            setConeModalOpen={setConeModalOpen}
+            focusEstimate={focusEstimate}
           />
+          <Dialog
+            fullScreen={fullScreen}
+            size='md'
+            open={coneModalOpen}
+            onClose={() => setConeModalOpen(false)}
+            aria-labelledby='responsive-dialog-title'
+            PaperProps={{
+              sx: {
+                height: '300px',
+                overflow: 'visible',
+              },
+            }}
+          >
+            <DialogTitle id='responsive-dialog-title'>
+              {'Select a Job to Clone estimate to'}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText>
+                In order to clone this estimate to a job, you must select a job
+                from the list below.
+              </DialogContentText>
+              <Box sx={{ mt: 2 }}>
+                <JobSelect onChange={setJobToCloneTo} />
+              </Box>
+            </DialogContent>
+            <DialogActions>
+              <Button
+                autoFocus
+                onClick={() => setConeModalOpen(false)}
+                color='primary'
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={handleCloneClick}
+                autoFocus
+                variant='contained'
+                color='primary'
+              >
+                Clone
+              </Button>
+            </DialogActions>
+          </Dialog>
         </Box>
       </Box>
     </>

@@ -39,7 +39,6 @@ export const EstimateListTable = (props) => {
   } = props
 
   const { jobs } = useSelector((state) => state.jobs)
-  console.log('jobs :>> ', jobs)
 
   return (
     <div>

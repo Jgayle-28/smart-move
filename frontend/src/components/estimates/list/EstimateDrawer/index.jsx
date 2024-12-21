@@ -12,7 +12,7 @@ import {
 import { EstimateDetails } from './EstimateDetails.jsx'
 
 export const EstimateDrawer = (props) => {
-  const { container, onClose, open, order, estimate } = props
+  const { container, onClose, open, estimate, setConeModalOpen } = props
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'))
 
   let content = null
@@ -29,9 +29,7 @@ export const EstimateDrawer = (props) => {
             py: 2,
           }}
         >
-          <Typography color='inherit' variant='h6'>
-            {/* {order.number} */}
-          </Typography>
+          <Typography color='inherit' variant='h6'></Typography>
           <IconButton color='inherit' onClick={onClose}>
             <SvgIcon>
               <XIcon />
@@ -41,10 +39,12 @@ export const EstimateDrawer = (props) => {
         <Box
           sx={{
             px: 3,
-            // py: 4,
           }}
         >
-          <EstimateDetails estimate={estimate} />
+          <EstimateDetails
+            estimate={estimate}
+            setConeModalOpen={setConeModalOpen}
+          />
         </Box>
       </div>
     )
