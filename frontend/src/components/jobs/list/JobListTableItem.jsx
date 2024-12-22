@@ -9,6 +9,9 @@ import PostAddIcon from '@mui/icons-material/PostAdd'
 import DescriptionIcon from '@mui/icons-material/Description'
 import FileOpenIcon from '@mui/icons-material/FileOpen'
 import XIcon from '@untitled-ui/icons-react/build/esm/X'
+import FileCopyIcon from '@mui/icons-material/FileCopy'
+import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined'
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined'
 import {
   Box,
   Button,
@@ -31,7 +34,7 @@ import {
 import { SeverityPill } from 'src/components/severity-pill'
 import { RouterLink } from 'src/components/router-link'
 import { useDispatch } from 'react-redux'
-import { deleteJob, getJobs } from 'src/store/jobs/jobSlice'
+import { addJob, deleteJob, getJobs } from 'src/store/jobs/jobSlice'
 import { toast } from 'react-hot-toast'
 import { useSelector } from 'react-redux'
 import { PDFDownloadLink } from '@react-pdf/renderer'
@@ -64,6 +67,29 @@ function JobListTableItem({ job, currentProduct, handleProductToggle }) {
       .unwrap()
       .then(() => {
         toast.success('Job successfully deleted')
+        dispatch(getJobs(user.company))
+      })
+  }
+
+  const handleJobCloneClick = () => {
+    const newJob = {
+      ...job,
+      createdBy: user._id,
+      jobDate: null,
+      jobTime: null,
+      estimateDate: null,
+      estimateTime: null,
+      isPaid: false,
+      jobTitle: `${job.jobTitle} (Clone)`,
+    }
+    delete newJob._id
+    delete newJob.createdAt
+    delete newJob.updatedAt
+
+    dispatch(addJob(newJob))
+      .unwrap()
+      .then((res) => {
+        toast.success('Job successfully cloned')
         dispatch(getJobs(user.company))
       })
   }
@@ -107,11 +133,11 @@ function JobListTableItem({ job, currentProduct, handleProductToggle }) {
                 cursor: 'pointer',
               }}
             >
-              <Typography variant='subtitle2'>
-                {job?.customer?.customerName}
-              </Typography>
               <Typography color='text.secondary' variant='body2'>
-                {job?.customer?.customerEmail}
+                {job?.jobTitle}
+              </Typography>
+              <Typography variant='subtitle2'>
+                {job?.customer?.customerName} | {job?.customer?.customerEmail}
               </Typography>
             </Box>
           </Box>
@@ -243,6 +269,23 @@ function JobListTableItem({ job, currentProduct, handleProductToggle }) {
                   primary={<Typography variant='body1'>Edit</Typography>}
                 />
               </ListItem>
+              <ListItemButton
+                onClick={handleJobCloneClick}
+                sx={{
+                  borderRadius: 1,
+                  px: 1,
+                  py: 0.5,
+                }}
+              >
+                <ListItemIcon>
+                  <SvgIcon fontSize='small'>
+                    <FileCopyIcon />
+                  </SvgIcon>
+                </ListItemIcon>
+                <ListItemText
+                  primary={<Typography variant='body1'>Clone</Typography>}
+                />
+              </ListItemButton>
               <ListItemButton
                 onClick={handleJobDeleteClick}
                 sx={{

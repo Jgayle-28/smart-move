@@ -44,7 +44,7 @@ export const JobListTable = (props) => {
           <TableHead>
             <TableRow>
               <TableCell />
-              <TableCell>Name</TableCell>
+              <TableCell>Details</TableCell>
               <TableCell>Phone</TableCell>
               <TableCell>Estimate </TableCell>
               <TableCell>Type</TableCell>

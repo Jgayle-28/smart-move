@@ -14,6 +14,7 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  Tooltip,
   Typography,
 } from '@mui/material'
 import { RouterLink } from 'src/components/router-link'
@@ -22,7 +23,9 @@ import { paths } from 'src/paths'
 import { getInitials } from 'src/utils/get-initials'
 import { stringToColor } from 'src/utils/string-to-color'
 import { formatPhoneNumber } from 'src/utils/format-phone-number'
+import PostAddOutlinedIcon from '@mui/icons-material/PostAddOutlined'
 import EmptyState from '../shared/EmptyState'
+import { useNavigate } from 'react-router-dom'
 
 export const CustomerListTable = (props) => {
   const {
@@ -34,6 +37,8 @@ export const CustomerListTable = (props) => {
     rowsPerPage = 0,
     isSearching = false,
   } = props
+
+  const navigate = useNavigate()
 
   return (
     <Box sx={{ position: 'relative' }}>
@@ -89,22 +94,39 @@ export const CustomerListTable = (props) => {
                       </Typography>
                     </TableCell>
                     <TableCell align='right'>
-                      <IconButton
-                        component={RouterLink}
-                        href={`/dashboard/customers/${customer._id}/edit`}
-                      >
-                        <SvgIcon fontSize='small'>
-                          <Edit02Icon />
-                        </SvgIcon>
-                      </IconButton>
-                      <IconButton
-                        component={RouterLink}
-                        href={`/dashboard/customers/${customer._id}`}
-                      >
-                        <SvgIcon fontSize='small'>
-                          <ArrowRightIcon />
-                        </SvgIcon>
-                      </IconButton>
+                      <Tooltip title='Edit Customer'>
+                        <IconButton
+                          component={RouterLink}
+                          href={`/dashboard/customers/${customer._id}/edit`}
+                        >
+                          <SvgIcon fontSize='small'>
+                            <Edit02Icon />
+                          </SvgIcon>
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title='Create job for customer'>
+                        <IconButton
+                          onClick={() =>
+                            navigate(`/dashboard/jobs/create`, {
+                              state: { customer },
+                            })
+                          }
+                        >
+                          <SvgIcon fontSize='small'>
+                            <PostAddOutlinedIcon />
+                          </SvgIcon>
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title='View Details'>
+                        <IconButton
+                          component={RouterLink}
+                          href={`/dashboard/customers/${customer._id}`}
+                        >
+                          <SvgIcon fontSize='small'>
+                            <ArrowRightIcon />
+                          </SvgIcon>
+                        </IconButton>
+                      </Tooltip>
                     </TableCell>
                   </TableRow>
                 )

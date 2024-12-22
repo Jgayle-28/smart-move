@@ -34,7 +34,7 @@ const initialFilterState = {
     searchDate: null,
   },
   page: 0,
-  rowsPerPage: 5,
+  rowsPerPage: 25,
 }
 
 const Page = () => {
