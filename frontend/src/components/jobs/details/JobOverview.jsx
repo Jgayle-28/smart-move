@@ -20,6 +20,7 @@ import { InvoicePdfDocument } from 'src/components/estimates/invoice/InvoicePdfD
 import { EstimatePdfDocument } from 'src/components/estimates/review/EstimatePdfDocument'
 import { updateJob } from 'src/store/jobs/jobSlice'
 import { toast } from 'react-hot-toast'
+import AddToGoogleButton from 'src/components/shared/AddToGoogleButton'
 
 export const JobOverview = (props) => {
   const { focusJob } = useSelector((state) => state.jobs)
@@ -51,6 +52,28 @@ export const JobOverview = (props) => {
       .then(() => {
         toast.success('Job successfully updated')
       })
+  }
+
+  const goggleCalendarEvent = {
+    title: focusJob.jobTitle,
+    description: focusJob.jobComments,
+    location: focusJob.pickUpAddress || focusJob.dropOffAddress,
+    startDate: focusJob.jobDate,
+    startTime: focusJob.jobStartTime,
+    endDate: focusJob.jobDate,
+    endTime: focusJob.jobStartTime,
+  }
+
+  // TODO: should I add the customer to the estimate event?
+
+  const goggleCalendarEstimateEvent = {
+    title: `Estimate for ${focusJob.customer.customerName}`,
+    description: focusJob.jobComments,
+    location: focusJob.pickUpAddress || focusJob.dropOffAddress,
+    startDate: focusJob.estimateDate,
+    startTime: focusJob.estimateTime,
+    endDate: focusJob.estimateDate,
+    endTime: focusJob.estimateTime,
   }
 
   if (focusJob !== null)
@@ -204,6 +227,20 @@ export const JobOverview = (props) => {
                 </Stack>
               </>
             )}
+            <Stack sx={{ marginTop: 2 }} spacing={2}>
+              {focusJob && focusJob.jobDate && focusJob.jobStartTime && (
+                <AddToGoogleButton
+                  eventDetails={goggleCalendarEvent}
+                  type='Move'
+                />
+              )}
+              {focusJob && focusJob.estimateDate && focusJob.estimateTime && (
+                <AddToGoogleButton
+                  eventDetails={goggleCalendarEstimateEvent}
+                  type='Estimate'
+                />
+              )}
+            </Stack>
           </CardContent>
         </Card>
       </>

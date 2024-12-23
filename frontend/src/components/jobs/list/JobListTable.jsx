@@ -49,6 +49,7 @@ export const JobListTable = (props) => {
               <TableCell>Estimate </TableCell>
               <TableCell>Type</TableCell>
               <TableCell>Status</TableCell>
+              <TableCell>Created</TableCell>
               <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>

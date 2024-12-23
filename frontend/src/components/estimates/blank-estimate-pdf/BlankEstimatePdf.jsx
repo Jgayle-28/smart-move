@@ -201,7 +201,7 @@ export const BlankEstimatePdf = ({ focusJob, company, focusEstimate }) => {
             </Text>
             <Text style={styles.body2}>
               {' '}
-              {focusJob?.pickUpAddress?.description || ''}
+              {focusJob?.pickUpAddress || 'TBD'}
             </Text>
             {/* <Text style={styles.body2}>Level 2, C, 442456</Text>
             <Text style={styles.body2}>San Francisco, CA, USA</Text> */}

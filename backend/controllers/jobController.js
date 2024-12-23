@@ -95,6 +95,7 @@ const getJobs = asyncHandler(async (req, res) => {
   const jobs = await Job.find({
     company: req.params.id,
   })
+    .sort({ createdAt: -1 })
     .populate('customer')
     .populate('createdBy')
     .populate('estimate')

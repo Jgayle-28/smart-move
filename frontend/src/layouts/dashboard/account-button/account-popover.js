@@ -86,7 +86,7 @@ export const AccountPopover = (props) => {
             </SvgIcon>
           </ListItemIcon>
           <ListItemText
-            primary={<Typography variant='body1'>Settings</Typography>}
+            primary={<Typography variant='body1'>Account</Typography>}
           />
         </ListItemButton>
         {/* <ListItemButton

@@ -10,8 +10,6 @@ import DescriptionIcon from '@mui/icons-material/Description'
 import FileOpenIcon from '@mui/icons-material/FileOpen'
 import XIcon from '@untitled-ui/icons-react/build/esm/X'
 import FileCopyIcon from '@mui/icons-material/FileCopy'
-import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined'
-import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined'
 import {
   Box,
   Button,
@@ -40,6 +38,7 @@ import { useSelector } from 'react-redux'
 import { PDFDownloadLink } from '@react-pdf/renderer'
 import TableItemDetails from './TableItemDetails'
 import { BlankEstimatePdf } from 'src/components/estimates/blank-estimate-pdf/BlankEstimatePdf'
+import { format } from 'date-fns'
 
 function JobListTableItem({ job, currentProduct, handleProductToggle }) {
   const [anchorEl, setAnchorEl] = useState(null)
@@ -202,6 +201,11 @@ function JobListTableItem({ job, currentProduct, handleProductToggle }) {
           <SeverityPill color={job.isPaid ? 'success' : 'warning'}>
             {job.isPaid ? 'Paid' : 'Unpaid'}
           </SeverityPill>
+        </TableCell>
+        <TableCell>
+          <Typography color='text.secondary' variant='body2'>
+            {format(new Date(job.createdAt), 'MM/dd/yyyy')}
+          </Typography>
         </TableCell>
         <TableCell>
           <IconButton

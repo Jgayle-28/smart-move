@@ -62,14 +62,14 @@ export const JobDetailDisplay = (props) => {
                 <div>
                   <Typography variant='subtitle1'>Pick Up</Typography>
                   <Typography color='text.secondary' variant='caption'>
-                    1. {focusJob.pickUpAddress?.description || 'TBD'}
+                    1. {focusJob.pickUpAddress || 'TBD'}
                     {focusJob.pickUpAddress2 && (
                       <Typography
                         component='p'
                         color='text.secondary'
                         variant='caption'
                       >
-                        2. {focusJob.pickUpAddress2?.description}
+                        2. {focusJob.pickUpAddress2 || ''}
                       </Typography>
                     )}
                   </Typography>
@@ -84,14 +84,14 @@ export const JobDetailDisplay = (props) => {
                 <div>
                   <Typography variant='subtitle1'>Drop Off</Typography>
                   <Typography color='text.secondary' variant='caption'>
-                    1. {focusJob.dropOffAddress?.description || 'TBD'}
+                    1. {focusJob.dropOffAddress || 'TBD'}
                     {focusJob.dropOffAddress2 && (
                       <Typography
                         component='p'
                         color='text.secondary'
                         variant='caption'
                       >
-                        2. {focusJob.dropOffAddress2?.description}
+                        2. {focusJob.dropOffAddress2 || ''}
                       </Typography>
                     )}
                   </Typography>
