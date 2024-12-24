@@ -1,3 +1,4 @@
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
 import {
@@ -8,6 +9,12 @@ import {
   Unstable_Grid2 as Grid,
   Stack,
   Typography,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  useMediaQuery,
 } from '@mui/material'
 import { PropertyList } from 'src/components/property-list'
 import { PropertyListItem } from 'src/components/property-list-item'
@@ -21,12 +28,17 @@ import { EstimatePdfDocument } from 'src/components/estimates/review/EstimatePdf
 import { updateJob } from 'src/store/jobs/jobSlice'
 import { toast } from 'react-hot-toast'
 import AddToGoogleButton from 'src/components/shared/AddToGoogleButton'
+import { useTheme } from '@emotion/react'
 
 export const JobOverview = (props) => {
   const { focusJob } = useSelector((state) => state.jobs)
   const { company } = useSelector((state) => state.company)
+  const [eventType, setEventType] = useState('Move')
+  const [modalOpen, setModalOpen] = useState(false)
 
   const dispatch = useDispatch()
+  const theme = useTheme()
+  const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
 
   const getJobPillLabel = () => {
     switch (focusJob.jobType) {
@@ -54,7 +66,7 @@ export const JobOverview = (props) => {
       })
   }
 
-  const goggleCalendarEvent = {
+  const goggleCalendarMoveEvent = {
     title: focusJob.jobTitle,
     description: focusJob.jobComments,
     location: focusJob.pickUpAddress || focusJob.dropOffAddress,
@@ -228,21 +240,100 @@ export const JobOverview = (props) => {
               </>
             )}
             <Stack sx={{ marginTop: 2 }} spacing={2}>
-              {focusJob && focusJob.jobDate && focusJob.jobStartTime && (
+              <Button
+                fullWidth
+                variant='outlined'
+                size='small'
+                disabled={
+                  !focusJob || !focusJob.jobDate || !focusJob.jobStartTime
+                }
+                onClick={() => {
+                  setEventType('Move')
+                  setModalOpen(true)
+                }}
+              >
+                Add Move Calendar
+              </Button>
+              <Button
+                fullWidth
+                variant='outlined'
+                size='small'
+                disabled={
+                  !focusJob || !focusJob.estimateDate || !focusJob.estimateTime
+                }
+                onClick={() => {
+                  setEventType('Estimate')
+                  setModalOpen(true)
+                }}
+              >
+                Add Estimate To Calendar
+              </Button>
+              {/* {focusJob && focusJob.jobDate && focusJob.jobStartTime && (
                 <AddToGoogleButton
                   eventDetails={goggleCalendarEvent}
                   type='Move'
                 />
-              )}
-              {focusJob && focusJob.estimateDate && focusJob.estimateTime && (
+              )} */}
+              {/* {focusJob && focusJob.estimateDate && focusJob.estimateTime && (
                 <AddToGoogleButton
                   eventDetails={goggleCalendarEstimateEvent}
                   type='Estimate'
                 />
-              )}
+              )} */}
             </Stack>
           </CardContent>
         </Card>
+        <Dialog
+          fullScreen={fullScreen}
+          size='md'
+          open={modalOpen}
+          onClose={() => setModalOpen(false)}
+          aria-labelledby='responsive-dialog-title'
+          PaperProps={{
+            sx: {
+              height: '300px',
+              overflow: 'visible',
+            },
+          }}
+        >
+          <DialogTitle id='responsive-dialog-title'>
+            {`What Calendar Would You Like To Add This ${eventType} To?`}
+          </DialogTitle>
+          <DialogContent>
+            <Stack spacing={2} direction='column' sx={{ mt: 2 }}>
+              <AddToGoogleButton
+                eventDetails={
+                  eventType === 'Move'
+                    ? goggleCalendarMoveEvent
+                    : goggleCalendarEstimateEvent
+                }
+                type={eventType}
+                callBack={() => setModalOpen(false)}
+              />
+              <AddToGoogleButton
+                eventDetails={
+                  eventType === 'Move'
+                    ? goggleCalendarMoveEvent
+                    : goggleCalendarEstimateEvent
+                }
+                type={eventType}
+                callBack={() => setModalOpen(false)}
+              />
+            </Stack>
+            {/* <DialogContentText sx={{ mb: 2, fontSize: '0.875rem' }}>
+              Select the calendar you would like to add this {eventType} to.
+            </DialogContentText> */}
+          </DialogContent>
+          <DialogActions>
+            <Button
+              autoFocus
+              onClick={() => setModalOpen(false)}
+              color='primary'
+            >
+              Cancel
+            </Button>
+          </DialogActions>
+        </Dialog>
       </>
     )
 }

@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from 'react'
-import { gapi } from 'gapi-script'
+// AddToGoogleButton.jsx
+import React from 'react'
 import { Button, Tooltip } from '@mui/material'
 import { parseISO } from 'date-fns'
 import { toast } from 'react-hot-toast'
+import { useGoogleCalendar } from '../../hooks/use-google-calendar' // <-- custom hook
+import { gapi } from 'gapi-script'
 
-const CLIENT_ID = process.env.REACT_APP_GOOGLE_0AUTH_CLIENT_ID
-const apiKey = process.env.REACT_APP_GOOGLE_0AUTH_API_KEY
-const SCOPES = 'https://www.googleapis.com/auth/calendar.events'
-
-// Inline Google “G” icon – you can replace with an <img> or your own SVG file
+// Inline Google “G” icon – or your own
 const googleIcon = (
   <svg
     xmlns='http://www.w3.org/2000/svg'
@@ -23,24 +21,28 @@ const googleIcon = (
   </svg>
 )
 
-const AddToGoogleButton = ({ eventDetails, type = 'Move' }) => {
-  const [tokenObj, setTokenObj] = useState(null)
+const AddToGoogleButton = ({
+  eventDetails,
+  type = 'Move',
+  callBack = null,
+}) => {
+  // 1) Use the custom hook
+  const { tokenObj, handleAuthClick, createEvent } = useGoogleCalendar()
 
-  // 1. Safely parse the date/time
+  // 2) Parse date/time from props
   const tempDate = parseISO(eventDetails.startDate)
   const tempTime = parseISO(eventDetails.startTime)
 
-  // 2. Check if both are valid Date objects
+  // Check if both are valid Date objects
   const isDateTimeValid =
     tempDate instanceof Date &&
     !isNaN(tempDate.valueOf()) &&
     tempTime instanceof Date &&
     !isNaN(tempTime.valueOf())
 
-  // 3. Disable buttons if invalid
   const isDisabled = !isDateTimeValid
 
-  // 4. Combine date + time (only if valid)
+  // 3) Combine the date + time if valid
   let finalISO = ''
   if (isDateTimeValid) {
     const combinedDate = new Date(
@@ -57,61 +59,16 @@ const AddToGoogleButton = ({ eventDetails, type = 'Move' }) => {
     finalISO = combinedDate.toISOString()
   }
 
-  useEffect(() => {
-    const initClient = () => {
-      gapi.client
-        .init({
-          apiKey: apiKey,
-          clientId: CLIENT_ID,
-          discoveryDocs: [
-            'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest',
-          ],
-          scope: SCOPES,
-        })
-        .then(() => {
-          const storedToken = getStoredToken()
-          if (storedToken && !isTokenExpired(storedToken)) {
-            gapi.client.setToken({ access_token: storedToken.access_token })
-            setTokenObj(storedToken)
-          }
-        })
-    }
-    gapi.load('client:auth2', initClient)
-  }, [])
-
-  const handleAuthClick = async () => {
-    try {
-      const storedToken = getStoredToken()
-      if (storedToken && !isTokenExpired(storedToken)) {
-        // Reuse valid token
-        gapi.client.setToken({ access_token: storedToken.access_token })
-        setTokenObj(storedToken)
-      } else {
-        // Prompt sign-in
-        const authInstance = gapi.auth2.getAuthInstance()
-        const user = await authInstance.signIn()
-        const authResponse = user.getAuthResponse(true)
-
-        const newToken = {
-          access_token: authResponse.access_token,
-          expires_at: authResponse.expires_at,
-        }
-        storeToken(newToken)
-        gapi.client.setToken({ access_token: newToken.access_token })
-        setTokenObj(newToken)
-      }
-    } catch (error) {
-      console.error('Authentication failed:', error)
-    }
-  }
-
+  // 4) Add event using the hook’s createEvent
   const addEventToCalendar = async () => {
-    if (!tokenObj) {
-      console.error('No valid token. Please sign in first.')
-      return
-    }
     try {
-      const event = {
+      if (!tokenObj) {
+        console.error('No valid token. Please sign in first.')
+        return
+      }
+
+      // Build the event object
+      const eventResource = {
         summary: eventDetails.title,
         location: eventDetails.location,
         description: eventDetails.description || '',
@@ -125,39 +82,21 @@ const AddToGoogleButton = ({ eventDetails, type = 'Move' }) => {
         },
       }
 
-      const response = await gapi.client.calendar.events.insert({
-        calendarId: 'primary',
-        resource: event,
-      })
+      const response = await createEvent(eventResource)
+      if (callBack) callBack()
       toast.success('Successfully added event to Google Calendar')
-      console.log('Event created:', response)
     } catch (error) {
       toast.error('Error adding event to Google Calendar')
       console.error('Error creating event:', error)
     }
   }
 
-  // --- TOKEN UTILITIES ---
-  const storeToken = (token) => {
-    localStorage.setItem('google_auth_token', JSON.stringify(token))
-  }
-
-  const getStoredToken = () => {
-    const stored = localStorage.getItem('google_auth_token')
-    return stored ? JSON.parse(stored) : null
-  }
-
-  const isTokenExpired = (token) => {
-    const now = Date.now()
-    return now >= token.expires_at
-  }
-
   const tooltipText =
-    'Both a date and time are required before adding to google calendar.'
+    'Both a date and time are required before adding to Google Calendar.'
 
+  // 5) Conditionally render the buttons
   return (
     <div style={{ display: 'flex', gap: '1rem' }}>
-      {/** If no token, show sign-in; otherwise show "Add Event". */}
       {!tokenObj ? (
         <Tooltip
           title={isDisabled ? tooltipText : ''}
@@ -174,7 +113,7 @@ const AddToGoogleButton = ({ eventDetails, type = 'Move' }) => {
               startIcon={googleIcon}
               disabled={isDisabled}
             >
-              Sign In to To Add To Google Calendar
+              Sign In to Add to Google Calendar
             </Button>
           </span>
         </Tooltip>
