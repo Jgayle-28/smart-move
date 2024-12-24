@@ -31,6 +31,7 @@ import { toast } from 'react-hot-toast'
 import AddToGoogleButton from 'src/components/shared/AddToGoogleButton'
 import { useTheme } from '@emotion/react'
 import { useGoogleCalendar } from 'src/hooks/use-google-calendar'
+import AddToOutlookButton from 'src/components/shared/AddToOutlookButton'
 
 export const JobOverview = (props) => {
   const { focusJob } = useSelector((state) => state.jobs)
@@ -304,7 +305,7 @@ export const JobOverview = (props) => {
                 type={eventType}
                 callBack={() => setModalOpen(false)}
               />
-              <AddToGoogleButton
+              <AddToOutlookButton
                 eventDetails={
                   eventType === 'Move' ? googleMoveEvent : googleEstimateEvent
                 }
