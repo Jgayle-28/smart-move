@@ -7,6 +7,32 @@ const CLIENT_ID = process.env.REACT_APP_GOOGLE_0AUTH_CLIENT_ID
 const API_KEY = process.env.REACT_APP_GOOGLE_0AUTH_API_KEY
 const SCOPES = 'https://www.googleapis.com/auth/calendar.events'
 
+// 1. Utility function for Move Event
+function generateGoogleCalendarMoveEvent(focusJob) {
+  return {
+    title: focusJob.jobTitle,
+    description: focusJob.jobComments,
+    location: focusJob.pickUpAddress || focusJob.dropOffAddress,
+    startDate: focusJob.jobDate,
+    startTime: focusJob.jobStartTime,
+    endDate: focusJob.jobDate,
+    endTime: focusJob.jobStartTime,
+  }
+}
+
+// 2. Utility function for Estimate Event
+function generateGoogleCalendarEstimateEvent(focusJob) {
+  return {
+    title: `Estimate for ${focusJob.customer?.customerName || ''}`,
+    description: focusJob.jobComments,
+    location: focusJob.pickUpAddress || focusJob.dropOffAddress,
+    startDate: focusJob.estimateDate,
+    startTime: focusJob.estimateTime,
+    endDate: focusJob.estimateDate,
+    endTime: focusJob.estimateTime,
+  }
+}
+
 export function useGoogleCalendar() {
   const [tokenObj, setTokenObj] = useState(null)
 
@@ -104,5 +130,7 @@ export function useGoogleCalendar() {
     handleAuthClick,
     createEvent, // function to create calendar events
     isTokenExpired, // exposed if other components need it
+    generateGoogleCalendarMoveEvent,
+    generateGoogleCalendarEstimateEvent,
   }
 }

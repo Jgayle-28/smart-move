@@ -29,6 +29,7 @@ import { updateJob } from 'src/store/jobs/jobSlice'
 import { toast } from 'react-hot-toast'
 import AddToGoogleButton from 'src/components/shared/AddToGoogleButton'
 import { useTheme } from '@emotion/react'
+import { useGoogleCalendar } from 'src/hooks/use-google-calendar'
 
 export const JobOverview = (props) => {
   const { focusJob } = useSelector((state) => state.jobs)
@@ -39,6 +40,10 @@ export const JobOverview = (props) => {
   const dispatch = useDispatch()
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
+  const {
+    generateGoogleCalendarEstimateEvent,
+    generateGoogleCalendarMoveEvent,
+  } = useGoogleCalendar()
 
   const getJobPillLabel = () => {
     switch (focusJob.jobType) {
@@ -65,28 +70,10 @@ export const JobOverview = (props) => {
         toast.success('Job successfully updated')
       })
   }
-
-  const goggleCalendarMoveEvent = {
-    title: focusJob.jobTitle,
-    description: focusJob.jobComments,
-    location: focusJob.pickUpAddress || focusJob.dropOffAddress,
-    startDate: focusJob.jobDate,
-    startTime: focusJob.jobStartTime,
-    endDate: focusJob.jobDate,
-    endTime: focusJob.jobStartTime,
-  }
-
   // TODO: should I add the customer to the estimate event?
 
-  const goggleCalendarEstimateEvent = {
-    title: `Estimate for ${focusJob.customer.customerName}`,
-    description: focusJob.jobComments,
-    location: focusJob.pickUpAddress || focusJob.dropOffAddress,
-    startDate: focusJob.estimateDate,
-    startTime: focusJob.estimateTime,
-    endDate: focusJob.estimateDate,
-    endTime: focusJob.estimateTime,
-  }
+  const googleMoveEvent = generateGoogleCalendarMoveEvent(focusJob)
+  const googleEstimateEvent = generateGoogleCalendarEstimateEvent(focusJob)
 
   if (focusJob !== null)
     return (
@@ -303,18 +290,14 @@ export const JobOverview = (props) => {
             <Stack spacing={2} direction='column' sx={{ mt: 2 }}>
               <AddToGoogleButton
                 eventDetails={
-                  eventType === 'Move'
-                    ? goggleCalendarMoveEvent
-                    : goggleCalendarEstimateEvent
+                  eventType === 'Move' ? googleMoveEvent : googleEstimateEvent
                 }
                 type={eventType}
                 callBack={() => setModalOpen(false)}
               />
               <AddToGoogleButton
                 eventDetails={
-                  eventType === 'Move'
-                    ? goggleCalendarMoveEvent
-                    : goggleCalendarEstimateEvent
+                  eventType === 'Move' ? googleMoveEvent : googleEstimateEvent
                 }
                 type={eventType}
                 callBack={() => setModalOpen(false)}
