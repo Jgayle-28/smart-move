@@ -15,6 +15,7 @@ import {
   DialogContentText,
   DialogTitle,
   useMediaQuery,
+  Tooltip,
 } from '@mui/material'
 import { PropertyList } from 'src/components/property-list'
 import { PropertyListItem } from 'src/components/property-list-item'
@@ -74,6 +75,10 @@ export const JobOverview = (props) => {
 
   const googleMoveEvent = generateGoogleCalendarMoveEvent(focusJob)
   const googleEstimateEvent = generateGoogleCalendarEstimateEvent(focusJob)
+  const disableMoveButton =
+    !focusJob || !focusJob.jobDate || !focusJob.jobStartTime
+  const disableEstimateButton =
+    !focusJob || !focusJob.estimateDate || !focusJob.estimateTime
 
   if (focusJob !== null)
     return (
@@ -227,46 +232,50 @@ export const JobOverview = (props) => {
               </>
             )}
             <Stack sx={{ marginTop: 2 }} spacing={2}>
-              <Button
-                fullWidth
-                variant='outlined'
-                size='small'
-                disabled={
-                  !focusJob || !focusJob.jobDate || !focusJob.jobStartTime
+              <Tooltip
+                title={
+                  disableMoveButton
+                    ? 'Both move date and time are required before adding to Calendar.'
+                    : ''
                 }
-                onClick={() => {
-                  setEventType('Move')
-                  setModalOpen(true)
-                }}
               >
-                Add Move Calendar
-              </Button>
-              <Button
-                fullWidth
-                variant='outlined'
-                size='small'
-                disabled={
-                  !focusJob || !focusJob.estimateDate || !focusJob.estimateTime
+                <span style={{ width: '100%' }}>
+                  <Button
+                    fullWidth
+                    variant='outlined'
+                    size='small'
+                    disabled={disableMoveButton}
+                    onClick={() => {
+                      setEventType('Move')
+                      setModalOpen(true)
+                    }}
+                  >
+                    Add Move Calendar
+                  </Button>
+                </span>
+              </Tooltip>
+              <Tooltip
+                title={
+                  disableEstimateButton
+                    ? 'Both estimate date and time are required before adding to Calendar.'
+                    : ''
                 }
-                onClick={() => {
-                  setEventType('Estimate')
-                  setModalOpen(true)
-                }}
               >
-                Add Estimate To Calendar
-              </Button>
-              {/* {focusJob && focusJob.jobDate && focusJob.jobStartTime && (
-                <AddToGoogleButton
-                  eventDetails={goggleCalendarEvent}
-                  type='Move'
-                />
-              )} */}
-              {/* {focusJob && focusJob.estimateDate && focusJob.estimateTime && (
-                <AddToGoogleButton
-                  eventDetails={goggleCalendarEstimateEvent}
-                  type='Estimate'
-                />
-              )} */}
+                <span style={{ width: '100%' }}>
+                  <Button
+                    fullWidth
+                    variant='outlined'
+                    size='small'
+                    disabled={disableEstimateButton}
+                    onClick={() => {
+                      setEventType('Estimate')
+                      setModalOpen(true)
+                    }}
+                  >
+                    Add Estimate To Calendar
+                  </Button>
+                </span>
+              </Tooltip>
             </Stack>
           </CardContent>
         </Card>
