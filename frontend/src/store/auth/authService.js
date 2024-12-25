@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { getAxiosConfig } from 'src/utils/get-axios-config'
 import { USER_API_URL } from '../constants'
+import { isTokenExpired } from 'src/utils/auth'
 
 // Register User
 const registerUser = async (userData) => {

@@ -12,7 +12,7 @@ const { protectRoute } = require('../middleware/authMiddleware')
 const router = express.Router()
 
 router.post('/', registerCompany)
-router.get('/', protectRoute, getCompany)
+router.get('/:id', protectRoute, getCompany)
 router.put('/:id', protectRoute, updateCompany)
 router.delete('/:id', protectRoute, deleteCompany)
 router.get('/team-members/:id', protectRoute, getCompanyTeam)

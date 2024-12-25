@@ -98,10 +98,7 @@ const getCompanyTeam = asyncHandler(async (req, res) => {
 // @route /api/companies
 // @access public
 const getCompany = asyncHandler(async (req, res) => {
-  const { companyId } = req.body
-  console.log('companyId :>> ', companyId)
-
-  const company = await Company.findOne({ _id: companyId })
+  const company = await Company.findOne({ _id: req.params.id })
 
   // // If there is a user and the passwords match
   if (company) {
