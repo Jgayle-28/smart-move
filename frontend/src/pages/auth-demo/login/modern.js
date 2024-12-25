@@ -109,7 +109,7 @@ const Page = () => {
             Continue
           </Button>
           <Box sx={{ mt: 3 }}>
-            <Link href='#' underline='hover' variant='subtitle2'>
+            <Link href='/forgot-password' underline='hover' variant='subtitle2'>
               Forgot password?
             </Link>
           </Box>

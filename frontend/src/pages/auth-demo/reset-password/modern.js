@@ -33,7 +33,6 @@ const Page = () => {
   const router = useRouter()
   const dispatch = useDispatch()
   const { token } = useParams()
-  console.log('token :>> ', token)
 
   const handleSubmit = (e) => {
     e.preventDefault()

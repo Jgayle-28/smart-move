@@ -45,7 +45,7 @@ export const Layout = (props) => {
           },
         }}
       >
-        <Box maxWidth='md'>
+        {/* <Box maxWidth='md'>
           <Typography sx={{ mb: 1 }} variant='h4'>
             Welcome to Smart Move PRO
           </Typography>
@@ -77,7 +77,7 @@ export const Layout = (props) => {
             <LogoAccenture />
             <LogoAtt />
           </Stack>
-        </Box>
+        </Box> */}
       </Box>
       <Box
         sx={{
@@ -134,7 +134,7 @@ export const Layout = (props) => {
                   },
                 }}
               >
-                Smart Move <span>PRO</span>
+                Deliverly <span>PRO</span>
               </Box>
             </Stack>
           </Box>

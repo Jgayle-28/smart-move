@@ -123,7 +123,7 @@ export const AccountGeneralSettings = (props) => {
                       },
                     }}
                   />
-                  <TextField
+                  {/* <TextField
                     error={
                       !!(formik.touched.password && formik.errors.password)
                     }
@@ -156,7 +156,7 @@ export const AccountGeneralSettings = (props) => {
                     onChange={formik.handleChange}
                     type='password'
                     value={formik.values.passwordConfirmation}
-                  />
+                  /> */}
                   <LoadingButton
                     loading={isLoading}
                     loadingPosition='start'
