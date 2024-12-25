@@ -65,6 +65,48 @@ export const updateUser = createAsyncThunk(
   }
 )
 
+// Forgot Password Action
+export const forgotPassword = createAsyncThunk(
+  'auth/forgotPassword',
+  async (email, thunkAPI) => {
+    try {
+      return await authService.forgotPassword(email)
+    } catch (error) {
+      const message = extractErrorMessage(error)
+      toast.error(message)
+      return thunkAPI.rejectWithValue(message)
+    }
+  }
+)
+
+// Reset Password Action
+export const resetPassword = createAsyncThunk(
+  'auth/resetPassword',
+  async ({ token, password }, thunkAPI) => {
+    try {
+      return await authService.resetPassword(token, password)
+    } catch (error) {
+      const message = extractErrorMessage(error)
+      toast.error(message)
+      return thunkAPI.rejectWithValue(message)
+    }
+  }
+)
+
+// Confirm Code Action (if you have a confirmation code or other validation)
+export const confirmCode = createAsyncThunk(
+  'auth/confirmCode',
+  async ({ token, code }, thunkAPI) => {
+    try {
+      return await authService.confirmCode(token, code)
+    } catch (error) {
+      const message = extractErrorMessage(error)
+      toast.error(message)
+      return thunkAPI.rejectWithValue(message)
+    }
+  }
+)
+
 export const logoutUser = createAction('auth/logout', () => {
   authService.logoutUser()
   return {}
@@ -134,6 +176,39 @@ export const authSlice = createSlice({
       .addCase(createUser.rejected, (state, action) => {
         state.isLoading = false
         state.user = null
+      })
+      // Forgot Password
+      .addCase(forgotPassword.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(forgotPassword.fulfilled, (state, action) => {
+        state.isLoading = false
+        toast.success('Password reset link sent to your email')
+      })
+      .addCase(forgotPassword.rejected, (state, action) => {
+        state.isLoading = false
+      })
+      // Reset Password
+      .addCase(resetPassword.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(resetPassword.fulfilled, (state, action) => {
+        state.isLoading = false
+        toast.success('Password successfully reset')
+      })
+      .addCase(resetPassword.rejected, (state, action) => {
+        state.isLoading = false
+      })
+      // Confirm Code
+      .addCase(confirmCode.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(confirmCode.fulfilled, (state, action) => {
+        state.isLoading = false
+        toast.success('Code confirmed successfully')
+      })
+      .addCase(confirmCode.rejected, (state, action) => {
+        state.isLoading = false
       })
   },
 })

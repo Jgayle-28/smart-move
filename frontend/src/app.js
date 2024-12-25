@@ -29,9 +29,6 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 // Remove if locales are not used
 import './locales/i18n'
 import useScrollToTop from './hooks/use-scroll-to-top'
-import { useEffect } from 'react'
-import { useRouter } from 'src/hooks/use-router'
-import { isTokenExpired } from './utils/auth'
 
 export const App = () => {
   useAnalytics(gtmConfig)
@@ -39,26 +36,6 @@ export const App = () => {
   useScrollToTop()
 
   const element = useRoutes(routes)
-  const router = useRouter()
-
-  //TODO: Get token from local storage
-
-  useEffect(() => {
-    // Check if user is logged in
-    const user = JSON.parse(localStorage.getItem('sm-user'))
-    if (!user) {
-      router.push('/login')
-    }
-    if (user) {
-      // Check if token is expired
-      if (isTokenExpired(user.token)) {
-        // Logout user
-        localStorage.removeItem('sm-user')
-        // Redirect to login page
-        router.push('/login')
-      }
-    }
-  }, [])
 
   return (
     <ReduxProvider store={store}>

@@ -62,6 +62,26 @@ const updateMember = async (token, memberData) => {
   if (res.data) return res.data
 }
 
+// Forgot Password - Request reset link
+const forgotPassword = async (email) => {
+  const res = await axios.post(`${USER_API_URL}/forgot-password`, { email })
+  return res.data
+}
+
+// Reset Password - Update password
+const resetPassword = async (token, password) => {
+  const res = await axios.post(`${USER_API_URL}/reset-password/${token}`, {
+    password,
+  })
+  return res.data
+}
+
+// Confirm Code - Validate the confirmation code (optional, if you use it)
+const confirmCode = async (token, code) => {
+  const res = await axios.post(`${USER_API_URL}/confirm-code`, { token, code })
+  return res.data
+}
+
 const authService = {
   registerUser,
   updateUser,
@@ -70,6 +90,9 @@ const authService = {
   createUser,
   deleteMember,
   updateMember,
+  forgotPassword,
+  resetPassword,
+  confirmCode,
 }
 
 export default authService

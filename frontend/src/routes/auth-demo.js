@@ -29,7 +29,7 @@ const VerifyCodeModernPage = lazy(() =>
 
 export const authDemoRoutes = [
   {
-    path: 'auth-demo',
+    path: 'auth',
     children: [
       {
         path: 'forgot-password',

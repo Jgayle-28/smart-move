@@ -21,7 +21,15 @@ import { Layout as AuthModernLayout } from 'src/layouts/auth/modern-layout'
 import HomePage from 'src/pages'
 import RegisterPage from 'src/pages/auth/register'
 const LoginPage = lazy(() => import('src/pages/auth/login'))
-
+const ForgotPasswordModernPage = lazy(() =>
+  import('src/pages/auth-demo/forgot-password/modern')
+)
+const VerifyCodeModernPage = lazy(() =>
+  import('src/pages/auth-demo/verify-code/modern')
+)
+const ResetPasswordModernPage = lazy(() =>
+  import('src/pages/auth-demo/reset-password/modern')
+)
 export const routes = [
   {
     element: (
@@ -59,6 +67,30 @@ export const routes = [
       <AuthClassicLayout>
         <LoginPage />
       </AuthClassicLayout>
+    ),
+  },
+  {
+    path: 'forgot-password',
+    element: (
+      <AuthModernLayout>
+        <ForgotPasswordModernPage />
+      </AuthModernLayout>
+    ),
+  },
+  {
+    path: 'verify-code',
+    element: (
+      <AuthModernLayout>
+        <VerifyCodeModernPage />
+      </AuthModernLayout>
+    ),
+  },
+  {
+    path: 'reset-password/:token',
+    element: (
+      <AuthModernLayout>
+        <ResetPasswordModernPage />
+      </AuthModernLayout>
     ),
   },
   {
