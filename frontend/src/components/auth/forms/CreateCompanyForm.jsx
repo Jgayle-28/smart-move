@@ -34,8 +34,6 @@ const CreateCompanyForm = ({ creationCallback }) => {
     onSubmit: () => handleSubmit(),
   })
 
-  console.log('formik :>> ', formik)
-
   const dispatch = useDispatch()
   const router = useRouter()
 
@@ -43,7 +41,6 @@ const CreateCompanyForm = ({ creationCallback }) => {
   const { company, isLoading } = useSelector((state) => state.company)
 
   const handleSubmit = () => {
-    console.log('formik values from company :>> ', formik)
     try {
       const newCompany = {
         companyName: formik.values.companyName,
@@ -63,7 +60,6 @@ const CreateCompanyForm = ({ creationCallback }) => {
           dispatch(updateUser(newUser))
             .unwrap()
             .then((res) => {
-              console.log('res :>> ', res)
               toast.success('Company account created.')
               creationCallback(3)
             })

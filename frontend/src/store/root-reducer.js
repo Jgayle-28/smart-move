@@ -9,6 +9,7 @@ import companyReducer from './company/companySlice'
 import customerReducer from './customers/customerSlice'
 import jobReducer from './jobs/jobSlice'
 import estimateReducer from './estimates/estimateSlice'
+import paymentReducer from './payments/paymentSlice'
 
 export const rootReducer = combineReducers({
   auth: authReducer,
@@ -16,6 +17,7 @@ export const rootReducer = combineReducers({
   customers: customerReducer,
   jobs: jobReducer,
   estimates: estimateReducer,
+  payments: paymentReducer,
   // OLD
   calendar: calendarReducer,
   chat: chatReducer,

@@ -1,3 +1,4 @@
+// paymentController.js
 const asyncHandler = require('express-async-handler')
 const stripe = require('stripe')(
   process.env.NODE_ENV === 'development'
@@ -6,65 +7,104 @@ const stripe = require('stripe')(
 )
 
 const Company = require('../models/companyModel')
+const User = require('../models/userModel')
 
-// @desc Process a payment for a new user
-// @route /api/payments/register/:id
-// @access public
-const processUserRegistrationPayment = asyncHandler(async (req, res) => {
-  const { paymentMethodId, subscriptionLevel } = req.body
+/**
+ * @desc Create a Stripe Checkout Session for a user (subscription flow)
+ * @route POST /api/payments/create-stripe-checkout-session
+ * @access public
+ */
+const createStripeCheckoutSession = asyncHandler(async (req, res) => {
+  const { userId } = req.body
+  // Fetch the user from the database
+  const user = await User.findById(userId)
+
+  // Create a Stripe customer if not already created
+  const customer = await stripe.customers.create({
+    email: user.email,
+    metadata: { userId: user._id.toString() },
+  })
+
+  // Create a Checkout session
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ['card'],
+    mode: 'subscription',
+    line_items: [
+      {
+        price: process.env.DEV_STANDARD_PLAN_ID, // Your Stripe price ID
+        quantity: 1,
+      },
+    ],
+    customer: customer.id,
+    success_url:
+      'http://localhost:3000/payment-success?session_id={CHECKOUT_SESSION_ID}',
+    cancel_url: 'http://localhost:3000/',
+  })
+
+  return res.json({ url: session.url })
+})
+
+/**
+ * @desc Retrieve details of a Checkout Session & update user billing info
+ * @route GET /api/payments/session/:sessionId
+ * @access public (or protected, if you prefer)
+ */
+const retrieveCheckoutSession = asyncHandler(async (req, res) => {
+  const { sessionId } = req.params
 
   try {
-    const paymentMethod = await stripe.paymentMethods.retrieve(paymentMethodId)
+    // 1. Retrieve the session from Stripe
+    const session = await stripe.checkout.sessions.retrieve(sessionId)
 
-    const customer = await stripe.customers.create({
-      payment_method: paymentMethodId,
-      email: paymentMethod.billing_details.email,
-      invoice_settings: {
-        default_payment_method: paymentMethodId,
-      },
-    })
+    // 2. Retrieve the related customer
+    //    We assume you created the customer with metadata containing userId
+    //    e.g., metadata: { userId: user._id.toString() }
+    const customer = await stripe.customers.retrieve(session.customer)
 
-    // TODO-> need add correct priceId based on subscriptionLevel
-    const priceId = process.env.DEV_STANDARD_PLAN_ID
-
-    const subscription = await stripe.subscriptions.create({
-      customer: customer.id,
-      items: [{ price: priceId }],
-      default_payment_method: paymentMethodId,
-    })
-
-    // Update the company's subscription level and isCurrent
-    const company = await Company.findById(req.params.id)
-    // Make sure the company is found
-    if (!company) {
-      res.status(404)
-      throw new Error('Company not found')
+    // 3. Extract the userId from metadata
+    const userId = customer.metadata?.userId
+    if (!userId) {
+      return res
+        .status(400)
+        .json({ error: 'No userId found in Stripe customer metadata' })
     }
 
-    const updatedCompany = await Company.findByIdAndUpdate(
-      req.params.id,
-      { ...company, subscription: subscriptionLevel, isCurrent: true },
-      {
-        new: true,
-      }
-    )
-    //  Payment & Company update succeeded
-    res.status(200).json({ subscription, updatedCompany })
+    // 4. Retrieve the user from your database
+    const user = await User.findById(userId)
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' })
+    }
+
+    // 5. Update the user's billing info or any other fields you need
+    user.billing = {
+      subscriptionId: session.subscription,
+      customerId: session.customer,
+      paymentStatus: session.payment_status,
+      // Add other relevant fields as needed
+    }
+
+    // Save the updated user
+    await user.save()
+
+    // Optionally, retrieve the subscription details too
+    // const subscription = await stripe.subscriptions.retrieve(session.subscription);
+
+    // Respond with session details and the updated user
+    return res.status(200).json({
+      sessionId: session.id,
+      subscriptionId: session.subscription,
+      customerId: session.customer,
+      paymentStatus: session.payment_status,
+      user,
+      // subscription, // if you want to return the subscription object
+    })
   } catch (error) {
-    // Payment failed
-    console.error('Error creating subscription ------>', error)
-    if (error.type === 'StripeCardError') {
-      // Handle specific card errors
-      res.status(400).json({ error: error.message })
-    } else {
-      // Handle other types of errors
-      res
-        .status(500)
-        .json({ error: 'An error occurred while processing the payment.' })
-    }
+    console.error('Error retrieving checkout session:', error)
+    return res.status(500).json({ error: 'Error retrieving checkout session' })
   }
 })
 
 module.exports = {
-  processUserRegistrationPayment,
+  createStripeCheckoutSession,
+  retrieveCheckoutSession,
 }

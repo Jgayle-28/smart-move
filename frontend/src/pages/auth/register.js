@@ -5,26 +5,15 @@ import { Logo } from 'src/components/logo'
 import { RouterLink } from 'src/components/router-link'
 import { paths } from 'src/paths'
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt'
-
 import CreateUserForm from 'src/components/auth/forms/CreateUserForm'
 import CreateCompanyForm from 'src/components/auth/forms/CreateCompanyForm'
 import UserContent from 'src/components/auth/form-content/UserContent'
 import CompanyContent from 'src/components/auth/form-content/CompanyContent'
 import PaymentForm from 'src/components/auth/forms/PaymentForm'
-import { Elements } from '@stripe/react-stripe-js'
-import { loadStripe } from '@stripe/stripe-js'
-const currentApiKey =
-  process.env.NODE_ENV === 'development'
-    ? process.env.REACT_APP_DEV_STRIPE_PK_KEY
-    : process.env.REACT_APP_STRIPE_PK_KEY
-
-const stripePromise = loadStripe(currentApiKey)
-console.log('stripePromise :>> ', stripePromise)
 
 const RegisterPage = () => {
   const [currentStep, setCurrentStep] = useState(1)
 
-  // TODO -> need to add billing step `3` and hook up to stripe
   const getCurrentFormContent = () => {
     switch (currentStep) {
       case 1:
@@ -42,8 +31,8 @@ const RegisterPage = () => {
         return <CreateUserForm creationCallback={setCurrentStep} />
       case 2:
         return <CreateCompanyForm creationCallback={setCurrentStep} />
-      // case 3:
-      //   return <PaymentForm creationCallback={setCurrentStep} />
+      case 3:
+        return <PaymentForm creationCallback={setCurrentStep} />
       default:
         return <CreateUserForm creationCallback={setCurrentStep} />
     }
@@ -58,110 +47,117 @@ const RegisterPage = () => {
   }
 
   return (
-    <Elements stripe={stripePromise}>
+    <Box
+      sx={{
+        backgroundColor: 'background.default',
+        display: 'flex',
+        flex: '1 1 auto',
+        flexDirection: {
+          xs: 'column-reverse',
+          md: 'row',
+        },
+      }}
+    >
+      {/* Form Content // left side */}
+      {getCurrentFormContent()}
       <Box
         sx={{
-          backgroundColor: 'background.default',
+          backgroundColor: 'background.paper',
           display: 'flex',
-          flex: '1 1 auto',
-          flexDirection: {
-            xs: 'column-reverse',
-            md: 'row',
+          flex: {
+            xs: '1 1 auto',
+            md: '0 0 auto',
+          },
+          flexDirection: 'column',
+          justifyContent: {
+            md: 'center',
+          },
+          maxWidth: '100%',
+          p: {
+            xs: 4,
+            md: 8,
+          },
+          width: {
+            md: 600,
           },
         }}
       >
-        {/* Form Content // left side */}
-        {getCurrentFormContent()}
-        <Box
-          sx={{
-            backgroundColor: 'background.paper',
-            display: 'flex',
-            flex: {
-              xs: '1 1 auto',
-              md: '0 0 auto',
-            },
-            flexDirection: 'column',
-            justifyContent: {
-              md: 'center',
-            },
-            maxWidth: '100%',
-            p: {
-              xs: 4,
-              md: 8,
-            },
-            width: {
-              md: 600,
-            },
-          }}
-        >
-          <div>
-            <Box sx={{ mb: 4 }}>
-              <Stack
-                alignItems='center'
-                component={RouterLink}
-                direction='row'
-                display='inline-flex'
-                href={paths.index}
-                spacing={1}
-                sx={{ textDecoration: 'none' }}
-              >
-                <Box
-                  sx={{
-                    display: 'inline-flex',
-                    height: 24,
-                    width: 24,
-                  }}
-                >
-                  <Logo />
-                </Box>
-                <Box
-                  sx={{
-                    color: 'text.primary',
-                    fontFamily: "'Plus Jakarta Sans', sans-serif",
-                    fontSize: 14,
-                    fontWeight: 800,
-                    letterSpacing: '0.3px',
-                    lineHeight: 2.5,
-                    '& span': {
-                      color: 'primary.main',
-                    },
-                  }}
-                >
-                  Smart Move <span>PRO</span>
-                </Box>
-              </Stack>
-            </Box>
+        <div>
+          <Box sx={{ mb: 4 }}>
             <Stack
               alignItems='center'
+              component={RouterLink}
               direction='row'
-              display='flex'
+              display='inline-flex'
+              href={paths.index}
               spacing={1}
               sx={{ textDecoration: 'none' }}
             >
-              <Typography color='text.primary'>User Info </Typography>{' '}
-              <SvgIcon color='text.primary'>
-                <ArrowRightAltIcon
-                  sx={{
-                    color: 'text.primary',
-                  }}
-                />
-              </SvgIcon>
-              <Typography color={getStepColor(2)}>Company Info </Typography>
-              <SvgIcon>
-                <ArrowRightAltIcon
-                  sx={{
-                    color: getStepColor(2),
-                  }}
-                />
-              </SvgIcon>
-              <Typography color={getStepColor(3)}>Payment</Typography>
+              <Box
+                sx={{
+                  display: 'inline-flex',
+                  height: 24,
+                  width: 24,
+                }}
+              >
+                <Logo />
+              </Box>
+              <Box
+                sx={{
+                  color: 'text.primary',
+                  fontFamily: "'Plus Jakarta Sans', sans-serif",
+                  fontSize: 14,
+                  fontWeight: 800,
+                  letterSpacing: '0.3px',
+                  lineHeight: 2.5,
+                  '& span': {
+                    color: 'primary.main',
+                  },
+                }}
+              >
+                Smart Move <span>PRO</span>
+              </Box>
             </Stack>
-            {/* Form // right Side */}
-            {getCurrentForm()}
-          </div>
-        </Box>
+          </Box>
+          <Stack sx={{ mb: 4 }} spacing={1}>
+            <Typography variant='h5'>Register</Typography>
+            <Typography color='text.secondary' variant='body2'>
+              Already have an account?{' '}
+              <RouterLink to={paths.auth.login} variant='subtitle2'>
+                Login
+              </RouterLink>
+            </Typography>
+          </Stack>
+          <Stack
+            alignItems='center'
+            direction='row'
+            display='flex'
+            spacing={1}
+            sx={{ textDecoration: 'none' }}
+          >
+            <Typography color='text.primary'>User Info </Typography>{' '}
+            <SvgIcon color='text.primary'>
+              <ArrowRightAltIcon
+                sx={{
+                  color: 'text.primary',
+                }}
+              />
+            </SvgIcon>
+            <Typography color={getStepColor(2)}>Company Info </Typography>
+            <SvgIcon>
+              <ArrowRightAltIcon
+                sx={{
+                  color: getStepColor(2),
+                }}
+              />
+            </SvgIcon>
+            <Typography color={getStepColor(3)}>Payment</Typography>
+          </Stack>
+          {/* Form // right Side */}
+          {getCurrentForm()}
+        </div>
       </Box>
-    </Elements>
+    </Box>
   )
 }
 export default RegisterPage

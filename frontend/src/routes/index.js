@@ -21,6 +21,7 @@ import { Layout as AuthModernLayout } from 'src/layouts/auth/modern-layout'
 import HomePage from 'src/pages'
 import RegisterPage from 'src/pages/auth/register'
 const LoginPage = lazy(() => import('src/pages/auth/login'))
+const PaymentSuccessPage = lazy(() => import('src/pages/auth/PaymentSuccess'))
 const ForgotPasswordModernPage = lazy(() =>
   import('src/pages/auth-demo/forgot-password/modern')
 )
@@ -91,6 +92,14 @@ export const routes = [
       <AuthModernLayout>
         <ResetPasswordModernPage />
       </AuthModernLayout>
+    ),
+  },
+  {
+    path: 'payment-success',
+    element: (
+      <AuthClassicLayout>
+        <PaymentSuccessPage />
+      </AuthClassicLayout>
     ),
   },
   {
