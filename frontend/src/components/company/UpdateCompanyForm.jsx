@@ -163,7 +163,7 @@ const UpdateCompanyForm = () => {
             </Stack>
             <Divider sx={{ my: 3 }} />
             <Stack spacing={3}>
-              <Typography variant='h5'>Company Policies</Typography>
+              <Typography variant='h5'>Company Estimate Policy</Typography>
               <TextField
                 fullWidth
                 helperText='This is used on your estimates and will give your customers an idea of how you charge for your services.'

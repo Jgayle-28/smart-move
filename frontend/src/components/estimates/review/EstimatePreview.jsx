@@ -458,21 +458,12 @@ export const EstimatePreview = (props) => {
         <TableBody>
           <TableRow>
             <TableCell>
-              - Please be advised this is just an estimate. The total charges
-              for your move are based on actual moving time plus the travel.
-              Packing materials are billed for an additional cost. All jobs are
-              subject to a minimum charge of 1 hour. Please ask your sales
-              person.
-              <br /> - We will provide a blanket wrap service while we transport
-              your items. <br />- Full replacement value insurance is included
-              in the cost.
-              <br /> - The last hour is always prorated into 15 minute
-              increments.
-              <br /> - The FULL invoice for services is payable at the
-              completion of the move by: Check, Cashier's Check, Money Order,
-              Cash or Visa & Master Card with a 4% administration fee on cards.
-              <br />- Cancellation Policy: A 72 hour (3 Day) notice of
-              cancellation is required to receive a return of deposit
+              {/* <div
+                dangerouslySetInnerHTML={{
+                  __html: company?.companyEstimatePolicy,
+                }}
+              /> */}
+              {company?.companyEstimatePolicy}
             </TableCell>
           </TableRow>
         </TableBody>
