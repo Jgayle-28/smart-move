@@ -21,6 +21,7 @@ const createStripeCheckoutSession = asyncHandler(async (req, res) => {
 
   // Create a Stripe customer if not already created
   const customer = await stripe.customers.create({
+    name: user.name,
     email: user.email,
     metadata: { userId: user._id.toString() },
   })

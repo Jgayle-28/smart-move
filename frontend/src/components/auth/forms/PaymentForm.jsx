@@ -31,7 +31,7 @@ const PaymentForm = ({ creationCallback }) => {
           </Typography>
           <Typography variant='h5'></Typography>
           <Stack
-            sx={{ mt: 4 }}
+            sx={{ paddingTop: 8 }}
             direction='column'
             spacing={1}
             alignItems='center'
