@@ -10,7 +10,6 @@ const createStripeCheckoutSession = async (userId) => {
     { userId }
   )
 
-  console.log('res.data :>> ', res.data)
   return res.data
 }
 
@@ -19,7 +18,6 @@ const getStripeSessionDetails = async (sessionId) => {
   const res = await axios.get(`${PAYMENT_API_URL}/session/${sessionId}`)
 
   if (res.data) {
-    console.log('res.data :>> ', res.data)
     return res
     // localStorage.setItem('sm-company', JSON.stringify(res.data))
   }

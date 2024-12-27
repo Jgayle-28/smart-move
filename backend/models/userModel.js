@@ -29,6 +29,11 @@ const userSchema = mongoose.Schema(
       required: false, // TODO -> Need to make required
     },
     billing: { type: Object },
+    subscriptionLevel: {
+      type: String,
+      enum: ['standard', 'premium', 'elite'],
+      default: 'standard',
+    },
     resetPasswordToken: String,
     resetPasswordExpire: Date,
   },

@@ -10,7 +10,6 @@ export const useAuth = () => {
   useEffect(
     () => {
       if (user) {
-        console.log('I am in the user check')
         setIsAuthenticated(true)
       } else {
         setIsAuthenticated(false)

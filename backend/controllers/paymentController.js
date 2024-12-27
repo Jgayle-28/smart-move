@@ -15,6 +15,7 @@ const User = require('../models/userModel')
  * @access public
  */
 const createStripeCheckoutSession = asyncHandler(async (req, res) => {
+  // TODO: need to pass the chosen plan from the frontend
   const { userId } = req.body
   // Fetch the user from the database
   const user = await User.findById(userId)
@@ -23,7 +24,7 @@ const createStripeCheckoutSession = asyncHandler(async (req, res) => {
   const customer = await stripe.customers.create({
     name: user.name,
     email: user.email,
-    metadata: { userId: user._id.toString() },
+    metadata: { userId: user._id.toString(), plan: 'standard' },
   })
 
   // Create a Checkout session
@@ -69,12 +70,15 @@ const retrieveCheckoutSession = asyncHandler(async (req, res) => {
         .status(400)
         .json({ error: 'No userId found in Stripe customer metadata' })
     }
+    const userPlan = customer.metadata?.plan
 
     // 4. Retrieve the user from your database
     const user = await User.findById(userId)
     if (!user) {
       return res.status(404).json({ error: 'User not found' })
     }
+
+    user.subscriptionLevel = userPlan
 
     // 5. Update the user's billing info or any other fields you need
     user.billing = {
