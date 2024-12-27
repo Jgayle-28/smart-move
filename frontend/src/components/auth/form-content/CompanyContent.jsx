@@ -30,7 +30,7 @@ function CompanyContent() {
     >
       <Box maxWidth='md'>
         <Typography sx={{ mb: 1 }} variant='h4'>
-          Smart Move Help With More Than Data
+          Deliverly Help With More Than Data
         </Typography>
         <Typography color='text.secondary' sx={{ mb: 1 }}>
           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorem

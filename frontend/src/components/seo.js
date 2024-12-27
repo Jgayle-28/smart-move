@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 export const Seo = (props) => {
   const { title } = props
 
-  const fullTitle = title ? title + ' | Smart Move PRO' : 'Smart Move PRO'
+  const fullTitle = title ? title + ' | Deliverly PRO' : 'Deliverly PRO'
 
   return (
     <Helmet>

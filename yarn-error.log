@@ -28,7 +28,7 @@ Trace:
 
 npm manifest: 
   {
-    "name": "smart-move",
+    "name": "delivery",
     "version": "1.0.0",
     "description": "Move estimator and delivery planner",
     "main": "server.js",

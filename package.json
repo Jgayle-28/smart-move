@@ -1,5 +1,5 @@
 {
-  "name": "smart-move",
+  "name": "deliverly",
   "version": "1.0.0",
   "description": "Move estimator and delivery planner",
   "main": "server.js",

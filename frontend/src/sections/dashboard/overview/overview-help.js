@@ -34,7 +34,7 @@ export const OverviewHelp = (props) => (
         Check out our Youtube channel for tutorials and how-to videos.
         <br />
         Still need help? Contact us at{' '}
-        <a href='mailto:jerehme.gayle@gmail.com'>support@smartmove.io</a>
+        <a href='mailto:jerehme.gayle@gmail.com'>support@deliverlypro.com</a>
       </Typography>
     </CardContent>
     <Divider />

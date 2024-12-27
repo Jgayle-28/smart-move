@@ -115,7 +115,7 @@ const RegisterPage = () => {
                   },
                 }}
               >
-                Smart Move <span>PRO</span>
+                Deliverly <span>PRO</span>
               </Box>
             </Stack>
           </Box>

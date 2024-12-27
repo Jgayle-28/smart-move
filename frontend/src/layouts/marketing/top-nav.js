@@ -132,7 +132,7 @@ export const TopNav = (props) => {
                     },
                   }}
                 >
-                  Smart Move <span>PRO</span>
+                  Deliverly <span>PRO</span>
                 </Box>
               )}
             </Stack>

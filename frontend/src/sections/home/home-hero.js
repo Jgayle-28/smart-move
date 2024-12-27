@@ -58,7 +58,7 @@ export const HomeHero = () => {
               fontWeight: 500,
             }}
           >
-            Let Smart move help you manage your clients, your clients inventory
+            Let Deliverly help you manage your clients, your clients inventory
             and move / delivery estimates, more.
           </Typography>
           {/* <Stack

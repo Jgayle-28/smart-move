@@ -1,9 +1,9 @@
 {
-  "name": "smart-move",
+  "name": "deliverly",
   "version": "1.0.0",
   "proxy": "http://localhost:8800",
   "author": "Jerehme Gayle",
-  "homepage": "https://smartmove.io",
+  "homepage": "https://deliverylypro.com",
   "private": true,
   "scripts": {
     "start": "react-scripts start",

@@ -100,7 +100,8 @@ const CreateCompanyForm = ({ creationCallback }) => {
               }
               fullWidth
               helperText={
-                formik.touched.companyEmail && formik.errors.companyEmail
+                (formik.touched.companyEmail && formik.errors.companyEmail) ||
+                'This can be the same as your user email'
               }
               label='Email Address'
               name='companyEmail'

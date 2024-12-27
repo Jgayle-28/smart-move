@@ -47,7 +47,7 @@ export const Layout = (props) => {
       >
         {/* <Box maxWidth='md'>
           <Typography sx={{ mb: 1 }} variant='h4'>
-            Welcome to Smart Move PRO
+            Welcome to Deliverly PRO
           </Typography>
           <Typography color='text.secondary' sx={{ mb: 4 }}>
             Lorem ipsum dolor sit amet consectetur, adipisicing elit. Unde
