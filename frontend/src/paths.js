@@ -93,6 +93,12 @@ export const paths = {
       create: '/dashboard/estimates/:jobId/create',
       edit: '/dashboard/estimates/:jobId/edit/:estimateId',
     },
+    inventory: {
+      index: '/dashboard/inventory',
+      create: '/dashboard/inventory/create',
+      details: '/dashboard/inventory/:inventoryId',
+      edit: '/dashboard/inventory/:inventoryId/:mode',
+    },
     jobBoard: {
       index: '/dashboard/jobs',
       create: '/dashboard/jobs/create',

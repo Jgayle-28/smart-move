@@ -457,14 +457,7 @@ export const EstimatePreview = (props) => {
         </TableHead>
         <TableBody>
           <TableRow>
-            <TableCell>
-              {/* <div
-                dangerouslySetInnerHTML={{
-                  __html: company?.companyEstimatePolicy,
-                }}
-              /> */}
-              {company?.companyEstimatePolicy}
-            </TableCell>
+            <TableCell>{company?.companyEstimatePolicy}</TableCell>
           </TableRow>
         </TableBody>
       </Table>

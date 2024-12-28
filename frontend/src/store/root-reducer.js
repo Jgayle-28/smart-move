@@ -9,6 +9,7 @@ import companyReducer from './company/companySlice'
 import customerReducer from './customers/customerSlice'
 import jobReducer from './jobs/jobSlice'
 import estimateReducer from './estimates/estimateSlice'
+import inventoryReducer from './inventory/inventorySlice'
 import paymentReducer from './payments/paymentSlice'
 
 export const rootReducer = combineReducers({
@@ -17,6 +18,7 @@ export const rootReducer = combineReducers({
   customers: customerReducer,
   jobs: jobReducer,
   estimates: estimateReducer,
+  inventory: inventoryReducer,
   payments: paymentReducer,
   // OLD
   calendar: calendarReducer,

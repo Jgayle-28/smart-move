@@ -87,33 +87,33 @@ export const useStandardRoutes = () => {
               </SvgIcon>
             ),
           },
+          // {
+          //   title: t(tokens.nav.account),
+          //   path: paths.dashboard.account,
+          //   icon: (
+          //     <SvgIcon fontSize='small'>
+          //       <Settings04Icon />
+          //     </SvgIcon>
+          //   ),
+          // },
+          // {
+          //   title: t(tokens.nav.contact),
+          //   path: paths.contact,
+          //   icon: (
+          //     <SvgIcon fontSize='small'>
+          //       <Mail04Icon />
+          //     </SvgIcon>
+          //   ),
+          // },
           {
-            title: t(tokens.nav.account),
-            path: paths.dashboard.account,
+            title: t(tokens.nav.inventory),
+            path: paths.dashboard.inventory,
             icon: (
               <SvgIcon fontSize='small'>
-                <Settings04Icon />
+                <LineChartUp04Icon />
               </SvgIcon>
             ),
           },
-          {
-            title: t(tokens.nav.contact),
-            path: paths.contact,
-            icon: (
-              <SvgIcon fontSize='small'>
-                <Mail04Icon />
-              </SvgIcon>
-            ),
-          },
-          //     {
-          //       title: t(tokens.nav.ecommerce),
-          //       path: paths.dashboard.ecommerce,
-          //       icon: (
-          //         <SvgIcon fontSize='small'>
-          //           <LineChartUp04Icon />
-          //         </SvgIcon>
-          //       ),
-          //     },
           //     {
           //       title: t(tokens.nav.crypto),
           //       path: paths.dashboard.crypto,

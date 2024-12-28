@@ -47,7 +47,10 @@ const EstimateCreatePage = lazy(() =>
 const EstimateDetailPage = lazy(() =>
   import('src/pages/dashboard/estimates/detail')
 )
-
+// Inventory
+const InventoryPage = lazy(() =>
+  import('src/pages/dashboard/inventory/InventoryPage')
+)
 // Job Board
 const JobBrowsePage = lazy(() => import('src/pages/dashboard/jobs/browse'))
 const CompanyDetailPage = lazy(() => import('src/pages/dashboard/jobs/detail'))
@@ -233,6 +236,15 @@ export const dashboardRoutes = [
                 element: <CompanyDetailPage />,
               },
             ],
+          },
+        ],
+      },
+      {
+        path: 'Inventory',
+        children: [
+          {
+            index: true,
+            element: <InventoryPage />,
           },
         ],
       },

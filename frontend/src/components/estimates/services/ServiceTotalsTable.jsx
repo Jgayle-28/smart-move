@@ -60,7 +60,7 @@ function ServiceTotalsTable() {
                     moveCharges?.totalMoveCost,
                     packing?.packingTotal,
                     additionalServices?.additionalServicesTotal,
-                    fees?.totalFees,
+                    fees?.feesTotal,
                     storage?.storageTotal
                   )}
                 </SeverityPill>

@@ -123,6 +123,16 @@ export const useSections = () => {
             // ],
           },
           {
+            title: 'Inventory',
+            path: paths.dashboard.inventory.index,
+            icon: (
+              <SvgIcon fontSize='small'>
+                <LayoutAlt02Icon />
+                {/* <LineChartUp04Icon /> */}
+              </SvgIcon>
+            ),
+          },
+          {
             title: t(tokens.nav.calendar),
             path: paths.dashboard.calendar,
             icon: (
@@ -131,7 +141,7 @@ export const useSections = () => {
               </SvgIcon>
             ),
           },
-
+          // TODO: Need to add check here for elite subscription
           {
             title: t(tokens.nav.analytics),
             path: paths.dashboard.analytics,
@@ -151,24 +161,16 @@ export const useSections = () => {
               </SvgIcon>
             ),
           },
-          {
-            title: t(tokens.nav.contact),
-            path: paths.contact,
-            icon: (
-              <SvgIcon fontSize='small'>
-                <Mail04Icon />
-              </SvgIcon>
-            ),
-          },
-          //     {
-          //       title: t(tokens.nav.ecommerce),
-          //       path: paths.dashboard.ecommerce,
-          //       icon: (
-          //         <SvgIcon fontSize='small'>
-          //           <LineChartUp04Icon />
-          //         </SvgIcon>
-          //       ),
-          //     },
+          // {
+          //   title: t(tokens.nav.contact),
+          //   path: paths.contact,
+          //   icon: (
+          //     <SvgIcon fontSize='small'>
+          //       <Mail04Icon />
+          //     </SvgIcon>
+          //   ),
+          // },
+
           //     {
           //       title: t(tokens.nav.crypto),
           //       path: paths.dashboard.crypto,
