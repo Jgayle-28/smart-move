@@ -1,4 +1,3 @@
-import ArrowLeftIcon from '@untitled-ui/icons-react/build/esm/ArrowLeft';
 import {
   Box,
   Container,
@@ -6,14 +5,14 @@ import {
   Stack,
   SvgIcon,
   Typography,
-  Unstable_Grid2 as Grid
-} from '@mui/material';
-import { RouterLink } from 'src/components/router-link';
-import { Seo } from 'src/components/seo';
-import { usePageView } from 'src/hooks/use-page-view';
-import { paths } from 'src/paths';
-import { CourseSummary } from 'src/sections/dashboard/academy/course-summary';
-import { CourseChapter } from 'src/sections/dashboard/academy/course-chapter';
+  Unstable_Grid2 as Grid,
+} from '@mui/material'
+import { RouterLink } from 'src/components/router-link'
+import { Seo } from 'src/components/seo'
+import { usePageView } from 'src/hooks/use-page-view'
+import { paths } from 'src/paths'
+import { CourseSummary } from 'src/sections/dashboard/academy/course-summary'
+import { CourseChapter } from 'src/sections/dashboard/academy/course-chapter'
 
 const useCourse = () => {
   return {
@@ -22,7 +21,7 @@ const useCourse = () => {
       {
         title: 'Introduction',
         description: 'Introducing the app and how it works',
-        lesson: ''
+        lesson: '',
       },
       {
         title: 'Installing required packages',
@@ -55,86 +54,69 @@ const Email = new Schema({
   validated: { type: Boolean, default: false },
 });
 \`\`\`
-`
+`,
       },
       {
         title: 'Step title',
         description: 'Introducing the library and how it works',
-        lesson: ''
-      }
+        lesson: '',
+      },
     ],
     description: 'Introductory course for design and framework basics',
     duration: '78 hours',
     progress: 50,
-    title: 'React and Redux Tutorial'
-  };
-};
+    title: 'React and Redux Tutorial',
+  }
+}
 
 const Page = () => {
-  const course = useCourse();
+  const course = useCourse()
 
-  usePageView();
+  usePageView()
 
-  const activeChapter = 1;
-  const chapter = course.chapters[activeChapter];
+  const activeChapter = 1
+  const chapter = course.chapters[activeChapter]
 
   return (
     <>
-      <Seo title="Dashboard: Academy Course" />
+      <Seo title='Dashboard: Academy Course' />
       <Box
-        component="main"
+        component='main'
         sx={{
           flexGrow: 1,
-          py: 3
+          py: 3,
         }}
       >
-        <Container maxWidth="xl">
-          <Grid
-            container
-            spacing={4}
-          >
-            <Grid
-              xs={12}
-              md={4}
-            >
+        <Container maxWidth='xl'>
+          <Grid container spacing={4}>
+            <Grid xs={12} md={4}>
               <Stack spacing={3}>
                 <div>
                   <Link
-                    color="text.primary"
+                    color='text.primary'
                     component={RouterLink}
                     href={paths.dashboard.academy.index}
                     sx={{
                       alignItems: 'center',
-                      display: 'inline-flex'
+                      display: 'inline-flex',
                     }}
-                    underline="hover"
+                    underline='hover'
                   >
-                    <SvgIcon sx={{ mr: 1 }}>
-                      <ArrowLeftIcon />
-                    </SvgIcon>
-                    <Typography variant="subtitle2">
-                      Academy
-                    </Typography>
+                    <SvgIcon sx={{ mr: 1 }}>{/* <ArrowLeftIcon /> */}</SvgIcon>
+                    <Typography variant='subtitle2'>Academy</Typography>
                   </Link>
                 </div>
-                <CourseSummary
-                  activeChapter={activeChapter}
-                  course={course}
-                />
+                <CourseSummary activeChapter={activeChapter} course={course} />
               </Stack>
             </Grid>
-            <Grid
-              xs={12}
-              md={8}
-            >
+            <Grid xs={12} md={8}>
               {chapter && <CourseChapter chapter={chapter} />}
             </Grid>
           </Grid>
         </Container>
       </Box>
     </>
-  );
-};
+  )
+}
 
-export default Page;
-
+export default Page

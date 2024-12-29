@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from 'react'
-import ArrowLeftIcon from '@untitled-ui/icons-react/build/esm/ArrowLeft'
 import {
   Avatar,
   Box,
@@ -54,13 +53,9 @@ const useCompany = () => {
     }
   }, [isMounted])
 
-  useEffect(
-    () => {
-      handleCompanyGet()
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  )
+  useEffect(() => {
+    handleCompanyGet()
+  }, [])
 
   return company
 }
@@ -103,9 +98,7 @@ const Page = () => {
                   }}
                   underline='hover'
                 >
-                  <SvgIcon sx={{ mr: 1 }}>
-                    <ArrowLeftIcon />
-                  </SvgIcon>
+                  <SvgIcon sx={{ mr: 1 }}>{/* <ArrowLeftIcon /> */}</SvgIcon>
                   <Typography variant='subtitle2'>Jobs</Typography>
                 </Link>
               </div>

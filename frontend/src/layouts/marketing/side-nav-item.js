@@ -1,17 +1,25 @@
-import { useCallback, useState } from 'react';
-import PropTypes from 'prop-types';
-import ChevronDownIcon from '@untitled-ui/icons-react/build/esm/ChevronDown';
-import ChevronRightIcon from '@untitled-ui/icons-react/build/esm/ChevronRight';
-import { Box, ButtonBase, Collapse, SvgIcon } from '@mui/material';
-import { RouterLink } from 'src/components/router-link';
+import { useCallback, useState } from 'react'
+import PropTypes from 'prop-types'
+import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined'
+import ChevronRightOutlinedIcon from '@mui/icons-material/ChevronRightOutlined'
+import { Box, ButtonBase, Collapse, SvgIcon } from '@mui/material'
+import { RouterLink } from 'src/components/router-link'
 
 export const SideNavItem = (props) => {
-  const { active, children, disabled, external, open: openProp, path, title } = props;
-  const [open, setOpen] = useState(!!openProp);
+  const {
+    active,
+    children,
+    disabled,
+    external,
+    open: openProp,
+    path,
+    title,
+  } = props
+  const [open, setOpen] = useState(!!openProp)
 
   const handleToggle = useCallback(() => {
-    setOpen((prevOpen) => !prevOpen);
-  }, []);
+    setOpen((prevOpen) => !prevOpen)
+  }, [])
 
   // Branch
 
@@ -31,15 +39,15 @@ export const SideNavItem = (props) => {
             textAlign: 'left',
             width: '100%',
             ...(active && {
-              backgroundColor: 'action.hover'
+              backgroundColor: 'action.hover',
             }),
             '&:hover': {
-              backgroundColor: 'action.hover'
-            }
+              backgroundColor: 'action.hover',
+            },
           }}
         >
           <Box
-            component="span"
+            component='span'
             sx={{
               flexGrow: 1,
               fontFamily: (theme) => theme.typography.fontFamily,
@@ -48,8 +56,8 @@ export const SideNavItem = (props) => {
               lineHeight: '24px',
               whiteSpace: 'nowrap',
               ...(active && {
-                color: 'primary.main'
-              })
+                color: 'primary.main',
+              }),
             }}
           >
             {title}
@@ -58,20 +66,18 @@ export const SideNavItem = (props) => {
             sx={{
               color: 'action.active',
               fontSize: 16,
-              ml: 2
+              ml: 2,
             }}
+            fontSize='small'
           >
-            {open ? <ChevronDownIcon /> : <ChevronRightIcon />}
+            {open ? <ExpandMoreOutlinedIcon /> : <ChevronRightOutlinedIcon />}
           </SvgIcon>
         </ButtonBase>
-        <Collapse
-          in={open}
-          sx={{ mt: 0.5 }}
-        >
+        <Collapse in={open} sx={{ mt: 0.5 }}>
           {children}
         </Collapse>
       </li>
-    );
+    )
   }
 
   // Leaf
@@ -79,15 +85,15 @@ export const SideNavItem = (props) => {
   const linkProps = path
     ? external
       ? {
-        component: 'a',
-        href: path,
-        target: '_blank'
-      }
+          component: 'a',
+          href: path,
+          target: '_blank',
+        }
       : {
-        component: RouterLink,
-        href: path
-      }
-    : {};
+          component: RouterLink,
+          href: path,
+        }
+    : {}
 
   return (
     <li>
@@ -102,15 +108,16 @@ export const SideNavItem = (props) => {
           textAlign: 'left',
           width: '100%',
           ...(active && {
-            backgroundColor: 'action.hover'
+            backgroundColor: 'action.hover',
           }),
           '&:hover': {
-            backgroundColor: 'action.hover'
-          }
+            backgroundColor: 'action.hover',
+          },
         }}
-        {...linkProps}>
+        {...linkProps}
+      >
         <Box
-          component="span"
+          component='span'
           sx={{
             flexGrow: 1,
             fontFamily: (theme) => theme.typography.fontFamily,
@@ -119,16 +126,16 @@ export const SideNavItem = (props) => {
             lineHeight: '24px',
             whiteSpace: 'nowrap',
             ...(active && {
-              color: 'primary.main'
-            })
+              color: 'primary.main',
+            }),
           }}
         >
           {title}
         </Box>
       </ButtonBase>
     </li>
-  );
-};
+  )
+}
 
 SideNavItem.propTypes = {
   active: PropTypes.bool,
@@ -138,5 +145,5 @@ SideNavItem.propTypes = {
   external: PropTypes.bool,
   open: PropTypes.bool,
   path: PropTypes.string,
-  title: PropTypes.string.isRequired
-};
+  title: PropTypes.string.isRequired,
+}

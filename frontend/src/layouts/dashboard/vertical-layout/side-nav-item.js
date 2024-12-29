@@ -1,9 +1,9 @@
-import { useCallback, useState } from 'react';
-import PropTypes from 'prop-types';
-import ChevronDownIcon from '@untitled-ui/icons-react/build/esm/ChevronDown';
-import ChevronRightIcon from '@untitled-ui/icons-react/build/esm/ChevronRight';
-import { Box, ButtonBase, Collapse, SvgIcon } from '@mui/material';
-import { RouterLink } from 'src/components/router-link';
+import { useCallback, useState } from 'react'
+import PropTypes from 'prop-types'
+import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined'
+import ChevronRightOutlinedIcon from '@mui/icons-material/ChevronRightOutlined'
+import { Box, ButtonBase, Collapse, SvgIcon } from '@mui/material'
+import { RouterLink } from 'src/components/router-link'
 
 export const SideNavItem = (props) => {
   const {
@@ -16,20 +16,20 @@ export const SideNavItem = (props) => {
     label,
     open: openProp,
     path,
-    title
-  } = props;
-  const [open, setOpen] = useState(!!openProp);
+    title,
+  } = props
+  const [open, setOpen] = useState(!!openProp)
 
   const handleToggle = useCallback(() => {
-    setOpen((prevOpen) => !prevOpen);
-  }, []);
+    setOpen((prevOpen) => !prevOpen)
+  }, [])
 
   // Icons can be defined at top level only, deep levels have bullets instead of actual icons.
 
-  let startIcon;
+  let startIcon
 
   if (depth === 0) {
-    startIcon = icon;
+    startIcon = icon
   } else {
     startIcon = (
       <Box
@@ -38,7 +38,7 @@ export const SideNavItem = (props) => {
           display: 'center',
           height: 20,
           justifyContent: 'center',
-          width: 20
+          width: 20,
         }}
       >
         <Box
@@ -52,15 +52,15 @@ export const SideNavItem = (props) => {
               backgroundColor: 'var(--nav-item-icon-active-color)',
               height: 6,
               opacity: 1,
-              width: 6
-            })
+              width: 6,
+            }),
           }}
         />
       </Box>
-    );
+    )
   }
 
-  const offset = depth === 0 ? 0 : (depth - 1) * 16;
+  const offset = depth === 0 ? 0 : (depth - 1) * 16
 
   // Branch
 
@@ -82,17 +82,17 @@ export const SideNavItem = (props) => {
             width: '100%',
             ...(active && {
               ...(depth === 0 && {
-                backgroundColor: 'var(--nav-item-active-bg)'
-              })
+                backgroundColor: 'var(--nav-item-active-bg)',
+              }),
             }),
             '&:hover': {
-              backgroundColor: 'var(--nav-item-hover-bg)'
-            }
+              backgroundColor: 'var(--nav-item-hover-bg)',
+            },
           }}
         >
           {startIcon && (
             <Box
-              component="span"
+              component='span'
               sx={{
                 alignItems: 'center',
                 color: 'var(--nav-item-icon-color)',
@@ -100,15 +100,15 @@ export const SideNavItem = (props) => {
                 justifyContent: 'center',
                 mr: 2,
                 ...(active && {
-                  color: 'var(--nav-item-icon-active-color)'
-                })
+                  color: 'var(--nav-item-icon-active-color)',
+                }),
               }}
             >
               {startIcon}
             </Box>
           )}
           <Box
-            component="span"
+            component='span'
             sx={{
               color: 'var(--nav-item-color)',
               flexGrow: 1,
@@ -118,11 +118,11 @@ export const SideNavItem = (props) => {
               lineHeight: '24px',
               whiteSpace: 'nowrap',
               ...(active && {
-                color: 'var(--nav-item-active-color)'
+                color: 'var(--nav-item-active-color)',
               }),
               ...(disabled && {
-                color: 'var(--nav-item-disabled-color)'
-              })
+                color: 'var(--nav-item-disabled-color)',
+              }),
             }}
           >
             {title}
@@ -131,20 +131,18 @@ export const SideNavItem = (props) => {
             sx={{
               color: 'var(--nav-item-chevron-color)',
               fontSize: 16,
-              ml: 2
+              ml: 2,
             }}
+            fontSize='small'
           >
-            {open ? <ChevronDownIcon /> : <ChevronRightIcon />}
+            {open ? <ExpandMoreOutlinedIcon /> : <ChevronRightOutlinedIcon />}
           </SvgIcon>
         </ButtonBase>
-        <Collapse
-          in={open}
-          sx={{ mt: 0.5 }}
-        >
+        <Collapse in={open} sx={{ mt: 0.5 }}>
           {children}
         </Collapse>
       </li>
-    );
+    )
   }
 
   // Leaf
@@ -152,15 +150,15 @@ export const SideNavItem = (props) => {
   const linkProps = path
     ? external
       ? {
-        component: 'a',
-        href: path,
-        target: '_blank'
-      }
+          component: 'a',
+          href: path,
+          target: '_blank',
+        }
       : {
-        component: RouterLink,
-        href: path
-      }
-    : {};
+          component: RouterLink,
+          href: path,
+        }
+    : {}
 
   return (
     <li>
@@ -178,17 +176,18 @@ export const SideNavItem = (props) => {
           width: '100%',
           ...(active && {
             ...(depth === 0 && {
-              backgroundColor: 'var(--nav-item-active-bg)'
-            })
+              backgroundColor: 'var(--nav-item-active-bg)',
+            }),
           }),
           '&:hover': {
-            backgroundColor: 'var(--nav-item-hover-bg)'
-          }
+            backgroundColor: 'var(--nav-item-hover-bg)',
+          },
         }}
-        {...linkProps}>
+        {...linkProps}
+      >
         {startIcon && (
           <Box
-            component="span"
+            component='span'
             sx={{
               alignItems: 'center',
               color: 'var(--nav-item-icon-color)',
@@ -196,15 +195,15 @@ export const SideNavItem = (props) => {
               justifyContent: 'center',
               mr: 2,
               ...(active && {
-                color: 'var(--nav-item-icon-active-color)'
-              })
+                color: 'var(--nav-item-icon-active-color)',
+              }),
             }}
           >
             {startIcon}
           </Box>
         )}
         <Box
-          component="span"
+          component='span'
           sx={{
             color: 'var(--nav-item-color)',
             flexGrow: 1,
@@ -214,27 +213,24 @@ export const SideNavItem = (props) => {
             lineHeight: '24px',
             whiteSpace: 'nowrap',
             ...(active && {
-              color: 'var(--nav-item-active-color)'
+              color: 'var(--nav-item-active-color)',
             }),
             ...(disabled && {
-              color: 'var(--nav-item-disabled-color)'
-            })
+              color: 'var(--nav-item-disabled-color)',
+            }),
           }}
         >
           {title}
         </Box>
         {label && (
-          <Box
-            component="span"
-            sx={{ ml: 2 }}
-          >
+          <Box component='span' sx={{ ml: 2 }}>
             {label}
           </Box>
         )}
       </ButtonBase>
     </li>
-  );
-};
+  )
+}
 
 SideNavItem.propTypes = {
   active: PropTypes.bool,
@@ -245,5 +241,5 @@ SideNavItem.propTypes = {
   icon: PropTypes.node,
   open: PropTypes.bool,
   path: PropTypes.string,
-  title: PropTypes.string.isRequired
-};
+  title: PropTypes.string.isRequired,
+}

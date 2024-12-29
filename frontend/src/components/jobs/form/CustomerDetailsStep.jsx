@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react'
 import PropTypes from 'prop-types'
-import ArrowRightIcon from '@untitled-ui/icons-react/build/esm/ArrowRight'
+import ArrowRightAltOutlinedIcon from '@mui/icons-material/ArrowRightAltOutlined'
 import {
   Button,
   IconButton,
@@ -216,8 +216,8 @@ export const CustomerDetailsStep = (props) => {
           <Button
             disabled={formik.values.customer.length === 0}
             endIcon={
-              <SvgIcon>
-                <ArrowRightIcon />
+              <SvgIcon fontSize='small'>
+                <ArrowRightAltOutlinedIcon />
               </SvgIcon>
             }
             onClick={onNext}

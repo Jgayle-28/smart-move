@@ -1,4 +1,4 @@
-import DotsHorizontalIcon from '@untitled-ui/icons-react/build/esm/DotsHorizontal'
+import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined'
 import {
   Avatar,
   Box,
@@ -83,7 +83,7 @@ function TeamMemberRow({ member, setEditMember, handleOpen, handleClose }) {
           onClick={handleMenuClick}
         >
           <SvgIcon>
-            <DotsHorizontalIcon />
+            <MoreHorizOutlinedIcon />
           </SvgIcon>
         </IconButton>
         {/* Edit & delete menu */}

@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
 import { formatDistanceStrict } from 'date-fns'
-import ArrowRightIcon from '@untitled-ui/icons-react/build/esm/ArrowRight'
-import RefreshCcw01Icon from '@untitled-ui/icons-react/build/esm/RefreshCcw01'
+
 import {
   Avatar,
   Badge,
@@ -31,9 +30,7 @@ export const OverviewInbox = (props) => {
         // TODO -> Add action to refresh customers
         action={
           <IconButton color='inherit'>
-            <SvgIcon fontSize='small'>
-              <RefreshCcw01Icon />
-            </SvgIcon>
+            <SvgIcon fontSize='small'>{/* <RefreshCcw01Icon /> */}</SvgIcon>
           </IconButton>
         }
       />
@@ -116,11 +113,7 @@ export const OverviewInbox = (props) => {
           component={RouterLink}
           href='/dashboard/customers'
           color='inherit'
-          endIcon={
-            <SvgIcon>
-              <ArrowRightIcon />
-            </SvgIcon>
-          }
+          endIcon={<SvgIcon>{/* <ArrowRightIcon /> */}</SvgIcon>}
           size='small'
         >
           Go to customers

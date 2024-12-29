@@ -1,6 +1,6 @@
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
-import ArrowLeftIcon from '@untitled-ui/icons-react/build/esm/ArrowLeft'
+import KeyboardBackspaceOutlinedIcon from '@mui/icons-material/KeyboardBackspaceOutlined'
 import {
   Box,
   Button,
@@ -50,8 +50,8 @@ const Page = () => {
             }}
             underline='hover'
           >
-            <SvgIcon sx={{ mr: 1 }}>
-              <ArrowLeftIcon />
+            <SvgIcon sx={{ mr: 1 }} fontSize='small'>
+              <KeyboardBackspaceOutlinedIcon />
             </SvgIcon>
             <Typography variant='subtitle2'>Dashboard</Typography>
           </Link>

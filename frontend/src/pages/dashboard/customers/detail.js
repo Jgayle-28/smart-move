@@ -1,7 +1,4 @@
 import { useCallback, useEffect, useState } from 'react'
-import ArrowLeftIcon from '@untitled-ui/icons-react/build/esm/ArrowLeft'
-import ChevronDownIcon from '@untitled-ui/icons-react/build/esm/ChevronDown'
-import Edit02Icon from '@untitled-ui/icons-react/build/esm/Edit02'
 import {
   Avatar,
   Box,
@@ -65,13 +62,9 @@ const useCustomer = () => {
     }
   }, [isMounted])
 
-  useEffect(
-    () => {
-      handleCustomerGet()
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  )
+  useEffect(() => {
+    handleCustomerGet()
+  }, [])
 
   return customer
 }
@@ -92,13 +85,9 @@ const useInvoices = () => {
     }
   }, [isMounted])
 
-  useEffect(
-    () => {
-      handleInvoicesGet()
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  )
+  useEffect(() => {
+    handleInvoicesGet()
+  }, [])
 
   return invoices
 }

@@ -1,5 +1,5 @@
-import { useMemo } from 'react';
-import SearchMdIcon from '@untitled-ui/icons-react/build/esm/SearchMd';
+import { useMemo } from 'react'
+
 import {
   Box,
   Checkbox,
@@ -8,87 +8,100 @@ import {
   FormControlLabel,
   Input,
   Stack,
-  SvgIcon
-} from '@mui/material';
-import { MultiSelect } from 'src/components/multi-select';
+  SvgIcon,
+} from '@mui/material'
+import { MultiSelect } from 'src/components/multi-select'
 
 const categoryOptions = [
   {
     label: 'Digital',
-    value: 'digital'
+    value: 'digital',
   },
   {
     label: 'Service',
-    value: 'service'
-  }
-];
+    value: 'service',
+  },
+]
 
 const statusOptions = [
   {
     label: 'Published',
-    value: 'published'
+    value: 'published',
   },
   {
     label: 'Draft',
-    value: 'draft'
-  }
-];
+    value: 'draft',
+  },
+]
 
 const stockOptions = [
   {
     label: 'All',
-    value: 'all'
+    value: 'all',
   },
   {
     label: 'Available',
-    value: 'available'
+    value: 'available',
   },
   {
     label: 'Out of Stock',
-    value: 'outOfStock'
-  }
-];
+    value: 'outOfStock',
+  },
+]
 
 export const Form2 = () => {
   // We memoize this part to prevent re-render issues
-  const chips = useMemo(() => [
-    {
-      label: 'Category',
-      field: 'category',
-      value: 'digital',
-      displayValue: 'Digital'
-    },
-    {
-      label: 'Category',
-      field: 'category',
-      value: 'service',
-      displayValue: 'Service'
-    },
-    {
-      label: 'Status',
-      field: 'status',
-      value: 'published',
-      displayValue: 'Published'
-    },
-    {
-      label: 'Stock',
-      field: 'inStock',
-      value: 'outOfStock',
-      displayValue: 'Out of Stock'
-    }
-  ], []);
+  const chips = useMemo(
+    () => [
+      {
+        label: 'Category',
+        field: 'category',
+        value: 'digital',
+        displayValue: 'Digital',
+      },
+      {
+        label: 'Category',
+        field: 'category',
+        value: 'service',
+        displayValue: 'Service',
+      },
+      {
+        label: 'Status',
+        field: 'status',
+        value: 'published',
+        displayValue: 'Published',
+      },
+      {
+        label: 'Stock',
+        field: 'inStock',
+        value: 'outOfStock',
+        displayValue: 'Out of Stock',
+      },
+    ],
+    []
+  )
 
-  const categoryValues = useMemo(() => chips
-    .filter((chip) => chip.field === 'category')
-    .map((chip) => chip.value), [chips]);
+  const categoryValues = useMemo(
+    () =>
+      chips
+        .filter((chip) => chip.field === 'category')
+        .map((chip) => chip.value),
+    [chips]
+  )
 
-  const statusValues = useMemo(() => chips
-    .filter((chip) => chip.field === 'status')
-    .map((chip) => chip.value), [chips]);
+  const statusValues = useMemo(
+    () =>
+      chips.filter((chip) => chip.field === 'status').map((chip) => chip.value),
+    [chips]
+  )
 
-  const stockValues = useMemo(() => chips
-    .filter((chip) => chip.field === 'inStock')
-    .map((chip) => chip.value), [chips]);
+  const stockValues = useMemo(
+    () =>
+      chips
+        .filter((chip) => chip.field === 'inStock')
+        .map((chip) => chip.value),
+    [chips]
+  )
 
   return (
     <Box sx={{ p: 3 }}>
@@ -96,23 +109,17 @@ export const Form2 = () => {
         sx={{
           alignItems: 'center',
           display: 'flex',
-          p: 2
+          p: 2,
         }}
       >
-        <SvgIcon>
-          <SearchMdIcon />
-        </SvgIcon>
+        <SvgIcon>{/* <SearchMdIcon /> */}</SvgIcon>
         <Box
           sx={{
             flexGrow: 1,
-            ml: 3
+            ml: 3,
           }}
         >
-          <Input
-            disableUnderline
-            fullWidth
-            placeholder="Enter a keyword"
-          />
+          <Input disableUnderline fullWidth placeholder='Enter a keyword' />
         </Box>
       </Box>
       <Divider />
@@ -121,65 +128,56 @@ export const Form2 = () => {
           alignItems: 'center',
           display: 'flex',
           flexWrap: 'wrap',
-          p: 2
+          p: 2,
         }}
       >
         {chips.map((chip, index) => (
           <Chip
             key={index}
-            label={(
+            label={
               <Box
                 sx={{
                   alignItems: 'center',
                   display: 'flex',
                   '& span': {
-                    fontWeight: 600
-                  }
+                    fontWeight: 600,
+                  },
                 }}
               >
-                <span>
-                  {chip.label}
-                </span>
-                :
-                {' '}
-                {chip.displayValue}
+                <span>{chip.label}</span>: {chip.displayValue}
               </Box>
-            )}
-            onDelete={() => { }}
+            }
+            onDelete={() => {}}
             sx={{ m: 1 }}
-            variant="outlined"
+            variant='outlined'
           />
         ))}
       </Box>
       <Divider />
       <Stack
-        alignItems="center"
-        direction="row"
-        flexWrap="wrap"
+        alignItems='center'
+        direction='row'
+        flexWrap='wrap'
         spacing={2}
         sx={{ p: 1 }}
       >
         <MultiSelect
-          label="Category"
+          label='Category'
           options={categoryOptions}
           value={categoryValues}
         />
         <MultiSelect
-          label="Status"
+          label='Status'
           options={statusOptions}
           value={statusValues}
         />
-        <MultiSelect
-          label="Stock"
-          options={stockOptions}
-          value={stockValues}
-        />
+        <MultiSelect label='Stock' options={stockOptions} value={stockValues} />
         <Box sx={{ flexGrow: 1 }} />
         <FormControlLabel
           control={<Checkbox defaultChecked />}
-          label="In network"
+          label='In network'
         />
       </Stack>
     </Box>
-  );
-};
+  )
+}

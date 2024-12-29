@@ -1,6 +1,6 @@
-import * as Yup from 'yup';
-import { useFormik } from 'formik';
-import ArrowLeftIcon from '@untitled-ui/icons-react/build/esm/ArrowLeft';
+import * as Yup from 'yup'
+import { useFormik } from 'formik'
+import KeyboardBackspaceOutlinedIcon from '@mui/icons-material/KeyboardBackspaceOutlined'
 import {
   Box,
   Button,
@@ -11,99 +11,97 @@ import {
   Stack,
   SvgIcon,
   TextField,
-  Typography
-} from '@mui/material';
-import { RouterLink } from 'src/components/router-link';
-import { Seo } from 'src/components/seo';
-import { paths } from 'src/paths';
+  Typography,
+} from '@mui/material'
+import { RouterLink } from 'src/components/router-link'
+import { Seo } from 'src/components/seo'
+import { paths } from 'src/paths'
 
 const initialValues = {
   password: '',
-  passwordConfirm: ''
-};
+  passwordConfirm: '',
+}
 
 const validationSchema = Yup.object({
-  password: Yup
-    .string()
+  password: Yup.string()
     .min(7, 'Must be at least 7 characters')
     .max(255)
     .required('Required'),
-  passwordConfirm: Yup
-    .string()
+  passwordConfirm: Yup.string()
     .oneOf([Yup.ref('password')], 'Passwords must match')
-    .required('Required')
-});
+    .required('Required'),
+})
 
 const Page = () => {
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: () => { }
-  });
+    onSubmit: () => {},
+  })
 
   return (
     <>
-      <Seo title="Reset Password" />
+      <Seo title='Reset Password' />
       <div>
         <Box sx={{ mb: 4 }}>
           <Link
-            color="text.primary"
+            color='text.primary'
             component={RouterLink}
             href={paths.dashboard.index}
             sx={{
               alignItems: 'center',
-              display: 'inline-flex'
+              display: 'inline-flex',
             }}
-            underline="hover"
+            underline='hover'
           >
-            <SvgIcon sx={{ mr: 1 }}>
-              <ArrowLeftIcon />
+            <SvgIcon sx={{ mr: 1 }} fontSize='small'>
+              <KeyboardBackspaceOutlinedIcon />
             </SvgIcon>
-            <Typography variant="subtitle2">
-              Dashboard
-            </Typography>
+            <Typography variant='subtitle2'>Dashboard</Typography>
           </Link>
         </Box>
         <Card elevation={16}>
-          <CardHeader
-            sx={{ pb: 0 }}
-            title="Reset Password"
-          />
+          <CardHeader sx={{ pb: 0 }} title='Reset Password' />
           <CardContent>
-            <form
-              noValidate
-              onSubmit={formik.handleSubmit}
-            >
+            <form noValidate onSubmit={formik.handleSubmit}>
               <Stack spacing={3}>
                 <TextField
                   error={!!(formik.touched.password && formik.errors.password)}
                   fullWidth
                   helperText={formik.touched.password && formik.errors.password}
-                  label="Password"
-                  name="password"
+                  label='Password'
+                  name='password'
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
-                  type="password"
+                  type='password'
                   value={formik.values.password}
                 />
                 <TextField
-                  error={!!(formik.touched.passwordConfirm && formik.errors.passwordConfirm)}
+                  error={
+                    !!(
+                      formik.touched.passwordConfirm &&
+                      formik.errors.passwordConfirm
+                    )
+                  }
                   fullWidth
-                  helperText={formik.touched.passwordConfirm && formik.errors.passwordConfirm}
-                  label="Password (Confirm)"
-                  name="passwordConfirm"
+                  helperText={
+                    formik.touched.passwordConfirm &&
+                    formik.errors.passwordConfirm
+                  }
+                  label='Password (Confirm)'
+                  name='passwordConfirm'
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
-                  type="password"
+                  type='password'
                   value={formik.values.passwordConfirm}
                 />
               </Stack>
               <Button
                 fullWidth
-                size="large"
+                size='large'
                 sx={{ mt: 2 }}
-                type="submit"
-                variant="contained"
+                type='submit'
+                variant='contained'
               >
                 Reset
               </Button>
@@ -112,7 +110,7 @@ const Page = () => {
         </Card>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Page;
+export default Page

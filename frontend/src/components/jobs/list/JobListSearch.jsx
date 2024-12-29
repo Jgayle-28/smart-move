@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
-import SearchMdIcon from '@untitled-ui/icons-react/build/esm/SearchMd'
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined'
 import {
   Box,
   Chip,
@@ -225,8 +225,8 @@ export const JobListSearch = (props) => {
         spacing={2}
         sx={{ p: 2 }}
       >
-        <SvgIcon>
-          <SearchMdIcon />
+        <SvgIcon fontSize='small'>
+          <SearchOutlinedIcon />
         </SvgIcon>
         <Input
           disableUnderline

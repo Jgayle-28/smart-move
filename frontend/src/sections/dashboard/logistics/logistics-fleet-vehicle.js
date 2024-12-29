@@ -1,5 +1,5 @@
-import { useCallback } from 'react';
-import Truck02Icon from '@untitled-ui/icons-react/build/esm/Truck02';
+import { useCallback } from 'react'
+
 import {
   Avatar,
   Box,
@@ -9,8 +9,8 @@ import {
   LinearProgress,
   Stack,
   SvgIcon,
-  Typography
-} from '@mui/material';
+  Typography,
+} from '@mui/material'
 import {
   Timeline,
   TimelineConnector,
@@ -18,50 +18,38 @@ import {
   TimelineDot,
   TimelineItem,
   timelineItemClasses,
-  TimelineSeparator
-} from '@mui/lab';
+  TimelineSeparator,
+} from '@mui/lab'
 
 export const LogisticsFleetVehicle = (props) => {
-  const { onDeselect, onSelect, selected, vehicle } = props;
+  const { onDeselect, onSelect, selected, vehicle } = props
 
   const handleToggle = useCallback(() => {
     if (!selected) {
-      onSelect?.(vehicle.id);
+      onSelect?.(vehicle.id)
     } else {
-      onDeselect?.();
+      onDeselect?.()
     }
-  }, [
-    onDeselect,
-    onSelect,
-    selected,
-    vehicle
-  ]);
+  }, [onDeselect, onSelect, selected, vehicle])
 
   return (
-    <Stack component="li">
+    <Stack component='li'>
       <ButtonBase
         sx={{
           alignItems: 'center',
           justifyContent: 'flex-start',
           p: 2,
           textAlign: 'left',
-          width: '100%'
+          width: '100%',
         }}
         onClick={handleToggle}
       >
         <Avatar sx={{ mr: 2 }}>
-          <SvgIcon>
-            <Truck02Icon />
-          </SvgIcon>
+          <SvgIcon>{/* <Truck02Icon /> */}</SvgIcon>
         </Avatar>
         <div>
-          <Typography>
-            {vehicle.id}
-          </Typography>
-          <Typography
-            color="text.secondary"
-            variant="body2"
-          >
+          <Typography>{vehicle.id}</Typography>
+          <Typography color='text.secondary' variant='body2'>
             {vehicle.location}
           </Typography>
         </div>
@@ -70,54 +58,41 @@ export const LogisticsFleetVehicle = (props) => {
         <Divider />
         <Box sx={{ p: 2 }}>
           <Stack spacing={1}>
-            <Typography
-              color="text.secondary"
-              variant="caption"
-            >
+            <Typography color='text.secondary' variant='caption'>
               Temperature (good)
             </Typography>
-            <Stack
-              alignItems="center"
-              direction="row"
-              spacing={2}
-            >
+            <Stack alignItems='center' direction='row' spacing={2}>
               <LinearProgress
                 value={8}
                 sx={{ flexGrow: 1 }}
-                variant="determinate"
+                variant='determinate'
               />
-              <Typography
-                color="text.secondary"
-                variant="body2"
-              >
+              <Typography color='text.secondary' variant='body2'>
                 {vehicle.temp}
               </Typography>
             </Stack>
           </Stack>
           <Timeline
-            position="right"
+            position='right'
             sx={{
               px: 3,
               [`& .${timelineItemClasses.root}:before`]: {
                 flex: 0,
-                padding: 0
-              }
+                padding: 0,
+              },
             }}
           >
             <TimelineItem>
               <TimelineSeparator>
-                <TimelineDot color="primary" />
+                <TimelineDot color='primary' />
                 <TimelineConnector />
               </TimelineSeparator>
               <TimelineContent>
                 <div>
-                  <Typography variant="body2">
+                  <Typography variant='body2'>
                     Tracking Number Created
                   </Typography>
-                  <Typography
-                    color="text.secondary"
-                    variant="caption"
-                  >
+                  <Typography color='text.secondary' variant='caption'>
                     {vehicle.startedAt}
                   </Typography>
                 </div>
@@ -125,18 +100,13 @@ export const LogisticsFleetVehicle = (props) => {
             </TimelineItem>
             <TimelineItem>
               <TimelineSeparator>
-                <TimelineDot color="primary" />
+                <TimelineDot color='primary' />
                 <TimelineConnector />
               </TimelineSeparator>
               <TimelineContent>
                 <div>
-                  <Typography variant="body2">
-                    Out for Delivery
-                  </Typography>
-                  <Typography
-                    color="text.secondary"
-                    variant="caption"
-                  >
+                  <Typography variant='body2'>Out for Delivery</Typography>
+                  <Typography color='text.secondary' variant='caption'>
                     {vehicle.departedAt}
                   </Typography>
                 </div>
@@ -144,17 +114,12 @@ export const LogisticsFleetVehicle = (props) => {
             </TimelineItem>
             <TimelineItem>
               <TimelineSeparator>
-                <TimelineDot color="primary" />
+                <TimelineDot color='primary' />
               </TimelineSeparator>
               <TimelineContent>
                 <div>
-                  <Typography variant="body2">
-                    Arrived
-                  </Typography>
-                  <Typography
-                    color="text.secondary"
-                    variant="caption"
-                  >
+                  <Typography variant='body2'>Arrived</Typography>
+                  <Typography color='text.secondary' variant='caption'>
                     {vehicle.arrivedAt}
                   </Typography>
                 </div>
@@ -164,5 +129,5 @@ export const LogisticsFleetVehicle = (props) => {
         </Box>
       </Collapse>
     </Stack>
-  );
-};
+  )
+}

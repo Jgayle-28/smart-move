@@ -1,11 +1,11 @@
 import { Avatar, Button, Link, Stack, SvgIcon, Typography } from '@mui/material'
 import { paths } from 'src/paths'
 import { RouterLink } from '../router-link'
-import ArrowLeftIcon from '@untitled-ui/icons-react/build/esm/ArrowLeft'
+import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined'
 import { getInitials } from 'src/utils/get-initials'
 import { stringToColor } from 'src/utils/string-to-color'
 import { SeverityPill } from '../severity-pill'
-import Edit02Icon from '@untitled-ui/icons-react/build/esm/Edit02'
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import { useDispatch } from 'react-redux'
 import { deleteCustomer } from 'src/store/customers/customerSlice'
 import { toast } from 'react-hot-toast'
@@ -37,8 +37,8 @@ function CustomerEditPageHeader({ customer, isDetails }) {
           }}
           underline='hover'
         >
-          <SvgIcon sx={{ mr: 1 }}>
-            <ArrowLeftIcon />
+          <SvgIcon sx={{ mr: 1 }} fontSize='small'>
+            <ArrowBackOutlinedIcon />
           </SvgIcon>
           <Typography variant='subtitle2'>Customers</Typography>
         </Link>
@@ -95,7 +95,7 @@ function CustomerEditPageHeader({ customer, isDetails }) {
                   size='small'
                   endIcon={
                     <SvgIcon fontSize='small'>
-                      <Edit02Icon />
+                      <EditOutlinedIcon />
                     </SvgIcon>
                   }
                 >

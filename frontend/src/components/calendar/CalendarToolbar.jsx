@@ -1,9 +1,8 @@
 import { useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { format } from 'date-fns'
-import ChevronLeftIcon from '@untitled-ui/icons-react/build/esm/ChevronLeft'
-import ChevronRightIcon from '@untitled-ui/icons-react/build/esm/ChevronRight'
-import PlusIcon from '@untitled-ui/icons-react/build/esm/Plus'
+import ChevronLeftOutlinedIcon from '@mui/icons-material/ChevronLeftOutlined'
+import ChevronRightOutlinedIcon from '@mui/icons-material/ChevronRightOutlined'
 import {
   Button,
   IconButton,
@@ -89,12 +88,12 @@ export const CalendarToolbar = (props) => {
         <Stack alignItems='center' direction='row' spacing={1}>
           <IconButton onClick={onDatePrev}>
             <SvgIcon>
-              <ChevronLeftIcon />
+              <ChevronLeftOutlinedIcon />{' '}
             </SvgIcon>
           </IconButton>
           <IconButton onClick={onDateNext}>
             <SvgIcon>
-              <ChevronRightIcon />
+              <ChevronRightOutlinedIcon />{' '}
             </SvgIcon>
           </IconButton>
           {/* <TextField

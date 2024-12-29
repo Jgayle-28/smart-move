@@ -24,7 +24,7 @@ import { clearEstimates, getEstimates } from 'src/store/estimates/estimateSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import Spinner from 'src/components/shared/Spinner'
 import { exportToExcel } from 'src/utils/export-to-excel'
-import Download01Icon from '@untitled-ui/icons-react/build/esm/Download01'
+import DownloadOutlinedIcon from '@mui/icons-material/DownloadOutlined'
 import { applyPagination } from 'src/utils/apply-pagination'
 import { clearJobs, getJobs, updateJob } from 'src/store/jobs/jobSlice'
 import { addEstimate } from 'src/store/estimates/estimateSlice'
@@ -257,8 +257,8 @@ const Page = () => {
                       onClick={exportEstimates}
                       disabled={!estimates?.length}
                       startIcon={
-                        <SvgIcon>
-                          <Download01Icon />
+                        <SvgIcon fontSize='small'>
+                          <DownloadOutlinedIcon />
                         </SvgIcon>
                       }
                     >

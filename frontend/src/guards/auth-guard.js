@@ -14,17 +14,13 @@ export const AuthGuard = (props) => {
 
   // TODO -> Need to check for expired token and add `returnTo:` in search params and update login to redirect if necessary
 
-  useEffect(
-    () => {
-      if (!checkingStatus && !isAuthenticated) {
-        // const searchParams = new URLSearchParams({ returnTo: window.location.href }).toString();
-        // const href = loginPaths[issuer] + `?${searchParams}`;
-        router.replace(paths.auth.login)
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isAuthenticated, checkingStatus]
-  )
+  useEffect(() => {
+    if (!checkingStatus && !isAuthenticated) {
+      // const searchParams = new URLSearchParams({ returnTo: window.location.href }).toString();
+      // const href = loginPaths[issuer] + `?${searchParams}`;
+      router.replace(paths.auth.login)
+    }
+  }, [isAuthenticated, checkingStatus])
 
   if (!isAuthenticated) {
     return null

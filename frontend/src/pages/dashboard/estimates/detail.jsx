@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { PDFDownloadLink } from '@react-pdf/renderer'
-import ArrowLeftIcon from '@untitled-ui/icons-react/build/esm/ArrowLeft'
+import KeyboardBackspaceOutlinedIcon from '@mui/icons-material/KeyboardBackspaceOutlined'
 import {
   Avatar,
   Box,
@@ -40,13 +40,9 @@ const useInvoice = () => {
     }
   }, [isMounted])
 
-  useEffect(
-    () => {
-      handleInvoiceGet()
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  )
+  useEffect(() => {
+    handleInvoiceGet()
+  }, [])
 
   return invoice
 }
@@ -86,7 +82,7 @@ const Page = () => {
                   underline='hover'
                 >
                   <SvgIcon sx={{ mr: 1 }}>
-                    <ArrowLeftIcon />
+                    <KeyboardBackspaceOutlinedIcon />
                   </SvgIcon>
                   <Typography variant='subtitle2'>Go Back</Typography>
                 </Link>

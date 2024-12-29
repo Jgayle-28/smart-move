@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import ArrowRightIcon from '@untitled-ui/icons-react/build/esm/ArrowRight'
+import ArrowRightAltOutlinedIcon from '@mui/icons-material/ArrowRightAltOutlined'
 import {
   Box,
   Button,
@@ -103,8 +103,8 @@ export const PaymentDetailStep = (props) => {
         <Stack alignItems='center' direction='row' spacing={2}>
           <Button
             endIcon={
-              <SvgIcon>
-                <ArrowRightIcon />
+              <SvgIcon fontSize='small'>
+                <ArrowRightAltOutlinedIcon />
               </SvgIcon>
             }
             type='submit'

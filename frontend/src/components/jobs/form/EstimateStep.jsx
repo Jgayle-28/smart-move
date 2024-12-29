@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import ArrowRightIcon from '@untitled-ui/icons-react/build/esm/ArrowRight'
+import ArrowRightAltOutlinedIcon from '@mui/icons-material/ArrowRightAltOutlined'
 import { Button, Stack, SvgIcon, TextField, Typography } from '@mui/material'
 import { MobileDatePicker, MobileTimePicker } from '@mui/x-date-pickers'
 import { QuillEditor } from 'src/components/quill-editor'
@@ -62,8 +62,8 @@ export const EstimateStep = (props) => {
         <Stack alignItems='center' direction='row' spacing={2}>
           <Button
             endIcon={
-              <SvgIcon>
-                <ArrowRightIcon />
+              <SvgIcon fontSize='small'>
+                <ArrowRightAltOutlinedIcon />
               </SvgIcon>
             }
             onClick={onNext}

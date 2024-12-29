@@ -1,6 +1,6 @@
-import * as Yup from 'yup';
-import { useFormik } from 'formik';
-import ArrowLeftIcon from '@untitled-ui/icons-react/build/esm/ArrowLeft';
+import * as Yup from 'yup'
+import { useFormik } from 'formik'
+import KeyboardBackspaceOutlinedIcon from '@mui/icons-material/KeyboardBackspaceOutlined'
 import {
   Box,
   Button,
@@ -10,82 +10,73 @@ import {
   Link,
   SvgIcon,
   TextField,
-  Typography
-} from '@mui/material';
-import { RouterLink } from 'src/components/router-link';
-import { Seo } from 'src/components/seo';
-import { paths } from 'src/paths';
+  Typography,
+} from '@mui/material'
+import { RouterLink } from 'src/components/router-link'
+import { Seo } from 'src/components/seo'
+import { paths } from 'src/paths'
 
 const initialValues = {
-  email: ''
-};
+  email: '',
+}
 
 const validationSchema = Yup.object({
-  email: Yup
-    .string()
+  email: Yup.string()
     .email('Must be a valid email')
     .max(255)
-    .required('Email is required')
-});
+    .required('Email is required'),
+})
 
 const Page = () => {
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: () => { }
-  });
+    onSubmit: () => {},
+  })
 
   return (
     <>
-      <Seo title="Forgot Password" />
+      <Seo title='Forgot Password' />
       <div>
         <Box sx={{ mb: 4 }}>
           <Link
-            color="text.primary"
+            color='text.primary'
             component={RouterLink}
             href={paths.dashboard.index}
             sx={{
               alignItems: 'center',
-              display: 'inline-flex'
+              display: 'inline-flex',
             }}
-            underline="hover"
+            underline='hover'
           >
-            <SvgIcon sx={{ mr: 1 }}>
-              <ArrowLeftIcon />
+            <SvgIcon sx={{ mr: 1 }} fontSize='small'>
+              <KeyboardBackspaceOutlinedIcon />
             </SvgIcon>
-            <Typography variant="subtitle2">
-              Dashboard
-            </Typography>
+            <Typography variant='subtitle2'>Dashboard</Typography>
           </Link>
         </Box>
         <Card elevation={16}>
-          <CardHeader
-            sx={{ pb: 0 }}
-            title="Forgot password"
-          />
+          <CardHeader sx={{ pb: 0 }} title='Forgot password' />
           <CardContent>
-            <form
-              noValidate
-              onSubmit={formik.handleSubmit}
-            >
+            <form noValidate onSubmit={formik.handleSubmit}>
               <TextField
                 autoFocus
                 error={!!(formik.touched.email && formik.errors.email)}
                 fullWidth
                 helperText={formik.touched.email && formik.errors.email}
-                label="Email Address"
-                name="email"
+                label='Email Address'
+                name='email'
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
-                type="email"
+                type='email'
                 value={formik.values.email}
               />
               <Button
                 fullWidth
-                size="large"
+                size='large'
                 sx={{ mt: 2 }}
-                type="submit"
-                variant="contained"
+                type='submit'
+                variant='contained'
               >
                 Send reset link
               </Button>
@@ -94,7 +85,7 @@ const Page = () => {
         </Card>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Page;
+export default Page

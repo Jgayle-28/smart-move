@@ -19,13 +19,9 @@ export const GuestGuard = (props) => {
   }, [isAuthenticated, router])
 
   // Only check on mount, this allows us to redirect the user manually when auth state changes
-  useEffect(
-    () => {
-      check()
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  )
+  useEffect(() => {
+    check()
+  }, [])
 
   if (!checked) {
     return null

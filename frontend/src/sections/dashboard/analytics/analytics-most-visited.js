@@ -1,7 +1,6 @@
-import PropTypes from 'prop-types';
-import numeral from 'numeral';
-import InfoCircleIcon from '@untitled-ui/icons-react/build/esm/InfoCircle';
-import LinkExternal01Icon from '@untitled-ui/icons-react/build/esm/LinkExternal01';
+import PropTypes from 'prop-types'
+import numeral from 'numeral'
+
 import {
   Card,
   CardHeader,
@@ -14,47 +13,37 @@ import {
   TableHead,
   TableRow,
   Tooltip,
-  Typography
-} from '@mui/material';
-import { Scrollbar } from 'src/components/scrollbar';
+  Typography,
+} from '@mui/material'
+import { Scrollbar } from 'src/components/scrollbar'
 
 export const AnalyticsMostVisited = (props) => {
-  const { pages } = props;
+  const { pages } = props
 
   return (
     <Card>
       <CardHeader
-        title="Most Visited Pages"
-        action={(
-          <Tooltip title="Refresh rate is 24h">
-            <SvgIcon color="action">
-              <InfoCircleIcon />
-            </SvgIcon>
+        title='Most Visited Pages'
+        action={
+          <Tooltip title='Refresh rate is 24h'>
+            <SvgIcon color='action'>{/* <InfoCircleIcon /> */}</SvgIcon>
           </Tooltip>
-        )}
+        }
       />
       <Scrollbar>
         <Table sx={{ minWidth: 600 }}>
           <TableHead>
             <TableRow>
-              <TableCell>
-                Page Name
-              </TableCell>
-              <TableCell>
-                Visitors
-              </TableCell>
-              <TableCell>
-                Unique page visits
-              </TableCell>
-              <TableCell>
-                Bounce rate
-              </TableCell>
+              <TableCell>Page Name</TableCell>
+              <TableCell>Visitors</TableCell>
+              <TableCell>Unique page visits</TableCell>
+              <TableCell>Bounce rate</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {pages.map((page) => {
-              const visitors = numeral(page.visitors).format('0,0');
-              const uniqueVisitors = numeral(page.uniqueVisits).format('0,0');
+              const visitors = numeral(page.visitors).format('0,0')
+              const uniqueVisitors = numeral(page.uniqueVisits).format('0,0')
 
               return (
                 <TableRow
@@ -62,43 +51,28 @@ export const AnalyticsMostVisited = (props) => {
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <TableCell>
-                    <Link
-                      color="text.primary"
-                      href="#"
-                    >
-                      <Stack
-                        alignItems="center"
-                        direction="row"
-                        spacing={2}
-                      >
-                        <SvgIcon fontSize="small">
-                          <LinkExternal01Icon />
+                    <Link color='text.primary' href='#'>
+                      <Stack alignItems='center' direction='row' spacing={2}>
+                        <SvgIcon fontSize='small'>
+                          {/* <LinkExternal01Icon /> */}
                         </SvgIcon>
-                        <Typography variant="body2">
-                          {page.url}
-                        </Typography>
+                        <Typography variant='body2'>{page.url}</Typography>
                       </Stack>
                     </Link>
                   </TableCell>
-                  <TableCell>
-                    {visitors}
-                  </TableCell>
-                  <TableCell>
-                    {uniqueVisitors}
-                  </TableCell>
-                  <TableCell>
-                    {page.bounceRate}%
-                  </TableCell>
+                  <TableCell>{visitors}</TableCell>
+                  <TableCell>{uniqueVisitors}</TableCell>
+                  <TableCell>{page.bounceRate}%</TableCell>
                 </TableRow>
-              );
+              )
             })}
           </TableBody>
         </Table>
       </Scrollbar>
     </Card>
-  );
-};
+  )
+}
 
 AnalyticsMostVisited.propTypes = {
-  pages: PropTypes.array.isRequired
-};
+  pages: PropTypes.array.isRequired,
+}

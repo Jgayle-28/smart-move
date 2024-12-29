@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import ArrowRightIcon from '@untitled-ui/icons-react/build/esm/ArrowRight'
+import ArrowRightAltOutlinedIcon from '@mui/icons-material/ArrowRightAltOutlined'
 import {
   Box,
   Button,
@@ -51,8 +51,8 @@ export const NewJobs = (props) => {
             href='/dashboard/jobs'
             color='inherit'
             endIcon={
-              <SvgIcon>
-                <ArrowRightIcon />
+              <SvgIcon fontSize='small'>
+                <ArrowRightAltOutlinedIcon />
               </SvgIcon>
             }
             size='small'

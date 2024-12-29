@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import ChevronDownIcon from '@untitled-ui/icons-react/build/esm/ChevronDown'
-import ChevronRightIcon from '@untitled-ui/icons-react/build/esm/ChevronRight'
+import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined'
+import ChevronRightOutlinedIcon from '@mui/icons-material/ChevronRightOutlined'
 import { Collapse, Stack, SvgIcon, Typography, Divider } from '@mui/material'
 
 export default function InventoryAccordion({ room }) {
@@ -36,8 +36,12 @@ export default function InventoryAccordion({ room }) {
         }}
       >
         <Typography variant='body2'>{room?.roomName}</Typography>
-        <SvgIcon>
-          {isExpanded ? <ChevronDownIcon /> : <ChevronRightIcon />}
+        <SvgIcon fontSize='small'>
+          {isExpanded ? (
+            <ExpandMoreOutlinedIcon />
+          ) : (
+            <ChevronRightOutlinedIcon />
+          )}
         </SvgIcon>
       </Stack>
       <Collapse in={isExpanded}>

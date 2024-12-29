@@ -1,53 +1,46 @@
-import PlusIcon from '@untitled-ui/icons-react/build/esm/Plus';
-import { Box, Button, Container, Stack, SvgIcon, Typography } from '@mui/material';
-import { Seo } from 'src/components/seo';
-import { usePageView } from 'src/hooks/use-page-view';
-import { useSettings } from 'src/hooks/use-settings';
+import {
+  Box,
+  Button,
+  Container,
+  Stack,
+  SvgIcon,
+  Typography,
+} from '@mui/material'
+import { Seo } from 'src/components/seo'
+import { usePageView } from 'src/hooks/use-page-view'
+import { useSettings } from 'src/hooks/use-settings'
 
 const Page = () => {
-  const settings = useSettings();
+  const settings = useSettings()
 
-  usePageView();
+  usePageView()
 
   return (
     <>
-      <Seo title="Dashboard: Blank" />
+      <Seo title='Dashboard: Blank' />
       <Box
-        component="main"
+        component='main'
         sx={{
           flexGrow: 1,
-          py: 8
+          py: 8,
         }}
       >
         <Container maxWidth={settings.stretch ? false : 'xl'}>
           <Stack
             spacing={{
               xs: 3,
-              lg: 4
+              lg: 4,
             }}
           >
-            <Stack
-              direction="row"
-              justifyContent="space-between"
-              spacing={4}
-            >
+            <Stack direction='row' justifyContent='space-between' spacing={4}>
               <div>
-                <Typography variant="h4">
-                  Blank
-                </Typography>
+                <Typography variant='h4'>Blank</Typography>
               </div>
               <div>
-                <Stack
-                  direction="row"
-                  spacing={4}
-                >
+                <Stack direction='row' spacing={4}>
                   <Button
-                    startIcon={(
-                      <SvgIcon>
-                        <PlusIcon />
-                      </SvgIcon>
-                    )}
-                    variant="contained"
+                    startIcon={<SvgIcon>{/* <PlusIcon /> */}</SvgIcon>}
+                    variant='contained'
                   >
                     Action
                   </Button>
@@ -60,14 +53,14 @@ const Page = () => {
                 borderStyle: 'dashed',
                 borderWidth: 1,
                 height: 300,
-                p: '4px'
+                p: '4px',
               }}
             />
           </Stack>
         </Container>
       </Box>
     </>
-  );
-};
+  )
+}
 
-export default Page;
+export default Page

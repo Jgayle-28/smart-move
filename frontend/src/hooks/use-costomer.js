@@ -18,13 +18,9 @@ export const useCustomer = () => {
     }
   }, [isMounted])
 
-  useEffect(
-    () => {
-      handleCustomerGet()
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  )
+  useEffect(() => {
+    handleCustomerGet()
+  }, [])
 
   return customer
 }

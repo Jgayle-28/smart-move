@@ -1,5 +1,4 @@
-import numeral from 'numeral';
-import ArrowRightIcon from '@untitled-ui/icons-react/build/esm/ArrowRight';
+import numeral from 'numeral'
 import {
   Box,
   Button,
@@ -13,72 +12,60 @@ import {
   ListItemText,
   Stack,
   SvgIcon,
-  Typography
-} from '@mui/material';
+  Typography,
+} from '@mui/material'
 
 const assets = [
   {
     amount: 21500,
     color: '#6C76C4',
-    name: 'US Dollars'
+    name: 'US Dollars',
   },
   {
     amount: 15300,
     color: '#33BB78',
-    name: 'Bitcoin'
+    name: 'Bitcoin',
   },
   {
     amount: 1076.81,
     color: '#FF4081',
-    name: 'XRP Ripple'
-  }
-];
+    name: 'XRP Ripple',
+  },
+]
 
 export const DetailList1 = () => {
-  const totalAmount = assets.reduce((acc, asset) => acc += asset.amount, 0);
-  const formattedTotalAmount = numeral(totalAmount).format('$0,0.00');
+  const totalAmount = assets.reduce((acc, asset) => (acc += asset.amount), 0)
+  const formattedTotalAmount = numeral(totalAmount).format('$0,0.00')
 
   return (
     <Box
       sx={{
-        backgroundColor: (theme) => theme.palette.mode === 'dark'
-          ? 'neutral.800'
-          : 'neutral.100',
-        p: 3
+        backgroundColor: (theme) =>
+          theme.palette.mode === 'dark' ? 'neutral.800' : 'neutral.100',
+        p: 3,
       }}
     >
-      <Container maxWidth="sm">
+      <Container maxWidth='sm'>
         <Card>
           <CardHeader
-            subheader={(
-              <Typography variant="h4">
-                {formattedTotalAmount}
-              </Typography>
-            )}
+            subheader={
+              <Typography variant='h4'>{formattedTotalAmount}</Typography>
+            }
             sx={{ pb: 0 }}
-            title={(
-              <Typography
-                color="text.secondary"
-                variant="overline"
-              >
+            title={
+              <Typography color='text.secondary' variant='overline'>
                 Total balance
               </Typography>
-            )}
+            }
           />
           <CardContent>
             <Divider sx={{ mb: 2 }} />
-            <Typography
-              color="text.secondary"
-              variant="overline"
-            >
+            <Typography color='text.secondary' variant='overline'>
               Available currency
             </Typography>
-            <List
-              disablePadding
-              sx={{ pt: 2 }}
-            >
+            <List disablePadding sx={{ pt: 2 }}>
               {assets.map((currency) => {
-                const amount = numeral(currency.amount).format('$0,0.00');
+                const amount = numeral(currency.amount).format('$0,0.00')
 
                 return (
                   <ListItem
@@ -86,21 +73,21 @@ export const DetailList1 = () => {
                     key={currency.name}
                     sx={{
                       pb: 2,
-                      pt: 0
+                      pt: 0,
                     }}
                   >
                     <ListItemText
                       disableTypography
-                      primary={(
+                      primary={
                         <Stack
-                          alignItems="center"
-                          direction="row"
-                          justifyContent="space-between"
+                          alignItems='center'
+                          direction='row'
+                          justifyContent='space-between'
                           spacing={2}
                         >
                           <Stack
-                            alignItems="center"
-                            direction="row"
+                            alignItems='center'
+                            direction='row'
                             spacing={2}
                           >
                             <Box
@@ -108,49 +95,37 @@ export const DetailList1 = () => {
                                 backgroundColor: currency.color,
                                 height: 8,
                                 width: 8,
-                                borderRadius: '50%'
+                                borderRadius: '50%',
                               }}
                             />
-                            <Typography variant="subtitle2">
+                            <Typography variant='subtitle2'>
                               {currency.name}
                             </Typography>
                           </Stack>
                           <Typography
-                            color="text.secondary"
-                            variant="subtitle2"
+                            color='text.secondary'
+                            variant='subtitle2'
                           >
                             {amount}
                           </Typography>
                         </Stack>
-                      )}
+                      }
                     />
                   </ListItem>
-                );
+                )
               })}
             </List>
             <Divider />
-            <Stack
-              alignItems="flex-start"
-              spacing={1}
-              sx={{ mt: 2 }}
-            >
+            <Stack alignItems='flex-start' spacing={1} sx={{ mt: 2 }}>
               <Button
-                color="inherit"
-                endIcon={(
-                  <SvgIcon>
-                    <ArrowRightIcon />
-                  </SvgIcon>
-                )}
+                color='inherit'
+                endIcon={<SvgIcon>{/* <ArrowRightIcon /> */}</SvgIcon>}
               >
                 Add money
               </Button>
               <Button
-                color="inherit"
-                endIcon={(
-                  <SvgIcon>
-                    <ArrowRightIcon />
-                  </SvgIcon>
-                )}
+                color='inherit'
+                endIcon={<SvgIcon>{/* <ArrowRightIcon /> */}</SvgIcon>}
               >
                 Withdraw funds
               </Button>
@@ -159,5 +134,5 @@ export const DetailList1 = () => {
         </Card>
       </Container>
     </Box>
-  );
-};
+  )
+}

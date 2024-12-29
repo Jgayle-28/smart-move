@@ -1,32 +1,30 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { Box, Divider, useMediaQuery } from '@mui/material';
-import { Seo } from 'src/components/seo';
-import { usePageView } from 'src/hooks/use-page-view';
-import { useSearchParams } from 'src/hooks/use-search-params';
-import { MailComposer } from 'src/sections/dashboard/mail/mail-composer';
-import { MailThread } from 'src/sections/dashboard/mail/mail-thread';
-import { MailContainer } from 'src/sections/dashboard/mail/mail-container';
-import { MailList } from 'src/sections/dashboard/mail/mail-list';
-import { MailSidebar } from 'src/sections/dashboard/mail/mail-sidebar';
-import { useDispatch, useSelector } from 'src/store';
-import { thunks } from 'src/thunks/mail';
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { Box, Divider, useMediaQuery } from '@mui/material'
+import { Seo } from 'src/components/seo'
+import { usePageView } from 'src/hooks/use-page-view'
+import { useSearchParams } from 'src/hooks/use-search-params'
+import { MailComposer } from 'src/sections/dashboard/mail/mail-composer'
+import { MailThread } from 'src/sections/dashboard/mail/mail-thread'
+import { MailContainer } from 'src/sections/dashboard/mail/mail-container'
+import { MailList } from 'src/sections/dashboard/mail/mail-list'
+import { MailSidebar } from 'src/sections/dashboard/mail/mail-sidebar'
+import { useDispatch, useSelector } from 'src/store'
+import { thunks } from 'src/thunks/mail'
 
 const useLabels = () => {
-  const dispatch = useDispatch();
-  const labels = useSelector((state) => state.mail.labels);
+  const dispatch = useDispatch()
+  const labels = useSelector((state) => state.mail.labels)
 
   const handleLabelsGet = useCallback(() => {
-    dispatch(thunks.getLabels());
-  }, [dispatch]);
+    dispatch(thunks.getLabels())
+  }, [dispatch])
 
   useEffect(() => {
-      handleLabelsGet();
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []);
+    handleLabelsGet()
+  }, [])
 
-  return labels;
-};
+  return labels
+}
 
 const useComposer = () => {
   const initialState = {
@@ -34,58 +32,56 @@ const useComposer = () => {
     isOpen: false,
     message: '',
     subject: '',
-    to: ''
-  };
+    to: '',
+  }
 
-  const [state, setState] = useState(initialState);
+  const [state, setState] = useState(initialState)
 
   const handleOpen = useCallback(() => {
     setState((prevState) => ({
       ...prevState,
-      isOpen: true
-    }));
-  }, []);
+      isOpen: true,
+    }))
+  }, [])
 
   const handleClose = useCallback(() => {
-      setState(initialState);
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []);
+    setState(initialState)
+  }, [])
 
   const handleMaximize = useCallback(() => {
     setState((prevState) => ({
       ...prevState,
-      isFullScreen: true
-    }));
-  }, []);
+      isFullScreen: true,
+    }))
+  }, [])
 
   const handleMinimize = useCallback(() => {
     setState((prevState) => ({
       ...prevState,
-      isFullScreen: false
-    }));
-  }, []);
+      isFullScreen: false,
+    }))
+  }, [])
 
   const handleMessageChange = useCallback((message) => {
     setState((prevState) => ({
       ...prevState,
-      message
-    }));
-  }, []);
+      message,
+    }))
+  }, [])
 
   const handleSubjectChange = useCallback((subject) => {
     setState((prevState) => ({
       ...prevState,
-      subject
-    }));
-  }, []);
+      subject,
+    }))
+  }, [])
 
   const handleToChange = useCallback((to) => {
     setState((prevState) => ({
       ...prevState,
-      to
-    }));
-  }, []);
+      to,
+    }))
+  }, [])
 
   return {
     ...state,
@@ -95,67 +91,65 @@ const useComposer = () => {
     handleMinimize,
     handleOpen,
     handleSubjectChange,
-    handleToChange
-  };
-};
+    handleToChange,
+  }
+}
 
 const useSidebar = () => {
-  const mdUp = useMediaQuery((theme) => theme.breakpoints.up('md'));
-  const [open, setOpen] = useState(mdUp);
+  const mdUp = useMediaQuery((theme) => theme.breakpoints.up('md'))
+  const [open, setOpen] = useState(mdUp)
 
   const handleScreenResize = useCallback(() => {
     if (!mdUp) {
-      setOpen(false);
+      setOpen(false)
     } else {
-      setOpen(true);
+      setOpen(true)
     }
-  }, [mdUp]);
+  }, [mdUp])
 
   useEffect(() => {
-      handleScreenResize();
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [mdUp]);
+    handleScreenResize()
+  }, [mdUp])
 
   const handleToggle = useCallback(() => {
-    setOpen((prevState) => !prevState);
-  }, []);
+    setOpen((prevState) => !prevState)
+  }, [])
 
   const handleClose = useCallback(() => {
-    setOpen(false);
-  }, []);
+    setOpen(false)
+  }, [])
 
   return {
     handleToggle,
     handleClose,
-    open
-  };
-};
+    open,
+  }
+}
 
 const Page = () => {
-  const rootRef = useRef(null);
-  const searchParams = useSearchParams();
-  const emailId = searchParams.get('emailId');
-  const currentLabelId = searchParams.get('label') || undefined;
-  const labels = useLabels();
-  const composer = useComposer();
-  const sidebar = useSidebar();
+  const rootRef = useRef(null)
+  const searchParams = useSearchParams()
+  const emailId = searchParams.get('emailId')
+  const currentLabelId = searchParams.get('label') || undefined
+  const labels = useLabels()
+  const composer = useComposer()
+  const sidebar = useSidebar()
 
-  usePageView();
+  usePageView()
 
-  const view = emailId ? 'details' : 'list';
+  const view = emailId ? 'details' : 'list'
 
   return (
     <>
-      <Seo title="Dashboard: Mail" />
+      <Seo title='Dashboard: Mail' />
       <Divider />
       <Box
-        component="main"
+        component='main'
         sx={{
           backgroundColor: 'background.paper',
           flex: '1 1 auto',
           overflow: 'hidden',
-          position: 'relative'
+          position: 'relative',
         }}
       >
         <Box
@@ -166,7 +160,7 @@ const Page = () => {
             left: 0,
             position: 'absolute',
             right: 0,
-            top: 0
+            top: 0,
           }}
         >
           <MailSidebar
@@ -179,10 +173,7 @@ const Page = () => {
           />
           <MailContainer open={sidebar.open}>
             {view === 'details' && (
-              <MailThread
-                currentLabelId={currentLabelId}
-                emailId={emailId}
-              />
+              <MailThread currentLabelId={currentLabelId} emailId={emailId} />
             )}
             {view === 'list' && (
               <MailList
@@ -207,7 +198,7 @@ const Page = () => {
         to={composer.to}
       />
     </>
-  );
-};
+  )
+}
 
-export default Page;
+export default Page

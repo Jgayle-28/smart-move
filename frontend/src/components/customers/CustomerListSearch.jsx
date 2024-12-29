@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 import PropTypes from 'prop-types'
-import SearchMdIcon from '@untitled-ui/icons-react/build/esm/SearchMd'
+import YoutubeSearchedForOutlinedIcon from '@mui/icons-material/YoutubeSearchedForOutlined'
 import {
   Box,
   Divider,
@@ -64,8 +64,8 @@ export const CustomerListSearch = (props) => {
             size='medium'
             startAdornment={
               <InputAdornment position='start'>
-                <SvgIcon>
-                  <SearchMdIcon />
+                <SvgIcon fontSize='small'>
+                  <YoutubeSearchedForOutlinedIcon />
                 </SvgIcon>
               </InputAdornment>
             }

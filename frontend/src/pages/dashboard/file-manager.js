@@ -1,5 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import Upload01Icon from '@untitled-ui/icons-react/build/esm/Upload01';
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import {
   Box,
   Button,
@@ -7,105 +6,103 @@ import {
   Stack,
   SvgIcon,
   Typography,
-  Unstable_Grid2 as Grid
-} from '@mui/material';
-import { fileManagerApi } from 'src/api/file-manager';
-import { Seo } from 'src/components/seo';
-import { useDialog } from 'src/hooks/use-dialog';
-import { useMounted } from 'src/hooks/use-mounted';
-import { usePageView } from 'src/hooks/use-page-view';
-import { useSettings } from 'src/hooks/use-settings';
-import { FileUploader } from 'src/sections/dashboard/file-manager/file-uploader';
-import { ItemDrawer } from 'src/sections/dashboard/file-manager/item-drawer';
-import { ItemList } from 'src/sections/dashboard/file-manager/item-list';
-import { ItemSearch } from 'src/sections/dashboard/file-manager/item-search';
-import { StorageStats } from 'src/sections/dashboard/file-manager/storage-stats';
+  Unstable_Grid2 as Grid,
+} from '@mui/material'
+import { fileManagerApi } from 'src/api/file-manager'
+import { Seo } from 'src/components/seo'
+import { useDialog } from 'src/hooks/use-dialog'
+import { useMounted } from 'src/hooks/use-mounted'
+import { usePageView } from 'src/hooks/use-page-view'
+import { useSettings } from 'src/hooks/use-settings'
+import { FileUploader } from 'src/sections/dashboard/file-manager/file-uploader'
+import { ItemDrawer } from 'src/sections/dashboard/file-manager/item-drawer'
+import { ItemList } from 'src/sections/dashboard/file-manager/item-list'
+import { ItemSearch } from 'src/sections/dashboard/file-manager/item-search'
+import { StorageStats } from 'src/sections/dashboard/file-manager/storage-stats'
 
 const useItemsSearch = () => {
   const [state, setState] = useState({
     filters: {
-      query: undefined
+      query: undefined,
     },
     page: 0,
     rowsPerPage: 9,
     sortBy: 'createdAt',
-    sortDir: 'desc'
-  });
+    sortDir: 'desc',
+  })
 
   const handleFiltersChange = useCallback((filters) => {
     setState((prevState) => ({
       ...prevState,
-      filters
-    }));
-  }, []);
+      filters,
+    }))
+  }, [])
 
   const handleSortChange = useCallback((sortDir) => {
     setState((prevState) => ({
       ...prevState,
-      sortDir
-    }));
-  }, []);
+      sortDir,
+    }))
+  }, [])
 
   const handlePageChange = useCallback((event, page) => {
     setState((prevState) => ({
       ...prevState,
-      page
-    }));
-  }, []);
+      page,
+    }))
+  }, [])
 
   const handleRowsPerPageChange = useCallback((event) => {
     setState((prevState) => ({
       ...prevState,
-      rowsPerPage: parseInt(event.target.value, 10)
-    }));
-  }, []);
+      rowsPerPage: parseInt(event.target.value, 10),
+    }))
+  }, [])
 
   return {
     handleFiltersChange,
     handleSortChange,
     handlePageChange,
     handleRowsPerPageChange,
-    state
-  };
-};
+    state,
+  }
+}
 
 const useItemsStore = (searchState) => {
-  const isMounted = useMounted();
+  const isMounted = useMounted()
   const [state, setState] = useState({
     items: [],
-    itemsCount: 0
-  });
+    itemsCount: 0,
+  })
 
   const handleItemsGet = useCallback(async () => {
     try {
-      const response = await fileManagerApi.getItems(searchState);
+      const response = await fileManagerApi.getItems(searchState)
 
       if (isMounted()) {
         setState({
           items: response.data,
-          itemsCount: response.count
-        });
+          itemsCount: response.count,
+        })
       }
     } catch (err) {
-      console.error(err);
+      console.error(err)
     }
-  }, [searchState, isMounted]);
+  }, [searchState, isMounted])
 
   useEffect(() => {
-      handleItemsGet();
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [searchState]);
+    handleItemsGet()
+  }, [searchState])
 
   const handleDelete = useCallback((itemId) => {
     // api call should be made here, then get the list again
     setState((prevState) => {
       return {
         ...prevState,
-        items: prevState.items.filter((item) => item.id !== itemId)
-      };
-    });
-  }, []);
+        items: prevState.items.filter((item) => item.id !== itemId),
+      }
+    })
+  }, [])
 
   const handleFavorite = useCallback((itemId, value) => {
     setState((prevState) => {
@@ -115,58 +112,61 @@ const useItemsStore = (searchState) => {
           if (item.id === itemId) {
             return {
               ...item,
-              isFavorite: value
-            };
+              isFavorite: value,
+            }
           }
 
-          return item;
-        })
-      };
-    });
-  }, []);
+          return item
+        }),
+      }
+    })
+  }, [])
 
   return {
     handleDelete,
     handleFavorite,
-    ...state
-  };
-};
+    ...state,
+  }
+}
 
 const useCurrentItem = (items, itemId) => {
   return useMemo(() => {
     if (!itemId) {
-      return undefined;
+      return undefined
     }
 
-    return items.find((item) => item.id === itemId);
-  }, [items, itemId]);
-};
+    return items.find((item) => item.id === itemId)
+  }, [items, itemId])
+}
 
 const Page = () => {
-  const settings = useSettings();
-  const itemsSearch = useItemsSearch();
-  const itemsStore = useItemsStore(itemsSearch.state);
-  const [view, setView] = useState('grid');
-  const uploadDialog = useDialog();
-  const detailsDialog = useDialog();
-  const currentItem = useCurrentItem(itemsStore.items, detailsDialog.data);
+  const settings = useSettings()
+  const itemsSearch = useItemsSearch()
+  const itemsStore = useItemsStore(itemsSearch.state)
+  const [view, setView] = useState('grid')
+  const uploadDialog = useDialog()
+  const detailsDialog = useDialog()
+  const currentItem = useCurrentItem(itemsStore.items, detailsDialog.data)
 
-  usePageView();
+  usePageView()
 
-  const handleDelete = useCallback((itemId) => {
-    // This can be triggered from multiple places, ensure drawer is closed.
-    detailsDialog.handleClose();
-    itemsStore.handleDelete(itemId);
-  }, [detailsDialog, itemsStore]);
+  const handleDelete = useCallback(
+    (itemId) => {
+      // This can be triggered from multiple places, ensure drawer is closed.
+      detailsDialog.handleClose()
+      itemsStore.handleDelete(itemId)
+    },
+    [detailsDialog, itemsStore]
+  )
 
   return (
     <>
-      <Seo title="Dashboard: File Manager" />
+      <Seo title='Dashboard: File Manager' />
       <Box
-        component="main"
+        component='main'
         sx={{
           flexGrow: 1,
-          py: 8
+          py: 8,
         }}
       >
         <Container maxWidth={settings.stretch ? false : 'xl'}>
@@ -174,47 +174,30 @@ const Page = () => {
             container
             spacing={{
               xs: 3,
-              lg: 4
+              lg: 4,
             }}
           >
             <Grid xs={12}>
-              <Stack
-                direction="row"
-                justifyContent="space-between"
-                spacing={4}
-              >
+              <Stack direction='row' justifyContent='space-between' spacing={4}>
                 <div>
-                  <Typography variant="h4">
-                    File Manager
-                  </Typography>
+                  <Typography variant='h4'>File Manager</Typography>
                 </div>
-                <Stack
-                  alignItems="center"
-                  direction="row"
-                  spacing={2}
-                >
+                <Stack alignItems='center' direction='row' spacing={2}>
                   <Button
                     onClick={uploadDialog.handleOpen}
-                    startIcon={(
-                      <SvgIcon>
-                        <Upload01Icon />
-                      </SvgIcon>
-                    )}
-                    variant="contained"
+                    startIcon={<SvgIcon>{/* <Upload01Icon /> */}</SvgIcon>}
+                    variant='contained'
                   >
                     Upload
                   </Button>
                 </Stack>
               </Stack>
             </Grid>
-            <Grid
-              xs={12}
-              md={8}
-            >
+            <Grid xs={12} md={8}>
               <Stack
                 spacing={{
                   xs: 3,
-                  lg: 4
+                  lg: 4,
                 }}
               >
                 <ItemSearch
@@ -239,10 +222,7 @@ const Page = () => {
                 />
               </Stack>
             </Grid>
-            <Grid
-              xs={12}
-              md={4}
-            >
+            <Grid xs={12} md={4}>
               <StorageStats />
             </Grid>
           </Grid>
@@ -260,7 +240,7 @@ const Page = () => {
         open={uploadDialog.open}
       />
     </>
-  );
-};
+  )
+}
 
-export default Page;
+export default Page

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import PlusIcon from '@untitled-ui/icons-react/build/esm/Plus'
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
 import {
   Box,
   Button,
@@ -23,7 +23,6 @@ import { filterJobs } from 'src/utils/filter-jobs'
 import { applyPagination } from 'src/utils/apply-pagination'
 import EmptyState from 'src/components/shared/EmptyState'
 import { exportToExcel } from 'src/utils/export-to-excel'
-import Download01Icon from '@untitled-ui/icons-react/build/esm/Download01'
 
 const initialFilterState = {
   filters: {
@@ -138,11 +137,7 @@ const Page = () => {
                     size='small'
                     onClick={exportJobs}
                     disabled={!jobs?.length}
-                    startIcon={
-                      <SvgIcon>
-                        <Download01Icon />
-                      </SvgIcon>
-                    }
+                    startIcon={<SvgIcon>{/* <Download01Icon /> */}</SvgIcon>}
                   >
                     Export
                   </Button>
@@ -154,7 +149,7 @@ const Page = () => {
                   href={paths.dashboard.jobs.create}
                   startIcon={
                     <SvgIcon>
-                      <PlusIcon />
+                      <AddOutlinedIcon />
                     </SvgIcon>
                   }
                   variant='contained'

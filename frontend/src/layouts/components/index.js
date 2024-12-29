@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
-import ArrowLeftIcon from '@untitled-ui/icons-react/build/esm/ArrowLeft';
+import PropTypes from 'prop-types'
+import KeyboardBackspaceOutlinedIcon from '@mui/icons-material/KeyboardBackspaceOutlined'
 import {
   Box,
   Breadcrumbs,
@@ -8,97 +8,92 @@ import {
   Link,
   Stack,
   SvgIcon,
-  Typography
-} from '@mui/material';
-import { styled } from '@mui/material/styles';
-import { BreadcrumbsSeparator } from 'src/components/breadcrumbs-separator';
-import { RouterLink } from 'src/components/router-link';
-import { paths } from 'src/paths';
+  Typography,
+} from '@mui/material'
+import { styled } from '@mui/material/styles'
+import { BreadcrumbsSeparator } from 'src/components/breadcrumbs-separator'
+import { RouterLink } from 'src/components/router-link'
+import { paths } from 'src/paths'
 
 const LayoutRoot = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.background.default,
   display: 'flex',
   flex: '1 1 auto',
-  flexDirection: 'column'
-}));
+  flexDirection: 'column',
+}))
 
 const LayoutContainer = styled('div')({
   display: 'flex',
   flex: '1 1 auto',
   flexDirection: 'column',
-  width: '100%'
-});
+  width: '100%',
+})
 
 export const Layout = (props) => {
-  const { breadcrumbs, children, title } = props;
+  const { breadcrumbs, children, title } = props
 
   return (
     <LayoutRoot>
       <Box
         sx={{
-          backgroundColor: (theme) => theme.palette.mode === 'dark'
-            ? 'neutral.800'
-            : 'neutral.50',
-          py: '120px'
+          backgroundColor: (theme) =>
+            theme.palette.mode === 'dark' ? 'neutral.800' : 'neutral.50',
+          py: '120px',
         }}
       >
-        <Container maxWidth="lg">
+        <Container maxWidth='lg'>
           <Stack spacing={3}>
             {!breadcrumbs && (
               <div>
                 <Link
-                  color="text.primary"
+                  color='text.primary'
                   component={RouterLink}
                   href={paths.components.index}
                   sx={{
                     alignItems: 'center',
-                    display: 'inline-flex'
+                    display: 'inline-flex',
                   }}
-                  underline="hover"
+                  underline='hover'
                 >
-                  <SvgIcon sx={{ mr: 1 }}>
-                    <ArrowLeftIcon />
+                  <SvgIcon sx={{ mr: 1 }} fontSize='small'>
+                    <KeyboardBackspaceOutlinedIcon />
                   </SvgIcon>
-                  <Typography variant="subtitle2">
-                    Components
-                  </Typography>
+                  <Typography variant='subtitle2'>Components</Typography>
                 </Link>
               </div>
             )}
             <div>
-              <Typography variant="h1">
-                {title}
-              </Typography>
+              <Typography variant='h1'>{title}</Typography>
             </div>
             {breadcrumbs && (
               <div>
                 <Breadcrumbs separator={<BreadcrumbsSeparator />}>
                   {breadcrumbs.map((item, index) => {
-                    const isLast = breadcrumbs.length - 1 === index;
+                    const isLast = breadcrumbs.length - 1 === index
 
                     if (isLast) {
                       return (
                         <Typography
-                          color="text.secondary"
+                          color='text.secondary'
                           key={index}
-                          variant="subtitle2"
+                          variant='subtitle2'
                         >
                           {item.title}
                         </Typography>
-                      );
+                      )
                     }
 
                     return (
                       <Link
-                        color="text.primary"
+                        color='text.primary'
                         component={RouterLink}
                         href={item.href}
                         key={index}
-                        variant="subtitle2"
+                        variant='subtitle2'
                       >
                         {item.title}
                       </Link>
-                    );
+                    )
                   })}
                 </Breadcrumbs>
               </div>
@@ -107,15 +102,13 @@ export const Layout = (props) => {
         </Container>
       </Box>
       <Divider />
-      <LayoutContainer>
-        {children}
-      </LayoutContainer>
+      <LayoutContainer>{children}</LayoutContainer>
     </LayoutRoot>
-  );
-};
+  )
+}
 
 Layout.propTypes = {
   breadcrumbs: PropTypes.array,
   children: PropTypes.node.isRequired,
-  title: PropTypes.string.isRequired
-};
+  title: PropTypes.string.isRequired,
+}

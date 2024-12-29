@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import ArrowRightIcon from '@untitled-ui/icons-react/build/esm/ArrowRight'
+import ArrowRightAltOutlinedIcon from '@mui/icons-material/ArrowRightAltOutlined'
 import { Button, Stack, SvgIcon, TextField, Typography } from '@mui/material'
 import { MobileDatePicker, MobileTimePicker } from '@mui/x-date-pickers'
 import { QuillEditor } from 'src/components/quill-editor'
@@ -77,8 +77,8 @@ export const JobDetailsStep = (props) => {
           <Button
             disabled={formik.values.jobTitle.length <= 6}
             endIcon={
-              <SvgIcon>
-                <ArrowRightIcon />
+              <SvgIcon fontSize='small'>
+                <ArrowRightAltOutlinedIcon />
               </SvgIcon>
             }
             onClick={onNext}

@@ -1,5 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
-import PlusIcon from '@untitled-ui/icons-react/build/esm/Plus';
+import { useCallback, useEffect, useState } from 'react'
 import {
   Box,
   Breadcrumbs,
@@ -9,17 +8,17 @@ import {
   Link,
   Stack,
   SvgIcon,
-  Typography
-} from '@mui/material';
-import { productsApi } from 'src/api/products';
-import { BreadcrumbsSeparator } from 'src/components/breadcrumbs-separator';
-import { RouterLink } from 'src/components/router-link';
-import { Seo } from 'src/components/seo';
-import { useMounted } from 'src/hooks/use-mounted';
-import { usePageView } from 'src/hooks/use-page-view';
-import { paths } from 'src/paths';
-import { ProductListSearch } from 'src/sections/dashboard/product/product-list-search';
-import { ProductListTable } from 'src/sections/dashboard/product/product-list-table';
+  Typography,
+} from '@mui/material'
+import { productsApi } from 'src/api/products'
+import { BreadcrumbsSeparator } from 'src/components/breadcrumbs-separator'
+import { RouterLink } from 'src/components/router-link'
+import { Seo } from 'src/components/seo'
+import { useMounted } from 'src/hooks/use-mounted'
+import { usePageView } from 'src/hooks/use-page-view'
+import { paths } from 'src/paths'
+import { ProductListSearch } from 'src/sections/dashboard/product/product-list-search'
+import { ProductListTable } from 'src/sections/dashboard/product/product-list-table'
 
 const useProductsSearch = () => {
   const [state, setState] = useState({
@@ -27,147 +26,130 @@ const useProductsSearch = () => {
       name: undefined,
       category: [],
       status: [],
-      inStock: undefined
+      inStock: undefined,
     },
     page: 0,
-    rowsPerPage: 5
-  });
+    rowsPerPage: 5,
+  })
 
   const handleFiltersChange = useCallback((filters) => {
     setState((prevState) => ({
       ...prevState,
-      filters
-    }));
-  }, []);
+      filters,
+    }))
+  }, [])
 
   const handlePageChange = useCallback((event, page) => {
     setState((prevState) => ({
       ...prevState,
-      page
-    }));
-  }, []);
+      page,
+    }))
+  }, [])
 
   const handleRowsPerPageChange = useCallback((event) => {
     setState((prevState) => ({
       ...prevState,
-      rowsPerPage: parseInt(event.target.value, 10)
-    }));
-  }, []);
+      rowsPerPage: parseInt(event.target.value, 10),
+    }))
+  }, [])
 
   return {
     handleFiltersChange,
     handlePageChange,
     handleRowsPerPageChange,
-    state
-  };
-};
+    state,
+  }
+}
 
 const useProductsStore = (searchState) => {
-  const isMounted = useMounted();
+  const isMounted = useMounted()
   const [state, setState] = useState({
     products: [],
-    productsCount: 0
-  });
+    productsCount: 0,
+  })
 
   const handleProductsGet = useCallback(async () => {
     try {
-      const response = await productsApi.getProducts(searchState);
+      const response = await productsApi.getProducts(searchState)
 
       if (isMounted()) {
         setState({
           products: response.data,
-          productsCount: response.count
-        });
+          productsCount: response.count,
+        })
       }
     } catch (err) {
-      console.error(err);
+      console.error(err)
     }
-  }, [searchState, isMounted]);
+  }, [searchState, isMounted])
 
   useEffect(() => {
-      handleProductsGet();
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [searchState]);
+    handleProductsGet()
+  }, [searchState])
 
   return {
-    ...state
-  };
-};
+    ...state,
+  }
+}
 
 const Page = () => {
-  const productsSearch = useProductsSearch();
-  const productsStore = useProductsStore(productsSearch.state);
+  const productsSearch = useProductsSearch()
+  const productsStore = useProductsStore(productsSearch.state)
 
-  usePageView();
+  usePageView()
 
   return (
     <>
-      <Seo title="Dashboard: Product List" />
+      <Seo title='Dashboard: Product List' />
       <Box
-        component="main"
+        component='main'
         sx={{
           flexGrow: 1,
-          py: 8
+          py: 8,
         }}
       >
-        <Container maxWidth="xl">
+        <Container maxWidth='xl'>
           <Stack spacing={4}>
-            <Stack
-              direction="row"
-              justifyContent="space-between"
-              spacing={4}
-            >
+            <Stack direction='row' justifyContent='space-between' spacing={4}>
               <Stack spacing={1}>
-                <Typography variant="h4">
-                  Products
-                </Typography>
+                <Typography variant='h4'>Products</Typography>
                 <Breadcrumbs separator={<BreadcrumbsSeparator />}>
                   <Link
-                    color="text.primary"
+                    color='text.primary'
                     component={RouterLink}
                     href={paths.dashboard.index}
-                    variant="subtitle2"
+                    variant='subtitle2'
                   >
                     Dashboard
                   </Link>
                   <Link
-                    color="text.primary"
+                    color='text.primary'
                     component={RouterLink}
                     href={paths.dashboard.products.index}
-                    variant="subtitle2"
+                    variant='subtitle2'
                   >
                     Products
                   </Link>
-                  <Typography
-                    color="text.secondary"
-                    variant="subtitle2"
-                  >
+                  <Typography color='text.secondary' variant='subtitle2'>
                     List
                   </Typography>
                 </Breadcrumbs>
               </Stack>
-              <Stack
-                alignItems="center"
-                direction="row"
-                spacing={3}
-              >
+              <Stack alignItems='center' direction='row' spacing={3}>
                 <Button
                   component={RouterLink}
                   href={paths.dashboard.products.create}
-                  startIcon={(
-                    <SvgIcon>
-                      <PlusIcon />
-                    </SvgIcon>
-                  )}
-                  variant="contained"
+                  startIcon={<SvgIcon>{/* <PlusIcon /> */}</SvgIcon>}
+                  variant='contained'
                 >
                   Add
                 </Button>
               </Stack>
             </Stack>
             <Card>
-              <ProductListSearch onFiltersChange={productsSearch.handleFiltersChange} />
+              <ProductListSearch
+                onFiltersChange={productsSearch.handleFiltersChange}
+              />
               <ProductListTable
                 onPageChange={productsSearch.handlePageChange}
                 onRowsPerPageChange={productsSearch.handleRowsPerPageChange}
@@ -181,7 +163,7 @@ const Page = () => {
         </Container>
       </Box>
     </>
-  );
-};
+  )
+}
 
-export default Page;
+export default Page

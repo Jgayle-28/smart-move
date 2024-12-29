@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import XIcon from '@untitled-ui/icons-react/build/esm/X'
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
 import {
   Box,
   Drawer,
@@ -31,8 +31,8 @@ export const EstimateDrawer = (props) => {
         >
           <Typography color='inherit' variant='h6'></Typography>
           <IconButton color='inherit' onClick={onClose}>
-            <SvgIcon>
-              <XIcon />
+            <SvgIcon fontSize='small'>
+              <CloseOutlinedIcon />
             </SvgIcon>
           </IconButton>
         </Stack>

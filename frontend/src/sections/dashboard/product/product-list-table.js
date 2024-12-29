@@ -1,11 +1,8 @@
-import { Fragment, useCallback, useState } from 'react';
-import numeral from 'numeral';
-import PropTypes from 'prop-types';
-import { toast } from 'react-hot-toast';
-import ChevronDownIcon from '@untitled-ui/icons-react/build/esm/ChevronDown';
-import ChevronRightIcon from '@untitled-ui/icons-react/build/esm/ChevronRight';
-import DotsHorizontalIcon from '@untitled-ui/icons-react/build/esm/DotsHorizontal';
-import Image01Icon from '@untitled-ui/icons-react/build/esm/Image01';
+import { Fragment, useCallback, useState } from 'react'
+import numeral from 'numeral'
+import PropTypes from 'prop-types'
+import { toast } from 'react-hot-toast'
+
 import {
   Box,
   Button,
@@ -26,71 +23,71 @@ import {
   TablePagination,
   TableRow,
   TextField,
-  Typography
-} from '@mui/material';
-import { Scrollbar } from 'src/components/scrollbar';
-import { SeverityPill } from 'src/components/severity-pill';
+  Typography,
+} from '@mui/material'
+import { Scrollbar } from 'src/components/scrollbar'
+import { SeverityPill } from 'src/components/severity-pill'
 
 const categoryOptions = [
   {
     label: 'Healthcare',
-    value: 'healthcare'
+    value: 'healthcare',
   },
   {
     label: 'Makeup',
-    value: 'makeup'
+    value: 'makeup',
   },
   {
     label: 'Dress',
-    value: 'dress'
+    value: 'dress',
   },
   {
     label: 'Skincare',
-    value: 'skincare'
+    value: 'skincare',
   },
   {
     label: 'Jewelry',
-    value: 'jewelry'
+    value: 'jewelry',
   },
   {
     label: 'Blouse',
-    value: 'blouse'
-  }
-];
+    value: 'blouse',
+  },
+]
 
 export const ProductListTable = (props) => {
   const {
     count = 0,
     items = [],
-    onPageChange = () => { },
+    onPageChange = () => {},
     onRowsPerPageChange,
     page = 0,
-    rowsPerPage = 0
-  } = props;
-  const [currentProduct, setCurrentProduct] = useState(null);
+    rowsPerPage = 0,
+  } = props
+  const [currentProduct, setCurrentProduct] = useState(null)
 
   const handleProductToggle = useCallback((productId) => {
     setCurrentProduct((prevProductId) => {
       if (prevProductId === productId) {
-        return null;
+        return null
       }
 
-      return productId;
-    });
-  }, []);
+      return productId
+    })
+  }, [])
 
   const handleProductClose = useCallback(() => {
-    setCurrentProduct(null);
-  }, []);
+    setCurrentProduct(null)
+  }, [])
 
   const handleProductUpdate = useCallback(() => {
-    setCurrentProduct(null);
-    toast.success('Product updated');
-  }, []);
+    setCurrentProduct(null)
+    toast.success('Product updated')
+  }, [])
 
   const handleProductDelete = useCallback(() => {
-    toast.error('Product cannot be deleted');
-  }, []);
+    toast.error('Product cannot be deleted')
+  }, [])
 
   return (
     <div>
@@ -99,42 +96,30 @@ export const ProductListTable = (props) => {
           <TableHead>
             <TableRow>
               <TableCell />
-              <TableCell width="25%">
-                Name
-              </TableCell>
-              <TableCell width="25%">
-                Stock
-              </TableCell>
-              <TableCell>
-                Price
-              </TableCell>
-              <TableCell>
-                sku
-              </TableCell>
-              <TableCell>
-                Status
-              </TableCell>
-              <TableCell align="right">
-                Actions
-              </TableCell>
+              <TableCell width='25%'>Name</TableCell>
+              <TableCell width='25%'>Stock</TableCell>
+              <TableCell>Price</TableCell>
+              <TableCell>sku</TableCell>
+              <TableCell>Status</TableCell>
+              <TableCell align='right'>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {items.map((product) => {
-              const isCurrent = product.id === currentProduct;
-              const price = numeral(product.price).format(`${product.currency}0,0.00`);
-              const quantityColor = product.quantity >= 10 ? 'success' : 'error';
-              const statusColor = product.status === 'published' ? 'success' : 'info';
-              const hasManyVariants = product.variants > 1;
+              const isCurrent = product.id === currentProduct
+              const price = numeral(product.price).format(
+                `${product.currency}0,0.00`
+              )
+              const quantityColor = product.quantity >= 10 ? 'success' : 'error'
+              const statusColor =
+                product.status === 'published' ? 'success' : 'info'
+              const hasManyVariants = product.variants > 1
 
               return (
                 <Fragment key={product.id}>
-                  <TableRow
-                    hover
-                    key={product.id}
-                  >
+                  <TableRow hover key={product.id}>
                     <TableCell
-                      padding="checkbox"
+                      padding='checkbox'
                       sx={{
                         ...(isCurrent && {
                           position: 'relative',
@@ -145,114 +130,98 @@ export const ProductListTable = (props) => {
                             left: 0,
                             backgroundColor: 'primary.main',
                             width: 3,
-                            height: 'calc(100% + 1px)'
-                          }
-                        })
+                            height: 'calc(100% + 1px)',
+                          },
+                        }),
                       }}
-                      width="25%"
+                      width='25%'
                     >
-                      <IconButton onClick={() => handleProductToggle(product.id)}>
+                      <IconButton
+                        onClick={() => handleProductToggle(product.id)}
+                      >
                         <SvgIcon>
-                          {isCurrent ? <ChevronDownIcon /> : <ChevronRightIcon />}
+                          {/* {isCurrent ? <ChevronDownIcon /> : <ChevronRightIcon />} */}
                         </SvgIcon>
                       </IconButton>
                     </TableCell>
-                    <TableCell width="25%">
+                    <TableCell width='25%'>
                       <Box
                         sx={{
                           alignItems: 'center',
-                          display: 'flex'
+                          display: 'flex',
                         }}
                       >
-                        {product.image
-                          ? (
-                            <Box
-                              sx={{
-                                alignItems: 'center',
-                                backgroundColor: 'neutral.50',
-                                backgroundImage: `url(${product.image})`,
-                                backgroundPosition: 'center',
-                                backgroundSize: 'cover',
-                                borderRadius: 1,
-                                display: 'flex',
-                                height: 80,
-                                justifyContent: 'center',
-                                overflow: 'hidden',
-                                width: 80
-                              }}
-                            />
-                          )
-                          : (
-                            <Box
-                              sx={{
-                                alignItems: 'center',
-                                backgroundColor: 'neutral.50',
-                                borderRadius: 1,
-                                display: 'flex',
-                                height: 80,
-                                justifyContent: 'center',
-                                width: 80
-                              }}
-                            >
-                              <SvgIcon>
-                                <Image01Icon />
-                              </SvgIcon>
-                            </Box>
-                          )}
+                        {product.image ? (
+                          <Box
+                            sx={{
+                              alignItems: 'center',
+                              backgroundColor: 'neutral.50',
+                              backgroundImage: `url(${product.image})`,
+                              backgroundPosition: 'center',
+                              backgroundSize: 'cover',
+                              borderRadius: 1,
+                              display: 'flex',
+                              height: 80,
+                              justifyContent: 'center',
+                              overflow: 'hidden',
+                              width: 80,
+                            }}
+                          />
+                        ) : (
+                          <Box
+                            sx={{
+                              alignItems: 'center',
+                              backgroundColor: 'neutral.50',
+                              borderRadius: 1,
+                              display: 'flex',
+                              height: 80,
+                              justifyContent: 'center',
+                              width: 80,
+                            }}
+                          >
+                            <SvgIcon>{/* <Image01Icon /> */}</SvgIcon>
+                          </Box>
+                        )}
                         <Box
                           sx={{
                             cursor: 'pointer',
-                            ml: 2
+                            ml: 2,
                           }}
                         >
-                          <Typography variant="subtitle2">
+                          <Typography variant='subtitle2'>
                             {product.name}
                           </Typography>
-                          <Typography
-                            color="text.secondary"
-                            variant="body2"
-                          >
+                          <Typography color='text.secondary' variant='body2'>
                             in {product.category}
                           </Typography>
                         </Box>
                       </Box>
                     </TableCell>
-                    <TableCell width="25%">
+                    <TableCell width='25%'>
                       <LinearProgress
                         value={product.quantity}
-                        variant="determinate"
+                        variant='determinate'
                         color={quantityColor}
                         sx={{
                           height: 8,
-                          width: 36
+                          width: 36,
                         }}
                       />
-                      <Typography
-                        color="text.secondary"
-                        variant="body2"
-                      >
-                        {product.quantity}
-                        {' '}
-                        in stock
+                      <Typography color='text.secondary' variant='body2'>
+                        {product.quantity} in stock
                         {hasManyVariants && ` in ${product.variants} variants`}
                       </Typography>
                     </TableCell>
-                    <TableCell>
-                      {price}
-                    </TableCell>
-                    <TableCell>
-                      {product.sku}
-                    </TableCell>
+                    <TableCell>{price}</TableCell>
+                    <TableCell>{product.sku}</TableCell>
                     <TableCell>
                       <SeverityPill color={statusColor}>
                         {product.status}
                       </SeverityPill>
                     </TableCell>
-                    <TableCell align="right">
+                    <TableCell align='right'>
                       <IconButton>
-                        <SvgIcon>
-                          <DotsHorizontalIcon />
-                        </SvgIcon>
+                        <SvgIcon>{/* <DotsHorizontalIcon /> */}</SvgIcon>
                       </IconButton>
                     </TableCell>
                   </TableRow>
@@ -270,62 +239,40 @@ export const ProductListTable = (props) => {
                             left: 0,
                             backgroundColor: 'primary.main',
                             width: 3,
-                            height: 'calc(100% + 1px)'
-                          }
+                            height: 'calc(100% + 1px)',
+                          },
                         }}
                       >
                         <CardContent>
-                          <Grid
-                            container
-                            spacing={3}
-                          >
-                            <Grid
-                              item
-                              md={6}
-                              xs={12}
-                            >
-                              <Typography variant="h6">
+                          <Grid container spacing={3}>
+                            <Grid item md={6} xs={12}>
+                              <Typography variant='h6'>
                                 Basic details
                               </Typography>
                               <Divider sx={{ my: 2 }} />
-                              <Grid
-                                container
-                                spacing={3}
-                              >
-                                <Grid
-                                  item
-                                  md={6}
-                                  xs={12}
-                                >
+                              <Grid container spacing={3}>
+                                <Grid item md={6} xs={12}>
                                   <TextField
                                     defaultValue={product.name}
                                     fullWidth
-                                    label="Product name"
-                                    name="name"
+                                    label='Product name'
+                                    name='name'
                                   />
                                 </Grid>
-                                <Grid
-                                  item
-                                  md={6}
-                                  xs={12}
-                                >
+                                <Grid item md={6} xs={12}>
                                   <TextField
                                     defaultValue={product.sku}
                                     disabled
                                     fullWidth
-                                    label="SKU"
-                                    name="sku"
+                                    label='SKU'
+                                    name='sku'
                                   />
                                 </Grid>
-                                <Grid
-                                  item
-                                  md={6}
-                                  xs={12}
-                                >
+                                <Grid item md={6} xs={12}>
                                   <TextField
                                     defaultValue={product.category}
                                     fullWidth
-                                    label="Category"
+                                    label='Category'
                                     select
                                   >
                                     {categoryOptions.map((option) => (
@@ -338,72 +285,53 @@ export const ProductListTable = (props) => {
                                     ))}
                                   </TextField>
                                 </Grid>
-                                <Grid
-                                  item
-                                  md={6}
-                                  xs={12}
-                                >
+                                <Grid item md={6} xs={12}>
                                   <TextField
                                     defaultValue={product.id}
                                     disabled
                                     fullWidth
-                                    label="Barcode"
-                                    name="barcode"
+                                    label='Barcode'
+                                    name='barcode'
                                   />
                                 </Grid>
                               </Grid>
                             </Grid>
-                            <Grid
-                              item
-                              md={6}
-                              xs={12}
-                            >
-                              <Typography variant="h6">
+                            <Grid item md={6} xs={12}>
+                              <Typography variant='h6'>
                                 Pricing and stocks
                               </Typography>
                               <Divider sx={{ my: 2 }} />
-                              <Grid
-                                container
-                                spacing={3}
-                              >
-                                <Grid
-                                  item
-                                  md={6}
-                                  xs={12}
-                                >
+                              <Grid container spacing={3}>
+                                <Grid item md={6} xs={12}>
                                   <TextField
                                     defaultValue={product.price}
                                     fullWidth
-                                    label="Old price"
-                                    name="old-price"
+                                    label='Old price'
+                                    name='old-price'
                                     InputProps={{
                                       startAdornment: (
-                                        <InputAdornment position="start">
+                                        <InputAdornment position='start'>
                                           {product.currency}
                                         </InputAdornment>
-                                      )
+                                      ),
                                     }}
-                                    type="number"
+                                    type='number'
                                   />
                                 </Grid>
-                                <Grid
-                                  item
-                                  md={6}
-                                  xs={12}
-                                >
+                                <Grid item md={6} xs={12}>
                                   <TextField
                                     defaultValue={product.price}
                                     fullWidth
-                                    label="New price"
-                                    name="new-price"
+                                    label='New price'
+                                    name='new-price'
                                     InputProps={{
                                       startAdornment: (
-                                        <InputAdornment position="start">
+                                        <InputAdornment position='start'>
                                           $
                                         </InputAdornment>
-                                      )
+                                      ),
                                     }}
-                                    type="number"
+                                    type='number'
                                   />
                                 </Grid>
                                 <Grid
@@ -412,11 +340,11 @@ export const ProductListTable = (props) => {
                                   xs={12}
                                   sx={{
                                     alignItems: 'center',
-                                    display: 'flex'
+                                    display: 'flex',
                                   }}
                                 >
                                   <Switch />
-                                  <Typography variant="subtitle2">
+                                  <Typography variant='subtitle2'>
                                     Keep selling when stock is empty
                                   </Typography>
                                 </Grid>
@@ -426,35 +354,32 @@ export const ProductListTable = (props) => {
                         </CardContent>
                         <Divider />
                         <Stack
-                          alignItems="center"
-                          direction="row"
-                          justifyContent="space-between"
+                          alignItems='center'
+                          direction='row'
+                          justifyContent='space-between'
                           sx={{ p: 2 }}
                         >
                           <Stack
-                            alignItems="center"
-                            direction="row"
+                            alignItems='center'
+                            direction='row'
                             spacing={2}
                           >
                             <Button
                               onClick={handleProductUpdate}
-                              type="submit"
-                              variant="contained"
+                              type='submit'
+                              variant='contained'
                             >
                               Update
                             </Button>
                             <Button
-                              color="inherit"
+                              color='inherit'
                               onClick={handleProductClose}
                             >
                               Cancel
                             </Button>
                           </Stack>
                           <div>
-                            <Button
-                              onClick={handleProductDelete}
-                              color="error"
-                            >
+                            <Button onClick={handleProductDelete} color='error'>
                               Delete product
                             </Button>
                           </div>
@@ -463,13 +388,13 @@ export const ProductListTable = (props) => {
                     </TableRow>
                   )}
                 </Fragment>
-              );
+              )
             })}
           </TableBody>
         </Table>
       </Scrollbar>
       <TablePagination
-        component="div"
+        component='div'
         count={count}
         onPageChange={onPageChange}
         onRowsPerPageChange={onRowsPerPageChange}
@@ -478,8 +403,8 @@ export const ProductListTable = (props) => {
         rowsPerPageOptions={[5, 10, 25]}
       />
     </div>
-  );
-};
+  )
+}
 
 ProductListTable.propTypes = {
   count: PropTypes.number,
@@ -487,5 +412,5 @@ ProductListTable.propTypes = {
   onPageChange: PropTypes.func,
   onRowsPerPageChange: PropTypes.func,
   page: PropTypes.number,
-  rowsPerPage: PropTypes.number
-};
+  rowsPerPage: PropTypes.number,
+}

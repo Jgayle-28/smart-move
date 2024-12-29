@@ -57,13 +57,9 @@ const useInvoice = () => {
     }
   }, [isMounted])
 
-  useEffect(
-    () => {
-      handleInvoiceGet()
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  )
+  useEffect(() => {
+    handleInvoiceGet()
+  }, [])
 
   return invoice
 }

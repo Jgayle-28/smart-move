@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { format } from 'date-fns'
-import ShoppingCart03Icon from '@untitled-ui/icons-react/build/esm/ShoppingCart03'
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined'
 import {
   Avatar,
   Box,
@@ -54,8 +54,8 @@ export const EstimateLogs = (props) => {
                     }}
                   >
                     <Avatar>
-                      <SvgIcon>
-                        <ShoppingCart03Icon />
+                      <SvgIcon fontSize='small'>
+                        <ShoppingCartOutlinedIcon />
                       </SvgIcon>
                     </Avatar>
                   </TimelineDot>

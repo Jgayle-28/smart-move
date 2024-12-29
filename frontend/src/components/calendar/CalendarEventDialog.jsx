@@ -4,7 +4,6 @@ import toast from 'react-hot-toast'
 import { addMinutes } from 'date-fns'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
-import Trash02Icon from '@untitled-ui/icons-react/build/esm/Trash02'
 import {
   Box,
   Button,
@@ -238,9 +237,7 @@ export const CalendarEventDialog = (props) => {
         >
           {event && (
             <IconButton onClick={() => handleDelete()}>
-              <SvgIcon>
-                <Trash02Icon />
-              </SvgIcon>
+              <SvgIcon>{/* <Trash02Icon /> */}</SvgIcon>
             </IconButton>
           )}
           <Stack alignItems='center' direction='row' spacing={1}>

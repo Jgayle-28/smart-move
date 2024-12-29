@@ -1,8 +1,6 @@
-import { useCallback, useRef } from 'react';
-import PropTypes from 'prop-types';
-import Grid01Icon from '@untitled-ui/icons-react/build/esm/Grid01';
-import ListIcon from '@untitled-ui/icons-react/build/esm/List';
-import SearchMdIcon from '@untitled-ui/icons-react/build/esm/SearchMd';
+import { useCallback, useRef } from 'react'
+import PropTypes from 'prop-types'
+
 import {
   Box,
   Card,
@@ -13,72 +11,73 @@ import {
   TextField,
   ToggleButton,
   ToggleButtonGroup,
-  toggleButtonGroupClasses
-} from '@mui/material';
+  toggleButtonGroupClasses,
+} from '@mui/material'
 
 const sortOptions = [
   {
     label: 'Latest',
-    value: 'desc'
+    value: 'desc',
   },
   {
     label: 'Oldest',
-    value: 'asc'
-  }
-];
+    value: 'asc',
+  },
+]
 
 export const ItemSearch = (props) => {
   const {
-    onFiltersChange, onSortChange, onViewChange, view = 'grid',
+    onFiltersChange,
+    onSortChange,
+    onViewChange,
+    view = 'grid',
     // sortBy = 'createdAt',
-    sortDir = 'asc'
-  } = props;
-  const queryRef = useRef(null);
+    sortDir = 'asc',
+  } = props
+  const queryRef = useRef(null)
 
-  const handleQueryChange = useCallback((event) => {
-    event.preventDefault();
-    const query = queryRef.current?.value || '';
+  const handleQueryChange = useCallback(
+    (event) => {
+      event.preventDefault()
+      const query = queryRef.current?.value || ''
 
-    onFiltersChange?.({
-      query
-    });
-  }, [onFiltersChange]);
+      onFiltersChange?.({
+        query,
+      })
+    },
+    [onFiltersChange]
+  )
 
-  const handleSortChange = useCallback((event) => {
-    const sortDir = event.target.value;
-    onSortChange?.(sortDir);
-  }, [onSortChange]);
+  const handleSortChange = useCallback(
+    (event) => {
+      const sortDir = event.target.value
+      onSortChange?.(sortDir)
+    },
+    [onSortChange]
+  )
 
-  const handleViewChange = useCallback((event, value) => {
-    onViewChange?.(value);
-  }, [onViewChange]);
+  const handleViewChange = useCallback(
+    (event, value) => {
+      onViewChange?.(value)
+    },
+    [onViewChange]
+  )
 
   return (
     <Card>
-      <Stack
-        alignItems="center"
-        direction="row"
-        gap={2}
-        sx={{ p: 2 }}
-      >
-        <Box
-          component="form"
-          onSubmit={handleQueryChange}
-          sx={{ flexGrow: 1 }}
-        >
+      <Stack alignItems='center' direction='row' gap={2} sx={{ p: 2 }}>
+        <Box component='form' onSubmit={handleQueryChange} sx={{ flexGrow: 1 }}>
           <OutlinedInput
-            defaultValue=""
+            defaultValue=''
             fullWidth
             inputProps={{ ref: queryRef }}
-            name="itemName"
-            placeholder="Search"
-            startAdornment={(
-              <InputAdornment position="start">
-                <SvgIcon>
-                  <SearchMdIcon />
-                </SvgIcon>
+            name='itemName'
+            placeholder='Search'
+            startAdornment={
+              <InputAdornment position='start'>
+                <SvgIcon>{/* <SearchMdIcon /> */}</SvgIcon>
               </InputAdornment>
-            )}
+            }
           />
         </Box>
         <ToggleButtonGroup
@@ -92,47 +91,40 @@ export const ItemSearch = (props) => {
               margin: 0.5,
               border: 0,
               '&:not(:first-of-type)': {
-                borderRadius: 1
+                borderRadius: 1,
               },
               '&:first-of-type': {
-                borderRadius: 1
-              }
-            }
+                borderRadius: 1,
+              },
+            },
           }}
           value={view}
         >
-          <ToggleButton value="grid">
-            <SvgIcon fontSize="small">
-              <Grid01Icon />
-            </SvgIcon>
+          <ToggleButton value='grid'>
+            <SvgIcon fontSize='small'>{/* <Grid01Icon /> */}</SvgIcon>
           </ToggleButton>
-          <ToggleButton value="list">
-            <SvgIcon fontSize="small">
-              <ListIcon />
-            </SvgIcon>
+          <ToggleButton value='list'>
+            <SvgIcon fontSize='small'>{/* <ListIcon /> */}</SvgIcon>
           </ToggleButton>
         </ToggleButtonGroup>
         <TextField
-          label="Sort By"
-          name="sort"
+          label='Sort By'
+          name='sort'
           onChange={handleSortChange}
           select
           SelectProps={{ native: true }}
           value={sortDir}
         >
           {sortOptions.map((option) => (
-            <option
-              key={option.value}
-              value={option.value}
-            >
+            <option key={option.value} value={option.value}>
               {option.label}
             </option>
           ))}
         </TextField>
       </Stack>
     </Card>
-  );
-};
+  )
+}
 
 ItemSearch.propTypes = {
   onFiltersChange: PropTypes.func,
@@ -140,5 +132,5 @@ ItemSearch.propTypes = {
   onViewChange: PropTypes.func,
   sortBy: PropTypes.string,
   sortDir: PropTypes.oneOf(['asc', 'desc']),
-  view: PropTypes.oneOf(['grid', 'list'])
-};
+  view: PropTypes.oneOf(['grid', 'list']),
+}

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { PDFViewer } from '@react-pdf/renderer'
-import ArrowLeftIcon from '@untitled-ui/icons-react/build/esm/ArrowLeft'
+import KeyboardBackspaceOutlinedIcon from '@mui/icons-material/KeyboardBackspaceOutlined'
 import { Box, Button, Dialog, SvgIcon } from '@mui/material'
 import { InvoicePdfDocument } from './InvoicePdfDocument'
 import { useSelector } from 'react-redux'
@@ -33,8 +33,8 @@ export const InvoicePdfDialog = (props) => {
           <Button
             color='inherit'
             startIcon={
-              <SvgIcon>
-                <ArrowLeftIcon />
+              <SvgIcon fontSize='small'>
+                <KeyboardBackspaceOutlinedIcon />
               </SvgIcon>
             }
             onClick={onClose}

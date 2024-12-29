@@ -24,13 +24,9 @@ export const useCustomersStore = (searchState) => {
     }
   }, [searchState, isMounted])
 
-  useEffect(
-    () => {
-      handleCustomersGet()
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [searchState]
-  )
+  useEffect(() => {
+    handleCustomersGet()
+  }, [searchState])
 
   return {
     ...state,

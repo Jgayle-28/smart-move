@@ -1,14 +1,14 @@
 import { Fragment, useState } from 'react'
-import ChevronDownIcon from '@untitled-ui/icons-react/build/esm/ChevronDown'
-import ChevronRightIcon from '@untitled-ui/icons-react/build/esm/ChevronRight'
-import DotsHorizontalIcon from '@untitled-ui/icons-react/build/esm/DotsHorizontal'
+import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined'
+import ChevronRightOutlinedIcon from '@mui/icons-material/ChevronRightOutlined'
+import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined'
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import PostAddIcon from '@mui/icons-material/PostAdd'
 import DescriptionIcon from '@mui/icons-material/Description'
 import FileOpenIcon from '@mui/icons-material/FileOpen'
-import XIcon from '@untitled-ui/icons-react/build/esm/X'
 import FileCopyIcon from '@mui/icons-material/FileCopy'
 import {
   Box,
@@ -115,8 +115,12 @@ function JobListTableItem({ job, currentProduct, handleProductToggle }) {
           width='25%'
         >
           <IconButton onClick={() => handleProductToggle(job._id)}>
-            <SvgIcon>
-              {isCurrent ? <ChevronDownIcon /> : <ChevronRightIcon />}
+            <SvgIcon fontSize='small'>
+              {isCurrent ? (
+                <ExpandMoreOutlinedIcon />
+              ) : (
+                <ChevronRightOutlinedIcon />
+              )}
             </SvgIcon>
           </IconButton>
         </TableCell>
@@ -214,8 +218,8 @@ function JobListTableItem({ job, currentProduct, handleProductToggle }) {
             aria-expanded={menuOpen ? 'true' : undefined}
             onClick={handleMenuClick}
           >
-            <SvgIcon>
-              <DotsHorizontalIcon />
+            <SvgIcon fontSize='small'>
+              <MoreHorizOutlinedIcon />
             </SvgIcon>
           </IconButton>
           {/* Action Menu*/}
@@ -354,8 +358,8 @@ function JobListTableItem({ job, currentProduct, handleProductToggle }) {
         >
           <Typography variant='h6'>Job Comments</Typography>
           <IconButton color='inherit' onClick={toggleShowComments}>
-            <SvgIcon>
-              <XIcon />
+            <SvgIcon fontSize='small'>
+              <CloseOutlinedIcon />
             </SvgIcon>
           </IconButton>
         </Stack>

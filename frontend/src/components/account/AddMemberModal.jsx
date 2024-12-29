@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import XIcon from '@untitled-ui/icons-react/build/esm/X'
+
 import {
   Box,
   Dialog,
@@ -41,9 +41,7 @@ export const AddMemberModal = ({
           {editMember ? `Edit ${editMember.name}` : 'Add Members To Your Team'}
         </Typography>
         <IconButton color='inherit' onClick={handleClose}>
-          <SvgIcon>
-            <XIcon />
-          </SvgIcon>
+          <SvgIcon>{/* <XIcon /> */}</SvgIcon>
         </IconButton>
       </Stack>
       <DialogContent>

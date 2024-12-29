@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
-import Truck02Icon from '@untitled-ui/icons-react/build/esm/Truck02';
+import PropTypes from 'prop-types'
+
 import {
   Avatar,
   Box,
@@ -12,40 +12,30 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  Typography
-} from '@mui/material';
-import { Scrollbar } from 'src/components/scrollbar';
-import { SeverityPill } from 'src/components/severity-pill';
+  Typography,
+} from '@mui/material'
+import { Scrollbar } from 'src/components/scrollbar'
+import { SeverityPill } from 'src/components/severity-pill'
 
 export const LogisticsVehiclesList = (props) => {
-  const { vehicles } = props;
+  const { vehicles } = props
 
   return (
     <Card>
       <CardHeader
-        title="On Route Vehicles"
-        subheader="Condition and temperature"
+        title='On Route Vehicles'
+        subheader='Condition and temperature'
       />
       <Scrollbar>
         <Box sx={{ minWidth: 1200 }}>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>
-                  Location
-                </TableCell>
-                <TableCell>
-                  Ending Route
-                </TableCell>
-                <TableCell>
-                  Starting Route
-                </TableCell>
-                <TableCell>
-                  Warnings
-                </TableCell>
-                <TableCell>
-                  Refrigerator Temperature
-                </TableCell>
+                <TableCell>Location</TableCell>
+                <TableCell>Ending Route</TableCell>
+                <TableCell>Starting Route</TableCell>
+                <TableCell>Warnings</TableCell>
+                <TableCell>Refrigerator Temperature</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -58,26 +48,22 @@ export const LogisticsVehiclesList = (props) => {
                     <Box
                       sx={{
                         alignItems: 'center',
-                        display: 'flex'
+                        display: 'flex',
                       }}
                     >
                       <Avatar sx={{ mr: 2 }}>
-                        <SvgIcon>
-                          <Truck02Icon />
-                        </SvgIcon>
+                        <SvgIcon>{/* <Truck02Icon /> */}</SvgIcon>
                       </Avatar>
-                      <Typography variant="subtitle2">
-                        {vehicle.id}
-                      </Typography>
+                      <Typography variant='subtitle2'>{vehicle.id}</Typography>
                     </Box>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="body2">
+                    <Typography variant='body2'>
                       {vehicle.endingRoute}
                     </Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="body2">
+                    <Typography variant='body2'>
                       {vehicle.startingRoute}
                     </Typography>
                   </TableCell>
@@ -89,26 +75,20 @@ export const LogisticsVehiclesList = (props) => {
                   <TableCell>
                     <LinearProgress
                       value={vehicle.temperature}
-                      variant="determinate"
+                      variant='determinate'
                     />
                     <Box
                       sx={{
                         alignItems: 'center',
                         display: 'flex',
-                        mt: 2
+                        mt: 2,
                       }}
                     >
-                      <Typography
-                        color="inherit"
-                        variant="inherit"
-                      >
+                      <Typography color='inherit' variant='inherit'>
                         {vehicle.temperatureLabel}
                       </Typography>
                       <Box sx={{ flexGrow: 1 }} />
-                      <Typography
-                        color="text.secondary"
-                        variant="inherit"
-                      >
+                      <Typography color='text.secondary' variant='inherit'>
                         {vehicle.temperature}
                         °C
                       </Typography>
@@ -121,9 +101,9 @@ export const LogisticsVehiclesList = (props) => {
         </Box>
       </Scrollbar>
     </Card>
-  );
-};
+  )
+}
 
 LogisticsVehiclesList.propTypes = {
-  vehicles: PropTypes.array.isRequired
-};
+  vehicles: PropTypes.array.isRequired,
+}

@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import PropTypes from 'prop-types'
-import Menu01Icon from '@untitled-ui/icons-react/build/esm/Menu01'
+import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined'
 import { Box, IconButton, Stack, SvgIcon, useMediaQuery } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { Logo } from 'src/components/logo'
@@ -180,8 +180,8 @@ export const TopNav = (props) => {
         <Stack alignItems='center' direction='row' spacing={2}>
           {!mdUp && (
             <IconButton onClick={onMobileNav}>
-              <SvgIcon>
-                <Menu01Icon />
+              <SvgIcon fontSize='small'>
+                <MenuOutlinedIcon />
               </SvgIcon>
             </IconButton>
           )}

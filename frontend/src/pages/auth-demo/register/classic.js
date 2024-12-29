@@ -1,6 +1,6 @@
-import * as Yup from 'yup';
-import { useFormik } from 'formik';
-import ArrowLeftIcon from '@untitled-ui/icons-react/build/esm/ArrowLeft';
+import * as Yup from 'yup'
+import { useFormik } from 'formik'
+import KeyboardBackspaceOutlinedIcon from '@mui/icons-material/KeyboardBackspaceOutlined'
 import {
   Box,
   Button,
@@ -13,102 +13,79 @@ import {
   Stack,
   SvgIcon,
   TextField,
-  Typography
-} from '@mui/material';
-import { RouterLink } from 'src/components/router-link';
-import { Seo } from 'src/components/seo';
-import { paths } from 'src/paths';
+  Typography,
+} from '@mui/material'
+import { RouterLink } from 'src/components/router-link'
+import { Seo } from 'src/components/seo'
+import { paths } from 'src/paths'
 
 const initialValues = {
   email: '',
   name: '',
   password: '',
-  policy: false
-};
+  policy: false,
+}
 
 const validationSchema = Yup.object({
-  email: Yup
-    .string()
+  email: Yup.string()
     .email('Must be a valid email')
     .max(255)
     .required('Email is required'),
-  name: Yup
-    .string()
-    .max(255)
-    .required('Name is required'),
-  password: Yup
-    .string()
-    .min(7)
-    .max(255)
-    .required('Password is required'),
-  policy: Yup
-    .boolean()
-    .oneOf([true], 'This field must be checked')
-});
+  name: Yup.string().max(255).required('Name is required'),
+  password: Yup.string().min(7).max(255).required('Password is required'),
+  policy: Yup.boolean().oneOf([true], 'This field must be checked'),
+})
 
 const Page = () => {
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: () => { }
-  });
+    onSubmit: () => {},
+  })
 
   return (
     <>
-      <Seo title="Register" />
+      <Seo title='Register' />
       <div>
         <Box sx={{ mb: 4 }}>
           <Link
-            color="text.primary"
+            color='text.primary'
             component={RouterLink}
             href={paths.dashboard.index}
             sx={{
               alignItems: 'center',
-              display: 'inline-flex'
+              display: 'inline-flex',
             }}
-            underline="hover"
+            underline='hover'
           >
-            <SvgIcon sx={{ mr: 1 }}>
-              <ArrowLeftIcon />
+            <SvgIcon sx={{ mr: 1 }} fontSize='small'>
+              <KeyboardBackspaceOutlinedIcon />
             </SvgIcon>
-            <Typography variant="subtitle2">
-              Dashboard
-            </Typography>
+            <Typography variant='subtitle2'>Dashboard</Typography>
           </Link>
         </Box>
         <Card elevation={16}>
           <CardHeader
-            subheader={(
-              <Typography
-                color="text.secondary"
-                variant="body2"
-              >
-                Already have an account?
-                &nbsp;
-                <Link
-                  href="#"
-                  underline="hover"
-                  variant="subtitle2"
-                >
+            subheader={
+              <Typography color='text.secondary' variant='body2'>
+                Already have an account? &nbsp;
+                <Link href='#' underline='hover' variant='subtitle2'>
                   Log in
                 </Link>
               </Typography>
-            )}
+            }
             sx={{ pb: 0 }}
-            title="Register"
+            title='Register'
           />
           <CardContent>
-            <form
-              noValidate
-              onSubmit={formik.handleSubmit}
-            >
+            <form noValidate onSubmit={formik.handleSubmit}>
               <Stack spacing={3}>
                 <TextField
                   error={!!(formik.touched.name && formik.errors.name)}
                   fullWidth
                   helperText={formik.touched.name && formik.errors.name}
-                  label="Name"
-                  name="name"
+                  label='Name'
+                  name='name'
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
                   value={formik.values.name}
@@ -117,22 +94,22 @@ const Page = () => {
                   error={!!(formik.touched.email && formik.errors.email)}
                   fullWidth
                   helperText={formik.touched.email && formik.errors.email}
-                  label="Email Address"
-                  name="email"
+                  label='Email Address'
+                  name='email'
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
-                  type="email"
+                  type='email'
                   value={formik.values.email}
                 />
                 <TextField
                   error={!!(formik.touched.password && formik.errors.password)}
                   fullWidth
                   helperText={formik.touched.password && formik.errors.password}
-                  label="Password"
-                  name="password"
+                  label='Password'
+                  name='password'
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
-                  type="password"
+                  type='password'
                   value={formik.values.password}
                 />
               </Stack>
@@ -141,39 +118,30 @@ const Page = () => {
                   alignItems: 'center',
                   display: 'flex',
                   ml: -1,
-                  mt: 1
+                  mt: 1,
                 }}
               >
                 <Checkbox
                   checked={formik.values.policy}
-                  name="policy"
+                  name='policy'
                   onChange={formik.handleChange}
                 />
-                <Typography
-                  color="text.secondary"
-                  variant="body2"
-                >
-                  I have read the
-                  {' '}
-                  <Link
-                    component="a"
-                    href="#"
-                  >
+                <Typography color='text.secondary' variant='body2'>
+                  I have read the{' '}
+                  <Link component='a' href='#'>
                     Terms and Conditions
                   </Link>
                 </Typography>
               </Box>
               {!!(formik.touched.policy && formik.errors.policy) && (
-                <FormHelperText error>
-                  {formik.errors.policy}
-                </FormHelperText>
+                <FormHelperText error>{formik.errors.policy}</FormHelperText>
               )}
               <Button
                 fullWidth
-                size="large"
+                size='large'
                 sx={{ mt: 2 }}
-                type="submit"
-                variant="contained"
+                type='submit'
+                variant='contained'
               >
                 Register
               </Button>
@@ -182,7 +150,7 @@ const Page = () => {
         </Card>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Page;
+export default Page

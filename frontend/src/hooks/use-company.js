@@ -6,13 +6,9 @@ export const useCompany = () => {
 
   const { company, team, isLoading } = useSelector((state) => state.company)
 
-  useEffect(
-    () => {
-      if (!company) setCheckingStatus(false)
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [company]
-  )
+  useEffect(() => {
+    if (!company) setCheckingStatus(false)
+  }, [company])
 
   return { company, team, isLoading, checkingCompanyStatus }
 }

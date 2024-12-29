@@ -1,6 +1,5 @@
 import { useCallback, useState } from 'react'
 import PropTypes from 'prop-types'
-import Menu01Icon from '@untitled-ui/icons-react/build/esm/Menu01'
 import {
   Box,
   Button,

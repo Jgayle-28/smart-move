@@ -13,7 +13,7 @@ import {
 } from '@mui/material'
 import CheckCircleOutlineOutlined from '@mui/icons-material/CheckCircleOutlineOutlined'
 import RemoveCircleOutline from '@mui/icons-material/RemoveCircleOutline'
-import ArrowLeftIcon from '@untitled-ui/icons-react/build/esm/ArrowLeft'
+import KeyboardBackspaceOutlinedIcon from '@mui/icons-material/KeyboardBackspaceOutlined'
 import _ from 'lodash'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
@@ -143,7 +143,7 @@ function EditJobForm({
               size='small'
               startIcon={
                 <SvgIcon fontSize='small'>
-                  <ArrowLeftIcon />
+                  <KeyboardBackspaceOutlinedIcon />
                 </SvgIcon>
               }
               onClick={handleToggleEdit}

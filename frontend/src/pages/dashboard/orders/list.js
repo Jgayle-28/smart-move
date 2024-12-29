@@ -1,140 +1,140 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import PlusIcon from '@untitled-ui/icons-react/build/esm/Plus';
-import { Box, Button, Divider, Stack, SvgIcon, Typography } from '@mui/material';
-import { ordersApi } from 'src/api/orders';
-import { Seo } from 'src/components/seo';
-import { useDialog } from 'src/hooks/use-dialog';
-import { useMounted } from 'src/hooks/use-mounted';
-import { usePageView } from 'src/hooks/use-page-view';
-import { OrderDrawer } from 'src/sections/dashboard/order/order-drawer';
-import { OrderListContainer } from 'src/sections/dashboard/order/order-list-container';
-import { OrderListSearch } from 'src/sections/dashboard/order/order-list-search';
-import { OrderListTable } from 'src/sections/dashboard/order/order-list-table';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { Box, Button, Divider, Stack, SvgIcon, Typography } from '@mui/material'
+import { ordersApi } from 'src/api/orders'
+import { Seo } from 'src/components/seo'
+import { useDialog } from 'src/hooks/use-dialog'
+import { useMounted } from 'src/hooks/use-mounted'
+import { usePageView } from 'src/hooks/use-page-view'
+import { OrderDrawer } from 'src/sections/dashboard/order/order-drawer'
+import { OrderListContainer } from 'src/sections/dashboard/order/order-list-container'
+import { OrderListSearch } from 'src/sections/dashboard/order/order-list-search'
+import { OrderListTable } from 'src/sections/dashboard/order/order-list-table'
 
 const useOrdersSearch = () => {
   const [state, setState] = useState({
     filters: {
       query: undefined,
-      status: undefined
+      status: undefined,
     },
     page: 0,
     rowsPerPage: 5,
     sortBy: 'createdAt',
-    sortDir: 'desc'
-  });
+    sortDir: 'desc',
+  })
 
   const handleFiltersChange = useCallback((filters) => {
     setState((prevState) => ({
       ...prevState,
-      filters
-    }));
-  }, []);
+      filters,
+    }))
+  }, [])
 
   const handleSortChange = useCallback((sortDir) => {
     setState((prevState) => ({
       ...prevState,
-      sortDir
-    }));
-  }, []);
+      sortDir,
+    }))
+  }, [])
 
   const handlePageChange = useCallback((event, page) => {
     setState((prevState) => ({
       ...prevState,
-      page
-    }));
-  }, []);
+      page,
+    }))
+  }, [])
 
   const handleRowsPerPageChange = useCallback((event) => {
     setState((prevState) => ({
       ...prevState,
-      rowsPerPage: parseInt(event.target.value, 10)
-    }));
-  }, []);
+      rowsPerPage: parseInt(event.target.value, 10),
+    }))
+  }, [])
 
   return {
     handleFiltersChange,
     handleSortChange,
     handlePageChange,
     handleRowsPerPageChange,
-    state
-  };
-};
+    state,
+  }
+}
 
 const useOrdersStore = (searchState) => {
-  const isMounted = useMounted();
+  const isMounted = useMounted()
   const [state, setState] = useState({
     orders: [],
-    ordersCount: 0
-  });
+    ordersCount: 0,
+  })
 
   const handleOrdersGet = useCallback(async () => {
     try {
-      const response = await ordersApi.getOrders(searchState);
+      const response = await ordersApi.getOrders(searchState)
 
       if (isMounted()) {
         setState({
           orders: response.data,
-          ordersCount: response.count
-        });
+          ordersCount: response.count,
+        })
       }
     } catch (err) {
-      console.error(err);
+      console.error(err)
     }
-  }, [searchState, isMounted]);
+  }, [searchState, isMounted])
 
   useEffect(() => {
-      handleOrdersGet();
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [searchState]);
+    handleOrdersGet()
+  }, [searchState])
 
   return {
-    ...state
-  };
-};
+    ...state,
+  }
+}
 
 const useCurrentOrder = (orders, orderId) => {
   return useMemo(() => {
     if (!orderId) {
-      return undefined;
+      return undefined
     }
 
-    return orders.find((order) => order.id === orderId);
-  }, [orders, orderId]);
-};
+    return orders.find((order) => order.id === orderId)
+  }, [orders, orderId])
+}
 
 const Page = () => {
-  const rootRef = useRef(null);
-  const ordersSearch = useOrdersSearch();
-  const ordersStore = useOrdersStore(ordersSearch.state);
-  const dialog = useDialog();
-  const currentOrder = useCurrentOrder(ordersStore.orders, dialog.data);
+  const rootRef = useRef(null)
+  const ordersSearch = useOrdersSearch()
+  const ordersStore = useOrdersStore(ordersSearch.state)
+  const dialog = useDialog()
+  const currentOrder = useCurrentOrder(ordersStore.orders, dialog.data)
 
-  usePageView();
+  usePageView()
 
-  const handleOrderOpen = useCallback((orderId) => {
-    // Close drawer if is the same order
+  const handleOrderOpen = useCallback(
+    (orderId) => {
+      // Close drawer if is the same order
 
-    if (dialog.open && dialog.data === orderId) {
-      dialog.handleClose();
-      return;
-    }
+      if (dialog.open && dialog.data === orderId) {
+        dialog.handleClose()
+        return
+      }
 
-    dialog.handleOpen(orderId);
-  }, [dialog]);
+      dialog.handleOpen(orderId)
+    },
+    [dialog]
+  )
 
   return (
     <>
-      <Seo title="Dashboard: Order List" />
+      <Seo title='Dashboard: Order List' />
       <Divider />
       <Box
-        component="main"
+        component='main'
         ref={rootRef}
         sx={{
           display: 'flex',
           flex: '1 1 auto',
           overflow: 'hidden',
-          position: 'relative'
+          position: 'relative',
         }}
       >
         <Box
@@ -145,30 +145,24 @@ const Page = () => {
             left: 0,
             position: 'absolute',
             right: 0,
-            top: 0
+            top: 0,
           }}
         >
           <OrderListContainer open={dialog.open}>
             <Box sx={{ p: 3 }}>
               <Stack
-                alignItems="flex-start"
-                direction="row"
-                justifyContent="space-between"
+                alignItems='flex-start'
+                direction='row'
+                justifyContent='space-between'
                 spacing={4}
               >
                 <div>
-                  <Typography variant="h4">
-                    Orders
-                  </Typography>
+                  <Typography variant='h4'>Orders</Typography>
                 </div>
                 <div>
                   <Button
-                    startIcon={(
-                      <SvgIcon>
-                        <PlusIcon />
-                      </SvgIcon>
-                    )}
-                    variant="contained"
+                    startIcon={<SvgIcon>{/* <PlusIcon /> */}</SvgIcon>}
+                    variant='contained'
                   >
                     Add
                   </Button>
@@ -202,7 +196,7 @@ const Page = () => {
         </Box>
       </Box>
     </>
-  );
-};
+  )
+}
 
-export default Page;
+export default Page

@@ -1,46 +1,38 @@
-import PropTypes from 'prop-types';
-import LeftIndent01Icon from '@untitled-ui/icons-react/build/esm/LeftIndent01';
-import RightIndent01Icon from '@untitled-ui/icons-react/build/esm/RightIndent01';
-import { Chip, Stack, SvgIcon, Typography } from '@mui/material';
+import PropTypes from 'prop-types'
+import FormatIndentDecreaseOutlinedIcon from '@mui/icons-material/FormatIndentDecreaseOutlined'
+import FormatIndentIncreaseOutlinedIcon from '@mui/icons-material/FormatIndentIncreaseOutlined'
+import { Chip, Stack, SvgIcon, Typography } from '@mui/material'
 
 const options = [
   {
     label: 'Left-to-right',
     value: 'ltr',
     icon: (
-      <SvgIcon fontSize="small">
-        <LeftIndent01Icon />
+      <SvgIcon fontSize='small'>
+        <FormatIndentDecreaseOutlinedIcon />
       </SvgIcon>
-    )
+    ),
   },
   {
     label: 'Right-to-left',
     value: 'rtl',
     icon: (
-      <SvgIcon fontSize="small">
-        <RightIndent01Icon />
+      <SvgIcon fontSize='small'>
+        <FormatIndentIncreaseOutlinedIcon />
       </SvgIcon>
-    )
-  }
-];
+    ),
+  },
+]
 
 export const OptionsDirection = (props) => {
-  const { onChange, value } = props;
+  const { onChange, value } = props
 
   return (
     <Stack spacing={1}>
-      <Typography
-        color="text.secondary"
-        variant="overline"
-      >
+      <Typography color='text.secondary' variant='overline'>
         Orientation
       </Typography>
-      <Stack
-        alignItems="center"
-        direction="row"
-        flexWrap="wrap"
-        gap={2}
-      >
+      <Stack alignItems='center' direction='row' flexWrap='wrap' gap={2}>
         {options.map((option) => (
           <Chip
             icon={option.icon}
@@ -53,17 +45,17 @@ export const OptionsDirection = (props) => {
               borderStyle: 'solid',
               borderWidth: 2,
               ...(option.value === value && {
-                borderColor: 'primary.main'
-              })
+                borderColor: 'primary.main',
+              }),
             }}
           />
         ))}
       </Stack>
     </Stack>
-  );
-};
+  )
+}
 
 OptionsDirection.propTypes = {
   onChange: PropTypes.func,
-  value: PropTypes.oneOf(['ltr', 'rtl'])
-};
+  value: PropTypes.oneOf(['ltr', 'rtl']),
+}

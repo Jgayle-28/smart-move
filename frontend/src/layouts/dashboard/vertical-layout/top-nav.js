@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import Menu01Icon from '@untitled-ui/icons-react/build/esm/Menu01'
+import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined'
 import { Box, IconButton, Stack, SvgIcon, useMediaQuery } from '@mui/material'
 import { alpha } from '@mui/material/styles'
 import { AccountButton } from '../account-button'
@@ -47,8 +47,8 @@ export const TopNav = (props) => {
         <Stack alignItems='center' direction='row' spacing={2}>
           {!lgUp && (
             <IconButton onClick={onMobileNavOpen}>
-              <SvgIcon>
-                <Menu01Icon />
+              <SvgIcon fontSize='small'>
+                <MenuOutlinedIcon />
               </SvgIcon>
             </IconButton>
           )}

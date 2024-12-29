@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react'
 import PropTypes from 'prop-types'
-import ArrowRightIcon from '@untitled-ui/icons-react/build/esm/ArrowRight'
+import ArrowRightAltOutlinedIcon from '@mui/icons-material/ArrowRightAltOutlined'
 import { Button, Card, Radio, Stack, SvgIcon, Typography } from '@mui/material'
 
 const categoryOptions = [
@@ -75,8 +75,8 @@ export const JobCategoryStep = (props) => {
       <div>
         <Button
           endIcon={
-            <SvgIcon>
-              <ArrowRightIcon />
+            <SvgIcon fontSize='small'>
+              <ArrowRightAltOutlinedIcon />
             </SvgIcon>
           }
           onClick={onNext}

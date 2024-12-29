@@ -1,69 +1,78 @@
-import { useCallback, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import DotsHorizontalIcon from '@untitled-ui/icons-react/build/esm/DotsHorizontal';
-import { Chip, IconButton, Input, Menu, MenuItem, Stack, SvgIcon } from '@mui/material';
-import { usePopover } from 'src/hooks/use-popover';
+import { useCallback, useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
+
+import {
+  Chip,
+  IconButton,
+  Input,
+  Menu,
+  MenuItem,
+  Stack,
+  SvgIcon,
+} from '@mui/material'
+import { usePopover } from 'src/hooks/use-popover'
 
 export const ColumnHeader = (props) => {
-  const { tasksCount, name, onClear, onDelete, onRename } = props;
-  const popover = usePopover();
-  const [nameCopy, setNameCopy] = useState(name);
+  const { tasksCount, name, onClear, onDelete, onRename } = props
+  const popover = usePopover()
+  const [nameCopy, setNameCopy] = useState(name)
 
   const handleNameReset = useCallback(() => {
-    setNameCopy(name);
-  }, [name]);
+    setNameCopy(name)
+  }, [name])
 
   useEffect(() => {
-      handleNameReset();
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [name]);
+    handleNameReset()
+  }, [name])
 
   const handleNameBlur = useCallback(() => {
     if (!nameCopy) {
-      setNameCopy(name);
-      return;
+      setNameCopy(name)
+      return
     }
 
     if (nameCopy === name) {
-      return;
+      return
     }
 
-    onRename?.(nameCopy);
-  }, [nameCopy, name, onRename]);
+    onRename?.(nameCopy)
+  }, [nameCopy, name, onRename])
 
   const handleNameChange = useCallback((event) => {
-    setNameCopy(event.target.value);
-  }, []);
+    setNameCopy(event.target.value)
+  }, [])
 
-  const handleNameKeyUp = useCallback((event) => {
-    if (event.code === 'Enter') {
-      if (nameCopy && nameCopy !== name) {
-        onRename?.(nameCopy);
+  const handleNameKeyUp = useCallback(
+    (event) => {
+      if (event.code === 'Enter') {
+        if (nameCopy && nameCopy !== name) {
+          onRename?.(nameCopy)
+        }
       }
-    }
-  }, [nameCopy, name, onRename]);
+    },
+    [nameCopy, name, onRename]
+  )
 
   const handleClear = useCallback(() => {
-    popover.handleClose();
-    onClear?.();
-  }, [popover, onClear]);
+    popover.handleClose()
+    onClear?.()
+  }, [popover, onClear])
 
   const handleDelete = useCallback(() => {
-    popover.handleClose();
-    onDelete?.();
-  }, [popover, onDelete]);
+    popover.handleClose()
+    onDelete?.()
+  }, [popover, onDelete])
 
   return (
     <>
       <Stack
-        alignItems="center"
-        direction="row"
-        justifyContent="space-between"
+        alignItems='center'
+        direction='row'
+        justifyContent='space-between'
         spacing={2}
         sx={{
           pr: 2,
-          py: 1
+          py: 1,
         }}
       >
         <Input
@@ -72,7 +81,7 @@ export const ColumnHeader = (props) => {
           onBlur={handleNameBlur}
           onChange={handleNameChange}
           onKeyUp={handleNameKeyUp}
-          placeholder="Column Name"
+          placeholder='Column Name'
           sx={{
             '& .MuiInputBase-input': {
               borderRadius: 1.5,
@@ -83,28 +92,21 @@ export const ColumnHeader = (props) => {
               textOverflow: 'ellipsis',
               wordWrap: 'break-word',
               '&:hover, &:focus': {
-                backgroundColor: (theme) => theme.palette.mode === 'dark'
-                  ? 'neutral.800'
-                  : 'neutral.100'
-              }
-            }
+                backgroundColor: (theme) =>
+                  theme.palette.mode === 'dark' ? 'neutral.800' : 'neutral.100',
+              },
+            },
           }}
           value={nameCopy}
         />
-        <Stack
-          alignItems="center"
-          direction="row"
-          spacing={2}
-        >
+        <Stack alignItems='center' direction='row' spacing={2}>
           <Chip label={tasksCount} />
           <IconButton
-            edge="end"
+            edge='end'
             onClick={popover.handleOpen}
             ref={popover.anchorRef}
           >
-            <SvgIcon>
-              <DotsHorizontalIcon />
-            </SvgIcon>
+            <SvgIcon>{/* <DotsHorizontalIcon /> */}</SvgIcon>
           </IconButton>
         </Stack>
       </Stack>
@@ -112,27 +114,23 @@ export const ColumnHeader = (props) => {
         anchorEl={popover.anchorRef.current}
         anchorOrigin={{
           horizontal: 'center',
-          vertical: 'bottom'
+          vertical: 'bottom',
         }}
         keepMounted
         onClose={popover.handleClose}
         open={popover.open}
       >
-        <MenuItem onClick={handleClear}>
-          Clear
-        </MenuItem>
-        <MenuItem onClick={handleDelete}>
-          Delete
-        </MenuItem>
+        <MenuItem onClick={handleClear}>Clear</MenuItem>
+        <MenuItem onClick={handleDelete}>Delete</MenuItem>
       </Menu>
     </>
-  );
-};
+  )
+}
 
 ColumnHeader.propTypes = {
   tasksCount: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   onClear: PropTypes.func,
   onDelete: PropTypes.func,
-  onRename: PropTypes.func
-};
+  onRename: PropTypes.func,
+}

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import CheckIcon from '@untitled-ui/icons-react/build/esm/Check'
+import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined'
 import {
   Avatar,
   Step,
@@ -66,8 +66,8 @@ const StepIcon = (props) => {
       variant='rounded'
     >
       {completed ? (
-        <SvgIcon>
-          <CheckIcon />
+        <SvgIcon fontSize='small'>
+          <CheckOutlinedIcon />
         </SvgIcon>
       ) : (
         icon

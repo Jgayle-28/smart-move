@@ -65,6 +65,8 @@ const getInventoryItems = asyncHandler(async (req, res) => {
   const inventoryItems = await Inventory.find({
     company: req.params.companyId,
   })
+    .populate('company')
+    .populate('createdBy')
 
   if (!inventoryItems) {
     res.status(404)

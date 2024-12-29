@@ -1,7 +1,6 @@
 import { Button, Stack, SvgIcon, Typography } from '@mui/material'
-import Download01Icon from '@untitled-ui/icons-react/build/esm/Download01'
+import DownloadOutlinedIcon from '@mui/icons-material/DownloadOutlined'
 import PersonAddAlt1RoundedIcon from '@mui/icons-material/PersonAddAlt1Rounded'
-import Upload01Icon from '@untitled-ui/icons-react/build/esm/Upload01'
 import { RouterLink } from 'src/components/router-link'
 import { exportToExcel } from 'src/utils/export-to-excel'
 import { useSelector } from 'react-redux'
@@ -39,7 +38,7 @@ function CustomerPageHeader() {
             }
             startIcon={
               <SvgIcon>
-                <Download01Icon />
+                <DownloadOutlinedIcon />
               </SvgIcon>
             }
           >

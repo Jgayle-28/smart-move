@@ -49,13 +49,9 @@ const Page = () => {
     generateCalendarData()
   }, [jobs, estimates])
 
-  useEffect(
-    () => {
-      handleScreenResize()
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [mdUp]
-  )
+  useEffect(() => {
+    handleScreenResize()
+  }, [mdUp])
 
   const getCalendarData = () => {
     dispatch(getJobs(user?.company))

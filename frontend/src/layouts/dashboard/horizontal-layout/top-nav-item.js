@@ -1,9 +1,19 @@
-import PropTypes from 'prop-types';
-import ChevronDownIcon from '@untitled-ui/icons-react/build/esm/ChevronDown';
-import ChevronRightIcon from '@untitled-ui/icons-react/build/esm/ChevronRight';
-import { Box, ButtonBase, ListItemButton, ListItemText, SvgIcon } from '@mui/material';
-import { Dropdown, DropdownMenu, DropdownTrigger } from 'src/components/dropdown';
-import { RouterLink } from 'src/components/router-link';
+import PropTypes from 'prop-types'
+import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined'
+import ChevronRightOutlinedIcon from '@mui/icons-material/ChevronRightOutlined'
+import {
+  Box,
+  ButtonBase,
+  ListItemButton,
+  ListItemText,
+  SvgIcon,
+} from '@mui/material'
+import {
+  Dropdown,
+  DropdownMenu,
+  DropdownTrigger,
+} from 'src/components/dropdown'
+import { RouterLink } from 'src/components/router-link'
 
 const renderChildItems = ({ items, depth = 0 }) => {
   return items.map((item) => {
@@ -17,7 +27,7 @@ const renderChildItems = ({ items, depth = 0 }) => {
               sx={{
                 borderRadius: 1,
                 px: 1.5,
-                py: 0.5
+                py: 0.5,
               }}
             >
               <ListItemText
@@ -26,22 +36,19 @@ const renderChildItems = ({ items, depth = 0 }) => {
                   sx: {
                     color: 'text.secondary',
                     fontSize: 14,
-                    fontWeight: 500
-                  }
+                    fontWeight: 500,
+                  },
                 }}
               />
-              <SvgIcon
-                fontSize="small"
-                sx={{ color: 'neutral.400' }}
-              >
-                <ChevronRightIcon />
+              <SvgIcon fontSize='small' sx={{ color: 'neutral.400' }}>
+                <ChevronRightOutlinedIcon />
               </SvgIcon>
             </ListItemButton>
           </DropdownTrigger>
           <DropdownMenu
             anchorOrigin={{
               horizontal: 'right',
-              vertical: 'top'
+              vertical: 'top',
             }}
             disableScrollLock
             PaperProps={{
@@ -50,32 +57,32 @@ const renderChildItems = ({ items, depth = 0 }) => {
                 maxWidth: '100%',
                 ml: 1,
                 p: 1,
-                width: 200
-              }
+                width: 200,
+              },
             }}
             transformOrigin={{
               horizontal: 'left',
-              vertical: 'top'
+              vertical: 'top',
             }}
           >
             {renderChildItems({ items: item.items, depth: depth + 1 })}
           </DropdownMenu>
         </Dropdown>
-      );
+      )
     }
 
     const linkProps = item.path
       ? item.external
         ? {
-          component: 'a',
-          href: item.path,
-          target: '_blank'
-        }
+            component: 'a',
+            href: item.path,
+            target: '_blank',
+          }
         : {
-          component: RouterLink,
-          href: item.path
-        }
-      : {};
+            component: RouterLink,
+            href: item.path,
+          }
+      : {}
 
     // Leaf
     return (
@@ -85,26 +92,27 @@ const renderChildItems = ({ items, depth = 0 }) => {
         sx={{
           borderRadius: 1,
           px: 1.5,
-          py: 0.5
+          py: 0.5,
         }}
-        {...linkProps}>
+        {...linkProps}
+      >
         <ListItemText
           primary={item.title}
           primaryTypographyProps={{
             sx: {
               color: 'text.secondary',
               fontSize: 14,
-              fontWeight: 500
-            }
+              fontWeight: 500,
+            },
           }}
         />
       </ListItemButton>
-    );
-  });
-};
+    )
+  })
+}
 
 export const TopNavItem = (props) => {
-  const { active, disabled, external, items, icon, label, path, title } = props;
+  const { active, disabled, external, items, icon, label, path, title } = props
 
   // With dropdown
 
@@ -125,15 +133,15 @@ export const TopNavItem = (props) => {
                 textAlign: 'left',
                 width: '100%',
                 ...(active && {
-                  backgroundColor: 'var(--nav-item-active-bg)'
+                  backgroundColor: 'var(--nav-item-active-bg)',
                 }),
                 '&:hover': {
-                  backgroundColor: 'var(--nav-item-hover-bg)'
-                }
+                  backgroundColor: 'var(--nav-item-hover-bg)',
+                },
               }}
             >
               <Box
-                component="span"
+                component='span'
                 sx={{
                   alignItems: 'center',
                   color: 'var(--nav-item-icon-color)',
@@ -141,14 +149,14 @@ export const TopNavItem = (props) => {
                   justifyContent: 'center',
                   mr: 2,
                   ...(active && {
-                    color: 'var(--nav-item-icon-active-color)'
-                  })
+                    color: 'var(--nav-item-icon-active-color)',
+                  }),
                 }}
               >
                 {icon}
               </Box>
               <Box
-                component="span"
+                component='span'
                 sx={{
                   color: 'var(--nav-item-color)',
                   flexGrow: 1,
@@ -158,11 +166,11 @@ export const TopNavItem = (props) => {
                   lineHeight: '24px',
                   whiteSpace: 'nowrap',
                   ...(active && {
-                    color: 'var(--nav-item-active-color)'
+                    color: 'var(--nav-item-active-color)',
                   }),
                   ...(disabled && {
-                    color: 'var(--nav-item-disabled-color)'
-                  })
+                    color: 'var(--nav-item-disabled-color)',
+                  }),
                 }}
               >
                 {title}
@@ -171,10 +179,11 @@ export const TopNavItem = (props) => {
                 sx={{
                   color: 'var(--nav-item-chevron-color)',
                   fontSize: 16,
-                  ml: 1
+                  ml: 1,
                 }}
+                fontSize='small'
               >
-                <ChevronDownIcon />
+                <ExpandMoreOutlinedIcon />
               </SvgIcon>
             </ButtonBase>
           </li>
@@ -186,14 +195,14 @@ export const TopNavItem = (props) => {
             sx: {
               maxWidth: '100%',
               p: 1,
-              width: 200
-            }
+              width: 200,
+            },
           }}
         >
           {renderChildItems({ items, depth: 0 })}
         </DropdownMenu>
       </Dropdown>
-    );
+    )
   }
 
   // Without dropdown
@@ -201,15 +210,15 @@ export const TopNavItem = (props) => {
   const linkProps = path
     ? external
       ? {
-        component: 'a',
-        href: path,
-        target: '_blank'
-      }
+          component: 'a',
+          href: path,
+          target: '_blank',
+        }
       : {
-        component: RouterLink,
-        href: path
-      }
-    : {};
+          component: RouterLink,
+          href: path,
+        }
+    : {}
 
   return (
     <li>
@@ -225,16 +234,17 @@ export const TopNavItem = (props) => {
           textAlign: 'left',
           width: '100%',
           ...(active && {
-            backgroundColor: 'var(--nav-item-active-bg)'
+            backgroundColor: 'var(--nav-item-active-bg)',
           }),
           '&:hover': {
-            backgroundColor: 'var(--nav-item-hover-bg)'
-          }
+            backgroundColor: 'var(--nav-item-hover-bg)',
+          },
         }}
-        {...linkProps}>
+        {...linkProps}
+      >
         {icon && (
           <Box
-            component="span"
+            component='span'
             sx={{
               alignItems: 'center',
               color: 'var(--nav-item-icon-color)',
@@ -242,15 +252,15 @@ export const TopNavItem = (props) => {
               justifyContent: 'center',
               mr: 2,
               ...(active && {
-                color: 'var(--nav-item-icon-active-color)'
-              })
+                color: 'var(--nav-item-icon-active-color)',
+              }),
             }}
           >
             {icon}
           </Box>
         )}
         <Box
-          component="span"
+          component='span'
           sx={{
             color: 'var(--nav-item-color)',
             flexGrow: 1,
@@ -260,27 +270,24 @@ export const TopNavItem = (props) => {
             lineHeight: '24px',
             whiteSpace: 'nowrap',
             ...(active && {
-              color: 'var(--nav-item-active-color)'
+              color: 'var(--nav-item-active-color)',
             }),
             ...(disabled && {
-              color: 'var(--nav-item-disabled-color)'
-            })
+              color: 'var(--nav-item-disabled-color)',
+            }),
           }}
         >
           {title}
         </Box>
         {label && (
-          <Box
-            component="span"
-            sx={{ ml: 1 }}
-          >
+          <Box component='span' sx={{ ml: 1 }}>
             {label}
           </Box>
         )}
       </ButtonBase>
     </li>
-  );
-};
+  )
+}
 
 TopNavItem.propTypes = {
   active: PropTypes.bool,
@@ -289,5 +296,5 @@ TopNavItem.propTypes = {
   items: PropTypes.array,
   label: PropTypes.node,
   path: PropTypes.string,
-  title: PropTypes.string.isRequired
-};
+  title: PropTypes.string.isRequired,
+}

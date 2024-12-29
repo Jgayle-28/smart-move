@@ -1,9 +1,9 @@
-import PropTypes from 'prop-types';
-import Settings03Icon from '@untitled-ui/icons-react/build/esm/Settings03';
-import { Box, ButtonBase, SvgIcon, Tooltip } from '@mui/material';
+import PropTypes from 'prop-types'
+import SettingsSuggestOutlinedIcon from '@mui/icons-material/SettingsSuggestOutlined'
+import { Box, ButtonBase, SvgIcon, Tooltip } from '@mui/material'
 
 export const SettingsButton = (props) => (
-  <Tooltip title="Settings">
+  <Tooltip title='Settings'>
     <Box
       sx={{
         backgroundColor: 'background.paper',
@@ -13,25 +13,26 @@ export const SettingsButton = (props) => (
         margin: (theme) => theme.spacing(4),
         position: 'fixed',
         right: 0,
-        zIndex: (theme) => theme.zIndex.speedDial
+        zIndex: (theme) => theme.zIndex.speedDial,
       }}
-      {...props}>
+      {...props}
+    >
       <ButtonBase
         sx={{
           backgroundColor: 'primary.main',
           borderRadius: '50%',
           color: 'primary.contrastText',
-          p: '10px'
+          p: '10px',
         }}
       >
         <SvgIcon>
-          <Settings03Icon />
+          <SettingsSuggestOutlinedIcon />
         </SvgIcon>
       </ButtonBase>
     </Box>
   </Tooltip>
-);
+)
 
 SettingsButton.propTypes = {
-  onClick: PropTypes.func
-};
+  onClick: PropTypes.func,
+}

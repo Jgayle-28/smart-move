@@ -1,15 +1,21 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import FilterFunnel01Icon from '@untitled-ui/icons-react/build/esm/FilterFunnel01';
-import PlusIcon from '@untitled-ui/icons-react/build/esm/Plus';
-import { Box, Button, Divider, Stack, SvgIcon, Typography, useMediaQuery } from '@mui/material';
-import { invoicesApi } from 'src/api/invoices';
-import { Seo } from 'src/components/seo';
-import { useMounted } from 'src/hooks/use-mounted';
-import { usePageView } from 'src/hooks/use-page-view';
-import { InvoiceListContainer } from 'src/sections/dashboard/invoice/invoice-list-container';
-import { InvoiceListSidebar } from 'src/sections/dashboard/invoice/invoice-list-sidebar';
-import { InvoiceListSummary } from 'src/sections/dashboard/invoice/invoice-list-summary';
-import { InvoiceListTable } from 'src/sections/dashboard/invoice/invoice-list-table';
+import { useCallback, useEffect, useRef, useState } from 'react'
+import {
+  Box,
+  Button,
+  Divider,
+  Stack,
+  SvgIcon,
+  Typography,
+  useMediaQuery,
+} from '@mui/material'
+import { invoicesApi } from 'src/api/invoices'
+import { Seo } from 'src/components/seo'
+import { useMounted } from 'src/hooks/use-mounted'
+import { usePageView } from 'src/hooks/use-page-view'
+import { InvoiceListContainer } from 'src/sections/dashboard/invoice/invoice-list-container'
+import { InvoiceListSidebar } from 'src/sections/dashboard/invoice/invoice-list-sidebar'
+import { InvoiceListSummary } from 'src/sections/dashboard/invoice/invoice-list-summary'
+import { InvoiceListTable } from 'src/sections/dashboard/invoice/invoice-list-table'
 
 const useInvoicesSearch = () => {
   const [state, setState] = useState({
@@ -17,108 +23,106 @@ const useInvoicesSearch = () => {
       customers: [],
       endDate: undefined,
       query: '',
-      startDate: undefined
+      startDate: undefined,
     },
     page: 0,
-    rowsPerPage: 5
-  });
+    rowsPerPage: 5,
+  })
 
   const handleFiltersChange = useCallback((filters) => {
     setState((prevState) => ({
       ...prevState,
       filters,
-      page: 0
-    }));
-  }, []);
+      page: 0,
+    }))
+  }, [])
 
   const handlePageChange = useCallback((event, page) => {
     setState((prevState) => ({
       ...prevState,
-      page
-    }));
-  }, []);
+      page,
+    }))
+  }, [])
 
   const handleRowsPerPageChange = useCallback((event) => {
     setState((prevState) => ({
       ...prevState,
-      rowsPerPage: parseInt(event.target.value, 10)
-    }));
-  }, []);
+      rowsPerPage: parseInt(event.target.value, 10),
+    }))
+  }, [])
 
   return {
     handleFiltersChange,
     handlePageChange,
     handleRowsPerPageChange,
-    state
-  };
-};
+    state,
+  }
+}
 
 const useInvoicesStore = (searchState) => {
-  const isMounted = useMounted();
+  const isMounted = useMounted()
   const [state, setState] = useState({
     invoices: [],
-    invoicesCount: 0
-  });
+    invoicesCount: 0,
+  })
 
   const handleInvoicesGet = useCallback(async () => {
     try {
-      const response = await invoicesApi.getInvoices(searchState);
+      const response = await invoicesApi.getInvoices(searchState)
 
       if (isMounted()) {
         setState({
           invoices: response.data,
-          invoicesCount: response.count
-        });
+          invoicesCount: response.count,
+        })
       }
     } catch (err) {
-      console.error(err);
+      console.error(err)
     }
-  }, [searchState, isMounted]);
+  }, [searchState, isMounted])
 
   useEffect(() => {
-      handleInvoicesGet();
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [searchState]);
+    handleInvoicesGet()
+  }, [searchState])
 
   return {
-    ...state
-  };
-};
+    ...state,
+  }
+}
 
 const Page = () => {
-  const rootRef = useRef(null);
-  const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
-  const invoicesSearch = useInvoicesSearch();
-  const invoicesStore = useInvoicesStore(invoicesSearch.state);
-  const [group, setGroup] = useState(true);
-  const [openSidebar, setOpenSidebar] = useState(lgUp);
+  const rootRef = useRef(null)
+  const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'))
+  const invoicesSearch = useInvoicesSearch()
+  const invoicesStore = useInvoicesStore(invoicesSearch.state)
+  const [group, setGroup] = useState(true)
+  const [openSidebar, setOpenSidebar] = useState(lgUp)
 
-  usePageView();
+  usePageView()
 
   const handleGroupChange = useCallback((event) => {
-    setGroup(event.target.checked);
-  }, []);
+    setGroup(event.target.checked)
+  }, [])
 
   const handleFiltersToggle = useCallback(() => {
-    setOpenSidebar((prevState) => !prevState);
-  }, []);
+    setOpenSidebar((prevState) => !prevState)
+  }, [])
 
   const handleFiltersClose = useCallback(() => {
-    setOpenSidebar(false);
-  }, []);
+    setOpenSidebar(false)
+  }, [])
 
   return (
     <>
-      <Seo title="Dashboard: Invoice List" />
+      <Seo title='Dashboard: Invoice List' />
       <Divider />
       <Box
-        component="main"
+        component='main'
         sx={{
           display: 'flex',
           flex: '1 1 auto',
           overflow: 'hidden',
-          position: 'relative'
+          position: 'relative',
         }}
       >
         <Box
@@ -129,7 +133,7 @@ const Page = () => {
             left: 0,
             position: 'absolute',
             right: 0,
-            top: 0
+            top: 0,
           }}
         >
           <InvoiceListSidebar
@@ -144,39 +148,27 @@ const Page = () => {
           <InvoiceListContainer open={openSidebar}>
             <Stack spacing={4}>
               <Stack
-                alignItems="flex-start"
-                direction="row"
-                justifyContent="space-between"
+                alignItems='flex-start'
+                direction='row'
+                justifyContent='space-between'
                 spacing={3}
               >
                 <div>
-                  <Typography variant="h4">
-                    Invoices
-                  </Typography>
+                  <Typography variant='h4'>Invoices</Typography>
                 </div>
-                <Stack
-                  alignItems="center"
-                  direction="row"
-                  spacing={1}
-                >
+                <Stack alignItems='center' direction='row' spacing={1}>
                   <Button
-                    color="inherit"
-                    startIcon={(
-                      <SvgIcon>
-                        <FilterFunnel01Icon />
-                      </SvgIcon>
-                    )}
+                    color='inherit'
+                    startIcon={
+                      <SvgIcon>{/* <FilterFunnel01Icon /> */}</SvgIcon>
+                    }
                     onClick={handleFiltersToggle}
                   >
                     Filters
                   </Button>
                   <Button
-                    startIcon={(
-                      <SvgIcon>
-                        <PlusIcon />
-                      </SvgIcon>
-                    )}
-                    variant="contained"
+                    startIcon={<SvgIcon>{/* <PlusIcon /> */}</SvgIcon>}
+                    variant='contained'
                   >
                     New
                   </Button>
@@ -197,7 +189,7 @@ const Page = () => {
         </Box>
       </Box>
     </>
-  );
-};
+  )
+}
 
-export default Page;
+export default Page

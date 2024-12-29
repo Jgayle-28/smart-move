@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import PropTypes from 'prop-types'
-import RefreshCcw01Icon from '@untitled-ui/icons-react/build/esm/RefreshCcw01'
-import XIcon from '@untitled-ui/icons-react/build/esm/X'
+import RefreshOutlinedIcon from '@mui/icons-material/RefreshOutlined'
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
 import {
   Badge,
   badgeClasses,
@@ -103,13 +103,13 @@ export const SettingsDrawer = (props) => {
             >
               <IconButton color='inherit' onClick={onReset}>
                 <SvgIcon fontSize='small'>
-                  <RefreshCcw01Icon />
+                  <RefreshOutlinedIcon />
                 </SvgIcon>
               </IconButton>
             </Badge>
             <IconButton color='inherit' onClick={onClose}>
-              <SvgIcon>
-                <XIcon />
+              <SvgIcon fontSize='small'>
+                <CloseOutlinedIcon />
               </SvgIcon>
             </IconButton>
           </Stack>

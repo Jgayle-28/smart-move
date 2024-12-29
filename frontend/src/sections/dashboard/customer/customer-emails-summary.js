@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useState } from 'react';
-import { format } from 'date-fns';
-import ArrowRightIcon from '@untitled-ui/icons-react/build/esm/ArrowRight';
+import { useCallback, useEffect, useState } from 'react'
+import { format } from 'date-fns'
+
 import {
   Box,
   Button,
@@ -14,79 +14,70 @@ import {
   TableHead,
   TableRow,
   TextField,
-  Typography
-} from '@mui/material';
-import { customersApi } from 'src/api/customers';
-import { useMounted } from 'src/hooks/use-mounted';
+  Typography,
+} from '@mui/material'
+import { customersApi } from 'src/api/customers'
+import { useMounted } from 'src/hooks/use-mounted'
 
 const emailOptions = [
   'Resend last invoice',
   'Send password reset',
-  'Send verification'
-];
+  'Send verification',
+]
 
 const useEmails = () => {
-  const isMounted = useMounted();
-  const [emails, setEmails] = useState([]);
+  const isMounted = useMounted()
+  const [emails, setEmails] = useState([])
 
   const handleEmailsGet = useCallback(async () => {
     try {
-      const response = await customersApi.getEmails();
+      const response = await customersApi.getEmails()
 
       if (isMounted()) {
-        setEmails(response);
+        setEmails(response)
       }
     } catch (err) {
-      console.error(err);
+      console.error(err)
     }
-  }, [isMounted]);
+  }, [isMounted])
 
   useEffect(() => {
-      handleEmailsGet();
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []);
+    handleEmailsGet()
+  }, [])
 
-  return emails;
-};
+  return emails
+}
 
 export const CustomerEmailsSummary = (props) => {
-  const [emailOption, setEmailOption] = useState(emailOptions[0]);
-  const emails = useEmails();
+  const [emailOption, setEmailOption] = useState(emailOptions[0])
+  const emails = useEmails()
 
   return (
     <Card {...props}>
-      <CardHeader title="Emails" />
+      <CardHeader title='Emails' />
       <CardContent sx={{ pt: 0 }}>
         <TextField
-          name="option"
+          name='option'
           onChange={(event) => setEmailOption(event.target.value)}
           select
           SelectProps={{ native: true }}
           sx={{
             width: 320,
-            maxWidth: '100%'
+            maxWidth: '100%',
           }}
-          variant="outlined"
+          variant='outlined'
           value={emailOption}
         >
           {emailOptions.map((option) => (
-            <option
-              key={option}
-              value={option}
-            >
+            <option key={option} value={option}>
               {option}
             </option>
           ))}
         </TextField>
         <Box sx={{ mt: 2 }}>
           <Button
-            endIcon={(
-              <SvgIcon>
-                <ArrowRightIcon />
-              </SvgIcon>
-            )}
-            variant="contained"
+            endIcon={<SvgIcon>{/* <ArrowRightIcon /> */}</SvgIcon>}
+            variant='contained'
           >
             Send email
           </Button>
@@ -95,17 +86,13 @@ export const CustomerEmailsSummary = (props) => {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>
-              Mail Type
-            </TableCell>
-            <TableCell>
-              Date
-            </TableCell>
+            <TableCell>Mail Type</TableCell>
+            <TableCell>Date</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {emails.map((email) => {
-            const createdAt = format(email.createdAt, 'dd/MM/yyyy | HH:mm');
+            const createdAt = format(email.createdAt, 'dd/MM/yyyy | HH:mm')
 
             return (
               <TableRow
@@ -113,18 +100,16 @@ export const CustomerEmailsSummary = (props) => {
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <TableCell>
-                  <Typography variant="subtitle2">
+                  <Typography variant='subtitle2'>
                     {email.description}
                   </Typography>
                 </TableCell>
-                <TableCell>
-                  {createdAt}
-                </TableCell>
+                <TableCell>{createdAt}</TableCell>
               </TableRow>
-            );
+            )
           })}
         </TableBody>
       </Table>
     </Card>
-  );
-};
+  )
+}

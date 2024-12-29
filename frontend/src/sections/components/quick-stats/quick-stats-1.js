@@ -1,90 +1,94 @@
-import DotsHorizontalIcon from '@untitled-ui/icons-react/build/esm/DotsHorizontal';
-import { Box, Card, CardHeader, Divider, IconButton, SvgIcon, Typography } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
-import { Chart } from 'src/components/chart';
+import {
+  Box,
+  Card,
+  CardHeader,
+  Divider,
+  IconButton,
+  SvgIcon,
+  Typography,
+} from '@mui/material'
+import { useTheme } from '@mui/material/styles'
+import { Chart } from 'src/components/chart'
 
-const chartSeries = [56, 24, 20];
+const chartSeries = [56, 24, 20]
 
-const labels = ['Subscriptions', 'Affiliate', 'Sales'];
+const labels = ['Subscriptions', 'Affiliate', 'Sales']
 
 const useChartOptions = () => {
-  const theme = useTheme();
+  const theme = useTheme()
 
   return {
     chart: {
       background: 'transparent',
       stacked: false,
       toolbar: {
-        show: false
-      }
+        show: false,
+      },
     },
     colors: [
       theme.palette.primary.main,
       theme.palette.warning.main,
-      theme.palette.info.main
+      theme.palette.info.main,
     ],
     dataLabels: {
-      enabled: false
+      enabled: false,
     },
     fill: {
       opacity: 1,
-      type: 'solid'
+      type: 'solid',
     },
     labels,
     legend: {
-      show: false
+      show: false,
     },
     plotOptions: {
       pie: {
-        expandOnClick: false
-      }
+        expandOnClick: false,
+      },
     },
     states: {
       active: {
         filter: {
-          type: 'none'
-        }
+          type: 'none',
+        },
       },
       hover: {
         filter: {
-          type: 'none'
-        }
-      }
+          type: 'none',
+        },
+      },
     },
     stroke: {
-      show: false
+      show: false,
     },
     theme: {
-      mode: theme.palette.mode
+      mode: theme.palette.mode,
     },
     tooltip: {
-      fillSeriesColor: false
-    }
-  };
-};
+      fillSeriesColor: false,
+    },
+  }
+}
 
 export const QuickStats1 = () => {
-  const chartOptions = useChartOptions();
+  const chartOptions = useChartOptions()
 
   return (
     <Box
       sx={{
-        backgroundColor: (theme) => theme.palette.mode === 'dark'
-          ? 'neutral.800'
-          : 'neutral.100',
-        p: 3
+        backgroundColor: (theme) =>
+          theme.palette.mode === 'dark' ? 'neutral.800' : 'neutral.100',
+        p: 3,
       }}
     >
       <Card>
         <CardHeader
-          action={(
+          action={
             <IconButton>
-              <SvgIcon>
-                <DotsHorizontalIcon />
-              </SvgIcon>
+              <SvgIcon>{/* <DotsHorizontalIcon /> */}</SvgIcon>
             </IconButton>
-          )}
-          title="Earnings Source"
+          }
+          title='Earnings Source'
         />
         <Divider />
         <Box sx={{ p: 2 }}>
@@ -92,7 +96,7 @@ export const QuickStats1 = () => {
             height={300}
             options={chartOptions}
             series={chartSeries}
-            type="donut"
+            type='donut'
           />
         </Box>
         <Divider />
@@ -110,17 +114,12 @@ export const QuickStats1 = () => {
                 textAlign: 'center',
                 '&:not(:last-of-type)': {
                   borderRight: 1,
-                  borderColor: 'divider'
-                }
+                  borderColor: 'divider',
+                },
               }}
             >
-              <Typography variant="h4">
-                {item}%
-              </Typography>
-              <Typography
-                color="text.secondary"
-                variant="overline"
-              >
+              <Typography variant='h4'>{item}%</Typography>
+              <Typography color='text.secondary' variant='overline'>
                 {labels[index]}
               </Typography>
             </Box>
@@ -128,5 +127,5 @@ export const QuickStats1 = () => {
         </Box>
       </Card>
     </Box>
-  );
-};
+  )
+}

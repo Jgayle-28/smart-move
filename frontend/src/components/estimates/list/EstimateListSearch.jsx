@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 import PropTypes from 'prop-types'
-import SearchMdIcon from '@untitled-ui/icons-react/build/esm/SearchMd'
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined'
 import {
   Box,
   InputAdornment,
@@ -62,8 +62,8 @@ export const EstimateListSearch = (props) => {
             value={searchQuery}
             startAdornment={
               <InputAdornment position='start'>
-                <SvgIcon>
-                  <SearchMdIcon />
+                <SvgIcon fontSize='small'>
+                  <SearchOutlinedIcon />
                 </SvgIcon>
               </InputAdornment>
             }

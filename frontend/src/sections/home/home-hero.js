@@ -1,5 +1,3 @@
-import EyeIcon from '@untitled-ui/icons-react/build/esm/Eye'
-import LayoutBottomIcon from '@untitled-ui/icons-react/build/esm/LayoutBottom'
 import {
   Box,
   Button,

@@ -1,5 +1,5 @@
 import { PDFDownloadLink } from '@react-pdf/renderer'
-import ArrowLeftIcon from '@untitled-ui/icons-react/build/esm/ArrowLeft'
+import KeyboardBackspaceOutlinedIcon from '@mui/icons-material/KeyboardBackspaceOutlined'
 import { Avatar, Button, Stack, SvgIcon, Typography } from '@mui/material'
 import { InvoicePdfDocument } from 'src/sections/dashboard/invoice/invoice-pdf-document'
 import { getInitials } from 'src/utils/get-initials'
@@ -34,8 +34,8 @@ function EstimateHeader({
               }}
               onClick={() => router.back()}
               startIcon={
-                <SvgIcon>
-                  <ArrowLeftIcon />
+                <SvgIcon fontSize='small'>
+                  <KeyboardBackspaceOutlinedIcon />
                 </SvgIcon>
               }
             >

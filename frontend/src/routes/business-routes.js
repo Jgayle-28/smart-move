@@ -11,7 +11,6 @@ import CurrencyBitcoinCircleIcon from 'src/icons/untitled-ui/duocolor/currency-b
 import File01Icon from 'src/icons/untitled-ui/duocolor/file-01'
 import GraduationHat01Icon from 'src/icons/untitled-ui/duocolor/graduation-hat-01'
 import HomeSmileIcon from 'src/icons/untitled-ui/duocolor/home-smile'
-import User03Icon from '@untitled-ui/icons-react/build/esm/User03'
 import LayoutAlt02Icon from 'src/icons/untitled-ui/duocolor/layout-alt-02'
 import LineChartUp04Icon from 'src/icons/untitled-ui/duocolor/line-chart-up-04'
 import Lock01Icon from 'src/icons/untitled-ui/duocolor/lock-01'
@@ -27,7 +26,7 @@ import Truck01Icon from 'src/icons/untitled-ui/duocolor/truck-01'
 import Upload04Icon from 'src/icons/untitled-ui/duocolor/upload-04'
 import Users03Icon from 'src/icons/untitled-ui/duocolor/users-03'
 import XSquareIcon from 'src/icons/untitled-ui/duocolor/x-square'
-import Settings04Icon from '@untitled-ui/icons-react/build/esm/Settings04'
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
 import { tokens } from 'src/locales/tokens'
 import { paths } from 'src/paths'
 import { useSelector } from 'react-redux'
@@ -103,7 +102,7 @@ export const useBusinessRoutes = () => {
             path: paths.dashboard.account,
             icon: (
               <SvgIcon fontSize='small'>
-                <Settings04Icon />
+                <AddOutlinedIcon />
               </SvgIcon>
             ),
           },

@@ -1,7 +1,7 @@
-import { useCallback, useState } from 'react';
-import { format } from 'date-fns';
-import numeral from 'numeral';
-import ReceiptIcon from '@untitled-ui/icons-react/build/esm/Receipt';
+import { useCallback, useState } from 'react'
+import { format } from 'date-fns'
+import numeral from 'numeral'
+
 import {
   Box,
   Button,
@@ -15,8 +15,8 @@ import {
   TableCell,
   TableRow,
   TextField,
-  Typography
-} from '@mui/material';
+  Typography,
+} from '@mui/material'
 
 const order = {
   id: '5ecb8a6879877087d4aa2690',
@@ -29,7 +29,7 @@ const order = {
     city: 'San Diego',
     country: 'USA',
     email: 'miron.vitold@devias.io',
-    name: 'Miron Vitold'
+    name: 'Miron Vitold',
   },
   items: [
     {
@@ -38,7 +38,7 @@ const order = {
       currency: '$',
       name: 'Project Points',
       quantity: 25,
-      unitAmount: 50.25
+      unitAmount: 50.25,
     },
     {
       id: '5ecb8ac10f116d04bed990eb',
@@ -46,133 +46,99 @@ const order = {
       currency: '$',
       name: 'Freelancer Subscription',
       quantity: 1,
-      unitAmount: 5.00
-    }
+      unitAmount: 5.0,
+    },
   ],
   number: 'DEV-103',
   paymentMethod: 'CreditCard',
   status: 'pending',
-  totalAmount: 500.00
-};
+  totalAmount: 500.0,
+}
 
-const statusOptions = ['Canceled', 'Completed', 'Rejected'];
+const statusOptions = ['Canceled', 'Completed', 'Rejected']
 
 export const DetailList5 = () => {
-  const [status, setStatus] = useState(statusOptions[0]);
+  const [status, setStatus] = useState(statusOptions[0])
 
   const handleChange = useCallback((event) => {
-    setStatus(event.target.value);
-  }, []);
+    setStatus(event.target.value)
+  }, [])
 
-  const createdAt = format(order.createdAt, 'dd/MM/yyyy HH:mm');
-  const totalAmount = numeral(order.totalAmount).format(`${order.currency}0,0.00`);
+  const createdAt = format(order.createdAt, 'dd/MM/yyyy HH:mm')
+  const totalAmount = numeral(order.totalAmount).format(
+    `${order.currency}0,0.00`
+  )
 
   return (
     <Box
       sx={{
-        backgroundColor: (theme) => theme.palette.mode === 'dark'
-          ? 'neutral.800'
-          : 'neutral.100',
-        p: 3
+        backgroundColor: (theme) =>
+          theme.palette.mode === 'dark' ? 'neutral.800' : 'neutral.100',
+        p: 3,
       }}
     >
       <Card>
-        <CardHeader title="Order info" />
+        <CardHeader title='Order info' />
         <Divider />
         <Table>
           <TableBody>
             <TableRow>
               <TableCell>
-                <Typography variant="subtitle2">
-                  Customer
-                </Typography>
+                <Typography variant='subtitle2'>Customer</Typography>
               </TableCell>
               <TableCell>
-                <div>
-                  {order.customer.name}
-                </div>
-                <div>
-                  {order.customer.address1}
-                </div>
-                <div>
-                  {order.customer.city}
-                </div>
-                <div>
-                  {order.customer.country}
-                </div>
+                <div>{order.customer.name}</div>
+                <div>{order.customer.address1}</div>
+                <div>{order.customer.city}</div>
+                <div>{order.customer.country}</div>
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell>
-                <Typography variant="subtitle2">
-                  ID
-                </Typography>
+                <Typography variant='subtitle2'>ID</Typography>
               </TableCell>
-              <TableCell>
-                #{order.id}
-              </TableCell>
+              <TableCell>#{order.id}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell>
-                <Typography variant="subtitle2">
-                  Number
-                </Typography>
+                <Typography variant='subtitle2'>Number</Typography>
               </TableCell>
-              <TableCell>
-                {order.number}
-              </TableCell>
+              <TableCell>{order.number}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell>
-                <Typography variant="subtitle2">
-                  Date
-                </Typography>
+                <Typography variant='subtitle2'>Date</Typography>
               </TableCell>
-              <TableCell>
-                {createdAt}
-              </TableCell>
+              <TableCell>{createdAt}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell>
-                <Typography variant="subtitle2">
-                  Promotion Code
-                </Typography>
+                <Typography variant='subtitle2'>Promotion Code</Typography>
               </TableCell>
-              <TableCell>
-                {order.coupon ? order.coupon : 'N/A'}
-              </TableCell>
+              <TableCell>{order.coupon ? order.coupon : 'N/A'}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell>
-                <Typography variant="subtitle2">
-                  Total Amount
-                </Typography>
+                <Typography variant='subtitle2'>Total Amount</Typography>
               </TableCell>
-              <TableCell>
-                {totalAmount}
-              </TableCell>
+              <TableCell>{totalAmount}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell>
-                <Typography variant="subtitle2">
-                  Status
-                </Typography>
+                <Typography variant='subtitle2'>Status</Typography>
               </TableCell>
               <TableCell>
                 <TextField
                   fullWidth
-                  name="option"
+                  name='option'
                   onChange={handleChange}
                   select
                   SelectProps={{ native: true }}
                   value={status}
-                  variant="outlined"
+                  variant='outlined'
                 >
                   {statusOptions.map((option) => (
-                    <option
-                      key={option}
-                      value={option}
-                    >
+                    <option key={option} value={option}>
                       {option}
                     </option>
                   ))}
@@ -183,17 +149,13 @@ export const DetailList5 = () => {
         </Table>
         <CardActions>
           <Button
-            color="inherit"
-            startIcon={(
-              <SvgIcon>
-                <ReceiptIcon />
-              </SvgIcon>
-            )}
+            color='inherit'
+            startIcon={<SvgIcon>{/* <ReceiptIcon /> */}</SvgIcon>}
           >
             Resend Invoice
           </Button>
         </CardActions>
       </Card>
     </Box>
-  );
-};
+  )
+}

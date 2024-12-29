@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react'
 import PropTypes from 'prop-types'
-import SearchMdIcon from '@untitled-ui/icons-react/build/esm/SearchMd'
-import XIcon from '@untitled-ui/icons-react/build/esm/X'
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined'
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
 import {
   Badge,
   Box,
@@ -81,7 +81,7 @@ export const SearchDialog = (props) => {
         <Typography variant='h6'>Search</Typography>
         <IconButton color='inherit' onClick={onClose}>
           <SvgIcon>
-            <XIcon />
+            <CloseOutlinedIcon />
           </SvgIcon>
         </IconButton>
       </Stack>
@@ -94,7 +94,7 @@ export const SearchDialog = (props) => {
               startAdornment: (
                 <InputAdornment position='start'>
                   <SvgIcon>
-                    <SearchMdIcon />
+                    <SearchOutlinedIcon />
                   </SvgIcon>
                 </InputAdornment>
               ),

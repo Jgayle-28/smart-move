@@ -31,13 +31,9 @@ const useCompany = () => {
     }
   }, [isMounted])
 
-  useEffect(
-    () => {
-      handleCompanyGet()
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  )
+  useEffect(() => {
+    handleCompanyGet()
+  }, [])
 
   return company
 }

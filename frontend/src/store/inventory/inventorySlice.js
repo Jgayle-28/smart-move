@@ -110,7 +110,7 @@ export const inventorySlice = createSlice({
       })
       .addCase(addInventoryItem.rejected, (state) => {
         state.isLoading = false
-        state.jobs = null
+        state.inventoryItems = null
       })
       // get items
       .addCase(getInventoryItems.pending, (state) => {
@@ -118,11 +118,11 @@ export const inventorySlice = createSlice({
       })
       .addCase(getInventoryItems.fulfilled, (state, action) => {
         state.isLoading = false
-        state.jobs = action.payload
+        state.inventoryItems = action.payload
       })
       .addCase(getInventoryItems.rejected, (state) => {
         state.isLoading = false
-        state.jobs = null
+        state.inventoryItems = null
       })
       // get item
       .addCase(getInventoryItem.pending, (state) => {

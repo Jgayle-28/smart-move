@@ -1,11 +1,6 @@
-import { format } from 'date-fns';
-import PropTypes from 'prop-types';
-import ArrowLeftIcon from '@untitled-ui/icons-react/build/esm/ArrowLeft';
-import ChevronLeftIcon from '@untitled-ui/icons-react/build/esm/ChevronLeft';
-import ChevronRightIcon from '@untitled-ui/icons-react/build/esm/ChevronRight';
-import DotsHorizontalIcon from '@untitled-ui/icons-react/build/esm/DotsHorizontal';
-import SearchMdIcon from '@untitled-ui/icons-react/build/esm/SearchMd';
-import Trash02Icon from '@untitled-ui/icons-react/build/esm/Trash02';
+import { format } from 'date-fns'
+import PropTypes from 'prop-types'
+
 import {
   Avatar,
   Divider,
@@ -17,182 +12,132 @@ import {
   SvgIcon,
   Tooltip,
   Typography,
-  useMediaQuery
-} from '@mui/material';
-import ReplyIcon from '@mui/icons-material/Reply';
-import ReplyAllIcon from '@mui/icons-material/ReplyAll';
-import { RouterLink } from 'src/components/router-link';
-import { getInitials } from 'src/utils/get-initials';
+  useMediaQuery,
+} from '@mui/material'
+import ReplyIcon from '@mui/icons-material/Reply'
+import ReplyAllIcon from '@mui/icons-material/ReplyAll'
+import { RouterLink } from 'src/components/router-link'
+import { getInitials } from 'src/utils/get-initials'
 
 export const MailThreadToolbar = (props) => {
-  const { backHref, createdAt, from, to } = props;
-  const mdUp = useMediaQuery((theme) => theme.breakpoints.up('md'));
-  const formattedCreatedAt = format(createdAt, 'MMMM d yyyy, h:mm:ss a');
+  const { backHref, createdAt, from, to } = props
+  const mdUp = useMediaQuery((theme) => theme.breakpoints.up('md'))
+  const formattedCreatedAt = format(createdAt, 'MMMM d yyyy, h:mm:ss a')
 
   return (
     <div>
       <Stack
-        alignItems="center"
-        direction="row"
-        justifyContent="space-between"
+        alignItems='center'
+        direction='row'
+        justifyContent='space-between'
         spacing={2}
         sx={{ p: 2 }}
       >
         <div>
-          <Tooltip title="Back">
-            <IconButton
-              component={RouterLink}
-              href={backHref}
-            >
-              <SvgIcon>
-                <ArrowLeftIcon />
-              </SvgIcon>
+          <Tooltip title='Back'>
+            <IconButton component={RouterLink} href={backHref}>
+              <SvgIcon>{/* <ArrowLeftIcon /> */}</SvgIcon>
             </IconButton>
           </Tooltip>
         </div>
-        <Stack
-          alignItems="center"
-          direction="row"
-          spacing={1}
-        >
+        <Stack alignItems='center' direction='row' spacing={1}>
           <OutlinedInput
             fullWidth
-            placeholder="Search message"
-            size="small"
-            startAdornment={(
-              <InputAdornment position="start">
-                <SvgIcon>
-                  <SearchMdIcon />
-                </SvgIcon>
+            placeholder='Search message'
+            size='small'
+            startAdornment={
+              <InputAdornment position='start'>
+                <SvgIcon>{/* <SearchMdIcon /> */}</SvgIcon>
               </InputAdornment>
-            )}
+            }
             sx={{ width: 200 }}
           />
-          <Tooltip title="Previous email">
+          <Tooltip title='Previous email'>
             <IconButton>
-              <SvgIcon>
-                <ChevronLeftIcon />
-              </SvgIcon>
+              <SvgIcon>{/* <ChevronLeftIcon /> */}</SvgIcon>
             </IconButton>
           </Tooltip>
-          <Tooltip title="Next email">
+          <Tooltip title='Next email'>
             <IconButton>
-              <SvgIcon>
-                <ChevronRightIcon />
-              </SvgIcon>
+              <SvgIcon>{/* <ChevronRightIcon /> */}</SvgIcon>
             </IconButton>
           </Tooltip>
         </Stack>
       </Stack>
       <Divider />
       <Stack
-        alignItems="center"
-        direction="row"
-        justifyContent="space-between"
+        alignItems='center'
+        direction='row'
+        justifyContent='space-between'
         spacing={2}
         sx={{ p: 3 }}
       >
-        <Stack
-          alignItems="center"
-          direction="row"
-          spacing={2}
-        >
+        <Stack alignItems='center' direction='row' spacing={2}>
           <Avatar
             src={from.avatar || undefined}
             sx={{
               height: 48,
-              width: 48
+              width: 48,
             }}
           >
             {getInitials(from.name)}
           </Avatar>
           <div>
-            <Typography
-              component="span"
-              variant="subtitle2"
-            >
+            <Typography component='span' variant='subtitle2'>
               {from.name}
-            </Typography>
-            {' '}
-            <Link
-              color="text.secondary"
-              component="span"
-              variant="body2"
-            >
+            </Typography>{' '}
+            <Link color='text.secondary' component='span' variant='body2'>
               {from.email}
             </Link>
-            <Typography
-              color="text.secondary"
-              variant="subtitle2"
-            >
-              To:
-              {' '}
+            <Typography color='text.secondary' variant='subtitle2'>
+              To:{' '}
               {to.map((person) => (
-                <Link
-                  color="inherit"
-                  key={person.email}
-                >
+                <Link color='inherit' key={person.email}>
                   {person.email}
                 </Link>
               ))}
             </Typography>
             {formattedCreatedAt && (
-              <Typography
-                color="text.secondary"
-                noWrap
-                variant="caption"
-              >
+              <Typography color='text.secondary' noWrap variant='caption'>
                 {formattedCreatedAt}
               </Typography>
             )}
           </div>
         </Stack>
-        <Stack
-          alignItems="center"
-          direction="row"
-          spacing={1}
-        >
+        <Stack alignItems='center' direction='row' spacing={1}>
           {mdUp && (
             <>
-              <Tooltip title="Reply">
+              <Tooltip title='Reply'>
                 <IconButton>
-                  <SvgIcon>
-                    <ReplyIcon />
-                  </SvgIcon>
+                  <SvgIcon>{/* <ReplyIcon /> */}</SvgIcon>
                 </IconButton>
               </Tooltip>
-              <Tooltip title="Reply all">
+              <Tooltip title='Reply all'>
                 <IconButton>
-                  <SvgIcon>
-                    <ReplyAllIcon />
-                  </SvgIcon>
+                  <SvgIcon>{/* <ReplyAllIcon /> */}</SvgIcon>
                 </IconButton>
               </Tooltip>
-              <Tooltip title="Delete">
+              <Tooltip title='Delete'>
                 <IconButton>
-                  <SvgIcon>
-                    <Trash02Icon />
-                  </SvgIcon>
+                  <SvgIcon>{/* <Trash02Icon /> */}</SvgIcon>
                 </IconButton>
               </Tooltip>
             </>
           )}
-          <Tooltip title="More options">
+          <Tooltip title='More options'>
             <IconButton>
-              <SvgIcon>
-                <DotsHorizontalIcon />
-              </SvgIcon>
+              <SvgIcon>{/* <DotsHorizontalIcon /> */}</SvgIcon>
             </IconButton>
           </Tooltip>
         </Stack>
       </Stack>
     </div>
-  );
-};
+  )
+}
 
 MailThreadToolbar.propTypes = {
   backHref: PropTypes.string.isRequired,
   createdAt: PropTypes.number.isRequired,
   from: PropTypes.object.isRequired,
-  to: PropTypes.array.isRequired
-};
+  to: PropTypes.array.isRequired,
+}

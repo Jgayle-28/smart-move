@@ -1,83 +1,82 @@
-import { createContext, useCallback, useEffect, useReducer } from 'react';
-import PropTypes from 'prop-types';
-import { Auth0Client } from '@auth0/auth0-spa-js';
-import { auth0Config } from 'src/config';
-import { paths } from 'src/paths';
-import { Issuer } from 'src/utils/auth';
+import { createContext, useCallback, useEffect, useReducer } from 'react'
+import PropTypes from 'prop-types'
+import { Auth0Client } from '@auth0/auth0-spa-js'
+import { auth0Config } from 'src/config'
+import { paths } from 'src/paths'
+import { Issuer } from 'src/utils/auth'
 
 const auth0Client = new Auth0Client({
   domain: auth0Config.issuer_base_url,
   clientId: auth0Config.client_id,
   cacheLocation: 'localstorage',
   authorizationParams: {
-    redirect_uri: auth0Config.base_url + paths.auth.auth0.callback
-  }
-});
+    redirect_uri: auth0Config.base_url + paths.auth.auth0.callback,
+  },
+})
 
-var ActionType;
-(function (ActionType) {
-  ActionType['INITIALIZE'] = 'INITIALIZE';
-  ActionType['LOGIN'] = 'LOGIN';
-  ActionType['LOGOUT'] = 'LOGOUT';
-})(ActionType || (ActionType = {}));
+var ActionType
+;(function (ActionType) {
+  ActionType['INITIALIZE'] = 'INITIALIZE'
+  ActionType['LOGIN'] = 'LOGIN'
+  ActionType['LOGOUT'] = 'LOGOUT'
+})(ActionType || (ActionType = {}))
 
 const initialState = {
   isAuthenticated: false,
   isInitialized: false,
-  user: null
-};
+  user: null,
+}
 
 const handlers = {
   INITIALIZE: (state, action) => {
-    const { isAuthenticated, user } = action.payload;
+    const { isAuthenticated, user } = action.payload
 
     return {
       ...state,
       isAuthenticated,
       isInitialized: true,
-      user
-    };
+      user,
+    }
   },
   LOGIN: (state, action) => {
-    const { user } = action.payload;
+    const { user } = action.payload
 
     return {
       ...state,
       isAuthenticated: true,
-      user
-    };
+      user,
+    }
   },
   LOGOUT: (state) => ({
     ...state,
     isAuthenticated: false,
-    user: null
-  })
-};
+    user: null,
+  }),
+}
 
-const reducer = (state, action) => (handlers[action.type]
-  ? handlers[action.type](state, action)
-  : state);
+const reducer = (state, action) =>
+  handlers[action.type] ? handlers[action.type](state, action) : state
 
 export const AuthContext = createContext({
   ...initialState,
   issuer: Issuer.Auth0,
   loginWithRedirect: () => Promise.resolve(),
   handleRedirectCallback: () => Promise.resolve(undefined),
-  logout: () => Promise.resolve()
-});
+  logout: () => Promise.resolve(),
+})
 
 export const AuthProvider = (props) => {
-  const { children } = props;
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const { children } = props
+  const [state, dispatch] = useReducer(reducer, initialState)
 
   const initialize = useCallback(async () => {
     try {
-      await auth0Client.checkSession();
+      await auth0Client.checkSession()
 
-      const isAuthenticated = await auth0Client.isAuthenticated();
+      const isAuthenticated = await auth0Client.isAuthenticated()
 
       if (isAuthenticated) {
-        const user = await auth0Client.getUser();
+        const user = await auth0Client.getUser()
 
         // Here you should extract the complete user profile to make it
         // available in your entire app.
@@ -92,46 +91,44 @@ export const AuthProvider = (props) => {
               avatar: user.picture,
               email: user.email,
               name: 'Anika Visser',
-              plan: 'Premium'
-            }
-          }
-        });
+              plan: 'Premium',
+            },
+          },
+        })
       } else {
         dispatch({
           type: ActionType.INITIALIZE,
           payload: {
             isAuthenticated,
-            user: null
-          }
-        });
+            user: null,
+          },
+        })
       }
     } catch (err) {
-      console.error(err);
+      console.error(err)
       dispatch({
         type: ActionType.INITIALIZE,
         payload: {
           isAuthenticated: false,
-          user: null
-        }
-      });
+          user: null,
+        },
+      })
     }
-  }, [dispatch]);
+  }, [dispatch])
 
   useEffect(() => {
-      initialize();
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []);
+    initialize()
+  }, [])
 
   const loginWithRedirect = useCallback(async (appState) => {
     await auth0Client.loginWithRedirect({
-      appState
-    });
-  }, []);
+      appState,
+    })
+  }, [])
 
   const handleRedirectCallback = useCallback(async () => {
-    const result = await auth0Client.handleRedirectCallback();
-    const user = await auth0Client.getUser();
+    const result = await auth0Client.handleRedirectCallback()
+    const user = await auth0Client.getUser()
 
     // Here you should extract the complete user profile to make it available in your entire app.
     // The auth state only provides basic information.
@@ -144,20 +141,20 @@ export const AuthProvider = (props) => {
           avatar: user.picture,
           email: user.email,
           name: 'Anika Visser',
-          plan: 'Premium'
-        }
-      }
-    });
+          plan: 'Premium',
+        },
+      },
+    })
 
-    return result.appState;
-  }, []);
+    return result.appState
+  }, [])
 
   const logout = useCallback(async () => {
-    await auth0Client.logout();
+    await auth0Client.logout()
     dispatch({
-      type: ActionType.LOGOUT
-    });
-  }, []);
+      type: ActionType.LOGOUT,
+    })
+  }, [])
 
   return (
     <AuthContext.Provider
@@ -166,16 +163,16 @@ export const AuthProvider = (props) => {
         issuer: Issuer.Auth0,
         loginWithRedirect,
         handleRedirectCallback,
-        logout
+        logout,
       }}
     >
       {children}
     </AuthContext.Provider>
-  );
-};
+  )
+}
 
 AuthProvider.propTypes = {
-  children: PropTypes.node.isRequired
-};
+  children: PropTypes.node.isRequired,
+}
 
-export const AuthConsumer = AuthContext.Consumer;
+export const AuthConsumer = AuthContext.Consumer

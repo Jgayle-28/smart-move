@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useState } from 'react';
-import { format, subHours } from 'date-fns';
+import { useCallback, useEffect, useState } from 'react'
+import { format, subHours } from 'date-fns'
 import {
   Avatar,
   Box,
@@ -11,19 +11,19 @@ import {
   Divider,
   Link,
   Stack,
-  Typography
-} from '@mui/material';
-import { blogApi } from 'src/api/blog';
-import { BreadcrumbsSeparator } from 'src/components/breadcrumbs-separator';
-import { RouterLink } from 'src/components/router-link';
-import { Seo } from 'src/components/seo';
-import { useMounted } from 'src/hooks/use-mounted';
-import { usePageView } from 'src/hooks/use-page-view';
-import { paths } from 'src/paths';
-import { PostComment } from 'src/sections/dashboard/blog/post-comment';
-import { PostCommentAdd } from 'src/sections/dashboard/blog/post-comment-add';
-import { PostNewsletter } from 'src/sections/dashboard/blog/post-newsletter';
-import { PostContent } from 'src/sections/dashboard/blog/post-content';
+  Typography,
+} from '@mui/material'
+import { blogApi } from 'src/api/blog'
+import { BreadcrumbsSeparator } from 'src/components/breadcrumbs-separator'
+import { RouterLink } from 'src/components/router-link'
+import { Seo } from 'src/components/seo'
+import { useMounted } from 'src/hooks/use-mounted'
+import { usePageView } from 'src/hooks/use-page-view'
+import { paths } from 'src/paths'
+import { PostComment } from 'src/sections/dashboard/blog/post-comment'
+import { PostCommentAdd } from 'src/sections/dashboard/blog/post-comment-add'
+import { PostNewsletter } from 'src/sections/dashboard/blog/post-newsletter'
+import { PostContent } from 'src/sections/dashboard/blog/post-content'
 
 const useComments = () => {
   return [
@@ -32,97 +32,92 @@ const useComments = () => {
       authorAvatar: '/assets/avatars/avatar-alcides-antonio.png',
       authorName: 'Alcides Antonio',
       authorRole: 'Product Designer',
-      content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+      content:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       createdAt: subHours(new Date(), 2).getTime(),
       isLiked: true,
-      likes: 12
+      likes: 12,
     },
     {
       id: '3ac1e17289e38a84108efdf3',
       authorAvatar: '/assets/avatars/avatar-jie-yan-song.png',
       authorName: 'Jie Yan Song',
       authorRole: 'Web Developer',
-      content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.',
+      content:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.',
       createdAt: subHours(new Date(), 8).getTime(),
       isLiked: false,
-      likes: 8
-    }
-  ];
-};
+      likes: 8,
+    },
+  ]
+}
 
 const usePost = () => {
-  const isMounted = useMounted();
-  const [post, setPost] = useState(null);
+  const isMounted = useMounted()
+  const [post, setPost] = useState(null)
 
   const handlePostGet = useCallback(async () => {
     try {
-      const response = await blogApi.getPost();
+      const response = await blogApi.getPost()
 
       if (isMounted()) {
-        setPost(response);
+        setPost(response)
       }
     } catch (err) {
-      console.error(err);
+      console.error(err)
     }
-  }, [isMounted]);
+  }, [isMounted])
 
   useEffect(() => {
-      handlePostGet();
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []);
+    handlePostGet()
+  }, [])
 
-  return post;
-};
+  return post
+}
 
 const Page = () => {
-  const post = usePost();
-  const comments = useComments();
+  const post = usePost()
+  const comments = useComments()
 
-  usePageView();
+  usePageView()
 
   if (!post) {
-    return null;
+    return null
   }
 
-  const publishedAt = format(post.publishedAt, 'MMMM d, yyyy');
+  const publishedAt = format(post.publishedAt, 'MMMM d, yyyy')
 
   return (
     <>
-      <Seo title="Blog: Post Details" />
+      <Seo title='Blog: Post Details' />
       <Box
-        component="main"
+        component='main'
         sx={{
           flexGrow: 1,
-          py: 8
+          py: 8,
         }}
       >
-        <Container maxWidth="xl">
+        <Container maxWidth='xl'>
           <Stack spacing={1}>
-            <Typography variant="h3">
-              Post
-            </Typography>
+            <Typography variant='h3'>Post</Typography>
             <Breadcrumbs separator={<BreadcrumbsSeparator />}>
               <Link
-                color="text.primary"
+                color='text.primary'
                 component={RouterLink}
                 href={paths.dashboard.index}
-                variant="subtitle2"
+                variant='subtitle2'
               >
                 Dashboard
               </Link>
               <Link
-                color="text.primary"
+                color='text.primary'
                 component={RouterLink}
                 href={paths.dashboard.blog.index}
-                variant="subtitle2"
+                variant='subtitle2'
               >
                 Blog
               </Link>
-              <Typography
-                color="text.secondary"
-                variant="subtitle2"
-              >
+              <Typography color='text.secondary' variant='subtitle2'>
                 Details
               </Typography>
             </Breadcrumbs>
@@ -137,16 +132,14 @@ const Page = () => {
               mb: 8,
               mt: 6,
               px: 3,
-              py: 2
+              py: 2,
             }}
           >
-            <Typography variant="subtitle1">
-              Hello, Admin
-            </Typography>
+            <Typography variant='subtitle1'>Hello, Admin</Typography>
             <Button
               component={RouterLink}
               href={paths.dashboard.blog.postCreate}
-              variant="contained"
+              variant='contained'
             >
               Edit Post
             </Button>
@@ -155,36 +148,22 @@ const Page = () => {
             <div>
               <Chip label={post.category} />
             </div>
-            <Typography variant="h3">
-              {post.title}
-            </Typography>
-            <Typography
-              color="text.secondary"
-              variant="subtitle1"
-            >
+            <Typography variant='h3'>{post.title}</Typography>
+            <Typography color='text.secondary' variant='subtitle1'>
               {post.shortDescription}
             </Typography>
             <Stack
-              alignItems="center"
-              direction="row"
+              alignItems='center'
+              direction='row'
               spacing={2}
               sx={{ mt: 3 }}
             >
               <Avatar src={post.author.avatar} />
               <div>
-                <Typography variant="subtitle2">
-                  By
-                  {' '}
-                  {post.author.name}
-                  {' '}
-                  •
-                  {' '}
-                  {publishedAt}
+                <Typography variant='subtitle2'>
+                  By {post.author.name} • {publishedAt}
                 </Typography>
-                <Typography
-                  color="text.secondary"
-                  variant="body2"
-                >
+                <Typography color='text.secondary' variant='body2'>
                   {post.readTime} read
                 </Typography>
               </div>
@@ -197,7 +176,7 @@ const Page = () => {
               backgroundSize: 'cover',
               borderRadius: 1,
               height: 380,
-              mt: 3
+              mt: 3,
             }}
           />
           {post.content && (
@@ -208,9 +187,7 @@ const Page = () => {
           <Divider sx={{ my: 3 }} />
           <Stack spacing={2}>
             {comments.map((comment) => (
-              <PostComment
-                key={comment.id}
-                {...comment} />
+              <PostComment key={comment.id} {...comment} />
             ))}
           </Stack>
           <Divider sx={{ my: 3 }} />
@@ -221,7 +198,7 @@ const Page = () => {
         </Container>
       </Box>
     </>
-  );
-};
+  )
+}
 
-export default Page;
+export default Page

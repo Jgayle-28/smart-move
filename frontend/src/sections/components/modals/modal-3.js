@@ -1,5 +1,3 @@
-import XIcon from '@untitled-ui/icons-react/build/esm/X';
-import SearchMdIcon from '@untitled-ui/icons-react/build/esm/SearchMd';
 import {
   Box,
   Button,
@@ -8,16 +6,15 @@ import {
   InputAdornment,
   OutlinedInput,
   Paper,
-  SvgIcon
-} from '@mui/material';
+  SvgIcon,
+} from '@mui/material'
 
 export const Modal3 = () => (
   <Box
     sx={{
-      backgroundColor: (theme) => theme.palette.mode === 'dark'
-        ? 'neutral.800'
-        : 'neutral.100',
-      p: 3
+      backgroundColor: (theme) =>
+        theme.palette.mode === 'dark' ? 'neutral.800' : 'neutral.100',
+      p: 3,
     }}
   >
     <Paper elevation={12}>
@@ -25,40 +22,32 @@ export const Modal3 = () => (
         <Box
           sx={{
             display: 'flex',
-            justifyContent: 'flex-end'
+            justifyContent: 'flex-end',
           }}
         >
           <IconButton>
-            <SvgIcon>
-              <XIcon />
-            </SvgIcon>
+            <SvgIcon>{/* <XIcon /> */}</SvgIcon>
           </IconButton>
         </Box>
       </Box>
       <Box sx={{ p: 3 }}>
-        <Container maxWidth="md">
+        <Container maxWidth='md'>
           <Box
             sx={{
               alignItems: 'center',
-              display: 'flex'
+              display: 'flex',
             }}
           >
             <OutlinedInput
               fullWidth
-              placeholder="Search..."
-              startAdornment={(
-                <InputAdornment position="start">
-                  <SvgIcon>
-                    <SearchMdIcon />
-                  </SvgIcon>
+              placeholder='Search...'
+              startAdornment={
+                <InputAdornment position='start'>
+                  <SvgIcon>{/* <SearchMdIcon /> */}</SvgIcon>
                 </InputAdornment>
-              )}
+              }
             />
-            <Button
-              size="large"
-              sx={{ ml: 2 }}
-              variant="contained"
-            >
+            <Button size='large' sx={{ ml: 2 }} variant='contained'>
               Search
             </Button>
           </Box>
@@ -66,4 +55,4 @@ export const Modal3 = () => (
       </Box>
     </Paper>
   </Box>
-);
+)

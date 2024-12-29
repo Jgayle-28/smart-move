@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import PropTypes from 'prop-types'
-import File04Icon from '@untitled-ui/icons-react/build/esm/File04'
+import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined'
 import { Box, Button, Drawer, Stack, SvgIcon, Typography } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { Logo } from 'src/components/logo'
@@ -234,8 +234,8 @@ export const SideNav = (props) => {
               fullWidth
               href={paths.docs}
               startIcon={
-                <SvgIcon>
-                  <File04Icon />
+                <SvgIcon fontSize='small'>
+                  <ArticleOutlinedIcon />
                 </SvgIcon>
               }
               target='_blank'

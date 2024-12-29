@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
-import ArrowRightIcon from '@untitled-ui/icons-react/build/esm/ArrowRight'
-import Edit02Icon from '@untitled-ui/icons-react/build/esm/Edit02'
+import ArrowRightAltOutlinedIcon from '@mui/icons-material/ArrowRightAltOutlined'
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import {
   Avatar,
   Box,
@@ -100,7 +100,7 @@ export const CustomerListTable = (props) => {
                           href={`/dashboard/customers/${customer._id}/edit`}
                         >
                           <SvgIcon fontSize='small'>
-                            <Edit02Icon />
+                            <EditOutlinedIcon />
                           </SvgIcon>
                         </IconButton>
                       </Tooltip>
@@ -123,7 +123,7 @@ export const CustomerListTable = (props) => {
                           href={`/dashboard/customers/${customer._id}`}
                         >
                           <SvgIcon fontSize='small'>
-                            <ArrowRightIcon />
+                            <ArrowRightAltOutlinedIcon />
                           </SvgIcon>
                         </IconButton>
                       </Tooltip>

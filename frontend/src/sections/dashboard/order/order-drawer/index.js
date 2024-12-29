@@ -1,108 +1,106 @@
-import { useCallback, useState } from 'react';
-import PropTypes from 'prop-types';
-import XIcon from '@untitled-ui/icons-react/build/esm/X';
-import { Box, Drawer, IconButton, Stack, SvgIcon, Typography, useMediaQuery } from '@mui/material';
-import { OrderDetails } from './order-details';
-import { OrderEdit } from './order-edit';
+import { useCallback, useState } from 'react'
+import PropTypes from 'prop-types'
+
+import {
+  Box,
+  Drawer,
+  IconButton,
+  Stack,
+  SvgIcon,
+  Typography,
+  useMediaQuery,
+} from '@mui/material'
+import { OrderDetails } from './order-details'
+import { OrderEdit } from './order-edit'
 
 export const OrderDrawer = (props) => {
-  const { container, onClose, open, order } = props;
-  const [isEditing, setIsEditing] = useState(false);
-  const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
+  const { container, onClose, open, order } = props
+  const [isEditing, setIsEditing] = useState(false)
+  const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'))
 
   const handleEditOpen = useCallback(() => {
-    setIsEditing(true);
-  }, []);
+    setIsEditing(true)
+  }, [])
 
   const handleEditCancel = useCallback(() => {
-    setIsEditing(false);
-  }, []);
+    setIsEditing(false)
+  }, [])
 
-  let content = null;
+  let content = null
 
   if (order) {
     content = (
       <div>
         <Stack
-          alignItems="center"
-          direction="row"
-          justifyContent="space-between"
+          alignItems='center'
+          direction='row'
+          justifyContent='space-between'
           sx={{
             px: 3,
-            py: 2
+            py: 2,
           }}
         >
-          <Typography
-            color="inherit"
-            variant="h6"
-          >
+          <Typography color='inherit' variant='h6'>
             {order.number}
           </Typography>
-          <IconButton
-            color="inherit"
-            onClick={onClose}
-          >
-            <SvgIcon>
-              <XIcon />
-            </SvgIcon>
+          <IconButton color='inherit' onClick={onClose}>
+            <SvgIcon>{/* <XIcon /> */}</SvgIcon>
           </IconButton>
         </Stack>
         <Box
           sx={{
             px: 3,
-            py: 4
+            py: 4,
           }}
         >
-          {!isEditing
-            ? (
-              <OrderDetails
-                onApprove={onClose}
-                onEdit={handleEditOpen}
-                onReject={onClose}
-                order={order}
-              />
-            )
-            : (
-              <OrderEdit
-                onCancel={handleEditCancel}
-                onSave={handleEditCancel}
-                order={order}
-              />
-            )}
+          {!isEditing ? (
+            <OrderDetails
+              onApprove={onClose}
+              onEdit={handleEditOpen}
+              onReject={onClose}
+              order={order}
+            />
+          ) : (
+            <OrderEdit
+              onCancel={handleEditCancel}
+              onSave={handleEditCancel}
+              order={order}
+            />
+          )}
         </Box>
       </div>
-    );
+    )
   }
 
   if (lgUp) {
     return (
       <Drawer
-        anchor="right"
+        anchor='right'
         open={open}
         PaperProps={{
           sx: {
             position: 'relative',
-            width: 500
-          }
+            width: 500,
+          },
         }}
         SlideProps={{ container }}
-        variant="persistent"
+        variant='persistent'
       >
         {content}
       </Drawer>
-    );
+    )
   }
 
   return (
     <Drawer
-      anchor="left"
+      anchor='left'
       hideBackdrop
       ModalProps={{
         container,
         sx: {
           pointerEvents: 'none',
-          position: 'absolute'
-        }
+          position: 'absolute',
+        },
       }}
       onClose={onClose}
       open={open}
@@ -111,20 +109,20 @@ export const OrderDrawer = (props) => {
           maxWidth: '100%',
           width: 400,
           pointerEvents: 'auto',
-          position: 'absolute'
-        }
+          position: 'absolute',
+        },
       }}
       SlideProps={{ container }}
-      variant="temporary"
+      variant='temporary'
     >
       {content}
     </Drawer>
-  );
-};
+  )
+}
 
 OrderDrawer.propTypes = {
   container: PropTypes.any,
   onClose: PropTypes.func,
   open: PropTypes.bool,
-  order: PropTypes.object
-};
+  order: PropTypes.object,
+}

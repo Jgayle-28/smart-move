@@ -7,18 +7,14 @@ export const useAuth = () => {
 
   const { user } = useSelector((state) => state.auth)
 
-  useEffect(
-    () => {
-      if (user) {
-        setIsAuthenticated(true)
-      } else {
-        setIsAuthenticated(false)
-      }
-      setCheckingStatus(false)
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [user]
-  )
+  useEffect(() => {
+    if (user) {
+      setIsAuthenticated(true)
+    } else {
+      setIsAuthenticated(false)
+    }
+    setCheckingStatus(false)
+  }, [user])
 
   return { isAuthenticated, checkingStatus, setIsAuthenticated, user }
 }

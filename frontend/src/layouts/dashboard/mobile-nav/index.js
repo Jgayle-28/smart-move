@@ -1,20 +1,20 @@
-import { useMemo } from 'react';
-import PropTypes from 'prop-types';
-import File04Icon from '@untitled-ui/icons-react/build/esm/File04';
-import { Box, Button, Drawer, Stack, SvgIcon, Typography } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
-import { Logo } from 'src/components/logo';
-import { RouterLink } from 'src/components/router-link';
-import { Scrollbar } from 'src/components/scrollbar';
-import { usePathname } from 'src/hooks/use-pathname';
-import { paths } from 'src/paths';
-import { TenantSwitch } from '../tenant-switch';
-import { MobileNavSection } from './mobile-nav-section';
+import { useMemo } from 'react'
+import PropTypes from 'prop-types'
+import { Box, Button, Drawer, Stack, SvgIcon, Typography } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
+import { Logo } from 'src/components/logo'
+import { RouterLink } from 'src/components/router-link'
+import { Scrollbar } from 'src/components/scrollbar'
+import { usePathname } from 'src/hooks/use-pathname'
+import { paths } from 'src/paths'
+import { TenantSwitch } from '../tenant-switch'
+import { MobileNavSection } from './mobile-nav-section'
+import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined'
 
-const MOBILE_NAV_WIDTH = 280;
+const MOBILE_NAV_WIDTH = 280
 
 const useCssVars = (color) => {
-  const theme = useTheme();
+  const theme = useTheme()
 
   return useMemo(() => {
     switch (color) {
@@ -37,8 +37,8 @@ const useCssVars = (color) => {
             '--nav-item-icon-active-color': theme.palette.primary.main,
             '--nav-item-icon-disabled-color': theme.palette.neutral[700],
             '--nav-item-chevron-color': theme.palette.neutral[700],
-            '--nav-scrollbar-color': theme.palette.neutral[400]
-          };
+            '--nav-scrollbar-color': theme.palette.neutral[400],
+          }
         } else {
           return {
             '--nav-bg': theme.palette.background.default,
@@ -54,8 +54,8 @@ const useCssVars = (color) => {
             '--nav-item-icon-active-color': theme.palette.primary.main,
             '--nav-item-icon-disabled-color': theme.palette.neutral[400],
             '--nav-item-chevron-color': theme.palette.neutral[400],
-            '--nav-scrollbar-color': theme.palette.neutral[900]
-          };
+            '--nav-scrollbar-color': theme.palette.neutral[900],
+          }
         }
 
       case 'evident':
@@ -74,8 +74,8 @@ const useCssVars = (color) => {
             '--nav-item-icon-active-color': theme.palette.primary.main,
             '--nav-item-icon-disabled-color': theme.palette.neutral[500],
             '--nav-item-chevron-color': theme.palette.neutral[600],
-            '--nav-scrollbar-color': theme.palette.neutral[400]
-          };
+            '--nav-scrollbar-color': theme.palette.neutral[400],
+          }
         } else {
           return {
             '--nav-bg': theme.palette.neutral[800],
@@ -91,24 +91,24 @@ const useCssVars = (color) => {
             '--nav-item-icon-active-color': theme.palette.primary.main,
             '--nav-item-icon-disabled-color': theme.palette.neutral[500],
             '--nav-item-chevron-color': theme.palette.neutral[600],
-            '--nav-scrollbar-color': theme.palette.neutral[400]
-          };
+            '--nav-scrollbar-color': theme.palette.neutral[400],
+          }
         }
 
       default:
-        return {};
+        return {}
     }
-  }, [theme, color]);
-};
+  }, [theme, color])
+}
 
 export const MobileNav = (props) => {
-  const { color = 'evident', open, onClose, sections = [] } = props;
-  const pathname = usePathname();
-  const cssVars = useCssVars(color);
+  const { color = 'evident', open, onClose, sections = [] } = props
+  const pathname = usePathname()
+  const cssVars = useCssVars(color)
 
   return (
     <Drawer
-      anchor="left"
+      anchor='left'
       onClose={onClose}
       open={open}
       PaperProps={{
@@ -116,29 +116,24 @@ export const MobileNav = (props) => {
           ...cssVars,
           backgroundColor: 'var(--nav-bg)',
           color: 'var(--nav-color)',
-          width: MOBILE_NAV_WIDTH
-        }
+          width: MOBILE_NAV_WIDTH,
+        },
       }}
-      variant="temporary"
+      variant='temporary'
     >
       <Scrollbar
         sx={{
           height: '100%',
           '& .simplebar-content': {
-            height: '100%'
+            height: '100%',
           },
           '& .simplebar-scrollbar:before': {
-            background: 'var(--nav-scrollbar-color)'
-          }
+            background: 'var(--nav-scrollbar-color)',
+          },
         }}
       >
         <Stack sx={{ height: '100%' }}>
-          <Stack
-            alignItems="center"
-            direction="row"
-            spacing={2}
-            sx={{ p: 3 }}
-          >
+          <Stack alignItems='center' direction='row' spacing={2} sx={{ p: 3 }}>
             <Box
               component={RouterLink}
               href={paths.index}
@@ -150,7 +145,7 @@ export const MobileNav = (props) => {
                 display: 'flex',
                 height: 40,
                 p: '4px',
-                width: 40
+                width: 40,
               }}
             >
               <Logo />
@@ -158,11 +153,11 @@ export const MobileNav = (props) => {
             <TenantSwitch sx={{ flexGrow: 1 }} />
           </Stack>
           <Stack
-            component="nav"
+            component='nav'
             spacing={2}
             sx={{
               flexGrow: 1,
-              px: 2
+              px: 2,
             }}
           >
             {sections.map((section, index) => (
@@ -175,30 +170,23 @@ export const MobileNav = (props) => {
             ))}
           </Stack>
           <Box sx={{ p: 3 }}>
-            <Typography
-              color="neutral.400"
-              variant="subtitle1"
-            >
+            <Typography color='neutral.400' variant='subtitle1'>
               Need help?
             </Typography>
-            <Typography
-              color="neutral.400"
-              sx={{ mb: 2 }}
-              variant="body2"
-            >
+            <Typography color='neutral.400' sx={{ mb: 2 }} variant='body2'>
               Please check our docs.
             </Typography>
             <Button
-              component="a"
+              component='a'
               fullWidth
               href={paths.docs}
-              startIcon={(
-                <SvgIcon>
-                  <File04Icon />
+              startIcon={
+                <SvgIcon fontSize='small'>
+                  <ArticleOutlinedIcon />
                 </SvgIcon>
-              )}
-              target="_blank"
-              variant="contained"
+              }
+              target='_blank'
+              variant='contained'
             >
               Documentation
             </Button>
@@ -206,12 +194,12 @@ export const MobileNav = (props) => {
         </Stack>
       </Scrollbar>
     </Drawer>
-  );
-};
+  )
+}
 
 MobileNav.propTypes = {
   color: PropTypes.oneOf(['blend-in', 'discreet', 'evident']),
   onClose: PropTypes.func,
   open: PropTypes.bool,
-  sections: PropTypes.array
-};
+  sections: PropTypes.array,
+}

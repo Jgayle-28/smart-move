@@ -20,7 +20,7 @@ import { CompanyTeam } from 'src/sections/dashboard/jobs/company-team'
 import Spinner from 'src/components/shared/Spinner'
 import Edit from '@mui/icons-material/Edit'
 import RemoveCircleOutline from '@mui/icons-material/RemoveCircleOutline'
-import ArrowLeftIcon from '@untitled-ui/icons-react/build/esm/ArrowLeft'
+import KeyboardBackspaceOutlinedIcon from '@mui/icons-material/KeyboardBackspaceOutlined'
 import JobEstimateDetail from './JobEstimateDetail'
 import { useRouter } from 'src/hooks/use-router'
 
@@ -61,8 +61,8 @@ function JobDetailMain({
                 display: 'flex',
               }}
             >
-              <SvgIcon sx={{ mr: 1 }}>
-                <ArrowLeftIcon />
+              <SvgIcon sx={{ mr: 1 }} fontSize='small'>
+                <KeyboardBackspaceOutlinedIcon />
               </SvgIcon>
               <Typography variant='subtitle2'>Go Back</Typography>
             </Button>

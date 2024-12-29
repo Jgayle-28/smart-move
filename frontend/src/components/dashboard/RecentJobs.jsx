@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { formatDistanceStrict } from 'date-fns'
-import ArrowRightIcon from '@untitled-ui/icons-react/build/esm/ArrowRight'
 import {
   Avatar,
   Button,

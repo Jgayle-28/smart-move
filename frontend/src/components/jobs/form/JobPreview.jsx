@@ -1,4 +1,4 @@
-import CheckIcon from '@untitled-ui/icons-react/build/esm/Check'
+import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined'
 import { Avatar, Button, Card, Stack, SvgIcon, Typography } from '@mui/material'
 import { SeverityPill } from 'src/components/severity-pill'
 import { RouterLink } from 'src/components/router-link'
@@ -35,8 +35,8 @@ export const JobPreview = ({ selectedCustomer, formik }) => {
               width: 40,
             }}
           >
-            <SvgIcon>
-              <CheckIcon />
+            <SvgIcon fontSize='small'>
+              <CheckOutlinedIcon />
             </SvgIcon>
           </Avatar>
           <div>
