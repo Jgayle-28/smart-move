@@ -81,10 +81,10 @@ export const App = () => {
                           ) : (
                             <>
                               {element}
-                              <SettingsButton
+                              {/* <SettingsButton
                                 onClick={settings.handleDrawerOpen}
-                              />
-                              <SettingsDrawer
+                              /> */}
+                              {/* <SettingsDrawer
                                 canReset={settings.isCustom}
                                 onClose={settings.handleDrawerClose}
                                 onReset={settings.handleReset}
@@ -101,7 +101,7 @@ export const App = () => {
                                   layout: settings.layout,
                                   navColor: settings.navColor,
                                 }}
-                              />
+                              /> */}
                             </>
                           )}
                           <Toaster />

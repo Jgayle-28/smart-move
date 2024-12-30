@@ -1,3 +1,4 @@
+import { useContext } from 'react'
 import PropTypes from 'prop-types'
 import {
   Button,
@@ -7,6 +8,8 @@ import {
   TextField,
   Typography,
   Unstable_Grid2 as Grid,
+  Divider,
+  Switch,
 } from '@mui/material'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
@@ -16,6 +19,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { LoadingButton } from '@mui/lab'
 import { updateUser } from 'src/store/auth/authSlice'
 import { toast } from 'react-hot-toast'
+import { OptionsColorPreset } from '../settings/settings-drawer/options-color-preset'
+import { OptionsColorScheme } from '../settings/settings-drawer/options-color-scheme'
+import { OptionsNavColor } from '../settings/settings-drawer/options-nav-color'
+import { OptionsLayout } from '../settings/settings-drawer/options-layout'
+import { OptionsContrast } from '../settings/settings-drawer/options-contrast'
+
+// Import your Settings context here
+import { SettingsContext } from 'src/contexts/settings-context'
 
 const tempValues = {
   email: '',
@@ -42,6 +53,9 @@ export const AccountGeneralSettings = (props) => {
   const dispatch = useDispatch()
 
   const { isLoading } = useSelector((state) => state.auth)
+
+  const { handleUpdate, colorPreset, paletteMode, navColor, layout, contrast } =
+    useContext(SettingsContext) // Use context to get handleUpdate
 
   const initialValues = user
     ? {
@@ -82,7 +96,12 @@ export const AccountGeneralSettings = (props) => {
     }
   }
 
-  // if (!user) return <Spinner />
+  const handleFieldUpdate = (field, value) => {
+    if (handleUpdate) {
+      handleUpdate({ [field]: value }) // Update the theme settings using context
+    }
+  }
+
   return (
     <Stack spacing={4} {...props}>
       <Card>
@@ -123,40 +142,6 @@ export const AccountGeneralSettings = (props) => {
                       },
                     }}
                   />
-                  {/* <TextField
-                    error={
-                      !!(formik.touched.password && formik.errors.password)
-                    }
-                    fullWidth
-                    helperText={
-                      formik.touched.password && formik.errors.password
-                    }
-                    label='Password'
-                    name='password'
-                    onBlur={formik.handleBlur}
-                    onChange={formik.handleChange}
-                    type='password'
-                    value={formik.values.password}
-                  />
-                  <TextField
-                    error={
-                      !!(
-                        formik.touched.passwordConfirmation &&
-                        formik.errors.passwordConfirmation
-                      )
-                    }
-                    fullWidth
-                    helperText={
-                      formik.touched.passwordConfirmation &&
-                      formik.errors.passwordConfirmation
-                    }
-                    label='Confirm Password'
-                    name='passwordConfirmation'
-                    onBlur={formik.handleBlur}
-                    onChange={formik.handleChange}
-                    type='password'
-                    value={formik.values.passwordConfirmation}
-                  /> */}
                   <LoadingButton
                     loading={isLoading}
                     loadingPosition='start'
@@ -173,54 +158,40 @@ export const AccountGeneralSettings = (props) => {
           </Grid>
         </CardContent>
       </Card>
-      {/* <Card>
+      <Card>
         <CardContent>
           <Grid container spacing={3}>
             <Grid xs={12} md={4}>
-              <Typography variant='h6'>Public profile</Typography>
+              <Typography variant='h6'>App Settings</Typography>
             </Grid>
-            <Grid xs={12} sm={12} md={8}>
-              <Stack divider={<Divider />} spacing={3}>
-                <Stack
-                  alignItems='flex-start'
-                  direction='row'
-                  justifyContent='space-between'
-                  spacing={3}
-                >
-                  <Stack spacing={1}>
-                    <Typography variant='subtitle1'>
-                      Make Contact Info Public
-                    </Typography>
-                    <Typography color='text.secondary' variant='body2'>
-                      Means that anyone viewing your profile will be able to see
-                      your contacts details.
-                    </Typography>
-                  </Stack>
-                  <Switch />
-                </Stack>
-                <Stack
-                  alignItems='flex-start'
-                  direction='row'
-                  justifyContent='space-between'
-                  spacing={3}
-                >
-                  <Stack spacing={1}>
-                    <Typography variant='subtitle1'>
-                      Available to hire
-                    </Typography>
-                    <Typography color='text.secondary' variant='body2'>
-                      Toggling this will let your teammates know that you are
-                      available for acquiring new projects.
-                    </Typography>
-                  </Stack>
-                  <Switch defaultChecked />
-                </Stack>
+            <Grid xs={12} md={8}>
+              <Stack spacing={5} sx={{ p: 3 }}>
+                <OptionsColorPreset
+                  onChange={(value) => handleFieldUpdate('colorPreset', value)}
+                  value={colorPreset}
+                />
+                <OptionsColorScheme
+                  onChange={(value) => handleFieldUpdate('paletteMode', value)}
+                  value={paletteMode}
+                />
+                <OptionsNavColor
+                  onChange={(value) => handleFieldUpdate('navColor', value)}
+                  value={navColor}
+                />
+                <OptionsLayout
+                  onChange={(value) => handleFieldUpdate('layout', value)}
+                  value={layout}
+                />
+                <OptionsContrast
+                  onChange={(value) => handleFieldUpdate('contrast', value)}
+                  value={contrast}
+                />
               </Stack>
             </Grid>
           </Grid>
         </CardContent>
-      </Card> */}
-      {user.isAdmin && (
+      </Card>
+      {/* {user.isAdmin && (
         <Card>
           <CardContent>
             <Grid container spacing={3}>
@@ -241,7 +212,7 @@ export const AccountGeneralSettings = (props) => {
             </Grid>
           </CardContent>
         </Card>
-      )}
+      )} */}
     </Stack>
   )
 }
