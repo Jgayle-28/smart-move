@@ -24,7 +24,7 @@ function CustomerPageHeader() {
           >
             Import
           </Button> */}
-          <Button
+          {/* <Button
             color='inherit'
             size='small'
             disabled={!customers?.length}
@@ -43,7 +43,7 @@ function CustomerPageHeader() {
             }
           >
             Export
-          </Button>
+          </Button> */}
         </Stack>
       </Stack>
       <Stack alignItems='center' direction='row' spacing={3}>

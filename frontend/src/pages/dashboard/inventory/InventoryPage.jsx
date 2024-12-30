@@ -42,7 +42,6 @@ const initialValues = {
 }
 
 const Page = () => {
-  const [currentJobs, setCurrentJobs] = useState([])
   const [createModalOpen, setCreateModalOpen] = useState(false)
   const [newItem, setNewItem] = useState(initialValues)
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)

@@ -1,47 +1,30 @@
-import { useCallback, useEffect, useState } from 'react'
-import { Box, Card, Container, Stack } from '@mui/material'
+import { useEffect, useState, useMemo } from 'react'
+import {
+  Box,
+  Card,
+  Container,
+  IconButton,
+  Stack,
+  SvgIcon,
+  Tooltip,
+} from '@mui/material'
 import { Seo } from 'src/components/seo'
 import { usePageView } from 'src/hooks/use-page-view'
-import { useSelection } from 'src/hooks/use-selection'
-import { CustomerListSearch } from 'src/components/customers/CustomerListSearch'
-import { CustomerListTable } from 'src/components/customers/CustomerListTable'
 import CustomerPageHeader from '../../../components/customers/CustomerPageHeader'
-import { useCustomersSearch } from 'src/hooks/use-customer-search'
-import { useCustomersStore } from 'src/hooks/use-customer-store'
-import { useCustomersIds } from 'src/hooks/use-customer-ids'
 import { useDispatch } from 'react-redux'
 import { getCustomers, clearCustomers } from 'src/store/customers/customerSlice'
 import { useAuth } from 'src/hooks/use-auth'
 import { useSelector } from 'react-redux'
-import Spinner from 'src/components/shared/Spinner'
-import { applyPagination } from 'src/utils/apply-pagination'
-
-const initialFilterState = {
-  filters: {
-    name: undefined,
-    category: [],
-    status: [],
-    inStock: undefined,
-    searchDate: null,
-  },
-  page: 0,
-  rowsPerPage: 25,
-}
+import { DataGrid, GridToolbar } from '@mui/x-data-grid'
+import _ from 'lodash'
+import OpenInNewOutlinedIcon from '@mui/icons-material/OpenInNewOutlined'
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
+import PostAddOutlinedIcon from '@mui/icons-material/PostAddOutlined'
+import { RouterLink } from 'src/components/router-link'
+import { useNavigate } from 'react-router-dom'
 
 const Page = () => {
-  const [currentCustomers, setCurrentCustomers] = useState(null)
-  const [filterState, setFilterState] = useState({
-    ...initialFilterState,
-  })
-
-  const [searchQuery, setSearchQuery] = useState('')
-  const [sortBy, setSortBy] = useState('Newest')
-
-  const customersSearch = useCustomersSearch()
-  const customersStore = useCustomersStore(customersSearch.state)
-  const customersIds = useCustomersIds(customersStore.customers)
-  const customersSelection = useSelection(customersIds)
-
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const { user } = useAuth()
   const { customers, isLoading } = useSelector((state) => state.customers)
@@ -52,73 +35,119 @@ const Page = () => {
     return () => dispatch(clearCustomers())
   }, [])
 
-  useEffect(() => {
-    if (customers !== null && !isLoading) handleSortCustomers(customers)
-  }, [customers, isLoading])
-
-  // Sort customers
-  useEffect(() => {
-    if (customers) {
-      handleSortCustomers()
-    }
-  }, [sortBy, customers])
-
-  // Filter by name
-  useEffect(() => {
-    if (customers) {
-      if (searchQuery.length > 0) {
-        handleCustomerSearch()
-      } else {
-        handleSortCustomers()
-      }
-    }
-  }, [searchQuery, customers])
-
-  const handleCustomerSearch = () => {
-    const searchResults = customers.filter((customer) => {
-      const customerName = customer.customerName.toLowerCase()
-      const search = searchQuery.toLowerCase()
-      return customerName.includes(search)
-    })
-
-    handleSortCustomers(searchResults)
-  }
-
-  const handleSortCustomers = (passedCustomers = null) => {
-    // if customers is passed in, use that instead of the state
-    const objectsCopy = passedCustomers ? [...passedCustomers] : [...customers] // Create a shallow copy of the array
-
-    objectsCopy.sort((a, b) => {
-      const dateA = new Date(a.createdAt)
-      const dateB = new Date(b.createdAt)
-      return sortBy === 'Newest' ? dateB - dateA : dateA - dateB // Sort depending on customer selection
-    })
-
-    setCurrentCustomers(objectsCopy)
-  }
-
   const fetchCustomers = () => {
     dispatch(getCustomers(user.company))
   }
 
-  const handleResetFilters = () => {
-    setSearchQuery('')
-    setSortBy('Newest')
-  }
-
-  const handlePageChange = useCallback((event, page) => {
-    setFilterState((prevState) => ({
-      ...prevState,
-      page,
-    }))
-  }, [])
-
-  const handleRowsPerPageChange = useCallback((event) => {
-    setFilterState((prevState) => ({
-      ...prevState,
-      rowsPerPage: parseInt(event.target.value, 10),
-    }))
-  }, [])
+  // Columns ---------------------
+  const finalColumns = useMemo(() => [
+    {
+      headerName: 'Customer Name',
+      field: 'customerName',
+      type: 'string',
+      flex: 1,
+    },
+    {
+      headerName: 'Email',
+      field: 'customerEmail',
+      type: 'string',
+      flex: 1,
+    },
+    {
+      headerName: 'Phone',
+      field: 'customerPhoneNumber',
+      type: 'string',
+      flex: 1,
+    },
+    {
+      headerName: 'Address',
+      field: 'customerAddress',
+      type: 'string',
+      flex: 1,
+    },
+    {
+      headerName: 'Date Created',
+      field: 'createdAt',
+      type: 'date',
+      flex: 1,
+      valueFormatter: (date) => new Date(date).toLocaleDateString(),
+    },
+    {
+      headerName: '',
+      field: '_id',
+      type: 'boolean',
+      disableExport: true,
+      sortable: false,
+      filterable: false,
+      width: 50,
+      disableColumnMenu: true,
+      renderCell: ({ row }) => (
+        <>
+          <Tooltip title='Edit Customer'>
+            <IconButton
+              component={RouterLink}
+              href={`/dashboard/customers/${row._id}/edit`}
+            >
+              <SvgIcon fontSize='small'>
+                <EditOutlinedIcon />
+              </SvgIcon>
+            </IconButton>
+          </Tooltip>
+        </>
+      ),
+    },
+    {
+      headerName: '',
+      field: 'referredBy',
+      type: 'boolean',
+      disableExport: true,
+      sortable: false,
+      filterable: false,
+      width: 50,
+      disableColumnMenu: true,
+      renderCell: ({ row }) => (
+        <>
+          <Tooltip title='Create job for customer'>
+            <IconButton
+              onClick={() =>
+                navigate(`/dashboard/jobs/create`, {
+                  state: { customer: row },
+                })
+              }
+            >
+              <SvgIcon fontSize='small'>
+                <PostAddOutlinedIcon />
+              </SvgIcon>
+            </IconButton>
+          </Tooltip>
+        </>
+      ),
+    },
+    {
+      headerName: '',
+      field: 'altCustomerPhoneNumber',
+      type: 'boolean',
+      disableExport: true,
+      sortable: false,
+      filterable: false,
+      width: 50,
+      disableColumnMenu: true,
+      renderCell: ({ row }) => (
+        <>
+          <Tooltip title='View Details'>
+            <IconButton
+              component={RouterLink}
+              href={`/dashboard/customers/${row._id}`}
+            >
+              <SvgIcon fontSize='small'>
+                <OpenInNewOutlinedIcon />
+              </SvgIcon>
+            </IconButton>
+          </Tooltip>
+        </>
+      ),
+    },
+  ])
 
   return (
     <>
@@ -131,43 +160,24 @@ const Page = () => {
         }}
       >
         <Container maxWidth='xl'>
-          {/* Header */}
           <Stack spacing={4}>
             <CustomerPageHeader customers={customers} />
             <Card>
-              {isLoading || !customers || !currentCustomers ? (
-                <Spinner />
-              ) : (
-                <>
-                  <CustomerListSearch
-                    onFiltersChange={customersSearch.handleFiltersChange}
-                    setSortBy={setSortBy}
-                    sortBy={sortBy}
-                    searchQuery={searchQuery}
-                    setSearchQuery={setSearchQuery}
-                    handleCustomerSearch={handleCustomerSearch}
-                    handleResetFilters={handleResetFilters}
-                  />
-                  <CustomerListTable
-                    count={currentCustomers.length || 0}
-                    customers={applyPagination(
-                      currentCustomers,
-                      filterState.page,
-                      filterState.rowsPerPage
-                    )}
-                    onDeselectAll={customersSelection.handleDeselectAll}
-                    onDeselectOne={customersSelection.handleDeselectOne}
-                    onPageChange={handlePageChange}
-                    onRowsPerPageChange={handleRowsPerPageChange}
-                    onSelectAll={customersSelection.handleSelectAll}
-                    onSelectOne={customersSelection.handleSelectOne}
-                    page={filterState.page}
-                    rowsPerPage={filterState.rowsPerPage}
-                    selected={customersSelection.selected}
-                    isSearching={searchQuery.length > 0}
-                  />
-                </>
-              )}
+              <>
+                <DataGrid
+                  getRowId={_.property('_id')}
+                  loading={isLoading || !customers}
+                  rows={customers || []}
+                  columns={finalColumns}
+                  sx={{ minHeight: 400 }}
+                  slots={{ toolbar: GridToolbar }}
+                  slotProps={{
+                    toolbar: {
+                      showQuickFilter: true,
+                    },
+                  }}
+                />
+              </>
             </Card>
           </Stack>
         </Container>

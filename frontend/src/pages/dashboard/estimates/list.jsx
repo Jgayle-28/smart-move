@@ -21,7 +21,6 @@ import { EstimateDrawer } from 'src/components/estimates/list/EstimateDrawer'
 import { clearEstimates, getEstimates } from 'src/store/estimates/estimateSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import Spinner from 'src/components/shared/Spinner'
-import { exportToExcel } from 'src/utils/export-to-excel'
 import { clearJobs, getJobs, updateJob } from 'src/store/jobs/jobSlice'
 import { addEstimate } from 'src/store/estimates/estimateSlice'
 import { useTheme } from '@emotion/react'
@@ -34,13 +33,6 @@ import _ from 'lodash'
 import OpenInNewOutlinedIcon from '@mui/icons-material/OpenInNewOutlined'
 import { SeverityPill } from 'src/components/severity-pill'
 import { Container } from '@mui/system'
-
-const initialFilterState = {
-  page: 0,
-  rowsPerPage: 5,
-  sortBy: 'createdAt',
-  sortDir: 'desc',
-}
 
 const Page = () => {
   const [focusEstimate, setFocusEstimate] = useState(null)
