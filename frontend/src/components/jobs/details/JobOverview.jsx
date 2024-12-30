@@ -204,7 +204,7 @@ export const JobOverview = (props) => {
                     fileName={`${focusJob?.customer?.customerName}-estimate.pdf`}
                     style={{ textDecoration: 'none' }}
                   >
-                    <Button fullWidth variant='contained' size='small'>
+                    <Button fullWidth variant='outlined' size='small'>
                       Print Estimate
                     </Button>
                   </PDFDownloadLink>
@@ -212,15 +212,14 @@ export const JobOverview = (props) => {
                     fullWidth
                     component={RouterLink}
                     href={`/dashboard/estimates/${focusJob?._id}/edit/${focusJob?.estimate._id}`}
-                    variant='contained'
+                    variant='outlined'
                     size='small'
-                    color='secondary'
                   >
                     View Estimate
                   </Button>
                   <Button
                     fullWidth
-                    variant='contained'
+                    variant='outlined'
                     size='small'
                     color={focusJob?.isPaid ? 'warning' : 'success'}
                     onClick={handleToggleJobPaid}

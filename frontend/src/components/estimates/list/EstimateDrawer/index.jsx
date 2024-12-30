@@ -57,12 +57,9 @@ export const EstimateDrawer = (props) => {
         open={open}
         PaperProps={{
           sx: {
-            position: 'relative',
             width: 500,
           },
         }}
-        SlideProps={{ container }}
-        variant='persistent'
       >
         {content}
       </Drawer>
