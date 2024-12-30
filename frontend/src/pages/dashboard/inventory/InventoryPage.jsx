@@ -138,7 +138,6 @@ const Page = () => {
   }
 
   const handleDeleteClick = (id) => {
-    console.log('Delete', id)
     setDeleteModalOpen(true)
     setDeleteId(id)
   }
@@ -258,6 +257,7 @@ const Page = () => {
                   slotProps={{
                     toolbar: {
                       showQuickFilter: true,
+                      printOptions: { disableToolbarButton: true },
                     },
                   }}
                 />

@@ -158,9 +158,9 @@ const Page = () => {
       filterable: false,
       width: 50,
       disableColumnMenu: true,
-      renderCell: (row) => (
+      renderCell: ({ row }) => (
         <>
-          <IconButton onClick={() => handleEstimateOpen(row.row)}>
+          <IconButton onClick={() => handleEstimateOpen(row._id)}>
             <OpenInNewOutlinedIcon fontSize='small' />
           </IconButton>
         </>
@@ -202,7 +202,11 @@ const Page = () => {
               slotProps={{
                 toolbar: {
                   showQuickFilter: true,
+                  printOptions: { disableToolbarButton: true },
                 },
+              }}
+              localeText={{
+                noRowsLabel: 'You have not added any estimates yet',
               }}
             />
           </Card>

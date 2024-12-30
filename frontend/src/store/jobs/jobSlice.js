@@ -147,7 +147,12 @@ export const jobSlice = createSlice({
       })
       .addCase(getJobs.fulfilled, (state, action) => {
         state.isLoading = false
-        state.jobs = action.payload
+        state.jobs = action.payload.map((job) => {
+          return {
+            ...job,
+            customerPhone: job.customer.customerPhoneNumber, // Added for data grid
+          }
+        })
       })
       .addCase(getJobs.rejected, (state) => {
         state.isLoading = false

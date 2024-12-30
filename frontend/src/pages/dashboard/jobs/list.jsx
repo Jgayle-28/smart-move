@@ -1,53 +1,52 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
 import {
   Box,
   Button,
   Card,
   Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Divider,
+  IconButton,
   Stack,
   SvgIcon,
+  Tooltip,
   Typography,
+  Alert,
 } from '@mui/material'
 import { RouterLink } from 'src/components/router-link'
 import { Seo } from 'src/components/seo'
 import { usePageView } from 'src/hooks/use-page-view'
 import { paths } from 'src/paths'
-import { JobListTable } from 'src/components/jobs/list/JobListTable'
-import { JobListSearch } from 'src/components/jobs/list/JobListSearch'
 import { useDispatch } from 'react-redux'
-import { clearJobs, getJobs } from 'src/store/jobs/jobSlice'
+import { clearJobs, getJobs, addJob, deleteJob } from 'src/store/jobs/jobSlice'
 import { useSelector } from 'react-redux'
-import Spinner from 'src/components/shared/Spinner'
-import { filterJobs } from 'src/utils/filter-jobs'
-import { applyPagination } from 'src/utils/apply-pagination'
-import EmptyState from 'src/components/shared/EmptyState'
-import { exportToExcel } from 'src/utils/export-to-excel'
-
-const initialFilterState = {
-  filters: {
-    name: undefined,
-    category: [],
-    status: [],
-    inStock: undefined,
-    searchDate: null,
-  },
-  page: 0,
-  rowsPerPage: 25,
-}
+import { DataGrid, GridToolbar } from '@mui/x-data-grid'
+import _ from 'lodash'
+import OpenInNewOutlinedIcon from '@mui/icons-material/OpenInNewOutlined'
+import { PDFDownloadLink } from '@react-pdf/renderer'
+import { BlankEstimatePdf } from 'src/components/estimates/blank-estimate-pdf/BlankEstimatePdf'
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
+import PostAddIcon from '@mui/icons-material/PostAdd'
+import DescriptionIcon from '@mui/icons-material/Description'
+import FileOpenIcon from '@mui/icons-material/FileOpen'
+import FileCopyIcon from '@mui/icons-material/FileCopy'
+import toast from 'react-hot-toast'
 
 const Page = () => {
-  const [currentJobs, setCurrentJobs] = useState([])
-  const [filterState, setFilterState] = useState({
-    ...initialFilterState,
-  })
-  const [searchQuery, setSearchQuery] = useState('')
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false)
+  const [deleteId, setDeleteId] = useState(null)
 
   const { company } = useSelector((state) => state.company)
   const { user } = useSelector((state) => state.auth)
   const { jobs, isLoading } = useSelector((state) => state.jobs)
 
   const dispatch = useDispatch()
+  usePageView()
 
   useEffect(() => {
     dispatch(getJobs(user.company))
@@ -56,66 +55,246 @@ const Page = () => {
     }
   }, [user, dispatch])
 
-  useEffect(() => {
-    if (jobs !== null && !isLoading) setCurrentJobs(jobs)
-  }, [jobs, isLoading])
-
-  useEffect(() => {
-    handleFilterJobs()
-  }, [filterState, searchQuery])
-
-  const handleFilterJobs = useCallback(() => {
-    const filteredJobs = filterJobs(filterState, jobs || [], searchQuery)
-    setCurrentJobs(filteredJobs)
-  }, [filterState, currentJobs])
-
-  const handleResetFilters = () => {
-    setFilterState(initialFilterState)
+  // Actions ---------------------
+  const handleJobDeleteClick = (id) => {
+    setDeleteModalOpen(true)
+    setDeleteId(id)
   }
 
-  const handleFiltersChange = useCallback((filters) => {
-    setFilterState((prevState) => ({
-      ...prevState,
-      filters,
-    }))
-  }, [])
+  const handleDeleteConfirmClick = () => {
+    dispatch(deleteJob(deleteId))
+      .unwrap()
+      .then(() => {
+        handleDeleteModalClose()
+        toast.success('Job successfully deleted')
+        dispatch(getJobs(user.company))
+      })
+  }
 
-  const handlePageChange = useCallback((event, page) => {
-    setFilterState((prevState) => ({
-      ...prevState,
-      page,
-    }))
-  }, [])
+  const handleDeleteModalClose = () => {
+    setDeleteModalOpen(false)
+    setDeleteId(null)
+  }
 
-  const handleRowsPerPageChange = useCallback((event) => {
-    setFilterState((prevState) => ({
-      ...prevState,
-      rowsPerPage: parseInt(event.target.value, 10),
-    }))
-  }, [])
+  const handleJobCloneClick = (job) => {
+    const newJob = {
+      ...job,
+      createdBy: user._id,
+      jobDate: null,
+      jobTime: null,
+      estimateDate: null,
+      estimateTime: null,
+      isPaid: false,
+      jobTitle: `${job.jobTitle} (Clone)`,
+    }
+    delete newJob._id
+    delete newJob.createdAt
+    delete newJob.updatedAt
 
-  const exportJobs = useCallback(() => {
-    const exportJobs = currentJobs.map((job) => {
-      return {
-        customer: job.customer?.customerName,
-        jobDate: new Date(job.jobDate).toLocaleDateString(),
-        jobType: job.jobType,
-        pickUpAddress: job.pickUpAddress || '',
-        dropOffAddress: job.dropOffAddress || '',
-        isPaid: job.isPaid,
-        estimateTotal: job.estimate.totalCharges,
-        createdBy: job.createdBy?.name,
-      }
-    })
-    exportToExcel(
-      exportJobs,
-      `${company.companyName}-Jobs(${new Date().toLocaleDateString()})`
-    )
-  }, [currentJobs, company])
+    dispatch(addJob(newJob))
+      .unwrap()
+      .then((res) => {
+        toast.success('Job successfully cloned')
+        dispatch(getJobs(user.company))
+      })
+  }
 
-  usePageView()
+  // Columns ---------------------
+  const finalColumns = useMemo(() => [
+    {
+      headerName: 'Customer Name',
+      field: 'customer',
+      valueGetter: (row) => row.customerName || '',
+      flex: 1,
+    },
+    {
+      headerName: 'Customer Phone',
+      field: 'customerPhone',
+      renderCell: ({ row }) => {
+        return row.customer.customerPhoneNumber
+      },
+      flex: 1,
+    },
+    {
+      headerName: 'Estimate',
+      field: 'dropOffAddress2',
+      type: 'string',
+      flex: 1,
+      disableExport: true,
+      renderCell: ({ row }) => {
+        return (
+          <>
+            <Stack
+              divider={<Divider orientation='vertical' flexItem />}
+              direction='row'
+              spacing={1}
+              alignItems='center'
+            >
+              <PDFDownloadLink
+                document={<BlankEstimatePdf focusJob={row} company={company} />}
+                fileName={`${row?.customer?.customerName}-blank-estimate-sheet.pdf`}
+                style={{ textDecoration: 'none' }}
+              >
+                <Tooltip title='Print Blank Estimate Sheet'>
+                  <IconButton color='primary'>
+                    <SvgIcon>
+                      <FileOpenIcon fontSize='small' />
+                    </SvgIcon>
+                  </IconButton>
+                </Tooltip>
+              </PDFDownloadLink>
 
-  if (isLoading || !jobs || !currentJobs) return <Spinner />
+              {row.estimate ? (
+                <Tooltip title='View Created Estimate'>
+                  <IconButton
+                    component={RouterLink}
+                    href={`/dashboard/estimates/${row._id}/edit/${row.estimate._id}`}
+                    color='primary'
+                    size='small'
+                  >
+                    <SvgIcon>
+                      <DescriptionIcon fontSize='small' />
+                    </SvgIcon>
+                  </IconButton>
+                </Tooltip>
+              ) : (
+                <Tooltip title='Created New Estimate'>
+                  <IconButton
+                    component={RouterLink}
+                    href={`/dashboard/estimates/${row._id}/create`}
+                    color='primary'
+                    size='small'
+                  >
+                    <SvgIcon>
+                      <PostAddIcon fontSize='small' />
+                    </SvgIcon>
+                  </IconButton>
+                </Tooltip>
+              )}
+            </Stack>
+          </>
+        )
+      },
+    },
+    {
+      headerName: 'Status',
+      field: 'isPaid',
+      type: 'string',
+      flex: 1,
+      valueGetter: (row) => (row.isPaid ? 'Paid' : 'Unpaid'),
+    },
+    {
+      headerName: 'Type',
+      field: 'jobType',
+      type: 'string',
+      flex: 1,
+      valueGetter: (row) =>
+        row?.charAt(0).toUpperCase() + row.slice(1).toLowerCase() || '',
+    },
+    {
+      headerName: 'Date Created',
+      field: 'createdAt',
+      type: 'date',
+      flex: 1,
+      valueFormatter: (date) => new Date(date).toLocaleDateString(),
+    },
+    {
+      headerName: '',
+      field: 'billingSameAsCustomer',
+      type: 'boolean',
+      disableExport: true,
+      sortable: false,
+      filterable: false,
+      width: 50,
+      disableColumnMenu: true,
+      renderCell: ({ row }) => (
+        <>
+          <Tooltip title='Edit Job'>
+            <IconButton
+              component={RouterLink}
+              href={`/dashboard/jobs/${row._id}/edit`}
+              size='small'
+            >
+              <SvgIcon fontSize='small'>
+                <EditOutlinedIcon />
+              </SvgIcon>
+            </IconButton>
+          </Tooltip>
+        </>
+      ),
+    },
+    {
+      headerName: '',
+      field: 'company',
+      type: 'boolean',
+      disableExport: true,
+      sortable: false,
+      filterable: false,
+      width: 50,
+      disableColumnMenu: true,
+      renderCell: ({ row }) => (
+        <>
+          <Tooltip title='Clone Job'>
+            <IconButton size='small' onClick={() => handleJobCloneClick(row)}>
+              <SvgIcon fontSize='small'>
+                <FileCopyIcon />
+              </SvgIcon>
+            </IconButton>
+          </Tooltip>
+        </>
+      ),
+    },
+    {
+      headerName: '',
+      field: 'paymentType',
+      type: 'boolean',
+      disableExport: true,
+      sortable: false,
+      filterable: false,
+      width: 50,
+      disableColumnMenu: true,
+      renderCell: ({ row }) => (
+        <>
+          <Tooltip title='Delete Job'>
+            <IconButton
+              size='small'
+              onClick={() => handleJobDeleteClick(row._id)}
+            >
+              <SvgIcon fontSize='small'>
+                <DeleteOutlineIcon />
+              </SvgIcon>
+            </IconButton>
+          </Tooltip>
+        </>
+      ),
+    },
+    {
+      headerName: '',
+      field: 'estimateTime',
+      type: 'boolean',
+      disableExport: true,
+      sortable: false,
+      filterable: false,
+      width: 50,
+      disableColumnMenu: true,
+      renderCell: ({ row }) => (
+        <>
+          <Tooltip title='View Details'>
+            <IconButton
+              component={RouterLink}
+              href={`/dashboard/jobs/${row._id}`}
+              size='small'
+            >
+              <SvgIcon fontSize='small'>
+                <OpenInNewOutlinedIcon />
+              </SvgIcon>
+            </IconButton>
+          </Tooltip>
+        </>
+      ),
+    },
+  ])
+
   return (
     <>
       <Seo title='Dashboard: Job List' />
@@ -131,17 +310,6 @@ const Page = () => {
             <Stack direction='row' justifyContent='space-between' spacing={4}>
               <Stack spacing={1}>
                 <Typography variant='h4'>Jobs</Typography>
-                <Stack alignItems='center' direction='row' spacing={1}>
-                  <Button
-                    color='inherit'
-                    size='small'
-                    onClick={exportJobs}
-                    disabled={!jobs?.length}
-                    startIcon={<SvgIcon>{/* <Download01Icon /> */}</SvgIcon>}
-                  >
-                    Export
-                  </Button>
-                </Stack>
               </Stack>
               <Stack alignItems='center' direction='row' spacing={3}>
                 <Button
@@ -158,39 +326,54 @@ const Page = () => {
                 </Button>
               </Stack>
             </Stack>
-
             <>
               <Card>
-                <JobListSearch
-                  handleFilterJobs={handleFilterJobs}
-                  onFiltersChange={handleFiltersChange}
-                  setSearchQuery={setSearchQuery}
-                  handleResetFilters={handleResetFilters}
-                  searchDate={filterState.filters.searchDate}
-                />
-                <JobListTable
-                  jobs={applyPagination(
-                    currentJobs,
-                    filterState.page,
-                    filterState.rowsPerPage
-                  )}
-                  onPageChange={handlePageChange}
-                  onRowsPerPageChange={handleRowsPerPageChange}
-                  page={filterState.page}
-                  count={currentJobs.length || 0}
-                  rowsPerPage={filterState.rowsPerPage}
-                  isSearching={
-                    searchQuery.length > 0 ||
-                    filterState.filters.status.length > 0 ||
-                    filterState.filters.category.length > 0 ||
-                    filterState.filters.searchDate !== null
-                  }
+                <DataGrid
+                  getRowId={_.property('_id')}
+                  loading={isLoading || !jobs}
+                  rows={jobs || []}
+                  columns={finalColumns}
+                  sx={{ minHeight: 400 }}
+                  slots={{ toolbar: GridToolbar }}
+                  onExport={(rows, columns) => customExport(rows, columns)}
+                  slotProps={{
+                    csvOptions: { fields: ['id', 'company', 'company'] },
+                    toolbar: {
+                      showQuickFilter: true,
+                      printOptions: { disableToolbarButton: true },
+                    },
+                  }}
+                  localeText={{
+                    noRowsLabel: 'You have not added any jobs yet',
+                  }}
                 />
               </Card>
             </>
           </Stack>
         </Container>
       </Box>
+      {/* Delete Modal */}
+      <Dialog
+        open={deleteModalOpen}
+        onClose={handleDeleteModalClose}
+        aria-labelledby='form-dialog-title'
+      >
+        <DialogTitle id='form-dialog-title'>Delete Job</DialogTitle>
+        <DialogContent>
+          <Alert severity='error'>
+            Are you sure you want to delete this job? This action cannot be
+            undone
+          </Alert>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDeleteModalClose} color='primary'>
+            Cancel
+          </Button>
+          <Button onClick={handleDeleteConfirmClick} color='primary'>
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   )
 }

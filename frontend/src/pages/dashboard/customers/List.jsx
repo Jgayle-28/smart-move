@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import {
   Box,
   Card,
@@ -174,7 +174,11 @@ const Page = () => {
                   slotProps={{
                     toolbar: {
                       showQuickFilter: true,
+                      printOptions: { disableToolbarButton: true },
                     },
+                  }}
+                  localeText={{
+                    noRowsLabel: 'You have not added any customers yet',
                   }}
                 />
               </>
