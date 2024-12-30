@@ -27,6 +27,7 @@ import Truck01Icon from 'src/icons/untitled-ui/duocolor/truck-01'
 import Upload04Icon from 'src/icons/untitled-ui/duocolor/upload-04'
 import Users03Icon from 'src/icons/untitled-ui/duocolor/users-03'
 import XSquareIcon from 'src/icons/untitled-ui/duocolor/x-square'
+import ListAltOutlinedIcon from '@mui/icons-material/ListAltOutlined'
 import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined'
 import { tokens } from 'src/locales/tokens'
 import { paths } from 'src/paths'
@@ -127,7 +128,7 @@ export const useSections = () => {
             path: paths.dashboard.inventory.index,
             icon: (
               <SvgIcon fontSize='small'>
-                <LayoutAlt02Icon />
+                <ListAltOutlinedIcon />
                 {/* <LineChartUp04Icon /> */}
               </SvgIcon>
             ),

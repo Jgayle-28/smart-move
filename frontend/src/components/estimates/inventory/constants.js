@@ -24,4 +24,5 @@ export const roomList = [
   { label: 'Waiting Room', value: 'Waiting Room' },
   { label: 'Break Room', value: 'Break Room' },
   { label: 'Bath Room(s)', value: 'Bath Room(s)' },
+  { label: 'Custom Inventory', value: 'Custom Inventory' },
 ]

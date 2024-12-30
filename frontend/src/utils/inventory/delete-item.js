@@ -1,21 +1,28 @@
-export const deleteItem = (roomName, itemName, inventory) => {
-  let newInventory = [...inventory]
-  // find current index room of passed in item then find the element
-  var roomToUpdate = newInventory.filter(function (element) {
-    return element.roomName === roomName
-  })
-  // If this is the last item in the room remove the room from the inventory
-  if (roomToUpdate[0].items.length === 1) {
-    newInventory = newInventory.filter((room) => room.roomName !== roomName)
-  } else {
-    // Get the room items
-    let roomItems = roomToUpdate[0].items
+import _ from 'lodash'
 
-    // get the index of item in the room items array
-    var removeIndex = roomItems.map((item) => item.name).indexOf(itemName)
-    // Remove the item from room items array
-    ~removeIndex && roomItems.splice(removeIndex, 1)
+export const deleteItem = (roomName, itemName, inventory) => {
+  // Deeply clone the inventory to avoid mutating the original reference
+  let newInventory = _.cloneDeep(inventory)
+
+  // Find the room to update
+  let roomToUpdate = newInventory.find((room) => room.roomName === roomName)
+
+  if (roomToUpdate) {
+    // If this is the last item in the room, remove the room
+    if (roomToUpdate.items.length === 1) {
+      newInventory = newInventory.filter((room) => room.roomName !== roomName)
+    } else {
+      // Find the index of the item to remove
+      let removeIndex = roomToUpdate.items.findIndex(
+        (item) => item.name === itemName
+      )
+
+      // If the item exists, remove it
+      if (removeIndex !== -1) {
+        roomToUpdate.items.splice(removeIndex, 1)
+      }
+    }
   }
 
-  return newInventory
+  return newInventory // Return the updated newInventory
 }

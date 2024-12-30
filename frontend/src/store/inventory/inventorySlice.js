@@ -68,10 +68,10 @@ export const updateInventoryItem = createAsyncThunk(
 
 export const deleteInventoryItem = createAsyncThunk(
   'inventory/deleteInventoryItem',
-  async (jobId, thunkAPI) => {
+  async (itemId, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token
-      return await inventoryService.deleteInventoryItem(token, jobId)
+      return await inventoryService.deleteInventoryItem(token, itemId)
     } catch (error) {
       const message = extractErrorMessage(error)
       toast.error(message)

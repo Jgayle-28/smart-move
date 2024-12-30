@@ -21,28 +21,39 @@ import { a11yProps } from 'src/utils/a11y-props'
 import { TabPanel } from '../shared/TabPanel'
 import RoomItemsTable from './inventory/RoomItemsTable'
 import AllRoomItemsTable from './inventory/AllRoomItemsTable'
-import {
-  updateTempInventory,
-  updateTotals,
-} from 'src/store/estimates/estimateSlice'
+import { updateTotals } from 'src/store/estimates/estimateSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   generateTotalItems,
   generateTotalVolume,
   generateTotalWeight,
 } from 'src/utils/inventory/generate-all-room-totals'
+import {
+  clearInventoryItems,
+  getInventoryItems,
+} from 'src/store/inventory/inventorySlice'
 
 function Inventory({ tempInventoryRef, toggleSidebar, sideBarOpen }) {
   const [currentRoom, setCurrentRoom] = useState('Entryway')
   const [currentRoomItems, setCurrentRoomItems] = useState([])
   const [currentTotalRoom, setCurrentTotalRoom] = useState(0)
   const [inventory, setInventory] = useState([])
+  console.log('inventory :>> ', inventory)
 
   const inventoryRef = useRef([])
-  const { tempInventory } = useSelector((state) => state.estimates)
-
   const rootRef = useRef(null)
+
+  const { user } = useSelector((state) => state.auth)
+  const { inventoryItems } = useSelector((state) => state.inventory)
+  const { tempInventory } = useSelector((state) => state.estimates)
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(getInventoryItems(user.company))
+    return () => {
+      dispatch(clearInventoryItems())
+    }
+  }, [])
 
   // Set inventory from redux on tab changes
   useEffect(() => {
@@ -51,8 +62,14 @@ function Inventory({ tempInventoryRef, toggleSidebar, sideBarOpen }) {
     }
   }, [tempInventory])
 
+  // set custom inventory items or regular room items
   useEffect(() => {
-    const tempItems = getRoomItems(currentRoom)
+    let tempItems
+    if (currentRoom === 'Custom Inventory') {
+      tempItems = inventoryItems
+    } else {
+      tempItems = getRoomItems(currentRoom)
+    }
     updateRoomItems(tempItems)
   }, [currentRoom])
 

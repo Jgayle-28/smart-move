@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import {
   Box,
   Button,
@@ -14,31 +14,25 @@ import {
   DialogTitle,
   TextField,
   IconButton,
-  Menu,
-  MenuItem,
-  ListItemIcon,
+  Alert,
 } from '@mui/material'
 import { Seo } from 'src/components/seo'
 import { usePageView } from 'src/hooks/use-page-view'
 import { useDispatch } from 'react-redux'
-import { clearJobs, getJobs } from 'src/store/jobs/jobSlice'
 import { useSelector } from 'react-redux'
-import Spinner from 'src/components/shared/Spinner'
-import EmptyState from 'src/components/shared/EmptyState'
-import { exportToExcel } from 'src/utils/export-to-excel'
-import DownloadOutlinedIcon from '@mui/icons-material/DownloadOutlined'
-import { DataGrid } from '@mui/x-data-grid'
+import { DataGrid, GridToolbar } from '@mui/x-data-grid'
 import {
   addInventoryItem,
   clearInventoryItems,
+  deleteInventoryItem,
   getInventoryItems,
+  updateInventoryItem,
 } from 'src/store/inventory/inventorySlice'
 import toast from 'react-hot-toast'
 import _ from 'lodash'
-import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined'
-import { AddOutlined } from '@mui/icons-material'
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
 
 const initialValues = {
   itemName: '',
@@ -51,15 +45,16 @@ const Page = () => {
   const [currentJobs, setCurrentJobs] = useState([])
   const [createModalOpen, setCreateModalOpen] = useState(false)
   const [newItem, setNewItem] = useState(initialValues)
-  const [anchorEl, setAnchorEl] = useState(null)
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false)
+  const [deleteId, setDeleteId] = useState(null)
+  const [isEdit, setIsEdit] = useState(false)
 
   const { company } = useSelector((state) => state.company)
   const { user } = useSelector((state) => state.auth)
   const { inventoryItems, isLoading } = useSelector((state) => state.inventory)
-  console.log(inventoryItems)
 
   const dispatch = useDispatch()
-  // usePageView()
+  usePageView()
 
   useEffect(() => {
     dispatch(getInventoryItems(user.company))
@@ -67,30 +62,6 @@ const Page = () => {
       dispatch(clearInventoryItems())
     }
   }, [user, dispatch])
-
-  // useEffect(() => {
-  //   if (jobs !== null && !isLoading) setCurrentJobs(jobs)
-  // }, [jobs, isLoading])
-
-  // TODO: update fields to match inventory
-  const exportInventory = useCallback(() => {
-    const exportInventory = currentJobs.map((job) => {
-      return {
-        customer: job.customer?.customerName,
-        jobDate: new Date(job.jobDate).toLocaleDateString(),
-        jobType: job.jobType,
-        pickUpAddress: job.pickUpAddress || '',
-        dropOffAddress: job.dropOffAddress || '',
-        isPaid: job.isPaid,
-        estimateTotal: job.estimate.totalCharges,
-        createdBy: job.createdBy?.name,
-      }
-    })
-    exportToExcel(
-      exportInventory,
-      `${company.companyName}-items(${new Date().toLocaleDateString()})`
-    )
-  }, [currentJobs, company])
 
   const onChange = (e) => {
     const { name, value } = e.target
@@ -111,6 +82,7 @@ const Page = () => {
     }
   }
 
+  // Actions ---------------------
   const handleCreateClick = () => {
     const itemToAdd = {
       ...newItem,
@@ -125,29 +97,54 @@ const Page = () => {
       })
   }
 
+  const handleUpdateClick = () => {
+    const itemToAdd = {
+      ...newItem,
+    }
+    dispatch(updateInventoryItem(itemToAdd))
+      .unwrap()
+      .then(() => {
+        toast.success('Successfully updated item')
+        dispatch(getInventoryItems(user.company))
+        handleModalClose()
+      })
+  }
+
+  const handleDeleteConfirmClick = () => {
+    dispatch(deleteInventoryItem(deleteId))
+      .unwrap()
+      .then(() => {
+        toast.success('Successfully deleted item')
+        dispatch(getInventoryItems(user.company))
+        handleDeleteModalClose()
+      })
+  }
+
+  // helpers ---------------------
   const handleModalClose = () => {
     setCreateModalOpen(false)
+    setIsEdit(false)
     setNewItem(initialValues)
   }
 
-  const handleItemActionClick = (event) => {
-    setAnchorEl(event.currentTarget) // Open menu when the IconButton is clicked
+  const handleDeleteModalClose = () => {
+    setDeleteModalOpen(false)
+    setDeleteId(null)
   }
 
-  const handleClose = () => {
-    setAnchorEl(null) // Close the menu
+  const handleEditClick = (item) => {
+    setNewItem(item)
+    setIsEdit(true)
+    setCreateModalOpen(true)
   }
 
-  const handleEditClick = (row) => {
-    console.log('Edit', row)
-    handleClose()
+  const handleDeleteClick = (id) => {
+    console.log('Delete', id)
+    setDeleteModalOpen(true)
+    setDeleteId(id)
   }
 
-  const handleDeleteClick = (row) => {
-    console.log('Delete', row)
-    handleClose()
-  }
-
+  // Columns ---------------------
   const finalColumns = useMemo(() => [
     {
       headerName: 'Item Name',
@@ -182,41 +179,41 @@ const Page = () => {
       valueFormatter: (date) => new Date(date).toLocaleDateString(),
     },
     {
-      headerName: 'Actions',
-      field: '_id',
-      type: 'string',
-      disableColumnMenu: true,
-      filterable: false,
+      headerName: '',
+      field: 'itemRoom',
+      type: 'boolean',
+      disableExport: true,
       sortable: false,
+      filterable: false,
+      width: 50,
+      disableColumnMenu: true,
       renderCell: (row) => (
         <>
-          <IconButton onClick={handleItemActionClick}>
-            <MoreVertOutlinedIcon fontSize='small' />
+          <IconButton onClick={() => handleEditClick(row.row)}>
+            <EditOutlinedIcon fontSize='small' />
           </IconButton>
-          <Menu
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
-          >
-            <MenuItem onClick={() => handleEditClick(row)}>
-              <ListItemIcon>
-                <EditOutlinedIcon fontSize='small' />
-              </ListItemIcon>
-              Edit
-            </MenuItem>
-            <MenuItem onClick={() => handleDeleteClick(row)}>
-              <ListItemIcon>
-                <DeleteOutlineOutlinedIcon fontSize='small' />
-              </ListItemIcon>
-              Delete
-            </MenuItem>
-          </Menu>
+        </>
+      ),
+    },
+    {
+      headerName: '',
+      field: '_id',
+      type: 'boolean',
+      disableExport: true,
+      sortable: false,
+      filterable: false,
+      width: 50,
+      disableColumnMenu: true,
+      renderCell: (row) => (
+        <>
+          <IconButton onClick={() => handleDeleteClick(row.row._id)}>
+            <DeleteOutlineOutlinedIcon fontSize='small' />
+          </IconButton>
         </>
       ),
     },
   ])
 
-  if (isLoading || !inventoryItems) return <Spinner />
   return (
     <>
       <Seo title='Dashboard: Inventory Item List' />
@@ -228,25 +225,11 @@ const Page = () => {
         }}
       >
         <Container maxWidth='xl'>
-          <Stack spacing={4}>
+          <Stack spacing={8}>
             <Stack direction='row' justifyContent='space-between' spacing={4}>
               <Stack spacing={1}>
                 <Typography variant='h4'>Inventory Items</Typography>
-                <Stack alignItems='center' direction='row' spacing={1}>
-                  <Button
-                    color='inherit'
-                    size='small'
-                    onClick={exportInventory}
-                    disabled={!inventoryItems?.length}
-                    startIcon={
-                      <SvgIcon>
-                        <DownloadOutlinedIcon />
-                      </SvgIcon>
-                    }
-                  >
-                    Export
-                  </Button>
-                </Stack>
+                <Stack alignItems='center' direction='row' spacing={1}></Stack>
               </Stack>
               <Stack alignItems='center' direction='row' spacing={3}>
                 <Button
@@ -254,7 +237,7 @@ const Page = () => {
                   onClick={() => setCreateModalOpen(true)}
                   startIcon={
                     <SvgIcon>
-                      <AddOutlined />
+                      <AddOutlinedIcon />
                     </SvgIcon>
                   }
                   variant='contained'
@@ -271,6 +254,8 @@ const Page = () => {
                   loading={isLoading || !inventoryItems}
                   rows={inventoryItems || []}
                   columns={finalColumns}
+                  sx={{ minHeight: 400 }}
+                  slots={{ toolbar: GridToolbar }}
                   slotProps={{
                     toolbar: {
                       showQuickFilter: true,
@@ -282,6 +267,7 @@ const Page = () => {
           </Stack>
         </Container>
       </Box>
+      {/* EDIT / CREATE MODAL */}
       <Dialog
         open={createModalOpen}
         onClose={handleModalClose}
@@ -335,10 +321,32 @@ const Page = () => {
               newItem.itemWeight.length === 0 ||
               newItem.itemVolume.length === 0
             }
-            onClick={handleCreateClick}
+            onClick={isEdit ? handleUpdateClick : handleCreateClick}
             color='primary'
           >
-            Create
+            {isEdit ? 'Update' : 'Create'}
+          </Button>
+        </DialogActions>
+      </Dialog>
+      {/* Delete Modal */}
+      <Dialog
+        open={deleteModalOpen}
+        onClose={handleDeleteModalClose}
+        aria-labelledby='form-dialog-title'
+      >
+        <DialogTitle id='form-dialog-title'>Delete Inventory Item</DialogTitle>
+        <DialogContent>
+          <Alert severity='error'>
+            Are you sure you want to delete this item? This action cannot be
+            undone
+          </Alert>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDeleteModalClose} color='primary'>
+            Cancel
+          </Button>
+          <Button onClick={handleDeleteConfirmClick} color='primary'>
+            Delete
           </Button>
         </DialogActions>
       </Dialog>
