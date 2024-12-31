@@ -361,7 +361,8 @@ const Page = () => {
         <DialogTitle id='form-dialog-title'>Delete Job</DialogTitle>
         <DialogContent>
           <Alert severity='error'>
-            Are you sure you want to delete this job? This action cannot be
+            Are you sure you want to delete this job? This will delete the job &
+            the associated estimate if there is one. This action cannot be
             undone
           </Alert>
         </DialogContent>

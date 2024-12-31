@@ -1,4 +1,4 @@
-import ArrowRightAltOutlinedIcon from '@mui/icons-material/ArrowRightAltOutlined'
+// import ArrowRightAltOutlinedIcon from '@mui/icons-material/ArrowRightAltOutlined'
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
 import {
   Box,
@@ -66,9 +66,7 @@ const Page = () => {
                   <Button
                     color='inherit'
                     endIcon={
-                      <SvgIcon>
-                        <ArrowRightAltOutlinedIcon />
-                      </SvgIcon>
+                      <SvgIcon>{/* <ArrowRightAltOutlinedIcon /> */}</SvgIcon>
                     }
                     size='small'
                   >

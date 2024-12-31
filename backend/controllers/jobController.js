@@ -10,6 +10,7 @@ const {
 } = require('date-fns')
 
 const Job = require('../models/jobModel')
+const Estimate = require('../models/estimateModel')
 
 // @desc POST add a job
 // @route /api/jobs
@@ -177,7 +178,7 @@ const getCustomerJobs = asyncHandler(async (req, res) => {
 })
 
 // @desc DELETE job
-// @route /api/jobs
+// @route /api/jobs/:id
 // @access private
 const deleteJob = asyncHandler(async (req, res) => {
   const job = await Job.findById(req.params.id)
@@ -187,18 +188,25 @@ const deleteJob = asyncHandler(async (req, res) => {
     res.status(404)
     throw new Error('Job not found')
   }
+
   if (!canDelete) {
     res.status(404)
     throw new Error(
       'You do not have the correct credentials to delete the customer.'
     )
   }
-  // delete the company
+
+  // If the job has an associated estimate, delete it
+  if (job.estimate) {
+    await Estimate.findByIdAndDelete(job.estimate)
+  }
+
+  // delete the job
   await job.deleteOne()
 
   res.status(200).json({
     success: true,
-    message: 'Job deleted',
+    message: 'Job and associated estimate deleted',
     jobId: req.params.id,
   })
 })

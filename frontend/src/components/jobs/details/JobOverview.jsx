@@ -166,7 +166,7 @@ export const JobOverview = (props) => {
                   <Button
                     component={RouterLink}
                     href={`/dashboard/estimates/${focusJob._id}/create`}
-                    variant='contained'
+                    variant='outlined'
                     size='small'
                   >
                     Create Estimate
