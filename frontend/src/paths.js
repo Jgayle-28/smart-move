@@ -3,6 +3,7 @@ export const paths = {
   checkout: '/checkout',
   contact: '/contact',
   pricing: '/pricing',
+  termsOfService: '/terms-of-service',
   auth: {
     login: '/login',
     // OLD
@@ -50,33 +51,11 @@ export const paths = {
   },
   dashboard: {
     index: '/dashboard',
-    // OLD
-    academy: {
-      index: '/dashboard/academy',
-      courseDetails: '/dashboard/academy/courses/:courseId',
-    },
-    account: '/dashboard/account',
-    analytics: '/dashboard/analytics',
-    blank: '/dashboard/blank',
-    blog: {
-      index: '/dashboard/blog',
-      postDetails: '/dashboard/blog/:postId',
-      postCreate: '/dashboard/blog/create',
-    },
-    calendar: '/dashboard/calendar',
-    chat: '/dashboard/chat',
-    crypto: '/dashboard/crypto',
     customers: {
       index: '/dashboard/customers',
       add: '/dashboard/customers/add',
       details: '/dashboard/customers/:customerId',
       edit: '/dashboard/customers/:customerId/edit',
-    },
-    ecommerce: '/dashboard/ecommerce',
-    fileManager: '/dashboard/file-manager',
-    invoices: {
-      index: '/dashboard/invoices',
-      details: '/dashboard/invoices/:orderId',
     },
     jobs: {
       index: '/dashboard/jobs',
@@ -99,6 +78,31 @@ export const paths = {
       details: '/dashboard/inventory/:inventoryId',
       edit: '/dashboard/inventory/:inventoryId/:mode',
     },
+    help: '/dashboard/help',
+    account: '/dashboard/account',
+    calendar: '/dashboard/calendar',
+
+    // OLD
+    academy: {
+      index: '/dashboard/academy',
+      courseDetails: '/dashboard/academy/courses/:courseId',
+    },
+    analytics: '/dashboard/analytics',
+    blank: '/dashboard/blank',
+    blog: {
+      index: '/dashboard/blog',
+      postDetails: '/dashboard/blog/:postId',
+      postCreate: '/dashboard/blog/create',
+    },
+    chat: '/dashboard/chat',
+    crypto: '/dashboard/crypto',
+    ecommerce: '/dashboard/ecommerce',
+    fileManager: '/dashboard/file-manager',
+    invoices: {
+      index: '/dashboard/invoices',
+      details: '/dashboard/invoices/:orderId',
+    },
+
     jobBoard: {
       index: '/dashboard/jobs',
       create: '/dashboard/jobs/create',

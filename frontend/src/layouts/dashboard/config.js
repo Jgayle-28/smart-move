@@ -29,6 +29,7 @@ import Users03Icon from 'src/icons/untitled-ui/duocolor/users-03'
 import XSquareIcon from 'src/icons/untitled-ui/duocolor/x-square'
 import ViewInArOutlinedIcon from '@mui/icons-material/ViewInArOutlined'
 import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined'
+import ContactSupportOutlinedIcon from '@mui/icons-material/ContactSupportOutlined'
 import { tokens } from 'src/locales/tokens'
 import { paths } from 'src/paths'
 import { useSelector } from 'react-redux'
@@ -162,6 +163,16 @@ export const useSections = () => {
               </SvgIcon>
             ),
           },
+          {
+            title: 'Help',
+            path: paths.dashboard.help,
+            icon: (
+              <SvgIcon fontSize='small'>
+                <ContactSupportOutlinedIcon />
+              </SvgIcon>
+            ),
+          },
+
           // {
           //   title: t(tokens.nav.contact),
           //   path: paths.contact,

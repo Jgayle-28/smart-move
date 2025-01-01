@@ -51,6 +51,9 @@ const EstimateDetailPage = lazy(() =>
 const InventoryPage = lazy(() =>
   import('src/pages/dashboard/inventory/InventoryPage')
 )
+// Help
+const HelpPage = lazy(() => import('src/pages/dashboard/'))
+
 // Job Board
 const JobBrowsePage = lazy(() => import('src/pages/dashboard/jobs/browse'))
 const CompanyDetailPage = lazy(() => import('src/pages/dashboard/jobs/detail'))
@@ -110,41 +113,7 @@ export const dashboardRoutes = [
         index: true,
         element: <IndexPage />,
       },
-      {
-        path: 'academy',
-        children: [
-          {
-            index: true,
-            element: <AcademyDashboardPage />,
-          },
-          {
-            path: 'courses',
-            children: [
-              {
-                path: ':courseId',
-                element: <AcademyCoursePage />,
-              },
-            ],
-          },
-        ],
-      },
-      {
-        path: 'blog',
-        children: [
-          {
-            index: true,
-            element: <BlogPostListPage />,
-          },
-          {
-            path: 'create',
-            element: <BlogPostCreatePage />,
-          },
-          {
-            path: ':postId',
-            element: <BlogPostDetailPage />,
-          },
-        ],
-      },
+
       {
         path: 'customers',
         children: [
@@ -249,120 +218,168 @@ export const dashboardRoutes = [
         ],
       },
       {
-        path: 'jobBoard',
-        children: [
-          {
-            index: true,
-            element: <JobBrowsePage />,
-          },
-          {
-            path: 'create',
-            element: <JobCreatePage />,
-          },
+        path: 'Help',
+        element: <HelpPage />,
+      },
+      // {
+      //   path: 'academy',
+      //   children: [
+      //     {
+      //       index: true,
+      //       element: <AcademyDashboardPage />,
+      //     },
+      //     {
+      //       path: 'courses',
+      //       children: [
+      //         {
+      //           path: ':courseId',
+      //           element: <AcademyCoursePage />,
+      //         },
+      //       ],
+      //     },
+      //   ],
+      // },
+      // {
+      //   path: 'blog',
+      //   children: [
+      //     {
+      //       index: true,
+      //       element: <BlogPostListPage />,
+      //     },
+      //     {
+      //       path: 'create',
+      //       element: <BlogPostCreatePage />,
+      //     },
+      //     {
+      //       path: ':postId',
+      //       element: <BlogPostDetailPage />,
+      //     },
+      //   ],
+      // },
+      // {
+      //   path: 'help',
+      //   children: [
+      //     {
+      //       index: true,
+      //       element: <HelpPage />,
+      //     },
+      //   ],
+      // },
+      // {
+      //   path: 'jobBoard',
+      //   children: [
+      //     {
+      //       index: true,
+      //       element: <JobBrowsePage />,
+      //     },
+      //     {
+      //       path: 'create',
+      //       element: <JobCreatePage />,
+      //     },
 
-          {
-            path: 'companies',
-            children: [
-              {
-                path: ':companyId',
-                element: <CompanyDetailPage />,
-              },
-            ],
-          },
-        ],
-      },
-      {
-        path: 'logistics',
-        children: [
-          {
-            index: true,
-            element: <LogisticsDashboardPage />,
-          },
-          {
-            path: 'fleet',
-            element: <LogisticsFleetPage />,
-          },
-        ],
-      },
-      {
-        path: 'orders',
-        children: [
-          {
-            index: true,
-            element: <OrderListPage />,
-          },
-          {
-            path: ':orderId',
-            element: <OrderDetailPage />,
-          },
-        ],
-      },
-      {
-        path: 'products',
-        children: [
-          {
-            index: true,
-            element: <ProductListPage />,
-          },
-          {
-            path: 'create',
-            element: <ProductCreatePage />,
-          },
-        ],
-      },
-      {
-        path: 'social',
-        children: [
-          {
-            path: 'feed',
-            element: <SocialFeedPage />,
-          },
-          {
-            path: 'profile',
-            element: <SocialProfilePage />,
-          },
-        ],
-      },
-      {
-        path: 'account',
-        element: <AccountPage />,
-      },
-      {
-        path: 'analytics',
-        element: <AnalyticsPage />,
-      },
-      {
-        path: 'blank',
-        element: <BlankPage />,
-      },
-      {
-        path: 'calendar',
-        element: <CalendarPage />,
-      },
-      {
-        path: 'chat',
-        element: <ChatPage />,
-      },
-      {
-        path: 'crypto',
-        element: <CryptoPage />,
-      },
-      {
-        path: 'ecommerce',
-        element: <EcommercePage />,
-      },
-      {
-        path: 'file-manager',
-        element: <FileManagerPage />,
-      },
-      {
-        path: 'kanban',
-        element: <KanbanPage />,
-      },
-      {
-        path: 'mail',
-        element: <MailPage />,
-      },
+      //     {
+      //       path: 'companies',
+      //       children: [
+      //         {
+      //           path: ':companyId',
+      //           element: <CompanyDetailPage />,
+      //         },
+      //       ],
+      //     },
+      //   ],
+      // },
+      // {
+      //   path: 'logistics',
+      //   children: [
+      //     {
+      //       index: true,
+      //       element: <LogisticsDashboardPage />,
+      //     },
+      //     {
+      //       path: 'fleet',
+      //       element: <LogisticsFleetPage />,
+      //     },
+      //   ],
+      // },
+      // {
+      //   path: 'orders',
+      //   children: [
+      //     {
+      //       index: true,
+      //       element: <OrderListPage />,
+      //     },
+      //     {
+      //       path: ':orderId',
+      //       element: <OrderDetailPage />,
+      //     },
+      //   ],
+      // },
+      // {
+      //   path: 'products',
+      //   children: [
+      //     {
+      //       index: true,
+      //       element: <ProductListPage />,
+      //     },
+      //     {
+      //       path: 'create',
+      //       element: <ProductCreatePage />,
+      //     },
+      //   ],
+      // },
+      // {
+      //   path: 'social',
+      //   children: [
+      //     {
+      //       path: 'feed',
+      //       element: <SocialFeedPage />,
+      //     },
+      //     {
+      //       path: 'profile',
+      //       element: <SocialProfilePage />,
+      //     },
+      //   ],
+      // },
+      // {
+      //   path: 'account',
+      //   element: <AccountPage />,
+      // },
+      // {
+      //   path: 'analytics',
+      //   element: <AnalyticsPage />,
+      // },
+      // {
+      //   path: 'blank',
+      //   element: <BlankPage />,
+      // },
+      // {
+      //   path: 'calendar',
+      //   element: <CalendarPage />,
+      // },
+      // {
+      //   path: 'chat',
+      //   element: <ChatPage />,
+      // },
+      // {
+      //   path: 'crypto',
+      //   element: <CryptoPage />,
+      // },
+      // {
+      //   path: 'ecommerce',
+      //   element: <EcommercePage />,
+      // },
+      // {
+      //   path: 'file-manager',
+      //   element: <FileManagerPage />,
+      // },
+      // {
+      //   path: 'kanban',
+      //   element: <KanbanPage />,
+      // },
+      // {
+      //   path: 'mail',
+      //   element: <MailPage />,
+      // },
     ],
   },
 ]

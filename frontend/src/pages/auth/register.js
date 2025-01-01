@@ -10,9 +10,14 @@ import CreateCompanyForm from 'src/components/auth/forms/CreateCompanyForm'
 import UserContent from 'src/components/auth/form-content/UserContent'
 import CompanyContent from 'src/components/auth/form-content/CompanyContent'
 import PaymentForm from 'src/components/auth/forms/PaymentForm'
+import { useLocation } from 'react-router-dom'
 
 const RegisterPage = () => {
   const [currentStep, setCurrentStep] = useState(1)
+
+  const location = useLocation()
+  const { state } = location
+  console.log('state :>> ', state)
 
   const getCurrentFormContent = () => {
     switch (currentStep) {

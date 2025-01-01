@@ -11,6 +11,7 @@ import { useTheme } from '@mui/material/styles'
 import { RouterLink } from 'src/components/router-link'
 import { paths } from 'src/paths'
 import { HomeCodeSamples } from './home-code-samples'
+import zIndex from '@mui/material/styles/zIndex'
 
 export const HomeHero = () => {
   const theme = useTheme()
@@ -24,12 +25,12 @@ export const HomeHero = () => {
         pt: '120px',
       }}
     >
-      <Container maxWidth='lg'>
+      <Container maxWidth='xl'>
         <Box maxWidth='sm'>
           <Typography variant='h1' sx={{ mb: 4 }}>
-            Let us worry about about the &nbsp;
+            Let Deliverly worry about about the &nbsp;
             <Typography component='span' color='primary.main' variant='inherit'>
-              details.
+              heavy lifting.
             </Typography>
             {/* , you
             <Typography component='span' color='primary.main' variant='inherit'>
@@ -46,8 +47,10 @@ export const HomeHero = () => {
               marginBottom: 2,
             }}
           >
-            A professional ready to use use system that brings a fresh view to
-            the industry.
+            Empower your team with an easy-to-use professional tool that turns
+            your on-site estimates into accurate total costs in minutes.
+            {/* A professional ready to use use system that brings a fresh view to
+            the industry. */}
           </Typography>
           <Typography
             color='text.secondary'
@@ -148,7 +151,7 @@ export const HomeHero = () => {
             <img
               src={
                 theme.palette.mode === 'dark'
-                  ? '/assets/home-thumbnail-dark.png'
+                  ? '/assets/dashboard-top.png'
                   : '/assets/home-thumbnail-light.png'
               }
             />
@@ -167,7 +170,8 @@ export const HomeHero = () => {
               },
             }}
           >
-            <HomeCodeSamples />
+            {/* <img src='/assets/dashboard-right.png' /> */}
+            {/* <HomeCodeSamples /> */}
           </Box>
         </Box>
       </Container>

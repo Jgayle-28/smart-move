@@ -12,29 +12,30 @@ import {
 
 const faqs = [
   {
-    question: 'Do you have a free demo to review the code before purchasing?',
+    question: 'Do you have a free trial to try Deliverly before purchasing?',
     answer:
-      'Yes, you can check out our open source dashboard template which should give you an overview of the code quality and folder structure. Keep in mind that some aspects may differ from this Paid version.',
+      'Yes, we have a 7-day free trial. You can try all the features of Deliverly before purchasing for all new customers.',
   },
   {
-    question: 'How many projects can I build with Devias Kit PRO?',
+    question: 'Is my data safe on Deliverly?',
     answer:
-      "The license is per project (domain), but if you intend to develop an unknown number of projects feel free to contact us and we'll find a solution.",
+      " Absolutely! Your data is our top priority. All information is encrypted and securely stored, following industry-standard security practices. We're committed to keeping your data safe, so you can trust Deliverly to protect your business and customer information at all times.",
   },
   {
-    question: 'How many projects can I build with this template?',
+    question:
+      'Is there limits to the number of customers, jobs or estimates I can create?',
     answer:
-      'Absolutely! If you intend to charge users for using your product Extended license is created specifically for this context.',
+      ' Not at all! With Deliverly, you can create and manage as many customers, jobs, and estimates as you need—without any restrictions. Scale your business seamlessly, and input all the data required to keep your operations running smoothly.',
   },
   {
-    question: 'What browsers does the template support?',
+    question: 'Is Deliverly mobile friendly?',
     answer:
-      "The components in MUI are designed to work in the latest, stable releases of all major browsers, including Chrome, Firefox, Safari, and Edge. We don't support Internet Explorer 11.",
+      "Yes, Deliverly is fully responsive and works on all devices. You can use it on your desktop, tablet, or mobile phone. It's designed to work on all devices. How ever, we recommend using a desktop or tablet for the best experience.",
   },
   {
-    question: 'For what kind of projects is the Standard license intended?',
+    question: 'I do basic moves & deliveries, is Deliverly right for me?',
     answer:
-      'The Standard license is designed for internal applications in which staff will access the application. An example could be the back-office dashboard of a public-facing e-commerce website in which staff would sign in and manage inventory, customers, etc.',
+      "Absolutely! Deliverly is the perfect solution for small to medium-sized moving and delivery companies, including those that handle basic moves. Our platform streamlines your operations, providing the tools you need to manage quotes, estimate costs, and deliver a professional service to your customers with ease. Whether you're managing local moves or routine deliveries, Deliverly helps you work smarter, not harder.",
   },
 ]
 

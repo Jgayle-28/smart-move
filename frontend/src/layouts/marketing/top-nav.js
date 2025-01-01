@@ -24,13 +24,24 @@ import { useSelector } from 'react-redux'
 
 const items = [
   {
-    title: 'Components',
+    title: 'Features',
     path: paths.components.index,
+    pageId: 'features',
   },
   {
-    title: 'Pages',
-    popover: <PagesPopover />,
+    title: 'Pricing',
+    path: paths.components.index,
+    pageId: 'pricing',
   },
+
+  // {
+  //   title: 'Components',
+  //   path: paths.components.index,
+  // },
+  // {
+  //   title: 'Pages',
+  //   popover: <PagesPopover />,
+  // },
   {
     title: 'Road Map',
     path: paths.components.index,
@@ -60,6 +71,18 @@ export const TopNav = (props) => {
     handler: handleWindowScroll,
     delay,
   })
+
+  const handleClick = (pageId) => {
+    if (pageId) {
+      const targetElement = document.getElementById(pageId)
+      if (targetElement) {
+        targetElement.scrollIntoView({
+          behavior: 'smooth', // Smooth scroll
+          block: 'start', // Scroll to the top of the element
+        })
+      }
+    }
+  }
 
   return (
     <Box
@@ -166,6 +189,7 @@ export const TopNav = (props) => {
 
                       return (
                         <TopNavItem
+                          pageId={item.pageId}
                           active={active}
                           external={item.external}
                           key={item.title}
@@ -188,13 +212,14 @@ export const TopNav = (props) => {
             sx={{ flexGrow: 1 }}
           >
             <Button
-              component='a'
+              // component='a'
               size={mdUp ? 'medium' : 'small'}
-              href='https://mui.com/store/items/devias-kit-pro'
-              target='_blank'
+              // href='#pricing'
+              // target='_blank'
               variant='contained'
+              onClick={() => handleClick('pricing')}
             >
-              Purchase Now
+              Start Free Trial
             </Button>
             {user ? (
               <Button

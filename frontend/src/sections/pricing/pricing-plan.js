@@ -21,6 +21,8 @@ export const PricingPlan = (props) => {
     popular,
     price,
     sx,
+    onClick,
+    isComingSoon,
     ...other
   } = props
 
@@ -100,7 +102,12 @@ export const PricingPlan = (props) => {
             mt: 6,
           }}
         >
-          <Button fullWidth variant={popular ? 'contained' : 'outlined'}>
+          <Button
+            fullWidth
+            variant={popular ? 'contained' : 'outlined'}
+            onClick={onClick}
+            disabled={isComingSoon}
+          >
             {cta}
           </Button>
         </Box>

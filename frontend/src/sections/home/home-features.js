@@ -7,50 +7,68 @@ import {
   SvgIcon,
   Typography,
   Unstable_Grid2 as Grid,
+  Fade,
 } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
+import { motion } from 'framer-motion'
 
 const features = [
   {
-    id: 'experts',
-    title: 'Built by experts',
+    id: 'fast',
+    title: 'Fast & Accurate Quotes',
     description:
-      'All of the code follows MUI best practices, it’s written by our in-house team of experts.',
-    imageDark: '/assets/home-features-experts-dark.png',
-    imageLight: '/assets/home-features-experts-light.png',
+      'Simply input your on-site estimate, and our software will instantly calculate the total cost—saving you time, reducing errors, and providing reliable, accurate quotes every time.',
+    imageDark: '/assets/home-accurate-estimate.png',
+    imageLight: '/assets/home-accurate-estimate.png',
+  },
+  {
+    id: 'flexible-estimates',
+    title: 'Flexible Estimates',
+    description:
+      "Deliverly's estimator software is designed to handle a wide range of moving and delivery services. This includes packing, Storage, Miscellaneous fees and even create custom service charges.",
+    imageDark: '/assets/home-flexible-estimate.png',
+    imageLight: '/assets/home-flexible-estimate.png',
+  },
+  {
+    id: 'pdf',
+    title: 'Generate Professional PDFs:',
+    description:
+      'Deliverly automatically generates blank (on-site) estimate forms, finalized estimates, and invoices in a professional PDF format for easy sharing and record-keeping.',
+    imageDark: '/assets/home-estimate-pdf.png',
+    imageLight: '/assets/home-estimate-pdf.png',
+  },
+  {
+    id: 'management',
+    title: 'Customer management:',
+    description:
+      'Efficiently organize and manage all your customers and moving projects in one place for quick, easy access and seamless workflow.',
+    imageDark: '/assets/home-customers.png',
+    imageLight: '/assets/home-customers.png',
   },
   {
     id: 'figma',
-    title: 'Design Files',
+    title: 'Seamless Integration:',
     description:
-      "We've included the source Figma files to Plus & Extended licenses so you can get creative! Build layouts with confidence.",
-    imageDark: '/assets/home-features-figma-dark.png',
-    imageLight: '/assets/home-features-figma-light.png',
+      'Effortlessly manage customer details, move specifications, and costs—all in one platform. Plus, Deliverly integrates seamlessly with Google Calendar and Outlook for convenient scheduling.',
+    imageDark: '/assets/home-seamless-integration.png',
+    imageLight: '/assets/home-seamless-integration.png',
   },
   {
     id: 'tech',
-    title: 'Built with modern technologies',
+    title: 'Flexible for Your Business:',
     description:
-      'Each template is a well-structured CRA & Next.js project, giving you a codebase that’s productive and enjoyable to work in.',
-    imageDark: '/assets/home-features-tech-dark.png',
-    imageLight: '/assets/home-features-tech-light.png',
+      "Deliverly is designed to adapt to your unique needs, whether you're handling local or long-distance moves, specialized items, or additional services—giving you the flexibility to scale your business.",
+    imageDark: '/assets/home-flexible-business.png',
+    imageLight: '/assets/home-flexible-business.png',
   },
-  {
-    id: 'customize',
-    title: 'Easy to customize',
-    description:
-      'Everything is styled using global theme overrides, just open the theme file in your editor and change whatever you want.',
-    imageDark: '/assets/home-features-customize-dark.png',
-    imageLight: '/assets/home-features-customize-light.png',
-  },
-  {
-    id: 'productive',
-    title: 'Built with CRA & Next.js',
-    description:
-      'Well-structured, thoughtfully componentized CRA & Next.js project, giving you a codebase that’s productive and enjoyable to work in.',
-    imageDark: '/assets/home-features-nextjs-dark.png',
-    imageLight: '/assets/home-features-nextjs-light.png',
-  },
+  // {
+  //   id: 'customize',
+  //   title: 'Scale Your Operations:',
+  //   description:
+  //     'Delivery grows with you, handling everything from small jobs to large, complex moving and delivery projects.',
+  //   imageDark: '/assets/home-features-customize-dark.png',
+  //   imageLight: '/assets/home-features-customize-light.png',
+  // },
 ]
 
 export const HomeFeatures = () => {
@@ -62,6 +80,7 @@ export const HomeFeatures = () => {
 
   return (
     <Box
+      id='features'
       sx={{
         backgroundColor: 'neutral.800',
         backgroundRepeat: 'no-repeat',
@@ -71,14 +90,15 @@ export const HomeFeatures = () => {
         py: '120px',
       }}
     >
-      <Container maxWidth='lg'>
+      <Container maxWidth='xl'>
         <Stack spacing={2} sx={{ mb: 8 }}>
           <Typography align='center' color='inherit' variant='h3'>
-            Everything you need to run your project.
+            Revolutionize Your Business with Deliverly
           </Typography>
           <Typography align='center' color='inherit' variant='subtitle2'>
-            Not just a set of tools, the package includes ready-to-deploy
-            conceptual application.
+            More than just a set of features. Deliverly is a comprehensive
+            solution designed to optimize your moving and delivery business
+            operations.
           </Typography>
         </Stack>
         <Grid alignItems='center' container spacing={3}>
@@ -126,14 +146,14 @@ export const HomeFeatures = () => {
                     <Typography color='inherit' variant='body2'>
                       {feature.description}
                     </Typography>
-                    {feature.id === 'figma' && (
+                    {/* {feature.id === 'figma' && (
                       <Box sx={{ mt: 3 }}>
                         <Button
                           color='success'
                           component='a'
                           endIcon={
                             <SvgIcon fontSize='small'>
-                              {/* <LinkExternal01Icon /> */}
+                              
                             </SvgIcon>
                           }
                           href='https://www.figma.com/file/xrx6uDljzsWuDZiuz3ITCp/Devias-Kit-Pro-UI-6.0-Master'
@@ -144,22 +164,33 @@ export const HomeFeatures = () => {
                           Preview in Figma
                         </Button>
                       </Box>
-                    )}
+                    )} */}
                   </Box>
                 )
               })}
             </Stack>
           </Grid>
           <Grid xs={12} md={6}>
-            <Box
-              sx={{
-                '& img': {
-                  width: '100%',
-                },
-              }}
+            <motion.div
+              key={activeFeature} // Ensures animation triggers every time a new feature is selected
+              initial={{ opacity: 0 }} // Start with the image hidden
+              animate={{ opacity: 1 }} // Fade-in to visible
+              transition={{ duration: 1 }} // Adjust duration of the fade-in
             >
-              <img src={image} />
-            </Box>
+              <Box
+                sx={{
+                  borderRadius: 2.5,
+                  overflow: 'hidden',
+                  boxShadow: `0 4px 114px rgba(41, 112, 255, 0.25), 0 2px 14px rgba(41, 112, 255, 0.15)`,
+                  '& img': {
+                    width: '100%',
+                    borderRadius: 2.5,
+                  },
+                }}
+              >
+                <img src={image} />
+              </Box>
+            </motion.div>
           </Grid>
         </Grid>
       </Container>
