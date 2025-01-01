@@ -3,11 +3,10 @@ import { getAxiosConfig } from 'src/utils/get-axios-config'
 import { PAYMENT_API_URL } from '../constants'
 
 // Create Stripe checkout session
-const createStripeCheckoutSession = async (userId) => {
-  console.log('userId in service:>> ', userId)
+const createStripeCheckoutSession = async (payload) => {
   const res = await axios.post(
     `${PAYMENT_API_URL}/create-stripe-checkout-session`,
-    { userId }
+    payload // Send the entire payload
   )
 
   return res.data

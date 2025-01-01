@@ -9,14 +9,36 @@ const stripe = require('stripe')(
 const Company = require('../models/companyModel')
 const User = require('../models/userModel')
 
+const priceIds = {
+  standard: {
+    monthly: process.env.DEV_STANDARD_PLAN_ID,
+    yearly: process.env.DEV_STANDARD_YEARLY_PLAN_ID,
+  },
+  // premium: {
+  //   monthly: process.env.DEV_PREMIUM_PLAN_ID,
+  //   yearly: process.env.DEV_PREMIUM_PLAN_YEARLY_ID,
+  // },
+  // Add more plans as needed
+}
+
 /**
  * @desc Create a Stripe Checkout Session for a user (subscription flow)
  * @route POST /api/payments/create-stripe-checkout-session
  * @access public
  */
 const createStripeCheckoutSession = asyncHandler(async (req, res) => {
-  // TODO: need to pass the chosen plan from the frontend
-  const { userId } = req.body
+  const { userId, plan, isYearly } = req.body
+
+  // Determine billing cycle
+  const billingCycle = isYearly ? 'yearly' : 'monthly'
+
+  // Validate plan and billing cycle
+  if (!priceIds[plan] || !priceIds[plan][billingCycle]) {
+    return res.status(400).json({ error: 'Invalid plan or billing cycle' })
+  }
+
+  const priceId = priceIds[plan][billingCycle]
+
   // Fetch the user from the database
   const user = await User.findById(userId)
 
@@ -24,16 +46,16 @@ const createStripeCheckoutSession = asyncHandler(async (req, res) => {
   const customer = await stripe.customers.create({
     name: user.name,
     email: user.email,
-    metadata: { userId: user._id.toString(), plan: 'standard' },
+    metadata: { userId: user._id.toString(), plan },
   })
 
   // Create a Checkout session
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
-    mode: 'subscription',
+    mode: isYearly ? 'payment' : 'subscription',
     line_items: [
       {
-        price: process.env.DEV_STANDARD_PLAN_ID, // Your Stripe price ID
+        price: priceId, // Dynamically determined price ID
         quantity: 1,
       },
     ],

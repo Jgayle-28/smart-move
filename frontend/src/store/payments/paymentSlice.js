@@ -12,14 +12,12 @@ const initialState = {
 // Create stripe session
 export const createStripeCheckoutSession = createAsyncThunk(
   'payments/createStripeCheckoutSession',
-  async (userId, thunkAPI) => {
-    console.log('userId in slice:>> ', userId)
+  async (payload, thunkAPI) => {
     try {
-      // 1. Call service to create a session
-      const { url } = await paymentService.createStripeCheckoutSession(userId)
-      // 2. Redirect user to Stripe
+      // Call the service with the full payload
+      const { url } = await paymentService.createStripeCheckoutSession(payload)
+      // Redirect user to Stripe
       window.open(url, '_blank', 'noopener,noreferrer')
-      // 3. Return the URL or some status if you want
       return { url }
     } catch (error) {
       toast.error('Failed to create Stripe Checkout session')
@@ -27,6 +25,7 @@ export const createStripeCheckoutSession = createAsyncThunk(
     }
   }
 )
+
 // Get session details
 export const getStripeSessionDetails = createAsyncThunk(
   'payments/getStripeSessionDetails',

@@ -80,7 +80,7 @@ const HomePricing = () => {
                 icon={<PricingPlanIcon Name='standard' />}
                 name='Standard'
                 popular
-                price='150.00'
+                price='200.00'
                 sx={{
                   height: '100%',
                   maxWidth: 460,
@@ -97,7 +97,7 @@ const HomePricing = () => {
                 features={['All previous', 'Quickbook integration']}
                 icon={<PricingPlanIcon Name='business' />}
                 name='Business'
-                price='200.00'
+                price='250.00'
                 sx={{
                   height: '100%',
                   maxWidth: 460,
@@ -114,7 +114,7 @@ const HomePricing = () => {
                 features={['All previous', 'Analytics platform']}
                 icon={<PricingPlanIcon Name='business elite' />}
                 name='Business Elite'
-                price='250.00'
+                price='300.00'
                 sx={{
                   height: '100%',
                   maxWidth: 460,

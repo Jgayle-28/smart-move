@@ -17,7 +17,6 @@ const RegisterPage = () => {
 
   const location = useLocation()
   const { state } = location
-  console.log('state :>> ', state)
 
   const getCurrentFormContent = () => {
     switch (currentStep) {
@@ -37,7 +36,13 @@ const RegisterPage = () => {
       case 2:
         return <CreateCompanyForm creationCallback={setCurrentStep} />
       case 3:
-        return <PaymentForm creationCallback={setCurrentStep} />
+        return (
+          <PaymentForm
+            creationCallback={setCurrentStep}
+            plan={state.plan}
+            isYearly={state.isYearly}
+          />
+        )
       default:
         return <CreateUserForm creationCallback={setCurrentStep} />
     }

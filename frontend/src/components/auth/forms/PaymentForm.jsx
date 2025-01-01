@@ -3,7 +3,7 @@ import { Box, Button, Stack, Typography } from '@mui/material'
 import { toast } from 'react-hot-toast'
 import { createStripeCheckoutSession } from 'src/store/payments/paymentSlice'
 
-const PaymentForm = ({ creationCallback }) => {
+const PaymentForm = ({ plan, isYearly }) => {
   const dispatch = useDispatch()
   const { user } = useSelector((state) => state.auth)
 
@@ -11,14 +11,23 @@ const PaymentForm = ({ creationCallback }) => {
     e.preventDefault()
 
     try {
-      dispatch(createStripeCheckoutSession(user._id))
+      const payload = {
+        userId: user._id,
+        plan,
+        isYearly,
+      }
+      dispatch(createStripeCheckoutSession(payload))
         .unwrap()
         .then((res) => {
           console.log('redirecting to stripe', res.data)
         })
     } catch (error) {
       console.log('error ---->', error)
-      toast.error(`Payment processing error ${error.response.data.error}`)
+      toast.error(
+        `Payment processing error: ${
+          error.response?.data?.error || 'Unknown error'
+        }`
+      )
     }
   }
 
