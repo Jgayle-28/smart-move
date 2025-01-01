@@ -67,7 +67,7 @@ export const EstimateDetails = ({ estimate, setConeModalOpen }) => {
               Email: {estimate.customer.customerEmail}
             </Typography>
             <Typography color='text.secondary' variant='body2'>
-              Phone: {estimate.customer.customerPhone}
+              Phone: {estimate.customer.customerPhoneNumber}
             </Typography>
             <Typography color='text.secondary' variant='body2'>
               Address: {estimate.customer.customerAddress}

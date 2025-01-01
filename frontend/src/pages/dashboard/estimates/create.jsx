@@ -107,21 +107,10 @@ const Page = () => {
     }
   }, [jobId, estimateId])
 
-  useEffect(() => {
-    // Check if tempInventoryRef.current is different from tempInventory
-    if (!_.isEqual(tempInventoryRef.current, tempInventory)) {
-      // Dispatch updateTempInventory if they are different
-      dispatch(updateTempInventory(tempInventoryRef.current))
-    }
-  }, [tempInventoryRef.current, tempInventory, dispatch])
-
   const toggleSidebar = useCallback(() => {
     setSideBarOpen((prevState) => !prevState)
   }, [])
 
-  console.log('tempInventoryRef :>> ', tempInventoryRef)
-
-  // TODO: Check values after adding custom inventory items
   const handleTabsChange = (event, value) => {
     // Updates the store in redux on tab change, this prevents error while adding items to the inventory
     if (currentTab === 'inventory') {
@@ -137,7 +126,7 @@ const Page = () => {
       customer: focusJob.customer._id,
       createdBy: user._id,
       invoiceId: focusEstimate?.invoiceId ? focusEstimate.invoiceId : nanoid(7),
-      inventory: tempInventory,
+      inventory: estimateId ? tempInventoryRef.current : tempInventory,
       moveCharges,
       packing,
       additionalServices,
