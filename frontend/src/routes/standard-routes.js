@@ -116,7 +116,7 @@ export const useStandardRoutes = () => {
           },
 
           {
-            title: 'Help',
+            title: 'help',
             path: paths.dashboard.help,
             icon: (
               <SvgIcon fontSize='small'>

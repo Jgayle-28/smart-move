@@ -52,7 +52,7 @@ const InventoryPage = lazy(() =>
   import('src/pages/dashboard/inventory/InventoryPage')
 )
 // Help
-const HelpPage = lazy(() => import('src/pages/dashboard/'))
+const HelpPage = lazy(() => import('src/pages/dashboard/HelpPage'))
 
 // Job Board
 const JobBrowsePage = lazy(() => import('src/pages/dashboard/jobs/browse'))
@@ -113,7 +113,6 @@ export const dashboardRoutes = [
         index: true,
         element: <IndexPage />,
       },
-
       {
         path: 'customers',
         children: [
@@ -218,7 +217,15 @@ export const dashboardRoutes = [
         ],
       },
       {
-        path: 'Help',
+        path: 'account',
+        element: <AccountPage />,
+      },
+      {
+        path: 'calendar',
+        element: <CalendarPage />,
+      },
+      {
+        path: 'help',
         element: <HelpPage />,
       },
       // {
@@ -340,10 +347,7 @@ export const dashboardRoutes = [
       //     },
       //   ],
       // },
-      // {
-      //   path: 'account',
-      //   element: <AccountPage />,
-      // },
+
       // {
       //   path: 'analytics',
       //   element: <AnalyticsPage />,
@@ -352,10 +356,7 @@ export const dashboardRoutes = [
       //   path: 'blank',
       //   element: <BlankPage />,
       // },
-      // {
-      //   path: 'calendar',
-      //   element: <CalendarPage />,
-      // },
+
       // {
       //   path: 'chat',
       //   element: <ChatPage />,

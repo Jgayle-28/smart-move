@@ -30,7 +30,7 @@ export const tokens = {
     error: 'nav.error',
     estimates: 'nav.estimates',
     inventory: 'nav.inventory',
-    help: 'nav.helpCenter',
+    help: 'nav.help',
     feed: 'nav.feed',
     fileManager: 'nav.fileManager',
     files: 'nav.files',

@@ -160,7 +160,7 @@ const Page = () => {
       disableColumnMenu: true,
       renderCell: ({ row }) => (
         <>
-          <IconButton onClick={() => handleEstimateOpen(row._id)}>
+          <IconButton onClick={() => handleEstimateOpen(row)}>
             <OpenInNewOutlinedIcon fontSize='small' />
           </IconButton>
         </>
