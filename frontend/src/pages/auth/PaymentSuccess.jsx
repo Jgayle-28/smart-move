@@ -72,7 +72,7 @@ const PaymentSuccess = () => {
               ) : (
                 <Alert severity='success' sx={{ ml: 2 }}>
                   Your account has been successfully updated. You will be
-                  redirected to your dashboard shortly.
+                  redirected to your dashboard.
                 </Alert>
               )}
             </Stack>

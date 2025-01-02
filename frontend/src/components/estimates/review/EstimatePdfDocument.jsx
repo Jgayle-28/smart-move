@@ -77,6 +77,7 @@ const useStyles = () => {
         letterSpacing: '.3px',
         color: '#2F3746',
         textTransform: 'uppercase',
+        backgroundColor: '#F8F9FA',
       },
       tableBody: { padding: 8 },
       tableRow: {
@@ -87,14 +88,14 @@ const useStyles = () => {
         borderColor: '#F8F9FA',
         borderStyle: 'solid',
         width: '100%',
-        padding: 8,
+        padding: 5,
         '&:last-child td, &:last-child th': { border: 0 },
       },
       tableCell: {
-        fontSize: 9,
+        fontSize: 8,
         fontWeight: 400,
         color: '#2F3746',
-        lineHeight: 1.57,
+        // lineHeight: ,
       },
       // Utility classes -------------------->
       section: { marginTop: 32 },

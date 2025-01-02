@@ -163,9 +163,6 @@ const getCurrentUser = asyncHandler(async (req, res) => {
 // @access public
 const forgotPassword = asyncHandler(async (req, res) => {
   const { email } = req.body
-  console.log('email :>> ', email)
-  console.log('process.env.EMAIL_USER :>> ', process.env.EMAIL_USER)
-  console.log('process.env.EMAIL_PASSWORD :>> ', process.env.EMAIL_PASSWORD)
 
   const user = await User.findOne({ email })
 
@@ -194,10 +191,9 @@ const forgotPassword = asyncHandler(async (req, res) => {
     service: 'gmail', // Use the appropriate email service
     auth: {
       user: process.env.EMAIL_USER, // Your email
-      pass: process.env.EMAIL_PASSWORD, // Your email password
+      pass: process.env.WORKSPACE_EMAIL_PASSWORD, // Workspace email password is for support@deliverlypro.com
     },
   })
-  console.log('transporter :>> ', transporter)
 
   const mailOptions = {
     from: process.env.EMAIL_USER,
