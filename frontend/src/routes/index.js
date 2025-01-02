@@ -1,12 +1,8 @@
 import Error401Page from 'src/pages/401'
 import Error404Page from 'src/pages/404'
 import Error500Page from 'src/pages/500'
-import ContactPage from 'src/pages/contact'
-import CheckoutPage from 'src/pages/checkout'
 import PricingPage from 'src/pages/pricing'
 import TermsOfServicePage from 'src/pages/TermsOfServicePage'
-import { authRoutes } from './auth'
-import { authDemoRoutes } from './auth-demo'
 import { componentsRoutes } from './components'
 import { dashboardRoutes } from './dashboard'
 
@@ -55,8 +51,6 @@ export const routes = [
       ...componentsRoutes,
     ],
   },
-  ...authRoutes,
-  ...authDemoRoutes,
   ...dashboardRoutes,
   // AUTH
   {
@@ -102,15 +96,6 @@ export const routes = [
         <PaymentSuccessPage />
       </AuthClassicLayout>
     ),
-  },
-  // OLD
-  {
-    path: 'checkout',
-    element: <CheckoutPage />,
-  },
-  {
-    path: 'contact',
-    element: <ContactPage />,
   },
   // ERROR - Still in use
   {
