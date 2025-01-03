@@ -21,6 +21,11 @@ const priceIds = {
   // Add more plans as needed
 }
 
+const REDIRECT_URL =
+  process.env.NODE_ENV === 'production'
+    ? 'https://www.deliverlypro.com'
+    : 'http://localhost:3000'
+
 /**
  * @desc Create a Stripe Checkout Session for a user (subscription flow)
  * @route POST /api/payments/create-stripe-checkout-session
@@ -60,9 +65,8 @@ const createStripeCheckoutSession = asyncHandler(async (req, res) => {
       },
     ],
     customer: customer.id,
-    success_url:
-      'http://localhost:3000/payment-success?session_id={CHECKOUT_SESSION_ID}',
-    cancel_url: 'http://localhost:3000/',
+    success_url: `${REDIRECT_URL}/payment-success?session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: `${REDIRECT_URL}/`,
   })
 
   return res.json({ url: session.url })

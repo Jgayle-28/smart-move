@@ -6,6 +6,11 @@ const nodemailer = require('nodemailer')
 
 const User = require('../models/userModel')
 
+const REDIRECT_URL =
+  process.env.NODE_ENV === 'production'
+    ? 'https://www.deliverlypro.com'
+    : 'http://localhost:3000'
+
 // @desc Register a new user
 // @route /api/users
 // @access public
@@ -183,7 +188,7 @@ const forgotPassword = asyncHandler(async (req, res) => {
   await user.save()
 
   // Create a reset password URL (assuming your app's base URL is 'http://localhost:3000')
-  const resetUrl = `http://localhost:3000/reset-password/${resetToken}`
+  const resetUrl = `${REDIRECT_URL}/reset-password/${resetToken}`
   // `${window.location.origin}/reset-password/${resetToken}`
 
   // Send the reset password email (using Nodemailer)
