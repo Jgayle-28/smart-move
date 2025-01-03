@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { addDays, subDays, subHours, subMinutes } from 'date-fns'
+
 import PersonAddAlt1RoundedIcon from '@mui/icons-material/PersonAddAlt1Rounded'
 import AddLocationAltOutlinedIcon from '@mui/icons-material/AddLocationAltOutlined'
 import {
@@ -15,30 +15,24 @@ import { Seo } from 'src/components/seo'
 import { usePageView } from 'src/hooks/use-page-view'
 import { useSettings } from 'src/hooks/use-settings'
 import { Layout as DashboardLayout } from 'src/layouts/dashboard'
-import { OverviewBanner } from 'src/sections/dashboard/overview/overview-banner'
+
 import { NewClients } from 'src/components/dashboard/NewClients'
-import { OverviewEvents } from 'src/sections/dashboard/overview/overview-events'
-import { OverviewInbox } from 'src/sections/dashboard/overview/overview-inbox'
-import { OverviewTransactions } from 'src/sections/dashboard/overview/overview-transactions'
-import {
-  NewEstimates,
-  OverviewPendingIssues,
-} from 'src/components/dashboard/NewEstimates'
-import { OverviewSubscriptionUsage } from 'src/sections/dashboard/overview/overview-subscription-usage'
-import { OverviewHelp } from 'src/sections/dashboard/overview/overview-help'
-import { OverviewJobs } from 'src/sections/dashboard/overview/overview-jobs'
+
+import { NewEstimates } from 'src/components/dashboard/NewEstimates'
+import { OverviewTotalJobsPerMonth } from 'src/sections/dashboard/monthly-job-overview'
+import { OverviewHelp } from 'src/sections/dashboard/overview-help'
+
 import { NewJobs } from 'src/components/dashboard/NewJobs'
-import { OverviewTips } from 'src/sections/dashboard/overview/overview-tips'
+
 import { RouterLink } from 'src/components/router-link'
 import { useDispatch, useSelector } from 'react-redux'
 import { getCompany } from 'src/store/company/companySlice'
 import { RecentCustomers } from 'src/components/dashboard/RecentCustomers'
 import {
-  clearCustomers,
   getCurrentWeekCustomers,
   getCustomers,
 } from 'src/store/customers/customerSlice'
-import { clearJobs, getJobs } from 'src/store/jobs/jobSlice'
+import { getJobs } from 'src/store/jobs/jobSlice'
 import Spinner from 'src/components/shared/Spinner'
 import { getAnnualJobs, getCurrentWeekJobs } from 'src/store/jobs/jobSlice'
 import { getCurrentWeekEstimates } from 'src/store/estimates/estimateSlice'
@@ -170,7 +164,7 @@ const Page = () => {
             </Grid>
             {/* Analytics */}
             <Grid xs={12} md={12}>
-              <OverviewSubscriptionUsage />
+              <OverviewTotalJobsPerMonth />
             </Grid>
             {/* <Grid xs={12} md={7}>
               <OverviewTransactions

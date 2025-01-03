@@ -9,7 +9,7 @@ import {
   Typography,
 } from '@mui/material'
 
-export const OverviewJobs = (props) => (
+export const OverviewHelp = (props) => (
   <Card {...props}>
     <CardContent>
       <Box
@@ -18,27 +18,29 @@ export const OverviewJobs = (props) => (
           display: 'flex',
         }}
       >
-        <SvgIcon color='primary'>{/* <Briefcase01Icon /> */}</SvgIcon>
+        <SvgIcon color='primary'>{/* <InfoCircleIcon /> */}</SvgIcon>
         <Typography color='primary.main' sx={{ pl: 1 }} variant='subtitle2'>
-          Jobs
+          Help Center
         </Typography>
       </Box>
-      <Typography variant='h6' sx={{ mt: 2 }}>
-        Find your dream job
+      <Typography sx={{ mt: 2 }} variant='h6'>
+        Need help figuring things out?
       </Typography>
       <Typography color='text.secondary' sx={{ mt: 1 }} variant='body2'>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua.
+        Check out our Youtube channel for tutorials and how-to videos.
+        <br />
+        Still need help? Contact us at{' '}
+        <a href='mailto:jerehme.gayle@gmail.com'>support@deliverlypro.com</a>
       </Typography>
     </CardContent>
     <Divider />
     <CardActions>
       <Button
         color='inherit'
-        endIcon={<SvgIcon>{/* <ArrowRightIcon /> */}</SvgIcon>}
+        endIcon={<SvgIcon>{/* <Link01Icon /> */}</SvgIcon>}
         size='small'
       >
-        Search Jobs
+        Help Center
       </Button>
     </CardActions>
   </Card>

@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Chip, SvgIcon } from '@mui/material'
+import { SvgIcon } from '@mui/material'
 import CalendarIcon from 'src/icons/untitled-ui/duocolor/calendar'
 import LayoutAlt02Icon from 'src/icons/untitled-ui/duocolor/layout-alt-02'
 import LineChartUp04Icon from 'src/icons/untitled-ui/duocolor/line-chart-up-04'

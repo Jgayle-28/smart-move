@@ -3,7 +3,7 @@ import Error404Page from 'src/pages/404'
 import Error500Page from 'src/pages/500'
 import PricingPage from 'src/pages/pricing'
 import TermsOfServicePage from 'src/pages/TermsOfServicePage'
-import { componentsRoutes } from './components'
+
 import { dashboardRoutes } from './dashboard'
 
 import { lazy } from 'react'
@@ -48,7 +48,6 @@ export const routes = [
         path: 'terms-of-service',
         element: <TermsOfServicePage />,
       },
-      ...componentsRoutes,
     ],
   },
   ...dashboardRoutes,

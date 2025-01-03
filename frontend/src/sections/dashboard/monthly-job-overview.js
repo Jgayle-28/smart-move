@@ -88,7 +88,7 @@ const useChartOptions = () => {
   }
 }
 
-export const OverviewSubscriptionUsage = () => {
+export const OverviewTotalJobsPerMonth = () => {
   const { annualJobs } = useSelector((state) => state.jobs)
   const chartOptions = useChartOptions()
 
@@ -128,6 +128,6 @@ export const OverviewSubscriptionUsage = () => {
   )
 }
 
-OverviewSubscriptionUsage.propTypes = {
+OverviewTotalJobsPerMonth.propTypes = {
   chartSeries: PropTypes.array.isRequired,
 }
