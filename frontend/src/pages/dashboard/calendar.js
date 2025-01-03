@@ -37,7 +37,6 @@ const Page = () => {
   const calendarRef = useRef(null)
   const eventPopperOpen = Boolean(eventAnchor)
 
-  // console.log('events :>> ', events)
   useEffect(() => {
     if (events === null) {
       getCalendarData()
@@ -58,6 +57,16 @@ const Page = () => {
     dispatch(getEstimates(user?.company))
   }
   // Handlers -------------------------------------------------------------------
+  const handleEventMouseEnter = (e) => {
+    setEventAnchor(e.jsEvent.target)
+    const event = events.find((event) => event.id === e.event.id)
+    setCurrentEvent(event)
+  }
+
+  const handleEventMouseLeave = () => {
+    setEventAnchor(null)
+    setCurrentEvent(null)
+  }
   const generateCalendarData = () => {
     if (!jobs || !estimates) return
 
@@ -204,8 +213,8 @@ const Page = () => {
                 <Calendar
                   allDayMaintainDuration
                   dayMaxEventRows={3}
-                  eventMouseEnter={handleEventHoverToggle}
-                  eventMouseLeave={handleEventHoverToggle}
+                  eventMouseEnter={handleEventMouseEnter}
+                  eventMouseLeave={handleEventMouseLeave}
                   eventDisplay='block'
                   eventResizableFromStart
                   events={events || []}
