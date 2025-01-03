@@ -1,8 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Box, Container, Unstable_Grid2 as Grid } from '@mui/material'
-import { jobsApi } from 'src/api/jobs'
 import { Seo } from 'src/components/seo'
-import { useMounted } from 'src/hooks/use-mounted'
 import { usePageView } from 'src/hooks/use-page-view'
 import { JobOverview } from 'src/components/jobs/details/JobOverview'
 import { useSelector, useDispatch } from 'react-redux'
@@ -15,33 +13,7 @@ import { toast } from 'react-hot-toast'
 import { paths } from 'src/paths'
 import { useRouter } from 'src/hooks/use-router'
 
-const useCompany = () => {
-  const isMounted = useMounted()
-  const [company, setCompany] = useState(null)
-
-  const handleCompanyGet = useCallback(async () => {
-    try {
-      const response = await jobsApi.getCompany()
-
-      if (isMounted()) {
-        setCompany(response)
-      }
-    } catch (err) {
-      console.error(err)
-    }
-  }, [isMounted])
-
-  useEffect(() => {
-    handleCompanyGet()
-  }, [])
-
-  return company
-}
-
 const Page = () => {
-  // Remove Company and props that are passed down
-  const company = useCompany()
-
   const [editJob, setEditJob] = useState(false)
 
   const router = useRouter()
@@ -109,7 +81,6 @@ const Page = () => {
                   focusJob={focusJob}
                   handleToggleEdit={handleToggleEdit}
                   handleJobDeleteClick={handleJobDeleteClick}
-                  company={company}
                 />
               )}
             </Grid>

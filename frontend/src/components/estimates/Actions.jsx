@@ -1,20 +1,10 @@
 import { Box, Button, Grid, Stack } from '@mui/material'
 import { useRef } from 'react'
-
-import { useInvoice } from 'src/hooks/use-invoice'
-import { InvoicePreview } from './review/InvoicePreview'
-// import { InvoicePdfDialog } from './review/EstimatePdfDialog'
 import { useDialog } from 'src/hooks/use-dialog'
-import { PDFDownloadLink } from '@react-pdf/renderer'
-// import { InvoicePdfDocument } from './review/EstimatePdfDocument'
-import { useSelector } from 'react-redux'
 
 function Actions() {
   const rootRef = useRef(null)
   const dialog = useDialog()
-  const { focusJob } = useSelector((state) => state.jobs)
-  const { company } = useSelector((state) => state.company)
-  const { focusEstimate } = useSelector((state) => state.estimates)
 
   return (
     <>

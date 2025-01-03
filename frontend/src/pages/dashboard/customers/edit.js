@@ -3,7 +3,6 @@ import { Seo } from 'src/components/seo'
 import { usePageView } from 'src/hooks/use-page-view'
 import { CustomerForm } from 'src/components/customers/CustomerForm'
 import CustomerEditPageHeader from 'src/components/customers/CustomerEditPageHeader'
-import { useCustomer } from 'src/hooks/use-costomer'
 import { useLocation, useParams } from 'react-router'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
@@ -17,7 +16,6 @@ import { useSelector } from 'react-redux'
  */
 
 const Page = () => {
-  const customer = useCustomer()
   const { pathname } = useLocation()
   const { customerId } = useParams()
   const { isLoading, focusCustomer } = useSelector((state) => state.customers)
@@ -36,7 +34,7 @@ const Page = () => {
 
   usePageView()
 
-  if (!customer) {
+  if (!focusCustomer) {
     return null
   }
 

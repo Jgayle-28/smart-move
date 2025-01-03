@@ -1,12 +1,7 @@
 import PropTypes from 'prop-types'
 import { Box, Stack, Typography } from '@mui/material'
 import { Logo } from 'src/components/logo'
-import { LogoSamsung } from 'src/components/logos/logo-samsung'
-import { LogoVisma } from 'src/components/logos/logo-visma'
-import { LogoBolt } from 'src/components/logos/logo-bolt'
-import { LogoAws } from 'src/components/logos/logo-aws'
-import { LogoAccenture } from 'src/components/logos/logo-accenture'
-import { LogoAtt } from 'src/components/logos/logo-att'
+
 import { RouterLink } from 'src/components/router-link'
 import { paths } from 'src/paths'
 

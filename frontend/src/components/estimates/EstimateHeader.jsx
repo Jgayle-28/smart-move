@@ -8,9 +8,6 @@ import { format } from 'date-fns'
 
 function EstimateHeader({
   job,
-  isEdit,
-  invoice,
-  dialog,
   handleSaveEstimate,
   handleDeleteEstimate,
   disableDelete,

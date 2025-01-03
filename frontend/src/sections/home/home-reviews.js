@@ -9,12 +9,6 @@ import {
   Typography,
   Unstable_Grid2 as Grid,
 } from '@mui/material'
-import { LogoAccenture } from 'src/components/logos/logo-accenture'
-import { LogoAtt } from 'src/components/logos/logo-att'
-import { LogoAws } from 'src/components/logos/logo-aws'
-import { LogoBolt } from 'src/components/logos/logo-bolt'
-import { LogoSamsung } from 'src/components/logos/logo-samsung'
-import { LogoVisma } from 'src/components/logos/logo-visma'
 
 const QuotesIcon = () => (
   <svg

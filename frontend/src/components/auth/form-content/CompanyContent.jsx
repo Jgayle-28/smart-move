@@ -1,10 +1,4 @@
 import { Typography, Box, Stack } from '@mui/material'
-import { LogoSamsung } from 'src/components/logos/logo-samsung'
-import { LogoVisma } from 'src/components/logos/logo-visma'
-import { LogoBolt } from 'src/components/logos/logo-bolt'
-import { LogoAws } from 'src/components/logos/logo-aws'
-import { LogoAccenture } from 'src/components/logos/logo-accenture'
-import { LogoAtt } from 'src/components/logos/logo-att'
 
 function CompanyContent() {
   return (
@@ -55,14 +49,7 @@ function CompanyContent() {
               flex: '0 0 auto',
             },
           }}
-        >
-          <LogoSamsung />
-          <LogoVisma />
-          <LogoBolt />
-          <LogoAws />
-          <LogoAccenture />
-          <LogoAtt />
-        </Stack>
+        ></Stack>
       </Box>
     </Box>
   )
