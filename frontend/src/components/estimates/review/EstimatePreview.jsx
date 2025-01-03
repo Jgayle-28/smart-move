@@ -18,8 +18,6 @@ import Spinner from 'src/components/shared/Spinner'
 import { useSelector } from 'react-redux'
 import { formatPhoneNumber } from 'src/utils/format-phone-number'
 
-// import parse from 'html-react-parser'
-
 export const EstimatePreview = (props) => {
   const { focusJob } = useSelector((state) => state.jobs)
   const { company } = useSelector((state) => state.company)

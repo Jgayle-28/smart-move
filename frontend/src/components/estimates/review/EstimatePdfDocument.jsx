@@ -21,7 +21,6 @@ import StorageChargesTable from './pdf/StorageChargesTable'
 import TotalChargesTable from './pdf/TotalChargesTable'
 import EstimatePolicy from './pdf/EstimatePolicy'
 import ItemsTable from './pdf/ItemsTable'
-// import parse from 'html-react-parser'
 
 const useStyles = () => {
   const theme = useTheme()
