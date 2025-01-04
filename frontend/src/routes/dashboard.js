@@ -23,7 +23,8 @@ const InvoiceDetailPage = lazy(() =>
 )
 
 // Jobs
-const JobsList = lazy(() => import('src/pages/dashboard/jobs/List'))
+import JobsList from '../pages/dashboard/jobs/List'
+// const JobsList = lazy(() => import('src/pages/dashboard/jobs/List'))
 const JobCreatePage = lazy(() => import('src/pages/dashboard/jobs/create'))
 const JobDetailPage = lazy(() => import('src/pages/dashboard/jobs/detail'))
 // Estimates
