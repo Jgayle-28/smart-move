@@ -36,6 +36,7 @@ import DescriptionIcon from '@mui/icons-material/Description'
 import FileOpenIcon from '@mui/icons-material/FileOpen'
 import FileCopyIcon from '@mui/icons-material/FileCopy'
 import toast from 'react-hot-toast'
+import Spinner from 'src/components/shared/Spinner'
 
 const Page = () => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
@@ -295,6 +296,7 @@ const Page = () => {
     },
   ])
 
+  if (isLoading || !jobs) return <Spinner />
   return (
     <>
       <Seo title='Dashboard: Job List' />

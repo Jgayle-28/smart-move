@@ -13,7 +13,8 @@ function EstimatePolicy({ company, styles }) {
         </View>
 
         <View style={styles.p8}>
-          {company?.companyEstimatePolicy.length > 0 ? (
+          {company?.companyEstimatePolicy &&
+          company?.companyEstimatePolicy?.length > 0 ? (
             <View>
               <Text style={styles.body2}>{company?.companyEstimatePolicy}</Text>
             </View>

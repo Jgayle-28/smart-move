@@ -7,7 +7,8 @@
     "start": "node backend/server.js",
     "server": "nodemon backend/server.js",
     "client": "yarn --cwd ./frontend/ start",
-    "dev": "concurrently \"yarn server\" \"yarn client\""
+    "dev": "concurrently \"yarn server\" \"yarn client\"",
+    "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend"
   },
   "author": "Jerehme Gayle",
   "license": "ISC",

@@ -28,7 +28,7 @@ export const HomeHero = () => {
       <Container maxWidth='xl'>
         <Box maxWidth='sm'>
           <Typography variant='h1' sx={{ mb: 4 }}>
-            Let Deliverly worry about about the &nbsp;
+            Let Deliverly Pro worry about the &nbsp;
             <Typography component='span' color='primary.main' variant='inherit'>
               heavy lifting.
             </Typography>
@@ -152,7 +152,7 @@ export const HomeHero = () => {
               src={
                 theme.palette.mode === 'dark'
                   ? '/assets/dashboard-top.png'
-                  : '/assets/home-thumbnail-light.png'
+                  : '/assets/dashboard-top.png'
               }
             />
           </Box>
