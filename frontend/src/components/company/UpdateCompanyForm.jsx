@@ -32,6 +32,7 @@ const validationSchema = Yup.object({
 const UpdateCompanyForm = () => {
   const dispatch = useDispatch()
   const { company, isLoading } = useSelector((state) => state.company)
+  const { user } = useSelector((state) => state.auth)
 
   const formik = useFormik({
     initialValues: {
@@ -72,98 +73,110 @@ const UpdateCompanyForm = () => {
       <Card>
         <CardContent>
           <Stack sx={{ mb: 4 }} spacing={1}>
-            <Typography color='primary.main' sx={{ mb: 1 }}>
+            {/* <Typography color='primary.main' sx={{ mb: 1 }}>
               Tell us about your business.
-            </Typography>{' '}
+            </Typography>{' '} */}
             <Typography variant='h5'>Company Information</Typography>
           </Stack>
+
           <form noValidate onSubmit={formik.handleSubmit}>
-            <Stack spacing={3}>
-              <TextField
-                error={
-                  !!(formik.touched.companyName && formik.errors.companyName)
-                }
-                fullWidth
-                helperText={
-                  formik.touched.companyName && formik.errors.companyName
-                }
-                label='Company Name'
-                name='companyName'
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                value={formik.values.companyName}
-              />
-              <TextField
-                error={
-                  !!(formik.touched.companyEmail && formik.errors.companyEmail)
-                }
-                fullWidth
-                helperText={
-                  formik.touched.companyEmail && formik.errors.companyEmail
-                }
-                label='Email Address'
-                name='companyEmail'
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                type='email'
-                value={formik.values.companyEmail}
-              />
-              <TextField
-                error={
-                  !!(
-                    formik.touched.companyPhoneNumber &&
-                    formik.errors.companyPhoneNumber
-                  )
-                }
-                fullWidth
-                helperText={
-                  formik.touched.companyPhoneNumber &&
-                  formik.errors.companyPhoneNumber
-                }
-                label='Company Phone Number'
-                name='companyPhoneNumber'
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                value={formik.values.companyPhoneNumber}
-              />
-              <TextField
-                error={
-                  !!(
-                    formik.touched.companyAddress &&
-                    formik.errors.companyAddress
-                  )
-                }
-                fullWidth
-                helperText={
-                  formik.touched.companyAddress && formik.errors.companyAddress
-                }
-                label='Company Address'
-                name='companyAddress'
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                value={formik.values.companyAddress}
-              />
-              <TextField
-                error={
-                  !!(
-                    formik.touched.companyWebsite &&
-                    formik.errors.companyWebsite
-                  )
-                }
-                fullWidth
-                helperText={
-                  formik.touched.companyWebsite && formik.errors.companyWebsite
-                }
-                label='Company Website'
-                name='companyWebsite'
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                value={formik.values.companyWebsite}
-              />
-            </Stack>
+            {user.role === 'admin' && (
+              <>
+                <Stack spacing={3}>
+                  <TextField
+                    error={
+                      !!(
+                        formik.touched.companyName && formik.errors.companyName
+                      )
+                    }
+                    fullWidth
+                    helperText={
+                      formik.touched.companyName && formik.errors.companyName
+                    }
+                    label='Company Name'
+                    name='companyName'
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    value={formik.values.companyName}
+                  />
+                  <TextField
+                    error={
+                      !!(
+                        formik.touched.companyEmail &&
+                        formik.errors.companyEmail
+                      )
+                    }
+                    fullWidth
+                    helperText={
+                      formik.touched.companyEmail && formik.errors.companyEmail
+                    }
+                    label='Email Address'
+                    name='companyEmail'
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    type='email'
+                    value={formik.values.companyEmail}
+                  />
+                  <TextField
+                    error={
+                      !!(
+                        formik.touched.companyPhoneNumber &&
+                        formik.errors.companyPhoneNumber
+                      )
+                    }
+                    fullWidth
+                    helperText={
+                      formik.touched.companyPhoneNumber &&
+                      formik.errors.companyPhoneNumber
+                    }
+                    label='Company Phone Number'
+                    name='companyPhoneNumber'
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    value={formik.values.companyPhoneNumber}
+                  />
+                  <TextField
+                    error={
+                      !!(
+                        formik.touched.companyAddress &&
+                        formik.errors.companyAddress
+                      )
+                    }
+                    fullWidth
+                    helperText={
+                      formik.touched.companyAddress &&
+                      formik.errors.companyAddress
+                    }
+                    label='Company Address'
+                    name='companyAddress'
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    value={formik.values.companyAddress}
+                  />
+                  <TextField
+                    error={
+                      !!(
+                        formik.touched.companyWebsite &&
+                        formik.errors.companyWebsite
+                      )
+                    }
+                    fullWidth
+                    helperText={
+                      formik.touched.companyWebsite &&
+                      formik.errors.companyWebsite
+                    }
+                    label='Company Website'
+                    name='companyWebsite'
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    value={formik.values.companyWebsite}
+                  />
+                </Stack>
+              </>
+            )}
             <Divider sx={{ my: 3 }} />
             <Stack spacing={3}>
-              <Typography variant='h5'>Company Estimate Policy</Typography>
+              <Typography variant='h6'>Company Estimate Policy</Typography>
               <TextField
                 fullWidth
                 helperText='This is used on your estimates and will give your customers an idea of how you charge for your services.'
@@ -175,6 +188,7 @@ const UpdateCompanyForm = () => {
                 rows={4}
               />
             </Stack>
+
             <LoadingButton
               loading={isLoading}
               loadingPosition='start'

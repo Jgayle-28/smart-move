@@ -28,6 +28,7 @@ export const AccountTeamSettings = (props) => {
   const { open, handleClose, handleOpen } = useDialog()
 
   const { company, team, isLoading } = useSelector((state) => state.company)
+  const { user } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -57,21 +58,25 @@ export const AccountTeamSettings = (props) => {
             <Grid xs={12} md={4}>
               <Stack spacing={1}>
                 <Typography variant='h6'>Your Team</Typography>
-                <Typography color='text.secondary' variant='body2'>
-                  Add, edit or delete members.
-                </Typography>
+                {user.role === 'admin' && (
+                  <Typography color='text.secondary' variant='body2'>
+                    Add, edit or delete members.
+                  </Typography>
+                )}
               </Stack>
             </Grid>
             <Grid xs={12} md={8}>
-              <Stack alignItems='center' direction='row' spacing={3}>
-                <Button
-                  onClick={() => handleOpen()}
-                  variant='contained'
-                  sx={{ marginLeft: 'auto' }}
-                >
-                  Add Member
-                </Button>
-              </Stack>
+              {user.role === 'admin' && (
+                <Stack alignItems='center' direction='row' spacing={3}>
+                  <Button
+                    onClick={() => handleOpen()}
+                    variant='contained'
+                    sx={{ marginLeft: 'auto' }}
+                  >
+                    Add Member
+                  </Button>
+                </Stack>
+              )}
             </Grid>
           </Grid>
         </CardContent>

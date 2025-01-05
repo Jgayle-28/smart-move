@@ -38,8 +38,8 @@ const Page = () => {
 
   const tabs = [
     { label: 'General', value: 'general' },
-    user.isAdmin && { label: 'Company', value: 'company' },
-    user.isAdmin && { label: 'Team', value: 'team' },
+    { label: 'Company', value: 'company' },
+    { label: 'Team', value: 'team' },
     // user.isAdmin && { label: 'Billing', value: 'billing' },
     // { label: 'Notifications', value: 'notifications' },
     // { label: 'Security', value: 'security' },

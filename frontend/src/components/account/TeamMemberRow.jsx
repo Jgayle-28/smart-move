@@ -22,9 +22,10 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import { useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { deleteMember } from 'src/store/company/companySlice'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 function TeamMemberRow({ member, setEditMember, handleOpen, handleClose }) {
+  const { user } = useSelector((state) => state.auth)
   const [anchorEl, setAnchorEl] = useState(null)
 
   const menuOpen = Boolean(anchorEl)
@@ -76,69 +77,73 @@ function TeamMemberRow({ member, setEditMember, handleOpen, handleClose }) {
         <SeverityPill>{member.role}</SeverityPill>
       </TableCell>
       <TableCell align='right'>
-        <IconButton
-          aria-controls={menuOpen ? 'basic-menu' : undefined}
-          aria-haspopup='true'
-          aria-expanded={menuOpen ? 'true' : undefined}
-          onClick={handleMenuClick}
-        >
-          <SvgIcon>
-            <MoreHorizOutlinedIcon />
-          </SvgIcon>
-        </IconButton>
-        {/* Edit & delete menu */}
-        <Popover
-          anchorEl={anchorEl}
-          anchorOrigin={{
-            vertical: 'center',
-            horizontal: 'center',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-          onClose={handleMenuClose}
-          open={!!menuOpen}
-          PaperProps={{ sx: { width: 200 } }}
-        >
-          <Divider />
-          <Box sx={{ p: 1 }}>
-            <ListItemButton
-              onClick={(e) => handleEdit(e, member)}
-              sx={{
-                borderRadius: 1,
-                px: 1,
-                py: 0.5,
-              }}
+        {user.role === 'admin' && (
+          <>
+            <IconButton
+              aria-controls={menuOpen ? 'basic-menu' : undefined}
+              aria-haspopup='true'
+              aria-expanded={menuOpen ? 'true' : undefined}
+              onClick={handleMenuClick}
             >
-              <ListItemIcon>
-                <SvgIcon fontSize='small'>
-                  <EditOutlinedIcon />
-                </SvgIcon>
-              </ListItemIcon>
-              <ListItemText
-                primary={<Typography variant='body1'>Edit</Typography>}
-              />
-            </ListItemButton>
-            <ListItemButton
-              onClick={() => handleMemberDelete(member._id)}
-              sx={{
-                borderRadius: 1,
-                px: 1,
-                py: 0.5,
+              <SvgIcon>
+                <MoreHorizOutlinedIcon />
+              </SvgIcon>
+            </IconButton>
+            {/* Edit & delete menu */}
+            <Popover
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: 'center',
+                horizontal: 'center',
               }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              onClose={handleMenuClose}
+              open={!!menuOpen}
+              PaperProps={{ sx: { width: 200 } }}
             >
-              <ListItemIcon>
-                <SvgIcon fontSize='small'>
-                  <DeleteOutlineIcon />
-                </SvgIcon>
-              </ListItemIcon>
-              <ListItemText
-                primary={<Typography variant='body1'>Delete</Typography>}
-              />
-            </ListItemButton>
-          </Box>
-        </Popover>
+              <Divider />
+              <Box sx={{ p: 1 }}>
+                <ListItemButton
+                  onClick={(e) => handleEdit(e, member)}
+                  sx={{
+                    borderRadius: 1,
+                    px: 1,
+                    py: 0.5,
+                  }}
+                >
+                  <ListItemIcon>
+                    <SvgIcon fontSize='small'>
+                      <EditOutlinedIcon />
+                    </SvgIcon>
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={<Typography variant='body1'>Edit</Typography>}
+                  />
+                </ListItemButton>
+                <ListItemButton
+                  onClick={() => handleMemberDelete(member._id)}
+                  sx={{
+                    borderRadius: 1,
+                    px: 1,
+                    py: 0.5,
+                  }}
+                >
+                  <ListItemIcon>
+                    <SvgIcon fontSize='small'>
+                      <DeleteOutlineIcon />
+                    </SvgIcon>
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={<Typography variant='body1'>Delete</Typography>}
+                  />
+                </ListItemButton>
+              </Box>
+            </Popover>
+          </>
+        )}
       </TableCell>
     </TableRow>
   )

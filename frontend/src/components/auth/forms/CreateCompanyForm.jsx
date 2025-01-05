@@ -73,9 +73,9 @@ const CreateCompanyForm = ({ creationCallback }) => {
     <>
       <div>
         <Stack sx={{ mb: 4 }} spacing={1}>
-          <Typography color='primary.main' sx={{ mb: 1 }}>
+          {/* <Typography color='primary.main' sx={{ mb: 1 }}>
             Tell us about your business.
-          </Typography>{' '}
+          </Typography>{' '} */}
           <Typography variant='h5'>Company Information</Typography>
         </Stack>
         <form noValidate onSubmit={formik.handleSubmit}>

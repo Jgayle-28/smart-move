@@ -104,60 +104,62 @@ export const AccountGeneralSettings = (props) => {
 
   return (
     <Stack spacing={4} {...props}>
-      <Card>
-        <CardContent>
-          <Grid container spacing={3}>
-            <Grid xs={12} md={4}>
-              <Typography variant='h6'>Basic details</Typography>
-            </Grid>
-            <Grid xs={12} md={8}>
-              <form noValidate onSubmit={formik.handleSubmit}>
-                <Stack spacing={3}>
-                  <TextField
-                    error={!!(formik.touched.name && formik.errors.name)}
-                    fullWidth
-                    helperText={formik.touched.name && formik.errors.name}
-                    label='Name'
-                    name='name'
-                    onBlur={formik.handleBlur}
-                    onChange={formik.handleChange}
-                    value={formik.values.name}
-                    sx={{ flexGrow: 1 }}
-                  />
+      {user.role === 'admin' && (
+        <Card>
+          <CardContent>
+            <Grid container spacing={3}>
+              <Grid xs={12} md={4}>
+                <Typography variant='h6'>Basic details</Typography>
+              </Grid>
+              <Grid xs={12} md={8}>
+                <form noValidate onSubmit={formik.handleSubmit}>
+                  <Stack spacing={3}>
+                    <TextField
+                      error={!!(formik.touched.name && formik.errors.name)}
+                      fullWidth
+                      helperText={formik.touched.name && formik.errors.name}
+                      label='Name'
+                      name='name'
+                      onBlur={formik.handleBlur}
+                      onChange={formik.handleChange}
+                      value={formik.values.name}
+                      sx={{ flexGrow: 1 }}
+                    />
 
-                  <TextField
-                    error={!!(formik.touched.email && formik.errors.email)}
-                    fullWidth
-                    helperText={formik.touched.email && formik.errors.email}
-                    label='Email Address'
-                    name='email'
-                    onBlur={formik.handleBlur}
-                    onChange={formik.handleChange}
-                    type='email'
-                    value={formik.values.email}
-                    sx={{
-                      flexGrow: 1,
-                      '& .MuiOutlinedInput-notchedOutline': {
-                        borderStyle: 'dashed',
-                      },
-                    }}
-                  />
-                  <LoadingButton
-                    loading={isLoading}
-                    loadingPosition='start'
-                    fullWidth
-                    size='large'
-                    type='submit'
-                    variant='outlined'
-                  >
-                    Save Updates
-                  </LoadingButton>
-                </Stack>
-              </form>
+                    <TextField
+                      error={!!(formik.touched.email && formik.errors.email)}
+                      fullWidth
+                      helperText={formik.touched.email && formik.errors.email}
+                      label='Email Address'
+                      name='email'
+                      onBlur={formik.handleBlur}
+                      onChange={formik.handleChange}
+                      type='email'
+                      value={formik.values.email}
+                      sx={{
+                        flexGrow: 1,
+                        '& .MuiOutlinedInput-notchedOutline': {
+                          borderStyle: 'dashed',
+                        },
+                      }}
+                    />
+                    <LoadingButton
+                      loading={isLoading}
+                      loadingPosition='start'
+                      fullWidth
+                      size='large'
+                      type='submit'
+                      variant='outlined'
+                    >
+                      Save Updates
+                    </LoadingButton>
+                  </Stack>
+                </form>
+              </Grid>
             </Grid>
-          </Grid>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      )}
       <Card>
         <CardContent>
           <Grid container spacing={3}>
