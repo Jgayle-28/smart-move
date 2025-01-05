@@ -33,6 +33,7 @@ import _ from 'lodash'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined'
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
+import { defaultDataGridStyles } from 'src/constants/data-grid-styles'
 
 const initialValues = {
   itemName: '',
@@ -73,7 +74,7 @@ const Page = () => {
         return
       } else {
         // If it's a valid number, update the state with the new value
-        setNewItem({ ...newItem, [name]: value })
+        setNewItem({ ...newItem, itemWeight: value, itemVolume: value * 7 })
       }
     } else {
       // For other fields, just update normally
@@ -252,7 +253,7 @@ const Page = () => {
                   loading={isLoading || !inventoryItems}
                   rows={inventoryItems || []}
                   columns={finalColumns}
-                  sx={{ minHeight: 400 }}
+                  sx={{ ...defaultDataGridStyles }}
                   slots={{ toolbar: GridToolbar }}
                   slotProps={{
                     toolbar: {
@@ -300,6 +301,7 @@ const Page = () => {
             value={newItem.itemWeight}
           />
           <TextField
+            disabled={true}
             margin='dense'
             id='itemVolume'
             name='itemVolume'

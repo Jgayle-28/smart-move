@@ -39,8 +39,10 @@ const jobSchema = mongoose.Schema(
     // Address Details
     pickUpAddress: { type: Object, required: false, default: null },
     pickUpAddress2: { type: Object, required: false, default: null },
+    pickUpAddress3: { type: Object, required: false, default: null },
     dropOffAddress: { type: Object, required: false, default: null },
     dropOffAddress2: { type: Object, required: false, default: null },
+    dropOffAddress3: { type: Object, required: false, default: null },
     dropOffItems: { type: Array, required: false, default: [] },
     jobComments: { type: String, required: false, default: '' },
     // Billing Details

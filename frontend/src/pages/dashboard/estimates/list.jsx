@@ -33,6 +33,7 @@ import _ from 'lodash'
 import OpenInNewOutlinedIcon from '@mui/icons-material/OpenInNewOutlined'
 import { SeverityPill } from 'src/components/severity-pill'
 import { Container } from '@mui/system'
+import { defaultDataGridStyles } from 'src/constants/data-grid-styles'
 
 const Page = () => {
   const [focusEstimate, setFocusEstimate] = useState(null)
@@ -197,7 +198,7 @@ const Page = () => {
               loading={isLoading || !estimates}
               rows={estimates || []}
               columns={finalColumns}
-              sx={{ minHeight: 400 }}
+              sx={{ ...defaultDataGridStyles }}
               slots={{ toolbar: GridToolbar }}
               slotProps={{
                 toolbar: {

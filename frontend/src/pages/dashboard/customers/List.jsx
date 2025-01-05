@@ -22,6 +22,7 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import PostAddOutlinedIcon from '@mui/icons-material/PostAddOutlined'
 import { RouterLink } from 'src/components/router-link'
 import { useNavigate } from 'react-router-dom'
+import { defaultDataGridStyles } from 'src/constants/data-grid-styles'
 
 const Page = () => {
   const navigate = useNavigate()
@@ -169,7 +170,7 @@ const Page = () => {
                   loading={isLoading || !customers}
                   rows={customers || []}
                   columns={finalColumns}
-                  sx={{ minHeight: 400 }}
+                  sx={{ ...defaultDataGridStyles }}
                   slots={{ toolbar: GridToolbar }}
                   slotProps={{
                     toolbar: {

@@ -25,7 +25,7 @@ import { useDispatch } from 'react-redux'
 import { clearJobs, getJobs, addJob, deleteJob } from 'src/store/jobs/jobSlice'
 import { useSelector } from 'react-redux'
 import { DataGrid, GridToolbar } from '@mui/x-data-grid'
-import _ from 'lodash'
+import _, { pick } from 'lodash'
 import OpenInNewOutlinedIcon from '@mui/icons-material/OpenInNewOutlined'
 import { PDFDownloadLink } from '@react-pdf/renderer'
 import { BlankEstimatePdf } from 'src/components/estimates/blank-estimate-pdf/BlankEstimatePdf'
@@ -37,6 +37,7 @@ import FileOpenIcon from '@mui/icons-material/FileOpen'
 import FileCopyIcon from '@mui/icons-material/FileCopy'
 import toast from 'react-hot-toast'
 import Spinner from 'src/components/shared/Spinner'
+import { defaultDataGridStyles } from 'src/constants/data-grid-styles'
 
 const Page = () => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
@@ -87,6 +88,12 @@ const Page = () => {
       estimateTime: null,
       isPaid: false,
       jobTitle: `${job.jobTitle} (Clone)`,
+      pickupAddress: job.dropOffAddress,
+      pickUpAddress2: '',
+      pickUpAddress3: '',
+      dropOffAddress: '',
+      dropOffAddress2: '',
+      dropOffAddress3: '',
     }
     delete newJob._id
     delete newJob.createdAt
@@ -335,7 +342,7 @@ const Page = () => {
                   loading={isLoading || !jobs}
                   rows={jobs || []}
                   columns={finalColumns}
-                  sx={{ minHeight: 400 }}
+                  sx={{ ...defaultDataGridStyles }}
                   slots={{ toolbar: GridToolbar }}
                   onExport={(rows, columns) => customExport(rows, columns)}
                   slotProps={{
