@@ -192,7 +192,7 @@ const Page = () => {
               <Typography variant='h4'>Estimates</Typography>
             </Stack>
           </Stack>
-          <Card sx={{ my: 8 }}>
+          <Card sx={{ my: 8, paddingTop: 1.5 }}>
             <DataGrid
               getRowId={_.property('_id')}
               loading={isLoading || !estimates}

@@ -336,7 +336,7 @@ const Page = () => {
               </Stack>
             </Stack>
             <>
-              <Card>
+              <Card sx={{ paddingTop: 1.5 }}>
                 <DataGrid
                   getRowId={_.property('_id')}
                   loading={isLoading || !jobs}
