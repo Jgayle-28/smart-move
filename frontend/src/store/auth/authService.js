@@ -44,6 +44,7 @@ const loginUser = async (userData) => {
 
 const logoutUser = () => {
   localStorage.removeItem('sm-user')
+  localStorage.removeItem('sm-company')
 }
 
 // Delete member -> used in admin account deleting team members and when deleting main account

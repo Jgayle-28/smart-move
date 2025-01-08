@@ -24,6 +24,11 @@ const validationSchema = Yup.object({
     .max(255)
     .required('Email is required'),
   name: Yup.string().max(255).required('Name is required'),
+  password: Yup.string().min(7).max(255).required('Password is required'),
+  passwordConfirmation: Yup.string().oneOf(
+    [Yup.ref('password')],
+    'Passwords must match'
+  ),
 })
 
 const AddMemberForm = ({ creationCallback, editMember }) => {

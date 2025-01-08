@@ -25,7 +25,7 @@ import { useNavigate } from 'react-router-dom'
 import AddressSelect from '../shared/AddressSelect'
 
 export const CustomerForm = (props) => {
-  const { customer, isEdit, ...other } = props
+  const { customer, isEdit, callBack, ...other } = props
 
   const [createJob, setCreateJob] = useState(false)
 
@@ -91,6 +91,7 @@ export const CustomerForm = (props) => {
             router.push(paths.dashboard.customers.index)
             toast.success('Customer successfully updated')
             helpers.resetForm()
+            callBack()
           })
       } catch (error) {
         console.log('error ----->', error)
@@ -108,7 +109,8 @@ export const CustomerForm = (props) => {
                   state: { customer: res.customer },
                 })
               } else {
-                router.push(paths.dashboard.customers.index)
+                helpers.resetForm()
+                callBack()
               }
               toast.success('Customer successfully added')
             }
@@ -360,9 +362,10 @@ export const CustomerForm = (props) => {
           </Button>
           <Button
             color='inherit'
-            component={RouterLink}
             disabled={formik.isSubmitting}
-            href={paths.dashboard.customers.index}
+            {...(isEdit
+              ? { component: RouterLink, href: paths.dashboard.customers.index }
+              : { onClick: callBack })}
           >
             Cancel
           </Button>

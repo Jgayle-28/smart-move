@@ -55,28 +55,33 @@ export const AccountTeamSettings = (props) => {
       <Card>
         <CardContent>
           <Grid container spacing={3}>
-            <Grid xs={12} md={4}>
-              <Stack spacing={1}>
-                <Typography variant='h6'>Your Team</Typography>
+            <Grid xs={12} md={12}>
+              <Stack
+                alignItems='center'
+                direction='row'
+                justifyContent={'space-between'}
+              >
+                <Stack spacing={1}>
+                  <Typography variant='h6'>Your Team</Typography>
+                  {user.role === 'admin' && (
+                    <Typography color='text.secondary' variant='body2'>
+                      Add, edit or delete members.
+                    </Typography>
+                  )}
+                </Stack>
+
                 {user.role === 'admin' && (
-                  <Typography color='text.secondary' variant='body2'>
-                    Add, edit or delete members.
-                  </Typography>
+                  <Stack alignItems='center' direction='row' spacing={3}>
+                    <Button
+                      onClick={() => handleOpen()}
+                      variant='contained'
+                      sx={{ marginLeft: 'auto' }}
+                    >
+                      Add Member
+                    </Button>
+                  </Stack>
                 )}
               </Stack>
-            </Grid>
-            <Grid xs={12} md={8}>
-              {user.role === 'admin' && (
-                <Stack alignItems='center' direction='row' spacing={3}>
-                  <Button
-                    onClick={() => handleOpen()}
-                    variant='contained'
-                    sx={{ marginLeft: 'auto' }}
-                  >
-                    Add Member
-                  </Button>
-                </Stack>
-              )}
             </Grid>
           </Grid>
         </CardContent>

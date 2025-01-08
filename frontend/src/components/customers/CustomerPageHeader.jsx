@@ -5,7 +5,7 @@ import { RouterLink } from 'src/components/router-link'
 import { exportToExcel } from 'src/utils/export-to-excel'
 import { useSelector } from 'react-redux'
 
-function CustomerPageHeader() {
+function CustomerPageHeader({ setCustomerModalOpen }) {
   const { company } = useSelector((state) => state.company)
   const { customers } = useSelector((state) => state.customers)
   return (
@@ -48,8 +48,7 @@ function CustomerPageHeader() {
       </Stack>
       <Stack alignItems='center' direction='row' spacing={3}>
         <Button
-          component={RouterLink}
-          href='/dashboard/customers/add'
+          onClick={() => setCustomerModalOpen(true)}
           startIcon={
             <SvgIcon>
               <PersonAddAlt1RoundedIcon />

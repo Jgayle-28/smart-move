@@ -1,8 +1,9 @@
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import {
   Box,
   Card,
   Container,
+  Dialog,
   IconButton,
   Stack,
   SvgIcon,
@@ -23,8 +24,10 @@ import PostAddOutlinedIcon from '@mui/icons-material/PostAddOutlined'
 import { RouterLink } from 'src/components/router-link'
 import { useNavigate } from 'react-router-dom'
 import { defaultDataGridStyles } from 'src/constants/data-grid-styles'
+import { CustomerForm } from 'src/components/customers/CustomerForm'
 
 const Page = () => {
+  const [customerModalOpen, setCustomerModalOpen] = useState(false)
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { user } = useAuth()
@@ -38,6 +41,10 @@ const Page = () => {
 
   const fetchCustomers = () => {
     dispatch(getCustomers(user.company))
+  }
+
+  const addCustomerCallback = () => {
+    setCustomerModalOpen(false)
   }
 
   // Columns ---------------------
@@ -162,8 +169,11 @@ const Page = () => {
       >
         <Container maxWidth='xl'>
           <Stack spacing={4}>
-            <CustomerPageHeader customers={customers} />
-            <Card>
+            <CustomerPageHeader
+              customers={customers}
+              setCustomerModalOpen={setCustomerModalOpen}
+            />
+            <Card sx={{ paddingTop: 1.5 }}>
               <>
                 <DataGrid
                   getRowId={_.property('_id')}
@@ -187,6 +197,16 @@ const Page = () => {
           </Stack>
         </Container>
       </Box>
+      <Dialog
+        open={customerModalOpen}
+        onClose={() => setCustomerModalOpen(false)}
+      >
+        <CustomerForm
+          isEdit={false}
+          onClose={() => setCustomerModalOpen(false)}
+          callBack={addCustomerCallback}
+        />
+      </Dialog>
     </>
   )
 }

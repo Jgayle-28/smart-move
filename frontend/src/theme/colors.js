@@ -10,6 +10,7 @@ const withAlphas = (color) => {
     alpha50: alpha(color.main, 0.5),
   }
 }
+const coolColor = '#41F4CA'
 
 export const neutral = {
   50: '#F8F9FA',
