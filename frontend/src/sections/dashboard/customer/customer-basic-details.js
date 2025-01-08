@@ -39,6 +39,11 @@ export const CustomerBasicDetails = (props) => {
           label='Referred By'
           value={customer.referredBy}
         />
+        <PropertyListItem
+          divider
+          label='Added By'
+          value={customer.addedBy.name}
+        />
         <PropertyListItem divider label='Comments' value={customer.comments} />
       </PropertyList>
       {/* <CardActions>

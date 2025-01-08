@@ -41,7 +41,7 @@ export const AccountTeamSettings = (props) => {
   }, [])
 
   const getTeam = () => {
-    dispatch(getCompanyTeam(company._id))
+    dispatch(getCompanyTeam(user?.company))
   }
 
   const handleEditModalClose = () => {
