@@ -9,6 +9,17 @@ import {
   Typography,
   Unstable_Grid2 as Grid,
 } from '@mui/material'
+import { motion } from 'framer-motion'
+
+// Animation variants
+const textVariant = {
+  hidden: { opacity: 0, y: 10 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, delay: 0.2 } },
+}
+const textVariant2 = {
+  hidden: { opacity: 0, y: 10 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, delay: 0.3 } },
+}
 
 const QuotesIcon = () => (
   <svg
@@ -115,51 +126,88 @@ export const HomeReviews = () => (
       </Stack> */}
       <Stack spacing={8} sx={{ py: '120px' }}>
         <Stack spacing={2}>
-          <Typography align='center' variant='h3'>
-            Trusted by Moving & Delivery Companies Large and Small
-          </Typography>
-          <Typography align='center' color='text.secondary' variant='subtitle1'>
-            Deliverly is designed for simplicity, making it easy for businesses
-            to streamline their operations. No unnecessary complexities—just the
-            powerful features you need to get the job done, effortlessly.
-          </Typography>
+          <motion.div
+            initial='hidden'
+            whileInView='visible'
+            viewport={{ once: true, amount: 0.2 }}
+            variants={textVariant}
+          >
+            <Typography align='center' variant='h3'>
+              Trusted by Moving & Delivery Companies Large and Small
+            </Typography>
+          </motion.div>
+          <motion.div
+            initial='hidden'
+            whileInView='visible'
+            viewport={{ once: true, amount: 0.2 }}
+            variants={textVariant2}
+          >
+            <Typography
+              align='center'
+              color='text.secondary'
+              variant='subtitle1'
+            >
+              Deliverly is designed for simplicity, making it easy for
+              businesses to streamline their operations. No unnecessary
+              complexities—just the powerful features you need to get the job
+              done, effortlessly.
+            </Typography>
+          </motion.div>
         </Stack>
         <Grid container spacing={3}>
           {reviews.map((review, index) => (
             <Grid key={index} xs={12} md={6} lg={4}>
-              <Card sx={{ height: '100%' }}>
-                <CardContent
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    position: 'relative',
-                    height: '100%',
-                  }}
-                >
-                  <Box sx={{ position: 'absolute' }}>
-                    <QuotesIcon />
-                  </Box>
-                  <div>
-                    <Rating
-                      readOnly
-                      sx={{ color: 'success.main' }}
-                      value={review.stars}
-                    />
-                  </div>
-                  <Typography
+              <motion.div
+                key={review.author}
+                initial='hidden'
+                whileInView='visible'
+                viewport={{ once: true, amount: 0.2 }} // Trigger when the feature comes into view
+                variants={{
+                  hidden: { opacity: 0, y: 10 },
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    transition: {
+                      duration: 0.15,
+                      delay: index * 0.2, // Delay each item based on its index
+                    },
+                  },
+                }}
+              >
+                <Card sx={{ height: '100%' }}>
+                  <CardContent
                     sx={{
-                      flexGrow: 1,
-                      mt: 2,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      position: 'relative',
+                      height: '100%',
                     }}
                   >
-                    {review.message}
-                  </Typography>
-                  <Divider sx={{ my: 2 }} />
-                  <Typography color='text.secondary'>
-                    {review.author}
-                  </Typography>
-                </CardContent>
-              </Card>
+                    <Box sx={{ position: 'absolute' }}>
+                      <QuotesIcon />
+                    </Box>
+                    <div>
+                      <Rating
+                        readOnly
+                        sx={{ color: 'success.main' }}
+                        value={review.stars}
+                      />
+                    </div>
+                    <Typography
+                      sx={{
+                        flexGrow: 1,
+                        mt: 2,
+                      }}
+                    >
+                      {review.message}
+                    </Typography>
+                    <Divider sx={{ my: 2 }} />
+                    <Typography color='text.secondary'>
+                      {review.author}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </motion.div>
             </Grid>
           ))}
         </Grid>

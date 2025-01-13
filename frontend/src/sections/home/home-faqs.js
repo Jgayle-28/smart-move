@@ -9,6 +9,17 @@ import {
   Typography,
   Unstable_Grid2 as Grid,
 } from '@mui/material'
+import { motion } from 'framer-motion'
+
+// Animation variants
+const textVariant = {
+  hidden: { opacity: 0, y: 10 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, delay: 0.2 } },
+}
+const textVariant2 = {
+  hidden: { opacity: 0, y: 10 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, delay: 0.3 } },
+}
 
 const faqs = [
   {
@@ -76,16 +87,51 @@ export const HomeFaqs = () => {
         <Grid container spacing={4}>
           <Grid xs={12} md={6}>
             <Stack spacing={2}>
-              <Typography variant='h3'>Everything you need to know</Typography>
-              <Typography color='text.secondary' variant='subtitle2'>
-                Frequently asked questions
-              </Typography>
+              <motion.div
+                initial='hidden'
+                whileInView='visible'
+                viewport={{ once: true, amount: 0.2 }}
+                variants={textVariant}
+              >
+                <Typography variant='h3'>
+                  Everything you need to know
+                </Typography>
+              </motion.div>
+              <motion.div
+                initial='hidden'
+                whileInView='visible'
+                viewport={{ once: true, amount: 0.2 }}
+                variants={textVariant2}
+              >
+                <Typography color='text.secondary' variant='subtitle2'>
+                  Frequently asked questions
+                </Typography>
+              </motion.div>
             </Stack>
           </Grid>
           <Grid xs={12} md={6}>
             <Stack spacing={4}>
               {faqs.map((faq, index) => (
-                <Faq key={index} {...faq} />
+                <motion.div
+                  key={index}
+                  initial='hidden'
+                  whileInView='visible'
+                  viewport={{ once: true, amount: 0.2 }} // Trigger when the feature comes into view
+                  variants={{
+                    hidden: { opacity: 0, y: 10 },
+                    visible: {
+                      opacity: 1,
+                      y: 0,
+                      transition: {
+                        duration: 0.1,
+                        delay: index * 0.1, // Delay each item based on its index
+                        ease: 'easeIn',
+                      },
+                    },
+                  }}
+                >
+                  <Faq {...faq} />
+                </motion.div>
               ))}
             </Stack>
           </Grid>

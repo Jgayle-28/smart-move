@@ -31,6 +31,7 @@ export const PricingPlan = (props) => {
       sx={{
         display: 'flex',
         flexDirection: 'column',
+        height: '100%',
         ...sx,
       }}
       {...other}

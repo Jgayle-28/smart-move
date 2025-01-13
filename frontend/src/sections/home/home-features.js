@@ -71,6 +71,20 @@ const features = [
   // },
 ]
 
+// Animation variants
+const textVariant = {
+  hidden: { opacity: 0, y: 10 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, delay: 0.2 } },
+}
+const textVariant2 = {
+  hidden: { opacity: 0, y: 10 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, delay: 0.3 } },
+}
+const imageVariants = {
+  hidden: { opacity: 0, y: 10 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+}
+
 export const HomeFeatures = () => {
   const theme = useTheme()
   const [activeFeature, setActiveFeature] = useState(0)
@@ -92,14 +106,28 @@ export const HomeFeatures = () => {
     >
       <Container maxWidth='xl'>
         <Stack spacing={2} sx={{ mb: 8 }}>
-          <Typography align='center' color='inherit' variant='h3'>
-            Revolutionize Your Business with Deliverly
-          </Typography>
-          <Typography align='center' color='inherit' variant='subtitle2'>
-            More than just a set of features. Deliverly is a comprehensive
-            solution designed to optimize your moving and delivery business
-            operations.
-          </Typography>
+          <motion.div
+            initial='hidden'
+            whileInView='visible'
+            viewport={{ once: true, amount: 0.2 }}
+            variants={textVariant}
+          >
+            <Typography align='center' color='inherit' variant='h3'>
+              Revolutionize Your Business with Deliverly
+            </Typography>
+          </motion.div>
+          <motion.div
+            initial='hidden'
+            whileInView='visible'
+            viewport={{ once: true, amount: 0.2 }}
+            variants={textVariant2}
+          >
+            <Typography align='center' color='inherit' variant='subtitle2'>
+              More than just a set of features. Deliverly is a comprehensive
+              solution designed to optimize your moving and delivery business
+              operations.
+            </Typography>
+          </motion.div>
         </Stack>
         <Grid alignItems='center' container spacing={3}>
           <Grid xs={12} md={6}>
@@ -108,74 +136,76 @@ export const HomeFeatures = () => {
                 const isActive = activeFeature === index
 
                 return (
-                  <Box
+                  <motion.div
                     key={feature.id}
-                    onClick={() => setActiveFeature(index)}
-                    sx={{
-                      borderRadius: 2.5,
-                      color: 'neutral.400',
-                      cursor: 'pointer',
-                      p: 3,
-                      transition: (theme) =>
-                        theme.transitions.create(
-                          ['background-color, box-shadow', 'color'],
-                          {
-                            easing: theme.transitions.easing.easeOut,
-                            duration: theme.transitions.duration.enteringScreen,
-                          }
-                        ),
-                      ...(isActive && {
-                        backgroundColor: 'primary.alpha12',
-                        boxShadow: (theme) =>
-                          `${theme.palette.primary.main} 0 0 0 1px`,
-                        color: 'common.white',
-                      }),
-                      '&:hover': {
-                        ...(!isActive && {
-                          backgroundColor: 'primary.alpha4',
+                    initial='hidden'
+                    whileInView='visible'
+                    viewport={{ once: true, amount: 0.2 }} // Trigger when the feature comes into view
+                    variants={{
+                      hidden: { opacity: 0, x: -10 },
+                      visible: {
+                        opacity: 1,
+                        x: 0,
+                        transition: {
+                          duration: 0.15,
+                          delay: index * 0.2, // Delay each item based on its index
+                        },
+                      },
+                    }}
+                  >
+                    <Box
+                      key={feature.id}
+                      onClick={() => setActiveFeature(index)}
+                      sx={{
+                        borderRadius: 2.5,
+                        color: 'neutral.400',
+                        cursor: 'pointer',
+                        p: 3,
+                        transition: (theme) =>
+                          theme.transitions.create(
+                            ['background-color, box-shadow', 'color'],
+                            {
+                              easing: theme.transitions.easing.easeOut,
+                              duration:
+                                theme.transitions.duration.enteringScreen,
+                            }
+                          ),
+                        ...(isActive && {
+                          backgroundColor: 'primary.alpha12',
                           boxShadow: (theme) =>
                             `${theme.palette.primary.main} 0 0 0 1px`,
                           color: 'common.white',
                         }),
-                      },
-                    }}
-                  >
-                    <Typography color='inherit' sx={{ mb: 1 }} variant='h6'>
-                      {feature.title}
-                    </Typography>
-                    <Typography color='inherit' variant='body2'>
-                      {feature.description}
-                    </Typography>
-                    {/* {feature.id === 'figma' && (
-                      <Box sx={{ mt: 3 }}>
-                        <Button
-                          color='success'
-                          component='a'
-                          endIcon={
-                            <SvgIcon fontSize='small'>
-                              
-                            </SvgIcon>
-                          }
-                          href='https://www.figma.com/file/xrx6uDljzsWuDZiuz3ITCp/Devias-Kit-Pro-UI-6.0-Master'
-                          size='small'
-                          target='_blank'
-                          variant='contained'
-                        >
-                          Preview in Figma
-                        </Button>
-                      </Box>
-                    )} */}
-                  </Box>
+                        '&:hover': {
+                          ...(!isActive && {
+                            backgroundColor: 'primary.alpha4',
+                            boxShadow: (theme) =>
+                              `${theme.palette.primary.main} 0 0 0 1px`,
+                            color: 'common.white',
+                          }),
+                        },
+                      }}
+                    >
+                      <Typography color='inherit' sx={{ mb: 1 }} variant='h6'>
+                        {feature.title}
+                      </Typography>
+                      <Typography color='inherit' variant='body2'>
+                        {feature.description}
+                      </Typography>
+                    </Box>
+                  </motion.div>
                 )
               })}
             </Stack>
           </Grid>
+
           <Grid xs={12} md={6}>
             <motion.div
-              key={activeFeature} // Ensures animation triggers every time a new feature is selected
-              initial={{ opacity: 0 }} // Start with the image hidden
-              animate={{ opacity: 1 }} // Fade-in to visible
-              transition={{ duration: 1 }} // Adjust duration of the fade-in
+              key={activeFeature}
+              initial='hidden'
+              whileInView='visible'
+              viewport={{ once: true, amount: 0.2 }}
+              variants={imageVariants}
             >
               <Box
                 sx={{
