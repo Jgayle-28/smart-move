@@ -12,6 +12,11 @@ import { getEstimates } from 'src/store/estimates/estimateSlice'
 import Spinner from 'src/components/shared/Spinner'
 import EventDetailPopper from 'src/components/calendar/EventDetailPopper'
 import _ from 'lodash'
+import { motion } from 'framer-motion'
+import {
+  containerVariants,
+  itemVariants,
+} from 'src/constants/page-animation-variants'
 // import interactionPlugin from '@fullcalendar/interaction'
 // import listPlugin from '@fullcalendar/list'
 // import timeGridPlugin from '@fullcalendar/timegrid'
@@ -198,8 +203,14 @@ const Page = () => {
           py: 8,
         }}
       >
-        <Container maxWidth='xl'>
-          <Stack spacing={3}>
+        <Container
+          maxWidth='xl'
+          component={motion.div}
+          variants={containerVariants}
+          initial='hidden'
+          animate='visible'
+        >
+          <Stack spacing={3} component={motion.div} variants={itemVariants}>
             <CalendarToolbar
               date={date}
               onDateNext={handleDateNext}
@@ -208,7 +219,7 @@ const Page = () => {
               onViewChange={handleViewChange}
               view={view}
             />
-            <Card>
+            <Card component={motion.div} variants={itemVariants}>
               <CalendarContainer>
                 <Calendar
                   allDayMaintainDuration
@@ -246,6 +257,63 @@ const Page = () => {
         handleEventHoverToggle={handleEventHoverToggle}
       />
     </>
+    // <>
+    //   <Seo title='Dashboard: Calendar' />
+    //   <Box
+    //     component='main'
+    //     sx={{
+    //       flexGrow: 1,
+    //       py: 8,
+    //     }}
+    //   >
+    //     <Container maxWidth='xl'>
+    //       <Stack spacing={3}>
+    //         <CalendarToolbar
+    //           date={date}
+    //           onDateNext={handleDateNext}
+    //           onDatePrev={handleDatePrev}
+    //           onDateToday={handleDateToday}
+    //           onViewChange={handleViewChange}
+    //           view={view}
+    //         />
+    //         <Card>
+    //           <CalendarContainer>
+    //             <Calendar
+    //               allDayMaintainDuration
+    //               dayMaxEventRows={3}
+    //               eventMouseEnter={handleEventMouseEnter}
+    //               eventMouseLeave={handleEventMouseLeave}
+    //               eventDisplay='block'
+    //               eventResizableFromStart
+    //               events={events || []}
+    //               headerToolbar={false}
+    //               height={800}
+    //               initialDate={date}
+    //               initialView={view}
+    //               plugins={[
+    //                 dayGridPlugin,
+    //                 // interactionPlugin,
+    //                 // listPlugin,
+    //                 // timeGridPlugin,
+    //                 // timelinePlugin,
+    //               ]}
+    //               ref={calendarRef}
+    //               rerenderDelay={10}
+    //               weekends
+    //             />
+    //           </CalendarContainer>
+    //         </Card>
+    //       </Stack>
+    //     </Container>
+    //   </Box>
+    //   {/*----- Event Popper -----*/}
+    //   <EventDetailPopper
+    //     currentEvent={currentEvent}
+    //     eventPopperOpen={eventPopperOpen}
+    //     eventAnchor={eventAnchor}
+    //     handleEventHoverToggle={handleEventHoverToggle}
+    //   />
+    // </>
   )
 }
 

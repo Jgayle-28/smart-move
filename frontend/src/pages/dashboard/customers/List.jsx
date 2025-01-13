@@ -23,8 +23,13 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import PostAddOutlinedIcon from '@mui/icons-material/PostAddOutlined'
 import { RouterLink } from 'src/components/router-link'
 import { useNavigate } from 'react-router-dom'
-import { defaultDataGridStyles } from 'src/constants/data-grid-styles'
 import { CustomerForm } from 'src/components/customers/CustomerForm'
+import { motion } from 'framer-motion'
+import {
+  containerVariants,
+  itemVariants,
+} from 'src/constants/page-animation-variants'
+import Spinner from 'src/components/shared/Spinner'
 
 const Page = () => {
   const [customerModalOpen, setCustomerModalOpen] = useState(false)
@@ -157,6 +162,7 @@ const Page = () => {
     },
   ])
 
+  if (!customers || isLoading) return <Spinner />
   return (
     <>
       <Seo title='Dashboard: Customers' />
@@ -167,32 +173,40 @@ const Page = () => {
           py: 8,
         }}
       >
-        <Container maxWidth='xl'>
-          <Stack spacing={4}>
+        <Container
+          maxWidth='xl'
+          component={motion.div}
+          variants={containerVariants}
+          initial='hidden'
+          animate='visible'
+        >
+          <Stack spacing={4} component={motion.div} variants={itemVariants}>
             <CustomerPageHeader
               customers={customers}
               setCustomerModalOpen={setCustomerModalOpen}
             />
-            <Card sx={{ paddingTop: 1.5 }}>
-              <>
-                <DataGrid
-                  getRowId={_.property('_id')}
-                  loading={isLoading || !customers}
-                  rows={customers || []}
-                  columns={finalColumns}
-                  sx={{ ...defaultDataGridStyles }}
-                  slots={{ toolbar: GridToolbar }}
-                  slotProps={{
-                    toolbar: {
-                      showQuickFilter: true,
-                      printOptions: { disableToolbarButton: true },
-                    },
-                  }}
-                  localeText={{
-                    noRowsLabel: 'You have not added any customers yet',
-                  }}
-                />
-              </>
+            <Card
+              sx={{ paddingTop: 1.5 }}
+              component={motion.div}
+              variants={itemVariants}
+            >
+              <DataGrid
+                getRowId={_.property('_id')}
+                loading={isLoading || !customers}
+                rows={customers || []}
+                columns={finalColumns}
+                sx={{ height: 400 }}
+                slots={{ toolbar: GridToolbar }}
+                slotProps={{
+                  toolbar: {
+                    showQuickFilter: true,
+                    printOptions: { disableToolbarButton: true },
+                  },
+                }}
+                localeText={{
+                  noRowsLabel: 'You have not added any customers yet',
+                }}
+              />
             </Card>
           </Stack>
         </Container>
@@ -208,6 +222,56 @@ const Page = () => {
         />
       </Dialog>
     </>
+    // <>
+    //   <Seo title='Dashboard: Customers' />
+    //   <Box
+    //     component='main'
+    //     sx={{
+    //       flexGrow: 1,
+    //       py: 8,
+    //     }}
+    //   >
+    //     <Container maxWidth='xl'>
+    //       <Stack spacing={4}>
+    //         <CustomerPageHeader
+    //           customers={customers}
+    //           setCustomerModalOpen={setCustomerModalOpen}
+    //         />
+    //         <Card sx={{ paddingTop: 1.5 }}>
+    //           <>
+    //             <DataGrid
+    //               getRowId={_.property('_id')}
+    //               loading={isLoading || !customers}
+    //               rows={customers || []}
+    //               columns={finalColumns}
+    //               sx={{ ...defaultDataGridStyles }}
+    //               slots={{ toolbar: GridToolbar }}
+    //               slotProps={{
+    //                 toolbar: {
+    //                   showQuickFilter: true,
+    //                   printOptions: { disableToolbarButton: true },
+    //                 },
+    //               }}
+    //               localeText={{
+    //                 noRowsLabel: 'You have not added any customers yet',
+    //               }}
+    //             />
+    //           </>
+    //         </Card>
+    //       </Stack>
+    //     </Container>
+    //   </Box>
+    //   <Dialog
+    //     open={customerModalOpen}
+    //     onClose={() => setCustomerModalOpen(false)}
+    //   >
+    //     <CustomerForm
+    //       isEdit={false}
+    //       onClose={() => setCustomerModalOpen(false)}
+    //       callBack={addCustomerCallback}
+    //     />
+    //   </Dialog>
+    // </>
   )
 }
 

@@ -34,6 +34,12 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined'
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
 import { defaultDataGridStyles } from 'src/constants/data-grid-styles'
+import { motion } from 'framer-motion'
+import {
+  containerVariants,
+  itemVariants,
+} from 'src/constants/page-animation-variants'
+import Spinner from 'src/components/shared/Spinner'
 
 const initialValues = {
   itemName: '',
@@ -213,6 +219,7 @@ const Page = () => {
     },
   ])
 
+  if (!inventoryItems || isLoading) return <Spinner />
   return (
     <>
       <Seo title='Dashboard: Inventory Item List' />
@@ -223,12 +230,23 @@ const Page = () => {
           py: 8,
         }}
       >
-        <Container maxWidth='xl'>
-          <Stack spacing={8}>
-            <Stack direction='row' justifyContent='space-between' spacing={4}>
+        <Container
+          maxWidth='xl'
+          component={motion.div}
+          variants={containerVariants}
+          initial='hidden'
+          animate='visible'
+        >
+          <Stack spacing={8} component={motion.div} variants={itemVariants}>
+            <Stack
+              direction='row'
+              justifyContent='space-between'
+              spacing={4}
+              component={motion.div}
+              variants={itemVariants}
+            >
               <Stack spacing={1}>
                 <Typography variant='h4'>Inventory Items</Typography>
-                <Stack alignItems='center' direction='row' spacing={1}></Stack>
               </Stack>
               <Stack alignItems='center' direction='row' spacing={3}>
                 <Button
@@ -245,25 +263,26 @@ const Page = () => {
                 </Button>
               </Stack>
             </Stack>
-
-            <>
-              <Card sx={{ paddingTop: 1.5 }}>
-                <DataGrid
-                  getRowId={_.property('_id')}
-                  loading={isLoading || !inventoryItems}
-                  rows={inventoryItems || []}
-                  columns={finalColumns}
-                  sx={{ ...defaultDataGridStyles }}
-                  slots={{ toolbar: GridToolbar }}
-                  slotProps={{
-                    toolbar: {
-                      showQuickFilter: true,
-                      printOptions: { disableToolbarButton: true },
-                    },
-                  }}
-                />
-              </Card>
-            </>
+            <Card
+              sx={{ paddingTop: 1.5 }}
+              component={motion.div}
+              variants={itemVariants}
+            >
+              <DataGrid
+                getRowId={_.property('_id')}
+                loading={isLoading || !inventoryItems}
+                rows={inventoryItems || []}
+                columns={finalColumns}
+                sx={{ ...defaultDataGridStyles }}
+                slots={{ toolbar: GridToolbar }}
+                slotProps={{
+                  toolbar: {
+                    showQuickFilter: true,
+                    printOptions: { disableToolbarButton: true },
+                  },
+                }}
+              />
+            </Card>
           </Stack>
         </Container>
       </Box>
@@ -352,6 +371,144 @@ const Page = () => {
         </DialogActions>
       </Dialog>
     </>
+    // <>
+    //   <Seo title='Dashboard: Inventory Item List' />
+    //   <Box
+    //     component='main'
+    //     sx={{
+    //       flexGrow: 1,
+    //       py: 8,
+    //     }}
+    //   >
+    //     <Container maxWidth='xl'>
+    //       <Stack spacing={8}>
+    //         <Stack direction='row' justifyContent='space-between' spacing={4}>
+    //           <Stack spacing={1}>
+    //             <Typography variant='h4'>Inventory Items</Typography>
+    //             <Stack alignItems='center' direction='row' spacing={1}></Stack>
+    //           </Stack>
+    //           <Stack alignItems='center' direction='row' spacing={3}>
+    //             <Button
+    //               color='primary'
+    //               onClick={() => setCreateModalOpen(true)}
+    //               startIcon={
+    //                 <SvgIcon>
+    //                   <AddOutlinedIcon />
+    //                 </SvgIcon>
+    //               }
+    //               variant='contained'
+    //             >
+    //               Add New Item
+    //             </Button>
+    //           </Stack>
+    //         </Stack>
+
+    //         <>
+    //           <Card sx={{ paddingTop: 1.5 }}>
+    //             <DataGrid
+    //               getRowId={_.property('_id')}
+    //               loading={isLoading || !inventoryItems}
+    //               rows={inventoryItems || []}
+    //               columns={finalColumns}
+    //               sx={{ ...defaultDataGridStyles }}
+    //               slots={{ toolbar: GridToolbar }}
+    //               slotProps={{
+    //                 toolbar: {
+    //                   showQuickFilter: true,
+    //                   printOptions: { disableToolbarButton: true },
+    //                 },
+    //               }}
+    //             />
+    //           </Card>
+    //         </>
+    //       </Stack>
+    //     </Container>
+    //   </Box>
+    //   {/* EDIT / CREATE MODAL */}
+    //   <Dialog
+    //     open={createModalOpen}
+    //     onClose={handleModalClose}
+    //     aria-labelledby='form-dialog-title'
+    //   >
+    //     <DialogTitle id='form-dialog-title'>Create New Item</DialogTitle>
+    //     <DialogContent>
+    //       <DialogContentText sx={{ fontSize: 13, mb: 2 }}>
+    //         Items you add here will be available for use in your inventory while
+    //         creating estimates
+    //       </DialogContentText>
+    //       <TextField
+    //         autoFocus
+    //         margin='dense'
+    //         id='itemName'
+    //         name='itemName'
+    //         label='Name'
+    //         type='text'
+    //         fullWidth
+    //         onChange={onChange}
+    //         value={newItem.itemName}
+    //       />
+    //       <TextField
+    //         margin='dense'
+    //         id='itemWeight'
+    //         name='itemWeight'
+    //         label='Item Weight'
+    //         type='text'
+    //         fullWidth
+    //         onChange={onChange}
+    //         value={newItem.itemWeight}
+    //       />
+    //       <TextField
+    //         disabled={true}
+    //         margin='dense'
+    //         id='itemVolume'
+    //         name='itemVolume'
+    //         label='Item Volume'
+    //         type='text'
+    //         fullWidth
+    //         onChange={onChange}
+    //         value={newItem.itemVolume}
+    //       />
+    //     </DialogContent>
+    //     <DialogActions>
+    //       <Button onClick={handleModalClose} color='primary'>
+    //         Cancel
+    //       </Button>
+    //       <Button
+    //         disabled={
+    //           newItem.itemName.length === 0 ||
+    //           newItem.itemWeight.length === 0 ||
+    //           newItem.itemVolume.length === 0
+    //         }
+    //         onClick={isEdit ? handleUpdateClick : handleCreateClick}
+    //         color='primary'
+    //       >
+    //         {isEdit ? 'Update' : 'Create'}
+    //       </Button>
+    //     </DialogActions>
+    //   </Dialog>
+    //   {/* Delete Modal */}
+    //   <Dialog
+    //     open={deleteModalOpen}
+    //     onClose={handleDeleteModalClose}
+    //     aria-labelledby='form-dialog-title'
+    //   >
+    //     <DialogTitle id='form-dialog-title'>Delete Inventory Item</DialogTitle>
+    //     <DialogContent>
+    //       <Alert severity='error'>
+    //         Are you sure you want to delete this item? This action cannot be
+    //         undone
+    //       </Alert>
+    //     </DialogContent>
+    //     <DialogActions>
+    //       <Button onClick={handleDeleteModalClose} color='primary'>
+    //         Cancel
+    //       </Button>
+    //       <Button onClick={handleDeleteConfirmClick} color='primary'>
+    //         Delete
+    //       </Button>
+    //     </DialogActions>
+    //   </Dialog>
+    // </>
   )
 }
 

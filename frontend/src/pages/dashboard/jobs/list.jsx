@@ -37,7 +37,11 @@ import FileOpenIcon from '@mui/icons-material/FileOpen'
 import FileCopyIcon from '@mui/icons-material/FileCopy'
 import toast from 'react-hot-toast'
 import Spinner from 'src/components/shared/Spinner'
-import { defaultDataGridStyles } from 'src/constants/data-grid-styles'
+import { motion } from 'framer-motion'
+import {
+  containerVariants,
+  itemVariants,
+} from 'src/constants/page-animation-variants'
 
 const Page = () => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
@@ -314,9 +318,21 @@ const Page = () => {
           py: 8,
         }}
       >
-        <Container maxWidth='xl'>
-          <Stack spacing={4}>
-            <Stack direction='row' justifyContent='space-between' spacing={4}>
+        <Container
+          maxWidth='xl'
+          component={motion.div}
+          variants={containerVariants}
+          initial='hidden'
+          animate='visible'
+        >
+          <Stack spacing={4} component={motion.div} variants={itemVariants}>
+            <Stack
+              direction='row'
+              justifyContent='space-between'
+              spacing={4}
+              component={motion.div}
+              variants={itemVariants}
+            >
               <Stack spacing={1}>
                 <Typography variant='h4'>Jobs</Typography>
               </Stack>
@@ -335,32 +351,36 @@ const Page = () => {
                 </Button>
               </Stack>
             </Stack>
-            <>
-              <Card sx={{ paddingTop: 1.5 }}>
-                <DataGrid
-                  getRowId={_.property('_id')}
-                  loading={isLoading || !jobs}
-                  rows={jobs || []}
-                  columns={finalColumns}
-                  sx={{ ...defaultDataGridStyles }}
-                  slots={{ toolbar: GridToolbar }}
-                  onExport={(rows, columns) => customExport(rows, columns)}
-                  slotProps={{
-                    csvOptions: { fields: ['id', 'company', 'company'] },
-                    toolbar: {
-                      showQuickFilter: true,
-                      printOptions: { disableToolbarButton: true },
-                    },
-                  }}
-                  localeText={{
-                    noRowsLabel: 'You have not added any jobs yet',
-                  }}
-                />
-              </Card>
-            </>
+
+            <Card
+              sx={{ paddingTop: 1.5 }}
+              component={motion.div}
+              variants={itemVariants}
+            >
+              <DataGrid
+                getRowId={_.property('_id')}
+                loading={isLoading || !jobs}
+                rows={jobs || []}
+                columns={finalColumns}
+                sx={{ height: 400 }}
+                slots={{ toolbar: GridToolbar }}
+                onExport={(rows, columns) => customExport(rows, columns)}
+                slotProps={{
+                  csvOptions: { fields: ['id', 'company', 'company'] },
+                  toolbar: {
+                    showQuickFilter: true,
+                    printOptions: { disableToolbarButton: true },
+                  },
+                }}
+                localeText={{
+                  noRowsLabel: 'You have not added any jobs yet',
+                }}
+              />
+            </Card>
           </Stack>
         </Container>
       </Box>
+
       {/* Delete Modal */}
       <Dialog
         open={deleteModalOpen}
@@ -372,7 +392,7 @@ const Page = () => {
           <Alert severity='error'>
             Are you sure you want to delete this job? This will delete the job &
             the associated estimate if there is one. This action cannot be
-            undone
+            undone.
           </Alert>
         </DialogContent>
         <DialogActions>
@@ -385,6 +405,86 @@ const Page = () => {
         </DialogActions>
       </Dialog>
     </>
+    // <>
+    //   <Seo title='Dashboard: Job List' />
+    //   <Box
+    //     component='main'
+    //     sx={{
+    //       flexGrow: 1,
+    //       py: 8,
+    //     }}
+    //   >
+    //     <Container maxWidth='xl'>
+    //       <Stack spacing={4}>
+    //         <Stack direction='row' justifyContent='space-between' spacing={4}>
+    //           <Stack spacing={1}>
+    //             <Typography variant='h4'>Jobs</Typography>
+    //           </Stack>
+    //           <Stack alignItems='center' direction='row' spacing={3}>
+    //             <Button
+    //               component={RouterLink}
+    //               href={paths.dashboard.jobs.create}
+    //               startIcon={
+    //                 <SvgIcon>
+    //                   <AddOutlinedIcon />
+    //                 </SvgIcon>
+    //               }
+    //               variant='contained'
+    //             >
+    //               Add New Job
+    //             </Button>
+    //           </Stack>
+    //         </Stack>
+    //         <>
+    //           <Card sx={{ paddingTop: 1.5 }}>
+    //             <DataGrid
+    //               getRowId={_.property('_id')}
+    //               loading={isLoading || !jobs}
+    //               rows={jobs || []}
+    //               columns={finalColumns}
+    //               sx={{ ...defaultDataGridStyles }}
+    //               slots={{ toolbar: GridToolbar }}
+    //               onExport={(rows, columns) => customExport(rows, columns)}
+    //               slotProps={{
+    //                 csvOptions: { fields: ['id', 'company', 'company'] },
+    //                 toolbar: {
+    //                   showQuickFilter: true,
+    //                   printOptions: { disableToolbarButton: true },
+    //                 },
+    //               }}
+    //               localeText={{
+    //                 noRowsLabel: 'You have not added any jobs yet',
+    //               }}
+    //             />
+    //           </Card>
+    //         </>
+    //       </Stack>
+    //     </Container>
+    //   </Box>
+    //   {/* Delete Modal */}
+    //   <Dialog
+    //     open={deleteModalOpen}
+    //     onClose={handleDeleteModalClose}
+    //     aria-labelledby='form-dialog-title'
+    //   >
+    //     <DialogTitle id='form-dialog-title'>Delete Job</DialogTitle>
+    //     <DialogContent>
+    //       <Alert severity='error'>
+    //         Are you sure you want to delete this job? This will delete the job &
+    //         the associated estimate if there is one. This action cannot be
+    //         undone
+    //       </Alert>
+    //     </DialogContent>
+    //     <DialogActions>
+    //       <Button onClick={handleDeleteModalClose} color='primary'>
+    //         Cancel
+    //       </Button>
+    //       <Button onClick={handleDeleteConfirmClick} color='primary'>
+    //         Delete
+    //       </Button>
+    //     </DialogActions>
+    //   </Dialog>
+    // </>
   )
 }
 

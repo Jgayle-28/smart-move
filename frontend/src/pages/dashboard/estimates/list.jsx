@@ -34,6 +34,11 @@ import OpenInNewOutlinedIcon from '@mui/icons-material/OpenInNewOutlined'
 import { SeverityPill } from 'src/components/severity-pill'
 import { Container } from '@mui/system'
 import { defaultDataGridStyles } from 'src/constants/data-grid-styles'
+import { motion } from 'framer-motion'
+import {
+  containerVariants,
+  itemVariants,
+} from 'src/constants/page-animation-variants'
 
 const Page = () => {
   const [focusEstimate, setFocusEstimate] = useState(null)
@@ -181,24 +186,36 @@ const Page = () => {
           py: 8,
         }}
       >
-        <Container maxWidth='xl'>
+        <Container
+          maxWidth='xl'
+          component={motion.div}
+          variants={containerVariants}
+          initial='hidden'
+          animate='visible'
+        >
           <Stack
             alignItems='flex-start'
             direction='row'
             justifyContent='space-between'
             spacing={1}
+            component={motion.div}
+            variants={itemVariants}
           >
             <Stack spacing={1}>
               <Typography variant='h4'>Estimates</Typography>
             </Stack>
           </Stack>
-          <Card sx={{ my: 8, paddingTop: 1.5 }}>
+          <Card
+            sx={{ my: 8, paddingTop: 1.5 }}
+            component={motion.div}
+            variants={itemVariants}
+          >
             <DataGrid
               getRowId={_.property('_id')}
               loading={isLoading || !estimates}
               rows={estimates || []}
               columns={finalColumns}
-              sx={{ ...defaultDataGridStyles }}
+              sx={{ height: 400 }}
               slots={{ toolbar: GridToolbar }}
               slotProps={{
                 toolbar: {
@@ -267,6 +284,102 @@ const Page = () => {
         </Container>
       </Box>
     </>
+    // <>
+    //   <Seo title='Dashboard: Estimate List' />
+    //   <Divider />
+    //   <Box
+    //     component='main'
+    //     sx={{
+    //       flexGrow: 1,
+    //       py: 8,
+    //     }}
+    //   >
+    //     <Container maxWidth='xl'>
+    //       <Stack
+    //         alignItems='flex-start'
+    //         direction='row'
+    //         justifyContent='space-between'
+    //         spacing={1}
+    //       >
+    //         <Stack spacing={1}>
+    //           <Typography variant='h4'>Estimates</Typography>
+    //         </Stack>
+    //       </Stack>
+    //       <Card sx={{ my: 8, paddingTop: 1.5 }}>
+    //         <DataGrid
+    //           getRowId={_.property('_id')}
+    //           loading={isLoading || !estimates}
+    //           rows={estimates || []}
+    //           columns={finalColumns}
+    //           sx={{ ...defaultDataGridStyles }}
+    //           slots={{ toolbar: GridToolbar }}
+    //           slotProps={{
+    //             toolbar: {
+    //               showQuickFilter: true,
+    //               printOptions: { disableToolbarButton: true },
+    //             },
+    //           }}
+    //           localeText={{
+    //             noRowsLabel: 'You have not added any estimates yet',
+    //           }}
+    //         />
+    //       </Card>
+    //       <EstimateDrawer
+    //         container={rootRef.current}
+    //         onClose={dialog.handleClose}
+    //         open={dialog.open}
+    //         estimate={focusEstimate}
+    //         coneModalOpen={coneModalOpen}
+    //         setConeModalOpen={setConeModalOpen}
+    //         focusEstimate={focusEstimate}
+    //       />
+    //       {/* Clone Dialog */}
+    //       <Dialog
+    //         fullScreen={fullScreen}
+    //         size='md'
+    //         open={coneModalOpen}
+    //         onClose={() => setConeModalOpen(false)}
+    //         aria-labelledby='responsive-dialog-title'
+    //         PaperProps={{
+    //           sx: {
+    //             height: '300px',
+    //             overflow: 'visible',
+    //           },
+    //         }}
+    //       >
+    //         <DialogTitle id='responsive-dialog-title'>
+    //           {'Select a Job to Clone estimate to'}
+    //         </DialogTitle>
+    //         <DialogContent>
+    //           <DialogContentText>
+    //             In order to clone this estimate to a job, you must select a job
+    //             from the list below.
+    //           </DialogContentText>
+    //           <Box sx={{ mt: 2 }}>
+    //             <JobSelect onChange={setJobToCloneTo} />
+    //           </Box>
+    //         </DialogContent>
+    //         <DialogActions>
+    //           <Button
+    //             autoFocus
+    //             onClick={() => setConeModalOpen(false)}
+    //             color='primary'
+    //           >
+    //             Cancel
+    //           </Button>
+    //           <Button
+    //             onClick={handleCloneClick}
+    //             autoFocus
+    //             variant='contained'
+    //             color='primary'
+    //           >
+    //             Clone
+    //           </Button>
+    //         </DialogActions>
+    //       </Dialog>
+    //     </Container>
+    //   </Box>
+    // </>
   )
 }
 
