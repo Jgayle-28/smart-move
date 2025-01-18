@@ -26,7 +26,14 @@ const paymentItemList = [
 const filter = createFilterOptions()
 
 export const PaymentDetailStep = (props) => {
-  const { formik, onBack, onNext, isEdit = false, ...other } = props
+  const {
+    formik,
+    onBack,
+    onNext,
+    isEdit = false,
+    handleSubmit,
+    ...other
+  } = props
 
   return (
     <Stack spacing={3} {...other}>
@@ -107,7 +114,8 @@ export const PaymentDetailStep = (props) => {
                 <ArrowRightAltOutlinedIcon />
               </SvgIcon>
             }
-            type='submit'
+            // type='submit'
+            onClick={handleSubmit}
             variant='contained'
           >
             Create Job

@@ -22,15 +22,14 @@ import { toast } from 'react-hot-toast'
 import { useSelector } from 'react-redux'
 import { EstimateStep } from './EstimateStep'
 import { useLocation } from 'react-router-dom'
+import { motion } from 'framer-motion'
 
 const initialValues = {
   jobTitle: '',
   jobType: 'move',
   customer: '',
-  pickUpAddress: '',
-  pickUpAddress2: '',
-  dropOffAddress: '',
-  dropOffAddress2: '',
+  pickUpAddresses: [{ address: '', details: '' }],
+  dropOffAddresses: [{ address: '', details: '' }],
   estimateDate: null,
   estimateTime: null,
   estimateComments: '',
@@ -102,12 +101,48 @@ export const JobCreateForm = () => {
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: () => handleSubmit(),
   })
 
   const { user } = useSelector((state) => state.auth)
 
-  const handleSubmit = () => {
+  // const handleSubmit = () => {
+  //   try {
+  //     const newJob = {
+  //       createdBy: user._id,
+  //       company: user.company,
+  //       jobTitle: formik.values.jobTitle,
+  //       jobType: formik.values.jobType,
+  //       customer: formik.values.customer,
+  //       pickUpAddress: formik.values.pickUpAddress,
+  //       pickUpAddress2: formik.values.pickUpAddress2,
+  //       pickUpAddress3: formik.values.pickUpAddress3,
+  //       dropOffAddress: formik.values.dropOffAddress,
+  //       dropOffAddress2: formik.values.dropOffAddress2,
+  //       dropOffAddress3: formik.values.dropOffAddress3,
+  //       jobDate: formik.values.jobDate,
+  //       jobStartTime: formik.values.jobStartTime,
+  //       jobComments: formik.values.jobComments,
+  //       estimateDate: formik.values.estimateDate,
+  //       estimateTime: formik.values.estimateTime,
+  //       estimateComments: formik.values.estimateComments,
+  //       billTo: formik.values.billTo,
+  //       billingSameAsCustomer: formik.values.billingSameAsCustomer,
+  //       paymentType: formik.values.paymentType,
+  //     }
+
+  //     dispatch(addJob(newJob))
+  //       .unwrap()
+  //       .then((res) => {
+  //         toast.success('Job successfully created')
+  //         handleComplete()
+  //       })
+  //   } catch (error) {
+  //     console.error('Error creating job')
+  //   }
+  // }
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    console.log('in submit')
     try {
       const newJob = {
         createdBy: user._id,
@@ -115,10 +150,8 @@ export const JobCreateForm = () => {
         jobTitle: formik.values.jobTitle,
         jobType: formik.values.jobType,
         customer: formik.values.customer,
-        pickUpAddress: formik.values.pickUpAddress,
-        pickUpAddress2: formik.values.pickUpAddress2,
-        dropOffAddress: formik.values.dropOffAddress,
-        dropOffAddress2: formik.values.dropOffAddress2,
+        pickUpAddresses: formik.values.pickUpAddresses,
+        dropOffAddresses: formik.values.dropOffAddresses,
         jobDate: formik.values.jobDate,
         jobStartTime: formik.values.jobStartTime,
         jobComments: formik.values.jobComments,
@@ -130,14 +163,12 @@ export const JobCreateForm = () => {
         paymentType: formik.values.paymentType,
       }
 
-      dispatch(addJob(newJob))
-        .unwrap()
-        .then((res) => {
-          toast.success('Job successfully created')
-          handleComplete()
-        })
+      await dispatch(addJob(newJob)).unwrap()
+      toast.success('Job successfully created')
+      handleComplete()
     } catch (error) {
-      console.error('Error creating job')
+      console.error('Error creating job:', error)
+      toast.error('Failed to create job')
     }
   }
 
@@ -199,7 +230,13 @@ export const JobCreateForm = () => {
       },
       {
         label: 'Payment Details',
-        content: <PaymentDetailStep formik={formik} onBack={handleBack} />,
+        content: (
+          <PaymentDetailStep
+            formik={formik}
+            onBack={handleBack}
+            handleSubmit={handleSubmit}
+          />
+        ),
       },
     ]
   }, [handleBack, handleNext, handleComplete, formik, selectedCustomer])
@@ -209,7 +246,13 @@ export const JobCreateForm = () => {
   }
 
   return (
-    <form noValidate onSubmit={formik.handleSubmit}>
+    <motion.form
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.2, ease: 'easeInOut' }}
+      noValidate
+      onSubmit={handleSubmit}
+    >
       <Stepper
         activeStep={activeStep}
         orientation='vertical'
@@ -247,6 +290,6 @@ export const JobCreateForm = () => {
           )
         })}
       </Stepper>
-    </form>
+    </motion.form>
   )
 }

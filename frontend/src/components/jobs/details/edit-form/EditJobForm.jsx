@@ -59,51 +59,22 @@ function EditJobForm({
   handleJobDeleteClick,
 }) {
   const [selectedCustomer, setSelectedCustomer] = useState('')
+  const dispatch = useDispatch()
 
   useEffect(() => {
     if (focusJob) setSelectedCustomer(focusJob.customer.customerName)
   }, [focusJob])
 
-  const dispatch = useDispatch()
-
-  const formik = useFormik({
-    initialValues: {
-      createdBy: focusJob?.createdBy,
-      jobTitle: focusJob?.jobTitle,
-      jobType: focusJob?.jobType,
-      customer: focusJob?.customer._id,
-      pickUpAddress: focusJob?.pickUpAddress,
-      pickUpAddress2: focusJob?.pickUpAddress2,
-      dropOffAddress: focusJob?.dropOffAddress,
-      dropOffAddress2: focusJob?.dropOffAddress2,
-      jobDate: focusJob?.jobDate || new Date(),
-      jobStartTime: focusJob?.jobStartTime || new Date(),
-      jobComments: focusJob?.jobComments,
-      estimateDate: focusJob?.estimateDate || new Date(),
-      estimateTime: focusJob?.estimateTime || new Date(),
-      estimateComments: focusJob?.estimateComments,
-      billTo: focusJob?.billTo,
-      billingSameAsCustomer: focusJob?.billingSameAsCustomer || false,
-      paymentType: focusJob?.paymentType,
-      isPaid: focusJob?.isPaid,
-    },
-    validationSchema,
-    onSubmit: () => handleSubmit(),
-  })
-
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     try {
       const updatedJob = {
         _id: focusJob._id,
-        company: focusJob.company,
         createdBy: formik.values.createdBy,
         jobTitle: formik.values.jobTitle,
         jobType: formik.values.jobType,
         customer: formik.values.customer,
-        pickUpAddress: formik.values.pickUpAddress,
-        pickUpAddress2: formik.values.pickUpAddress2,
-        dropOffAddress: formik.values.dropOffAddress,
-        dropOffAddress2: formik.values.dropOffAddress2,
+        pickUpAddresses: formik.values.pickUpAddresses,
+        dropOffAddresses: formik.values.dropOffAddresses,
         jobDate: formik.values.jobDate,
         jobStartTime: formik.values.jobStartTime,
         jobComments: formik.values.jobComments,
@@ -116,16 +87,40 @@ function EditJobForm({
         isPaid: formik.values.isPaid,
       }
 
-      dispatch(updateJob(updatedJob))
-        .unwrap()
-        .then(() => {
-          toast.success('Job successfully updated')
-          handleSaveComplete()
-        })
+      await dispatch(updateJob(updatedJob)).unwrap()
+      toast.success('Job successfully updated')
+      handleSaveComplete()
     } catch (error) {
-      console.error('Error creating job')
+      console.error('Error updating job:', error)
+      toast.error('Failed to update job')
     }
   }
+
+  const formik = useFormik({
+    initialValues: {
+      createdBy: focusJob?.createdBy || '',
+      jobTitle: focusJob?.jobTitle || '',
+      jobType: focusJob?.jobType || '',
+      customer: focusJob?.customer._id || '',
+      pickUpAddresses: focusJob?.pickUpAddresses || [
+        { address: '', details: '' },
+      ],
+      dropOffAddresses: focusJob?.dropOffAddresses || [
+        { address: '', details: '' },
+      ],
+      jobDate: focusJob?.jobDate || new Date(),
+      jobStartTime: focusJob?.jobStartTime || new Date(),
+      jobComments: focusJob?.jobComments || '',
+      estimateDate: focusJob?.estimateDate || new Date(),
+      estimateTime: focusJob?.estimateTime || new Date(),
+      estimateComments: focusJob?.estimateComments || '',
+      billTo: focusJob?.billTo || '',
+      billingSameAsCustomer: focusJob?.billingSameAsCustomer || false,
+      paymentType: focusJob?.paymentType || '',
+      isPaid: focusJob?.isPaid || false,
+    },
+    validationSchema,
+  })
 
   const togglePaidStatus = () => {
     formik.setFieldValue('isPaid', !formik.values.isPaid)
@@ -138,19 +133,17 @@ function EditJobForm({
     <>
       <Grid container spacing={4}>
         <Grid xs={6}>
-          <div>
-            <Button
-              size='small'
-              startIcon={
-                <SvgIcon fontSize='small'>
-                  <KeyboardBackspaceOutlinedIcon />
-                </SvgIcon>
-              }
-              onClick={handleToggleEdit}
-            >
-              Go Back
-            </Button>
-          </div>
+          <Button
+            size='small'
+            startIcon={
+              <SvgIcon>
+                <KeyboardBackspaceOutlinedIcon />
+              </SvgIcon>
+            }
+            onClick={handleToggleEdit}
+          >
+            Go Back
+          </Button>
         </Grid>
         <Grid xs={6}>
           <Stack direction='row' justifyContent='flex-end' spacing={2}>
@@ -159,7 +152,7 @@ function EditJobForm({
               color='success'
               disabled={isUntouched}
               startIcon={
-                <SvgIcon fontSize='small'>
+                <SvgIcon>
                   <CheckCircleOutlineOutlined />
                 </SvgIcon>
               }
@@ -171,7 +164,7 @@ function EditJobForm({
               color='error'
               size='small'
               startIcon={
-                <SvgIcon fontSize='small'>
+                <SvgIcon>
                   <RemoveCircleOutline />
                 </SvgIcon>
               }
@@ -252,6 +245,44 @@ function EditJobForm({
                 </Box>
               </Box>
             </Stack>
+            {/* <Stack spacing={4}>
+              <Box>
+                <Typography variant='h6'>Job Type</Typography>
+                <TextField
+                  fullWidth
+                  select
+                  label='Job Type'
+                  value={formik.values.jobType}
+                  name='jobType'
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                >
+                  {categoryOptions.map((option) => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </Box>
+              <Box>
+                <CustomerDetailsStep
+                  formik={formik}
+                  isEdit={true}
+                  selectedCustomer={selectedCustomer}
+                  setSelectedCustomer={setSelectedCustomer}
+                />
+              </Box>
+              <Box>
+                <Checkbox
+                  checked={formik.values.isPaid}
+                  onChange={togglePaidStatus}
+                  name='isPaid'
+                />
+                <Typography>
+                  {formik.values.isPaid ? 'Paid' : 'Unpaid'}
+                </Typography>
+              </Box>
+            </Stack> */}
           </form>
         </CardContent>
       </Card>

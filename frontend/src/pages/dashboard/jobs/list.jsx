@@ -92,12 +92,8 @@ const Page = () => {
       estimateTime: null,
       isPaid: false,
       jobTitle: `${job.jobTitle} (Clone)`,
-      pickupAddress: job.dropOffAddress,
-      pickUpAddress2: '',
-      pickUpAddress3: '',
-      dropOffAddress: '',
-      dropOffAddress2: '',
-      dropOffAddress3: '',
+      pickUpAddresses: [{ ...job.dropOffAddresses[0] }],
+      dropOffAddresses: [{ address: '', details: '' }],
     }
     delete newJob._id
     delete newJob.createdAt

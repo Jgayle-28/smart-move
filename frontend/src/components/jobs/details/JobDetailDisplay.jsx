@@ -50,7 +50,94 @@ export const JobDetailDisplay = (props) => {
         </Box>
 
         {/*----- Addresses -----*/}
+        {/*----- Addresses -----*/}
         <Box sx={{ mt: 3 }}>
+          <Card variant='outlined'>
+            <Stack divider={<Divider />}>
+              {/* Pickup Addresses */}
+              <Stack
+                sx={{
+                  px: 2,
+                  py: 1.5,
+                }}
+              >
+                <div>
+                  <Typography variant='subtitle1' sx={{ marginBottom: 1 }}>
+                    Pick Up
+                  </Typography>
+                  {focusJob.pickUpAddresses?.length > 0 ? (
+                    focusJob.pickUpAddresses.map((pickup, index) => (
+                      <Typography
+                        key={`pickup-${index}`}
+                        color='text.secondary'
+                        variant='caption'
+                        sx={{ display: 'block', mt: index > 0 ? 0.5 : 0 }}
+                      >
+                        {index + 1}. {pickup.address || 'TBD'}
+                        {pickup.details && (
+                          <Typography
+                            component='span'
+                            color='text.secondary'
+                            variant='caption'
+                            sx={{ display: 'block', ml: 2 }}
+                          >
+                            Details: {pickup.details}
+                          </Typography>
+                        )}
+                      </Typography>
+                    ))
+                  ) : (
+                    <Typography color='text.secondary' variant='caption'>
+                      TBD
+                    </Typography>
+                  )}
+                </div>
+              </Stack>
+
+              {/* Drop Off Addresses */}
+              <Stack
+                sx={{
+                  px: 2,
+                  py: 1.5,
+                }}
+              >
+                <div>
+                  <Typography variant='subtitle1' sx={{ marginBottom: 1 }}>
+                    Drop Off
+                  </Typography>
+                  {focusJob.dropOffAddresses?.length > 0 ? (
+                    focusJob.dropOffAddresses.map((dropoff, index) => (
+                      <Typography
+                        key={`dropoff-${index}`}
+                        color='text.secondary'
+                        variant='caption'
+                        sx={{ display: 'block', mt: index > 0 ? 0.5 : 0 }}
+                      >
+                        {index + 1}. {dropoff.address || 'TBD'}
+                        {dropoff.details && (
+                          <Typography
+                            component='span'
+                            color='text.secondary'
+                            variant='caption'
+                            sx={{ display: 'block', ml: 2 }}
+                          >
+                            Details: {dropoff.details}
+                          </Typography>
+                        )}
+                      </Typography>
+                    ))
+                  ) : (
+                    <Typography color='text.secondary' variant='caption'>
+                      TBD
+                    </Typography>
+                  )}
+                </div>
+              </Stack>
+            </Stack>
+          </Card>
+        </Box>
+
+        {/* <Box sx={{ mt: 3 }}>
           <Card variant='outlined'>
             <Stack divider={<Divider />}>
               <Stack
@@ -70,6 +157,15 @@ export const JobDetailDisplay = (props) => {
                         variant='caption'
                       >
                         2. {focusJob.pickUpAddress2 || ''}
+                      </Typography>
+                    )}
+                    {focusJob.pickUpAddress3 && (
+                      <Typography
+                        component='p'
+                        color='text.secondary'
+                        variant='caption'
+                      >
+                        3. {focusJob.pickUpAddress3 || ''}
                       </Typography>
                     )}
                   </Typography>
@@ -94,12 +190,21 @@ export const JobDetailDisplay = (props) => {
                         2. {focusJob.dropOffAddress2 || ''}
                       </Typography>
                     )}
+                    {focusJob.dropOffAddress3 && (
+                      <Typography
+                        component='p'
+                        color='text.secondary'
+                        variant='caption'
+                      >
+                        3. {focusJob.dropOffAddress3 || ''}
+                      </Typography>
+                    )}
                   </Typography>
                 </div>
               </Stack>
             </Stack>
           </Card>
-        </Box>
+        </Box> */}
 
         {/*----- Job Comments -----*/}
         {focusJob.jobComments && (

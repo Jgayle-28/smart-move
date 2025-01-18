@@ -187,16 +187,13 @@ export const EstimatePdfDocument = ({ focusJob, company, focusEstimate }) => {
             </Text>
           </View>
         </View>
+        {/* Addresses */}
         <View style={styles.addresses}>
           <Text style={[styles.body2, styles.width50]}>
-            Moving From:{' '}
-            {focusJob?.pickUpAddress?.length ? focusJob?.pickUpAddress : 'TBD'}
+            Moving From: {focusJob?.pickUpAddresses?.[0]?.address || 'TBD'}
           </Text>
           <Text style={[styles.body2, styles.width50]}>
-            Moving To:{' '}
-            {focusJob?.dropOffAddress?.length
-              ? focusJob?.dropOffAddress
-              : 'TBD'}
+            Moving To: {focusJob?.dropOffAddresses?.[0]?.address || 'TBD'}
           </Text>
         </View>
         {/*----- Move Charges -----*/}

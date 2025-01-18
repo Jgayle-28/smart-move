@@ -108,22 +108,17 @@ export const EstimatePreview = (props) => {
         <Grid container justifyContent='space-between'>
           <Grid xs={12} md={6}>
             <Typography gutterBottom variant='body2'>
-              Moving From:{' '}
-              {focusJob?.pickUpAddress?.length
-                ? focusJob?.pickUpAddress
-                : 'TBD'}
+              Moving From: {focusJob?.pickUpAddresses?.[0]?.address || 'TBD'}
             </Typography>
           </Grid>
           <Grid xs={12} md={6}>
             <Typography gutterBottom variant='body2'>
-              Moving To:{' '}
-              {focusJob?.dropOffAddress?.length
-                ? focusJob?.dropOffAddress
-                : 'TBD'}
+              Moving To: {focusJob?.dropOffAddresses?.[0]?.address || 'TBD'}
             </Typography>
           </Grid>
         </Grid>
       </Box>
+
       <Table sx={{ mt: 6 }}>
         <TableHead>
           <TableRow>
