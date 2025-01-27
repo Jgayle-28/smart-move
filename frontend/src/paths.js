@@ -78,6 +78,12 @@ export const paths = {
       details: '/dashboard/inventory/:inventoryId',
       edit: '/dashboard/inventory/:inventoryId/:mode',
     },
+    employees: {
+      index: '/dashboard/employees',
+      create: '/dashboard/employees/create',
+      details: '/dashboard/employees/:employeeId',
+      edit: '/dashboard/employees/:employeeId/:mode',
+    },
     help: '/dashboard/help',
     account: '/dashboard/account',
     calendar: '/dashboard/calendar',

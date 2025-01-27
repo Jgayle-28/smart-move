@@ -23,7 +23,6 @@ const InvoiceDetailPage = lazy(() =>
 )
 
 // Jobs
-
 const JobsList = lazy(() => import('src/pages/dashboard/jobs/list'))
 const JobCreatePage = lazy(() => import('src/pages/dashboard/jobs/create'))
 const JobDetailPage = lazy(() => import('src/pages/dashboard/jobs/detail'))
@@ -38,6 +37,14 @@ const EstimateDetailPage = lazy(() =>
 // Inventory
 const InventoryPage = lazy(() =>
   import('src/pages/dashboard/inventory/InventoryPage')
+)
+// Employees
+const EmployeeList = lazy(() => import('src/pages/dashboard/employees/list'))
+const EmployeeCreatePage = lazy(() =>
+  import('src/pages/dashboard/employees/create')
+)
+const EmployeeDetailPage = lazy(() =>
+  import('src/pages/dashboard/employees/detail')
 )
 // Help
 const HelpPage = lazy(() => import('src/pages/dashboard/HelpPage'))
@@ -163,6 +170,27 @@ export const dashboardRoutes = [
         ],
       },
       {
+        path: 'employees',
+        children: [
+          {
+            index: true,
+            element: <EmployeeList />,
+          },
+          {
+            path: 'create',
+            element: <EmployeeCreatePage />,
+          },
+          {
+            path: ':employeeId',
+            element: <EmployeeDetailPage />,
+          },
+          // {
+          //   path: ':employeeId/:mode',
+          //   element: <EmployeeDetailPage />,
+          // },
+        ],
+      },
+      {
         path: 'Inventory',
         children: [
           {
@@ -171,6 +199,7 @@ export const dashboardRoutes = [
           },
         ],
       },
+
       {
         path: 'account',
         element: <AccountPage />,

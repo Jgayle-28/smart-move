@@ -60,6 +60,15 @@ export const useStandardRoutes = () => {
             ),
           },
           {
+            title: t(tokens.nav.employees),
+            path: paths.dashboard.employees.index,
+            icon: (
+              <SvgIcon fontSize='small'>
+                <LayoutAlt02Icon />
+              </SvgIcon>
+            ),
+          },
+          {
             title: t(tokens.nav.calendar),
             path: paths.dashboard.calendar,
             icon: (

@@ -30,6 +30,7 @@ export const tokens = {
     error: 'nav.error',
     estimates: 'nav.estimates',
     inventory: 'nav.inventory',
+    employees: 'nav.employees',
     help: 'nav.help',
     feed: 'nav.feed',
     fileManager: 'nav.fileManager',

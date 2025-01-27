@@ -30,12 +30,13 @@ import XSquareIcon from 'src/icons/untitled-ui/duocolor/x-square'
 import ViewInArOutlinedIcon from '@mui/icons-material/ViewInArOutlined'
 import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined'
 import ContactSupportOutlinedIcon from '@mui/icons-material/ContactSupportOutlined'
+import HubOutlinedIcon from '@mui/icons-material/HubOutlined'
 import { tokens } from 'src/locales/tokens'
 import { paths } from 'src/paths'
 import { useSelector } from 'react-redux'
 
 /**
- * Updates the side nav routes
+ * Updates the MAIN nav routes
  */
 
 export const useSections = () => {
@@ -140,6 +141,16 @@ export const useSections = () => {
             icon: (
               <SvgIcon fontSize='small'>
                 <CalendarIcon />
+              </SvgIcon>
+            ),
+          },
+          {
+            title: 'Employees',
+            path: paths.dashboard.employees.index,
+            icon: (
+              <SvgIcon fontSize='small'>
+                <HubOutlinedIcon />
+                {/* <LineChartUp04Icon /> */}
               </SvgIcon>
             ),
           },
