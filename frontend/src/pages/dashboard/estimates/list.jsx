@@ -215,7 +215,7 @@ const Page = () => {
               loading={isLoading || !estimates}
               rows={estimates || []}
               columns={finalColumns}
-              sx={{ height: 400 }}
+              sx={{ minHeight: 400 }}
               slots={{ toolbar: GridToolbar }}
               slotProps={{
                 toolbar: {

@@ -353,7 +353,7 @@ const Page = () => {
                 loading={isLoading || !employees}
                 rows={employees || []}
                 columns={finalColumns}
-                sx={{ height: 400 }}
+                sx={{ minHeight: 400 }}
                 slots={{ toolbar: GridToolbar }}
                 onExport={(rows, columns) => customExport(rows, columns)}
                 slotProps={{

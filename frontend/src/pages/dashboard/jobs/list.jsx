@@ -83,6 +83,7 @@ const Page = () => {
   }
 
   const handleJobCloneClick = (job) => {
+    console.log(job)
     const newJob = {
       ...job,
       createdBy: user._id,
@@ -93,7 +94,7 @@ const Page = () => {
       isPaid: false,
       jobTitle: `${job.jobTitle} (Clone)`,
       pickUpAddresses: [{ ...job.dropOffAddresses[0] }],
-      dropOffAddresses: [{ address: '', details: '' }],
+      dropOffAddresses: [{ address: '...', details: '' }],
     }
     delete newJob._id
     delete newJob.createdAt
@@ -358,7 +359,7 @@ const Page = () => {
                 loading={isLoading || !jobs}
                 rows={jobs || []}
                 columns={finalColumns}
-                sx={{ height: 400 }}
+                sx={{ minHeight: 400 }}
                 slots={{ toolbar: GridToolbar }}
                 onExport={(rows, columns) => customExport(rows, columns)}
                 slotProps={{

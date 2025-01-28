@@ -195,7 +195,7 @@ const Page = () => {
                 loading={isLoading || !customers}
                 rows={customers || []}
                 columns={finalColumns}
-                sx={{ height: 400 }}
+                sx={{ minHeight: 400 }}
                 slots={{ toolbar: GridToolbar }}
                 slotProps={{
                   toolbar: {
