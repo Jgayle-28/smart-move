@@ -62,12 +62,84 @@ const createEmployee = asyncHandler(async (req, res) => {
     res.status(201).json(savedEmployee)
   } catch (error) {
     console.error('Error creating employee:', error)
+
+    // Check for duplicate key error
+    if (error.code === 11000 && error.keyPattern?.email) {
+      return res.status(400).json({
+        message:
+          'The email address is already in use. Please use a different email.',
+      })
+    }
+
     res.status(500).json({
       message: 'An error occurred while creating the employee',
       error: error.message,
     })
   }
 })
+
+// const createEmployee = asyncHandler(async (req, res) => {
+//   try {
+//     const {
+//       name,
+//       email,
+//       phoneNumber,
+//       address,
+//       status,
+//       comments,
+//       daysAvailable,
+//       company,
+//     } = req.body
+
+//     // Validate required fields
+//     if (!name || !email || !phoneNumber || !status || !company) {
+//       return res.status(400).json({ message: 'Missing required fields' })
+//     }
+
+//     // Ensure daysAvailable contains only valid days
+//     const validDays = [
+//       'Monday',
+//       'Tuesday',
+//       'Wednesday',
+//       'Thursday',
+//       'Friday',
+//       'Saturday',
+//       'Sunday',
+//     ]
+//     if (
+//       daysAvailable &&
+//       (!Array.isArray(daysAvailable) ||
+//         daysAvailable.some((day) => !validDays.includes(day)))
+//     ) {
+//       return res.status(400).json({
+//         message: 'Invalid daysAvailable. Must contain valid days of the week.',
+//       })
+//     }
+
+//     // Create the employee
+//     const newEmployee = new Employee({
+//       name,
+//       email,
+//       phoneNumber,
+//       address,
+//       status,
+//       comments: comments || '',
+//       daysAvailable: daysAvailable || [],
+//       company,
+//     })
+
+//     // Save the employee to the database
+//     const savedEmployee = await newEmployee.save()
+
+//     res.status(201).json(savedEmployee)
+//   } catch (error) {
+//     console.error('Error creating employee:', error)
+//     res.status(500).json({
+//       message: 'An error occurred while creating the employee',
+//       error: error.message,
+//     })
+//   }
+// })
 
 // @desc update an employee
 // @route PUT /api/employees
