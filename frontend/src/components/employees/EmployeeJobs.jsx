@@ -37,6 +37,7 @@ function EmployeeJobs({ employeeJobs = [] }) {
             <TableHead>
               <TableRow>
                 <TableCell>Type</TableCell>
+                <TableCell>Customer</TableCell>
                 <TableCell>Date</TableCell>
                 <TableCell>PU Address</TableCell>
                 <TableCell>DO Address</TableCell>
@@ -51,6 +52,7 @@ function EmployeeJobs({ employeeJobs = [] }) {
                 <TableCell>
                   <SeverityPill>{job.jobType}</SeverityPill>
                 </TableCell>
+                <TableCell>{job.customer.customerName}</TableCell>
                 <TableCell>
                   {format(new Date(job.jobDate), 'MM/dd/yyyy')}
                 </TableCell>

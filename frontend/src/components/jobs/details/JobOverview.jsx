@@ -12,10 +12,10 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   useMediaQuery,
   Tooltip,
+  Box,
 } from '@mui/material'
 import { PropertyList } from 'src/components/property-list'
 import { PropertyListItem } from 'src/components/property-list-item'
@@ -32,6 +32,14 @@ import AddToGoogleButton from 'src/components/shared/AddToGoogleButton'
 import { useTheme } from '@emotion/react'
 import { useGoogleCalendar } from 'src/hooks/use-google-calendar'
 import AddToOutlookButton from 'src/components/shared/AddToOutlookButton'
+const bull = (
+  <Box
+    component='span'
+    sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
+  >
+    •
+  </Box>
+)
 
 export const JobOverview = (props) => {
   const { focusJob } = useSelector((state) => state.jobs)
@@ -84,7 +92,7 @@ export const JobOverview = (props) => {
   if (focusJob !== null)
     return (
       <>
-        <Grid container spacing={4}>
+        <Grid container spacing={4} sx={{ mt: 2 }}>
           <Grid xs={12}></Grid>
           <Grid xs={12}></Grid>
         </Grid>
@@ -102,6 +110,20 @@ export const JobOverview = (props) => {
                 <SeverityPill color='info'>
                   {focusJob && getJobPillLabel()}
                 </SeverityPill>
+              </PropertyListItem>
+              <PropertyListItem
+                align='vertical'
+                label='Team'
+                sx={{
+                  px: 0,
+                  py: 1,
+                }}
+              >
+                {focusJob?.employees.map((employee) => (
+                  <Typography variant='subtitle2' key={employee._id}>
+                    {bull} {employee.name}
+                  </Typography>
+                ))}
               </PropertyListItem>
               <PropertyListItem
                 align='vertical'

@@ -51,7 +51,7 @@ function JobDetailMain({
   if (isLoading || focusJob === null) return <Spinner />
   return (
     <>
-      <Grid container spacing={4}>
+      <Grid container spacing={4} sx={{ mb: 1 }}>
         <Grid xs={6}>
           <div>
             <Button

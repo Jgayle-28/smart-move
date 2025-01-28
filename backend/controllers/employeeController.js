@@ -173,14 +173,18 @@ const deleteEmployee = asyncHandler(async (req, res) => {
 // @route GET /api/users/current-user
 // @access private
 const getCurrentEmployee = asyncHandler(async (req, res) => {
-  const employee = await Employee.findOne({ _id: req.params.id }).populate(
-    'jobs'
-  )
+  const employee = await Employee.findOne({ _id: req.params.id }).populate({
+    path: 'jobs',
+    populate: {
+      path: 'customer', // Populate the customer field in each job
+      model: 'Customer', // Specify the model if needed (optional if already defined in the schema)
+    },
+  })
 
   if (employee) {
     res.status(200).json(employee)
   } else {
-    res.status(401)
+    res.status(404) // Use 404 for not found
     throw new Error('Employee not found...')
   }
 })

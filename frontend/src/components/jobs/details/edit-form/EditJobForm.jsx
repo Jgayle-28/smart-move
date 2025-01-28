@@ -26,6 +26,7 @@ import { useEffect, useState } from 'react'
 import { JobDetailsStep } from '../../form/JobDetailsStep'
 import { PaymentDetailStep } from '../../form/PaymentDetailStep'
 import { EstimateStep } from '../../form/EstimateStep'
+import EmployeeSelect from 'src/components/shared/EmployeeSelect'
 
 const categoryOptions = [
   {
@@ -72,6 +73,7 @@ function EditJobForm({
         createdBy: formik.values.createdBy,
         jobTitle: formik.values.jobTitle,
         jobType: formik.values.jobType,
+        employees: formik.values.employees,
         customer: formik.values.customer,
         pickUpAddresses: formik.values.pickUpAddresses,
         dropOffAddresses: formik.values.dropOffAddresses,
@@ -102,6 +104,7 @@ function EditJobForm({
       jobTitle: focusJob?.jobTitle || '',
       jobType: focusJob?.jobType || '',
       customer: focusJob?.customer._id || '',
+      employees: focusJob?.employees.map((e) => e._id) || [],
       pickUpAddresses: focusJob?.pickUpAddresses || [
         { address: '', details: '' },
       ],
@@ -131,7 +134,7 @@ function EditJobForm({
 
   return (
     <>
-      <Grid container spacing={4}>
+      <Grid container spacing={4} sx={{ mb: 1 }}>
         <Grid xs={6}>
           <Button
             size='small'
@@ -199,6 +202,15 @@ function EditJobForm({
                       </MenuItem>
                     ))}
                   </TextField>
+                  <Typography variant='h6' sx={{ marginTop: 1 }}>
+                    Assign Employees
+                  </Typography>
+                  <EmployeeSelect
+                    value={formik.values.employees}
+                    onChange={(field, newValue) =>
+                      formik.setFieldValue('employees', newValue)
+                    }
+                  />
                 </Stack>
               </Box>
 
@@ -245,44 +257,6 @@ function EditJobForm({
                 </Box>
               </Box>
             </Stack>
-            {/* <Stack spacing={4}>
-              <Box>
-                <Typography variant='h6'>Job Type</Typography>
-                <TextField
-                  fullWidth
-                  select
-                  label='Job Type'
-                  value={formik.values.jobType}
-                  name='jobType'
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                >
-                  {categoryOptions.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </Box>
-              <Box>
-                <CustomerDetailsStep
-                  formik={formik}
-                  isEdit={true}
-                  selectedCustomer={selectedCustomer}
-                  setSelectedCustomer={setSelectedCustomer}
-                />
-              </Box>
-              <Box>
-                <Checkbox
-                  checked={formik.values.isPaid}
-                  onChange={togglePaidStatus}
-                  name='isPaid'
-                />
-                <Typography>
-                  {formik.values.isPaid ? 'Paid' : 'Unpaid'}
-                </Typography>
-              </Box>
-            </Stack> */}
           </form>
         </CardContent>
       </Card>

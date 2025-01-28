@@ -28,6 +28,7 @@ const initialValues = {
   jobTitle: '',
   jobType: 'move',
   customer: '',
+  employees: [],
   pickUpAddresses: [{ address: '', details: '' }],
   dropOffAddresses: [{ address: '', details: '' }],
   estimateDate: null,
@@ -105,41 +106,6 @@ export const JobCreateForm = () => {
 
   const { user } = useSelector((state) => state.auth)
 
-  // const handleSubmit = () => {
-  //   try {
-  //     const newJob = {
-  //       createdBy: user._id,
-  //       company: user.company,
-  //       jobTitle: formik.values.jobTitle,
-  //       jobType: formik.values.jobType,
-  //       customer: formik.values.customer,
-  //       pickUpAddress: formik.values.pickUpAddress,
-  //       pickUpAddress2: formik.values.pickUpAddress2,
-  //       pickUpAddress3: formik.values.pickUpAddress3,
-  //       dropOffAddress: formik.values.dropOffAddress,
-  //       dropOffAddress2: formik.values.dropOffAddress2,
-  //       dropOffAddress3: formik.values.dropOffAddress3,
-  //       jobDate: formik.values.jobDate,
-  //       jobStartTime: formik.values.jobStartTime,
-  //       jobComments: formik.values.jobComments,
-  //       estimateDate: formik.values.estimateDate,
-  //       estimateTime: formik.values.estimateTime,
-  //       estimateComments: formik.values.estimateComments,
-  //       billTo: formik.values.billTo,
-  //       billingSameAsCustomer: formik.values.billingSameAsCustomer,
-  //       paymentType: formik.values.paymentType,
-  //     }
-
-  //     dispatch(addJob(newJob))
-  //       .unwrap()
-  //       .then((res) => {
-  //         toast.success('Job successfully created')
-  //         handleComplete()
-  //       })
-  //   } catch (error) {
-  //     console.error('Error creating job')
-  //   }
-  // }
   const handleSubmit = async (e) => {
     e.preventDefault()
     console.log('in submit')
@@ -150,6 +116,7 @@ export const JobCreateForm = () => {
         jobTitle: formik.values.jobTitle,
         jobType: formik.values.jobType,
         customer: formik.values.customer,
+        employees: formik.values.employees,
         pickUpAddresses: formik.values.pickUpAddresses,
         dropOffAddresses: formik.values.dropOffAddresses,
         jobDate: formik.values.jobDate,
@@ -187,7 +154,7 @@ export const JobCreateForm = () => {
   const steps = useMemo(() => {
     return [
       {
-        label: 'Job Type',
+        label: 'Job Details & Employee Assignment',
         content: (
           <JobCategoryStep
             formik={formik}

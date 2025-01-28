@@ -11,12 +11,13 @@ const {
 
 const Job = require('../models/jobModel')
 const Estimate = require('../models/estimateModel')
+const Employee = require('../models/employeeModel')
 
 // @desc POST add a job
 // @route /api/jobs
 // @access private
 const addJob = asyncHandler(async (req, res) => {
-  const { customer, jobType } = req.body
+  const { customer, jobType, employees } = req.body
 
   if (!customer || !jobType) {
     res.status(400)
@@ -27,14 +28,22 @@ const addJob = asyncHandler(async (req, res) => {
     )
   }
 
-  // create job
+  // Create the job
   const job = await Job.create(req.body)
 
   if (job) {
+    // If employees are provided, update their jobs array
+    if (Array.isArray(employees) && employees.length > 0) {
+      await Employee.updateMany(
+        { _id: { $in: employees } },
+        { $push: { jobs: job._id } }
+      )
+    }
+
     res.status(201).json(job)
   } else {
     res.status(400)
-    throw new Error('Invalid company data')
+    throw new Error('Invalid job data')
   }
 })
 
@@ -48,13 +57,41 @@ const updateJob = asyncHandler(async (req, res) => {
     res.status(404)
     throw new Error('Job not found')
   }
-  // Update and return new patient
-  const updatedJob = await Job.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-  })
+
+  const { employees = [] } = req.body
+
+  // Update employees for the job
+  const previousEmployees = job.employees || []
+
+  // Add job ID to new employees' jobs array
+  if (Array.isArray(employees) && employees.length > 0) {
+    await Employee.updateMany(
+      { _id: { $in: employees } },
+      { $addToSet: { jobs: job._id } } // Add job ID if not already present
+    )
+  }
+
+  // Remove job ID from old employees who are no longer associated
+  const employeesToRemove = previousEmployees.filter(
+    (empId) => !employees.includes(empId.toString())
+  )
+  if (employeesToRemove.length > 0) {
+    await Employee.updateMany(
+      { _id: { $in: employeesToRemove } },
+      { $pull: { jobs: job._id } } // Remove job ID
+    )
+  }
+
+  // Update the job document
+  const updatedJob = await Job.findByIdAndUpdate(
+    req.params.id,
+    { ...req.body, employees }, // Ensure employees array is updated
+    { new: true }
+  )
     .populate('customer')
     .populate('createdBy')
     .populate('estimate')
+    .populate('employees') // Populate the employees field for the updated response
 
   res.status(200).json(updatedJob)
 })
@@ -153,6 +190,7 @@ const getJob = asyncHandler(async (req, res) => {
     .populate('customer')
     .populate('createdBy')
     .populate('estimate')
+    .populate('employees')
 
   if (job) {
     res.status(200).json(job)
