@@ -6,7 +6,7 @@ import {
   Tab,
   Tabs,
   Typography,
-  Unstable_Grid2 as Grid,
+  Grid2 as Grid,
 } from '@mui/material'
 import {
   getRoomItems,
@@ -121,7 +121,7 @@ function Inventory({ tempInventoryRef, toggleSidebar, sideBarOpen }) {
         }}
       >
         <Grid container spacing={3}>
-          <Grid xs={12} md={4}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <EstimateSideBar
               currentTab='inventory'
               container={rootRef.current}
@@ -132,7 +132,7 @@ function Inventory({ tempInventoryRef, toggleSidebar, sideBarOpen }) {
             />
           </Grid>
 
-          <Grid xs={12} md={8}>
+          <Grid size={{ xs: 12, md: 8 }}>
             <Card>
               <Box
                 display='flex'
@@ -160,8 +160,7 @@ function Inventory({ tempInventoryRef, toggleSidebar, sideBarOpen }) {
       {inventory.length > 0 && (
         <Grid container>
           <Grid
-            xs={12}
-            md={12}
+            size={{ xs: 12, md: 12 }}
             sx={{
               px: 3,
               mb: 3,

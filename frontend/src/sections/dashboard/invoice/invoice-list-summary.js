@@ -4,13 +4,13 @@ import {
   CardContent,
   Stack,
   Typography,
-  Unstable_Grid2 as Grid,
+  Grid2 as Grid,
 } from '@mui/material'
 
 export const InvoiceListSummary = () => (
   <div>
     <Grid container spacing={3}>
-      <Grid xs={12} md={6} lg={4}>
+      <Grid size={{ xs: 12, md: 6, lg: 4 }}>
         <Card>
           <CardContent>
             <Stack alignItems='center' direction='row' spacing={2}>
@@ -35,7 +35,7 @@ export const InvoiceListSummary = () => (
           </CardContent>
         </Card>
       </Grid>
-      <Grid xs={12} md={6} lg={4}>
+      <Grid size={{ xs: 12, md: 6, lg: 4 }}>
         <Card>
           <CardContent>
             <Stack alignItems='center' direction='row' spacing={2}>
@@ -62,7 +62,7 @@ export const InvoiceListSummary = () => (
           </CardContent>
         </Card>
       </Grid>
-      <Grid xs={12} md={6} lg={4}>
+      <Grid size={{ xs: 12, md: 6, lg: 4 }}>
         <Card>
           <CardContent>
             <Stack alignItems='center' direction='row' spacing={2}>

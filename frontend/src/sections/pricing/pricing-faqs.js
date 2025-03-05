@@ -7,7 +7,7 @@ import {
   Stack,
   SvgIcon,
   Typography,
-  Unstable_Grid2 as Grid,
+  Grid2 as Grid,
 } from '@mui/material'
 
 const faqs = [
@@ -73,7 +73,7 @@ export const PricingFaqs = (props) => {
     <Box sx={{ py: '120px' }} {...props}>
       <Container maxWidth='lg'>
         <Grid container spacing={4}>
-          <Grid xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <Stack spacing={2}>
               <Typography variant='h3'>Everything you need to know</Typography>
               <Typography color='text.secondary' variant='subtitle2'>
@@ -81,7 +81,7 @@ export const PricingFaqs = (props) => {
               </Typography>
             </Stack>
           </Grid>
-          <Grid xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <Stack spacing={4}>
               {faqs.map((faq, index) => (
                 <Faq key={index} {...faq} />

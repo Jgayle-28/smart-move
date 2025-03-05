@@ -19,7 +19,7 @@ import {
   TableHead,
   TableRow,
   Typography,
-  Unstable_Grid2 as Grid,
+  Grid2 as Grid,
 } from '@mui/material'
 import { PropertyList } from 'src/components/property-list'
 import { PropertyListItem } from 'src/components/property-list-item'

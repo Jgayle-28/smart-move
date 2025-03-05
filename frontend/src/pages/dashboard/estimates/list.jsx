@@ -65,7 +65,7 @@ const Page = () => {
   }, [user, dispatch])
 
   useEffect(() => {
-    dispatch(getJobs(user.company))
+    dispatch(getJobs(user?.company))
     return () => {
       dispatch(clearJobs())
     }

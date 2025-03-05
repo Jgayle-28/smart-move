@@ -5,7 +5,7 @@ import {
   CardHeader,
   Stack,
   TextField,
-  Unstable_Grid2 as Grid,
+  Grid2 as Grid,
   Box,
   Typography,
   Divider,
@@ -84,10 +84,10 @@ function FeesForm({ formik }) {
           }}
         >
           <Grid container spacing={3}>
-            <Grid xs={12} md={12}>
+            <Grid size={{ xs: 12, md: 12 }}>
               <Tip message='Add any additional fees here.' />
             </Grid>
-            <Grid xs={12} md={3}>
+            <Grid size={{ xs: 12, md: 3 }}>
               <TextField
                 fullWidth
                 label='Trip Fee'
@@ -99,7 +99,7 @@ function FeesForm({ formik }) {
                 value={formik.values.tripFee}
               />
             </Grid>
-            <Grid xs={12} md={3}>
+            <Grid size={{ xs: 12, md: 3 }}>
               <TextField
                 fullWidth
                 label='Receiving Fee'
@@ -111,10 +111,10 @@ function FeesForm({ formik }) {
                 value={formik.values.receivingFee}
               />
             </Grid>
-            <Grid xs={12} md={12}>
+            <Grid size={{ xs: 12, md: 12 }}>
               <Divider />
             </Grid>
-            <Grid xs={12} md={3}>
+            <Grid size={{ xs: 12, md: 3 }}>
               <TextField
                 fullWidth
                 label='Fee'
@@ -125,7 +125,7 @@ function FeesForm({ formik }) {
                 value={feeObj.feeName}
               />
             </Grid>
-            <Grid xs={12} md={3}>
+            <Grid size={{ xs: 12, md: 3 }}>
               <TextField
                 fullWidth
                 label='Amount'
@@ -137,13 +137,13 @@ function FeesForm({ formik }) {
                 value={feeObj.feeAmount}
               />
             </Grid>
-            <Grid xs={12} md={2}>
+            <Grid size={{ xs: 12, md: 2 }}>
               <Button variant='contained' onClick={handleAddFeeItem}>
                 Add Fee
               </Button>
             </Grid>
             {feeItems.length > 0 && (
-              <Grid xs={12} md={12}>
+              <Grid size={{ xs: 12, md: 12 }}>
                 <FeesItemTable
                   feeItems={feeItems}
                   removeFeeItem={handleRemoveFeeItem}
@@ -153,7 +153,7 @@ function FeesForm({ formik }) {
           </Grid>
         </Scrollbar>
         <Grid container spacing={3}>
-          <Grid xs={12} md={12}>
+          <Grid size={{ xs: 12, md: 12 }}>
             <Stack
               direction='row'
               spacing={2}

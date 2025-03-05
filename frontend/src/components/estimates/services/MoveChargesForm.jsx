@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Stack, TextField, Unstable_Grid2 as Grid, Box } from '@mui/material'
+import { Stack, TextField, Grid2 as Grid, Box } from '@mui/material'
 import { useSelector, useDispatch } from 'react-redux'
 import { Scrollbar } from 'src/components/scrollbar'
 import { SeverityPill } from 'src/components/severity-pill'
@@ -94,10 +94,10 @@ function MoveChargesForm({ formik }) {
         }}
       >
         <Grid container spacing={3}>
-          <Grid xs={12} md={12}>
+          <Grid size={{ xs: 12, md: 12 }}>
             <Tip message='Make sure to add additional time for drive time, stairs, etc...' />
           </Grid>
-          <Grid xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <TextField
               fullWidth
               label='Number Of Men'
@@ -112,7 +112,7 @@ function MoveChargesForm({ formik }) {
               value={formik.values.totalMen}
             />
           </Grid>
-          <Grid xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <TextField
               fullWidth
               label='Number of Trucks'
@@ -131,7 +131,7 @@ function MoveChargesForm({ formik }) {
               value={formik.values.totalTrucks}
             />
           </Grid>
-          <Grid xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <TextField
               fullWidth
               label='Rate Per Hour'
@@ -150,7 +150,7 @@ function MoveChargesForm({ formik }) {
               required
             />
           </Grid>
-          <Grid xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <TextField
               fullWidth
               label='Drive Time'
@@ -161,7 +161,7 @@ function MoveChargesForm({ formik }) {
               value={formik.values.driveTime}
             />
           </Grid>
-          <Grid xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <TextField
               fullWidth
               label='Stair Hours'
@@ -172,7 +172,7 @@ function MoveChargesForm({ formik }) {
               value={formik.values.stairHours}
             />
           </Grid>
-          <Grid xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <TextField
               fullWidth
               label='Long Carry Hours'
@@ -183,7 +183,7 @@ function MoveChargesForm({ formik }) {
               value={formik.values.longCarryHours}
             />
           </Grid>
-          <Grid xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <TextField
               fullWidth
               label='Adjustment Time'
@@ -197,7 +197,7 @@ function MoveChargesForm({ formik }) {
         </Grid>
       </Scrollbar>
       <Grid container spacing={3}>
-        <Grid xs={12} md={12}>
+        <Grid size={{ xs: 12, md: 12 }}>
           <Stack
             direction='row'
             spacing={2}

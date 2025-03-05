@@ -13,7 +13,7 @@ import {
   Tab,
   Tabs,
   Typography,
-  Unstable_Grid2 as Grid,
+  Grid2 as Grid,
 } from '@mui/material'
 import { jobsApi } from 'src/api/jobs'
 import { RouterLink } from 'src/components/router-link'
@@ -86,7 +86,7 @@ const Page = () => {
       >
         <Container maxWidth='lg'>
           <Grid container spacing={4}>
-            <Grid xs={12}>
+            <Grid size={{ xs: 12 }}>
               <div>
                 <Link
                   color='text.primary'
@@ -103,7 +103,7 @@ const Page = () => {
                 </Link>
               </div>
             </Grid>
-            <Grid xs={12} lg={8}>
+            <Grid size={{ xs: 12, lg: 8 }}>
               <Card>
                 <CardHeader
                   disableTypography
@@ -158,7 +158,7 @@ const Page = () => {
                 </CardContent>
               </Card>
             </Grid>
-            <Grid xs={12} lg={4}>
+            <Grid size={{ xs: 12, lg: 4 }}>
               <CompanySummary company={company} />
             </Grid>
           </Grid>

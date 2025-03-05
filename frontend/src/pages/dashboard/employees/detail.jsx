@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import {
   Box,
   Container,
-  Unstable_Grid2 as Grid,
+  Grid2 as Grid,
   Stack,
   Dialog,
   DialogActions,
@@ -93,10 +93,10 @@ const Page = () => {
             </Stack>
             {/* Main details */}
             <Grid container spacing={4}>
-              <Grid xs={12} lg={4}>
+              <Grid size={{ xs: 12, lg: 4 }}>
                 <EmployeeBasicDetails employee={focusEmployee} />
               </Grid>
-              <Grid xs={12} lg={8}>
+              <Grid size={{ xs: 12, lg: 8 }}>
                 <EmployeeJobs employeeJobs={focusEmployee.jobs} />
               </Grid>
             </Grid>

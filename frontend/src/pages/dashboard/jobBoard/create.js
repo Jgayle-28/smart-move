@@ -1,28 +1,24 @@
-import { Box, Stack, Typography, Unstable_Grid2 as Grid } from '@mui/material';
-import { Seo } from 'src/components/seo';
-import { usePageView } from 'src/hooks/use-page-view';
-import { JobCreateForm } from 'src/sections/dashboard/jobs/job-create-form';
+import { Box, Stack, Typography, Grid2 as Grid } from '@mui/material'
+import { Seo } from 'src/components/seo'
+import { usePageView } from 'src/hooks/use-page-view'
+import { JobCreateForm } from 'src/sections/dashboard/jobs/job-create-form'
 
 const Page = () => {
-  usePageView();
+  usePageView()
 
   return (
     <>
-      <Seo title="Dashboard: Job Create" />
+      <Seo title='Dashboard: Job Create' />
       <Box
-        component="main"
+        component='main'
         sx={{
           display: 'flex',
-          flexGrow: 1
+          flexGrow: 1,
         }}
       >
-        <Grid
-          container
-          sx={{ flexGrow: 1 }}
-        >
+        <Grid container sx={{ flexGrow: 1 }}>
           <Grid
-            xs={12}
-            sm={4}
+            size={{ xs: 12, md: 4 }}
             sx={{
               backgroundImage: 'url(/assets/people-talking.png)',
               backgroundPosition: 'center',
@@ -30,35 +26,29 @@ const Page = () => {
               backgroundSize: 'cover',
               display: {
                 xs: 'none',
-                md: 'block'
-              }
+                md: 'block',
+              },
             }}
           />
           <Grid
-            xs={12}
-            md={8}
+            size={{ xs: 12, md: 8 }}
             sx={{
               p: {
                 xs: 4,
                 sm: 6,
-                md: 8
-              }
+                md: 8,
+              },
             }}
           >
-            <Stack
-              maxWidth="sm"
-              spacing={3}
-            >
-              <Typography variant="h4">
-                Create Job Ad
-              </Typography>
+            <Stack maxWidth='sm' spacing={3}>
+              <Typography variant='h4'>Create Job Ad</Typography>
               <JobCreateForm />
             </Stack>
           </Grid>
         </Grid>
       </Box>
     </>
-  );
-};
+  )
+}
 
-export default Page;
+export default Page

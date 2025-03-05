@@ -6,7 +6,7 @@ import {
   Stack,
   Switch,
   Typography,
-  Unstable_Grid2 as Grid,
+  Grid2 as Grid,
 } from '@mui/material'
 import { useState } from 'react'
 import { usePageView } from 'src/hooks/use-page-view'
@@ -53,7 +53,7 @@ const HomeKeyFeatures = () => {
             </Stack>
           </Box>
           <Grid container spacing={4}>
-            <Grid xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <PricingPlan
                 cta='Start Free Trial'
                 currency='$'
@@ -77,7 +77,7 @@ const HomeKeyFeatures = () => {
                 onClick={() => handlePlanClick('standard')}
               />
             </Grid>
-            <Grid xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <PricingPlan
                 cta='Coming Soon'
                 currency='$'
@@ -94,7 +94,7 @@ const HomeKeyFeatures = () => {
                 isComingSoon
               />
             </Grid>
-            <Grid xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <PricingPlan
                 cta='Coming Soon'
                 currency='$'

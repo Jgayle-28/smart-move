@@ -1,10 +1,4 @@
-import {
-  Button,
-  Stack,
-  TextField,
-  Unstable_Grid2 as Grid,
-  Box,
-} from '@mui/material'
+import { Button, Stack, TextField, Grid2 as Grid, Box } from '@mui/material'
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Scrollbar } from 'src/components/scrollbar'
@@ -75,10 +69,10 @@ function StorageForm() {
           }}
         >
           <Grid container spacing={3}>
-            <Grid xs={12} md={12}>
+            <Grid size={{ xs: 12, md: 12 }}>
               <Tip message='Use this section to calculate storage costs' />
             </Grid>
-            <Grid xs={12} md={2}>
+            <Grid size={{ xs: 12, md: 2 }}>
               <TextField
                 fullWidth
                 label='Item Name'
@@ -89,7 +83,7 @@ function StorageForm() {
                 value={storageItemObj.storageItemName}
               />
             </Grid>
-            <Grid xs={12} md={2}>
+            <Grid size={{ xs: 12, md: 2 }}>
               <TextField
                 fullWidth
                 label='Item Quantity'
@@ -101,7 +95,7 @@ function StorageForm() {
                 value={storageItemObj.storageItemQty}
               />
             </Grid>
-            <Grid xs={12} md={2}>
+            <Grid size={{ xs: 12, md: 2 }}>
               <TextField
                 fullWidth
                 label='Rate Per Day'
@@ -113,7 +107,7 @@ function StorageForm() {
                 value={storageItemObj.storageItemPrice}
               />
             </Grid>
-            <Grid xs={12} md={3}>
+            <Grid size={{ xs: 12, md: 3 }}>
               <TextField
                 fullWidth
                 label='Days In Storage'
@@ -125,14 +119,14 @@ function StorageForm() {
                 value={storageItemObj.storageItemTime}
               />
             </Grid>
-            <Grid xs={12} md={2}>
+            <Grid size={{ xs: 12, md: 2 }}>
               <Button variant='contained' onClick={addStorageItem}>
                 Add
               </Button>
             </Grid>
 
             {storageItems.length > 0 && (
-              <Grid xs={12} md={12}>
+              <Grid size={{ xs: 12, md: 12 }}>
                 <StorageItemTable
                   removeStorageItem={removeStorageItem}
                   storageItems={storageItems}
@@ -142,7 +136,7 @@ function StorageForm() {
           </Grid>
         </Scrollbar>
         <Grid container spacing={3}>
-          <Grid xs={12} md={12}>
+          <Grid size={{ xs: 12, md: 12 }}>
             <Stack
               direction='row'
               spacing={2}

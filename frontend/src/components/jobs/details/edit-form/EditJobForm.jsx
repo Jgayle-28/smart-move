@@ -5,7 +5,7 @@ import {
   Stack,
   SvgIcon,
   Typography,
-  Unstable_Grid2 as Grid,
+  Grid2 as Grid,
   Box,
   TextField,
   MenuItem,
@@ -135,7 +135,7 @@ function EditJobForm({
   return (
     <>
       <Grid container spacing={4} sx={{ mb: 1 }}>
-        <Grid xs={6}>
+        <Grid size={{ xs: 6 }}>
           <Button
             size='small'
             startIcon={
@@ -148,7 +148,7 @@ function EditJobForm({
             Go Back
           </Button>
         </Grid>
-        <Grid xs={6}>
+        <Grid size={{ xs: 6 }}>
           <Stack direction='row' justifyContent='flex-end' spacing={2}>
             <Button
               size='small'

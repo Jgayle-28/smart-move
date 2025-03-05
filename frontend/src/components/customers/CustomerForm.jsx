@@ -9,7 +9,7 @@ import {
   CardHeader,
   Stack,
   TextField,
-  Unstable_Grid2 as Grid,
+  Grid2 as Grid,
   Switch,
   FormControlLabel,
 } from '@mui/material'
@@ -25,7 +25,7 @@ import { useNavigate } from 'react-router-dom'
 import AddressSelect from '../shared/AddressSelect'
 
 export const CustomerForm = (props) => {
-  const { customer, isEdit, callBack, ...other } = props
+  const { customer, isEdit, callBack = null, ...other } = props
 
   const [createJob, setCreateJob] = useState(false)
 
@@ -91,7 +91,7 @@ export const CustomerForm = (props) => {
             router.push(paths.dashboard.customers.index)
             toast.success('Customer successfully updated')
             helpers.resetForm()
-            callBack()
+            if (callBack) callBack()
           })
       } catch (error) {
         console.log('error ----->', error)
@@ -132,7 +132,7 @@ export const CustomerForm = (props) => {
         <CardHeader title={isEdit ? 'Edit Customer' : ''} />
         <CardContent sx={{ pt: 0 }}>
           <Grid container spacing={3}>
-            <Grid xs={12} md={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <TextField
                 error={
                   !!(formik.touched.customerName && formik.errors.customerName)
@@ -149,7 +149,7 @@ export const CustomerForm = (props) => {
                 value={formik.values.customerName}
               />
             </Grid>
-            <Grid xs={12} md={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <TextField
                 error={
                   !!(
@@ -168,7 +168,7 @@ export const CustomerForm = (props) => {
                 value={formik.values.customerEmail}
               />
             </Grid>
-            <Grid xs={12} md={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <TextField
                 error={
                   !!(
@@ -188,7 +188,7 @@ export const CustomerForm = (props) => {
                 value={formatPhoneNumber(formik.values.customerPhoneNumber)}
               />
             </Grid>
-            <Grid xs={12} md={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <TextField
                 error={
                   !!(
@@ -208,7 +208,7 @@ export const CustomerForm = (props) => {
                 value={formatPhoneNumber(formik.values.altCustomerPhoneNumber)}
               />
             </Grid>
-            <Grid xs={12} md={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <TextField
                 error={
                   !!(
@@ -246,7 +246,7 @@ export const CustomerForm = (props) => {
                 onChange={handleAddressChange}
               /> */}
             </Grid>
-            <Grid xs={12} md={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <TextField
                 error={
                   !!(formik.touched.referredBy && formik.errors.referredBy)
@@ -262,7 +262,7 @@ export const CustomerForm = (props) => {
                 value={formik.values.referredBy}
               />
             </Grid>
-            <Grid xs={12} md={12}>
+            <Grid size={{ xs: 12 }}>
               <TextField
                 error={!!(formik.touched.comments && formik.errors.comments)}
                 fullWidth
@@ -278,7 +278,7 @@ export const CustomerForm = (props) => {
             </Grid>
             {/* switch controls whether we route to job create or back to customers */}
             {!isEdit && (
-              <Grid xs={12} md={12}>
+              <Grid size={{ xs: 12 }}>
                 <FormControlLabel
                   control={
                     <Switch

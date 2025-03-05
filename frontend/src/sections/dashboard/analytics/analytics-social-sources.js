@@ -9,7 +9,7 @@ import {
   SvgIcon,
   Tooltip,
   Typography,
-  Unstable_Grid2 as Grid,
+  Grid2 as Grid,
 } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { Chart } from 'src/components/chart'
@@ -93,7 +93,7 @@ export const AnalyticsSocialSources = (props) => {
         />
         <Grid container spacing={1}>
           {chartSeries.map((item, index) => (
-            <Grid key={index} xs={12} sm={6}>
+            <Grid key={index} size={{ xs: 12, sm: 6 }}>
               <Stack alignItems='center' direction='row' spacing={1}>
                 <Box
                   sx={{

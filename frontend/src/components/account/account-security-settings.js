@@ -17,7 +17,7 @@ import {
   TableRow,
   TextField,
   Typography,
-  Unstable_Grid2 as Grid,
+  Grid2 as Grid,
 } from '@mui/material'
 import { Scrollbar } from 'src/components/scrollbar'
 

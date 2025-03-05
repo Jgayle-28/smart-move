@@ -1,4 +1,4 @@
-import { Box, Card, Unstable_Grid2 as Grid } from '@mui/material'
+import { Box, Card, Grid2 as Grid } from '@mui/material'
 import { useRef, useState } from 'react'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
@@ -47,8 +47,7 @@ function Services({ toggleSidebar, sideBarOpen }) {
     <>
       <Grid container>
         <Grid
-          xs={12}
-          md={12}
+          size={{ xs: 12, md: 12 }}
           sx={{
             px: 3,
             mt: 3,
@@ -64,7 +63,7 @@ function Services({ toggleSidebar, sideBarOpen }) {
         }}
       >
         <Grid container spacing={3}>
-          <Grid xs={12} md={4}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <EstimateSideBar
               currentTab='services'
               handleClick={setCurrentService}
@@ -74,7 +73,7 @@ function Services({ toggleSidebar, sideBarOpen }) {
               open={sideBarOpen}
             />
           </Grid>
-          <Grid xs={12} md={8}>
+          <Grid size={{ xs: 12, md: 8 }}>
             <Card>
               <Box sx={{ padding: 2 }}>
                 {currentService === 'Move Charges' && (

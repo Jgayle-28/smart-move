@@ -7,7 +7,7 @@ import {
   Stack,
   SvgIcon,
   Typography,
-  Unstable_Grid2 as Grid,
+  Grid2 as Grid,
 } from '@mui/material'
 import { Seo } from 'src/components/seo'
 import { usePageView } from 'src/hooks/use-page-view'
@@ -41,7 +41,7 @@ const Page = () => {
               lg: 4,
             }}
           >
-            <Grid xs={12}>
+            <Grid size={{ xs: 12 }}>
               <Stack direction='row' justifyContent='space-between' spacing={4}>
                 <Stack spacing={1}>
                   <Typography variant='h4'>Analytics</Typography>
@@ -60,7 +60,7 @@ const Page = () => {
                 </Stack>
               </Stack>
             </Grid>
-            <Grid xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <AnalyticsStats
                 action={
                   <Button
@@ -85,7 +85,7 @@ const Page = () => {
                 value='36,6K'
               />
             </Grid>
-            <Grid xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <AnalyticsStats
                 action={
                   <Button
@@ -112,7 +112,7 @@ const Page = () => {
                 value='19K'
               />
             </Grid>
-            <Grid xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <AnalyticsStats
                 action={
                   <Button
@@ -139,7 +139,7 @@ const Page = () => {
                 value='$41.2K'
               />
             </Grid>
-            <Grid xs={12} lg={8}>
+            <Grid size={{ xs: 12, lg: 8 }}>
               <AnalyticsTrafficSources
                 chartSeries={[
                   {
@@ -153,7 +153,7 @@ const Page = () => {
                 ]}
               />
             </Grid>
-            <Grid xs={12} lg={4}>
+            <Grid size={{ xs: 12, lg: 4 }}>
               <AnalyticsVisitsByCountry
                 visits={[
                   {
@@ -195,7 +195,7 @@ const Page = () => {
                 ]}
               />
             </Grid>
-            <Grid xs={12} lg={8}>
+            <Grid size={{ xs: 12, lg: 8 }}>
               <AnalyticsMostVisited
                 pages={[
                   {
@@ -237,7 +237,7 @@ const Page = () => {
                 ]}
               />
             </Grid>
-            <Grid xs={12} lg={4}>
+            <Grid size={{ xs: 12, lg: 4 }}>
               <AnalyticsSocialSources
                 chartSeries={[10, 10, 20]}
                 labels={['Linkedin', 'Facebook', 'Instagram']}

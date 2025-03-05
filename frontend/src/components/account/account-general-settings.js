@@ -7,7 +7,7 @@ import {
   Stack,
   TextField,
   Typography,
-  Unstable_Grid2 as Grid,
+  Grid2 as Grid,
   Divider,
   Switch,
 } from '@mui/material'
@@ -59,8 +59,8 @@ export const AccountGeneralSettings = (props) => {
 
   const initialValues = user
     ? {
-        name: user.name,
-        email: user.email,
+        name: user?.name,
+        email: user?.email,
         password: '',
         passwordConfirmation: '',
       }
@@ -78,13 +78,13 @@ export const AccountGeneralSettings = (props) => {
   const handleSubmit = () => {
     try {
       const updatedUser = {
-        _id: user._id,
+        _id: user?._id,
         name: formik.values.name,
         email: formik.values.email,
         password: formik.values.password,
-        company: user.company,
-        isAdmin: user.isAdmin,
-        role: user.role,
+        company: user?.company,
+        isAdmin: user?.isAdmin,
+        role: user?.role,
       }
       dispatch(updateUser(updatedUser))
         .unwrap()
@@ -104,7 +104,7 @@ export const AccountGeneralSettings = (props) => {
 
   return (
     <Stack spacing={4} {...props}>
-      {user.role === 'admin' && (
+      {user?.role === 'admin' && (
         <Card>
           <CardContent>
             <Grid container spacing={3}>

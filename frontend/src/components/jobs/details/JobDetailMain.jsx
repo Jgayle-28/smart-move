@@ -8,7 +8,7 @@ import {
   Tab,
   Tabs,
   Typography,
-  Unstable_Grid2 as Grid,
+  Grid2 as Grid,
 } from '@mui/material'
 import { useCallback, useState } from 'react'
 import JobDetailHeader from './JobDetailHeader'
@@ -52,7 +52,7 @@ function JobDetailMain({
   return (
     <>
       <Grid container spacing={4} sx={{ mb: 1 }}>
-        <Grid xs={6}>
+        <Grid size={{ xs: 6 }}>
           <div>
             <Button
               onClick={() => router.back()}
@@ -68,7 +68,7 @@ function JobDetailMain({
             </Button>
           </div>
         </Grid>
-        <Grid xs={6}>
+        <Grid size={{ xs: 6 }}>
           <Stack direction='row' justifyContent='flex-end' spacing={2}>
             <Button
               size='small'

@@ -6,7 +6,7 @@ import {
   Stack,
   SvgIcon,
   Typography,
-  Unstable_Grid2 as Grid,
+  Grid2 as Grid,
   Fade,
 } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
@@ -130,7 +130,7 @@ export const HomeFeatures = () => {
           </motion.div>
         </Stack>
         <Grid alignItems='center' container spacing={3}>
-          <Grid xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <Stack spacing={1}>
               {features.map((feature, index) => {
                 const isActive = activeFeature === index
@@ -199,7 +199,7 @@ export const HomeFeatures = () => {
             </Stack>
           </Grid>
 
-          <Grid xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <motion.div
               key={activeFeature}
               initial='hidden'

@@ -80,7 +80,7 @@ const UpdateCompanyForm = () => {
           </Stack>
 
           <form noValidate onSubmit={formik.handleSubmit}>
-            {user.role === 'admin' && (
+            {user?.role === 'admin' && (
               <>
                 <Stack spacing={3}>
                   <TextField

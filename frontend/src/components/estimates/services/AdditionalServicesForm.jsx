@@ -5,7 +5,7 @@ import {
   CardHeader,
   Stack,
   TextField,
-  Unstable_Grid2 as Grid,
+  Grid2 as Grid,
   Box,
   Typography,
 } from '@mui/material'

@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { motion } from 'framer-motion'
 import PersonAddAlt1RoundedIcon from '@mui/icons-material/PersonAddAlt1Rounded'
 import AddLocationAltOutlinedIcon from '@mui/icons-material/AddLocationAltOutlined'
@@ -9,33 +8,21 @@ import {
   Stack,
   SvgIcon,
   Typography,
-  Unstable_Grid2 as Grid,
+  Grid2 as Grid,
 } from '@mui/material'
 import { Seo } from 'src/components/seo'
 import { usePageView } from 'src/hooks/use-page-view'
 import { useSettings } from 'src/hooks/use-settings'
 import { Layout as DashboardLayout } from 'src/layouts/dashboard'
-
 import { NewClients } from 'src/components/dashboard/NewClients'
-
 import { NewEstimates } from 'src/components/dashboard/NewEstimates'
 import { OverviewTotalJobsPerMonth } from 'src/sections/dashboard/monthly-job-overview'
 import { OverviewHelp } from 'src/sections/dashboard/overview-help'
-
 import { NewJobs } from 'src/components/dashboard/NewJobs'
-
 import { RouterLink } from 'src/components/router-link'
-import { useDispatch, useSelector } from 'react-redux'
-import { getCompany } from 'src/store/company/companySlice'
+import { useSelector } from 'react-redux'
 import { RecentCustomers } from 'src/components/dashboard/RecentCustomers'
-import {
-  getCurrentWeekCustomers,
-  getCustomers,
-} from 'src/store/customers/customerSlice'
-import { getJobs } from 'src/store/jobs/jobSlice'
 import Spinner from 'src/components/shared/Spinner'
-import { getAnnualJobs, getCurrentWeekJobs } from 'src/store/jobs/jobSlice'
-import { getCurrentWeekEstimates } from 'src/store/estimates/estimateSlice'
 import { RecentJobs } from 'src/components/dashboard/RecentJobs'
 import {
   containerVariants,
@@ -53,32 +40,7 @@ const Page = () => {
   const { currentWeekJobs, annualJobs } = useSelector((state) => state.jobs)
   const { currentWeekEstimates } = useSelector((state) => state.estimates)
 
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    // Get dashboard data
-    if (user) {
-      getDashboardData()
-    }
-
-    return () => {
-      // dispatch(clearCustomers())
-    }
-  }, [user])
-
   usePageView()
-
-  const getDashboardData = async () => {
-    if (!company) {
-      dispatch(getCompany(user?.company))
-    }
-    dispatch(getCustomers(user?.company))
-    dispatch(getCurrentWeekJobs(user?.company))
-    dispatch(getCurrentWeekEstimates(user?.company))
-    dispatch(getCurrentWeekCustomers(user?.company))
-    dispatch(getAnnualJobs(user?.company))
-    dispatch(getJobs(user.company))
-  }
 
   if (
     !user ||
@@ -116,7 +78,11 @@ const Page = () => {
             }}
           >
             {/* Header & title */}
-            <Grid xs={12} component={motion.div} variants={itemVariants}>
+            <Grid
+              size={{ xs: 12 }}
+              component={motion.div}
+              variants={itemVariants}
+            >
               <Stack direction='row' justifyContent='space-between' spacing={4}>
                 <div>
                   <Typography variant='h4'>Dashboard</Typography>
@@ -155,26 +121,45 @@ const Page = () => {
             </Grid>
 
             {/* Stat Cards */}
-            <Grid xs={12} md={4} component={motion.div} variants={itemVariants}>
+            <Grid
+              size={{ xs: 12, md: 4 }}
+              component={motion.div}
+              variants={itemVariants}
+            >
               <NewClients amount={31} />
             </Grid>
-            <Grid xs={12} md={4} component={motion.div} variants={itemVariants}>
+            <Grid
+              size={{ xs: 12, md: 4 }}
+              component={motion.div}
+              variants={itemVariants}
+            >
               <NewJobs amount={5} />
             </Grid>
-            <Grid xs={12} md={4} component={motion.div} variants={itemVariants}>
+            <Grid
+              size={{ xs: 12, md: 4 }}
+              component={motion.div}
+              variants={itemVariants}
+            >
               <NewEstimates amount={12} />
             </Grid>
 
             {/* Overview */}
-            <Grid xs={12} md={7} component={motion.div} variants={itemVariants}>
+            <Grid
+              size={{ xs: 12, md: 7 }}
+              component={motion.div}
+              variants={itemVariants}
+            >
               <RecentJobs />
             </Grid>
-            <Grid xs={12} md={5} component={motion.div} variants={itemVariants}>
+            <Grid
+              size={{ xs: 12, md: 5 }}
+              component={motion.div}
+              variants={itemVariants}
+            >
               <RecentCustomers />
             </Grid>
             <Grid
-              xs={12}
-              md={12}
+              size={{ xs: 12 }}
               component={motion.div}
               variants={itemVariants}
             >

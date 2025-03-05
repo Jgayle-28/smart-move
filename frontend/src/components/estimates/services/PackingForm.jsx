@@ -2,7 +2,7 @@ import {
   Button,
   Stack,
   TextField,
-  Unstable_Grid2 as Grid,
+  Grid2 as Grid,
   Box,
   Divider,
   Autocomplete,
@@ -114,10 +114,10 @@ function PackingForm({ formik }) {
           }}
         >
           <Grid container spacing={3}>
-            <Grid xs={12} md={12}>
+            <Grid size={{ xs: 12, md: 12 }}>
               <Tip message='If you plan on using any purchased materials add them hear.' />
             </Grid>
-            <Grid xs={6} md={6}>
+            <Grid size={{ xs: 6, md: 6 }}>
               <MobileDatePicker
                 name='packDate'
                 label='Pack Date'
@@ -131,7 +131,7 @@ function PackingForm({ formik }) {
                 }
               />
             </Grid>
-            <Grid xs={6} md={6}>
+            <Grid size={{ xs: 6, md: 6 }}>
               <MobileTimePicker
                 name='packTime'
                 label='Pack Time'
@@ -145,13 +145,13 @@ function PackingForm({ formik }) {
                 }
               />
             </Grid>
-            <Grid xs={12} md={12}>
+            <Grid size={{ xs: 12, md: 12 }}>
               <Divider />
             </Grid>
-            <Grid xs={12} md={12}>
+            <Grid size={{ xs: 12, md: 12 }}>
               <Tip message='If you need to add packing material not listed, type your material in the INPUT and then hit ENTER.' />
             </Grid>
-            <Grid xs={12} md={3}>
+            <Grid size={{ xs: 12, md: 3 }}>
               <Autocomplete
                 value={packingObj.packingItem}
                 onChange={(event, newValue) => {
@@ -195,7 +195,7 @@ function PackingForm({ formik }) {
                 )}
               />
             </Grid>
-            <Grid xs={12} md={3}>
+            <Grid size={{ xs: 12, md: 3 }}>
               <TextField
                 fullWidth
                 label='Item Quantity'
@@ -207,7 +207,7 @@ function PackingForm({ formik }) {
                 value={packingObj.packingItemQty}
               />
             </Grid>
-            <Grid xs={12} md={3}>
+            <Grid size={{ xs: 12, md: 3 }}>
               <TextField
                 fullWidth
                 label='Item Price'
@@ -219,14 +219,14 @@ function PackingForm({ formik }) {
                 value={packingObj.packingItemPrice}
               />
             </Grid>
-            <Grid xs={12} md={2}>
+            <Grid size={{ xs: 12, md: 2 }}>
               <Button variant='contained' onClick={updatePackingItems}>
                 Add
               </Button>
             </Grid>
 
             {packingItems.length > 0 && (
-              <Grid xs={12} md={12}>
+              <Grid size={{ xs: 12, md: 12 }}>
                 <PackingItemsTable
                   removePackingItem={deletePackingItem}
                   packingItems={packingItems}
@@ -236,7 +236,7 @@ function PackingForm({ formik }) {
           </Grid>
         </Scrollbar>
         <Grid container spacing={3}>
-          <Grid xs={12} md={12}>
+          <Grid size={{ xs: 12, md: 12 }}>
             <Stack
               direction='row'
               spacing={2}

@@ -219,7 +219,7 @@ const Page = () => {
         component='main'
         sx={{
           px: 5,
-          paddingBottom: 2,
+          py: 2,
         }}
       >
         <EstimateHeader

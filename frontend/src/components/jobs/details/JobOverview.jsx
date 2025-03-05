@@ -6,7 +6,7 @@ import {
   Card,
   CardContent,
   Divider,
-  Unstable_Grid2 as Grid,
+  Grid2 as Grid,
   Stack,
   Typography,
   Dialog,
@@ -93,8 +93,8 @@ export const JobOverview = (props) => {
     return (
       <>
         <Grid container spacing={4} sx={{ mt: 2 }}>
-          <Grid xs={12}></Grid>
-          <Grid xs={12}></Grid>
+          <Grid size={{ xs: 12 }}></Grid>
+          <Grid size={{ xs: 12 }}></Grid>
         </Grid>
         <Card>
           <CardContent>

@@ -55,7 +55,7 @@ const Page = () => {
   usePageView()
 
   useEffect(() => {
-    dispatch(getJobs(user.company))
+    dispatch(getJobs(user?.company))
     return () => {
       dispatch(clearJobs())
     }

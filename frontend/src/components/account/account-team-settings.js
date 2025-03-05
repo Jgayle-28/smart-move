@@ -12,7 +12,7 @@ import {
   TableRow,
   Typography,
   Box,
-  Unstable_Grid2 as Grid,
+  Grid2 as Grid,
 } from '@mui/material'
 import { Scrollbar } from 'src/components/scrollbar'
 import { useDialog } from 'src/hooks/use-dialog'
@@ -63,14 +63,14 @@ export const AccountTeamSettings = (props) => {
               >
                 <Stack spacing={1}>
                   <Typography variant='h6'>Your Team</Typography>
-                  {user.role === 'admin' && (
+                  {user?.role === 'admin' && (
                     <Typography color='text.secondary' variant='body2'>
                       Add, edit or delete members.
                     </Typography>
                   )}
                 </Stack>
 
-                {user.role === 'admin' && (
+                {user?.role === 'admin' && (
                   <Stack alignItems='center' direction='row' spacing={3}>
                     <Button
                       onClick={() => handleOpen()}

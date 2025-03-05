@@ -3,16 +3,26 @@ import { withAuthGuard } from 'src/hocs/with-auth-guard'
 import { useSettings } from 'src/hooks/use-settings'
 import { HorizontalLayout } from './horizontal-layout'
 import { VerticalLayout } from './vertical-layout'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useSections } from './config'
 import { useStandardRoutes } from 'src/routes/standard-routes'
 import { useBusinessRoutes } from 'src/routes/business-routes'
 import { useEffect } from 'react'
 import { useRouter } from 'src/hooks/use-router'
 import { isTokenExpired } from '../../utils/auth'
+import { getCompany } from 'src/store/company/companySlice'
+import {
+  getCurrentWeekCustomers,
+  getCustomers,
+} from 'src/store/customers/customerSlice'
+import { getJobs } from 'src/store/jobs/jobSlice'
+import { getAnnualJobs, getCurrentWeekJobs } from 'src/store/jobs/jobSlice'
+import { getCurrentWeekEstimates } from 'src/store/estimates/estimateSlice'
 
 export const Layout = withAuthGuard((props) => {
+  const user = JSON.parse(localStorage.getItem('sm-user'))
   const { company } = useSelector((state) => state.company)
+  const dispatch = useDispatch()
 
   const settings = useSettings()
   const router = useRouter()
@@ -20,7 +30,6 @@ export const Layout = withAuthGuard((props) => {
 
   useEffect(() => {
     // Check if user is logged in
-    const user = JSON.parse(localStorage.getItem('sm-user'))
     if (!user) {
       router.push('/login')
     }
@@ -33,7 +42,30 @@ export const Layout = withAuthGuard((props) => {
         router.push('/login')
       }
     }
-  }, [])
+  }, [user])
+
+  useEffect(() => {
+    // Get dashboard data
+    if (user) {
+      getDashboardData()
+    }
+
+    return () => {
+      // dispatch(clearCustomers())
+    }
+  }, [user])
+
+  const getDashboardData = async () => {
+    if (!company) {
+      dispatch(getCompany(user?.company))
+    }
+    dispatch(getCustomers(user?.company))
+    dispatch(getCurrentWeekJobs(user?.company))
+    dispatch(getCurrentWeekEstimates(user?.company))
+    dispatch(getCurrentWeekCustomers(user?.company))
+    dispatch(getAnnualJobs(user?.company))
+    dispatch(getJobs(user.company))
+  }
 
   const routes =
     subscriptionLevel === 'standard'

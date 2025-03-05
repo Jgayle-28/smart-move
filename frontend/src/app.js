@@ -28,6 +28,7 @@ import 'simplebar-react/dist/simplebar.min.css'
 // Remove if locales are not used
 import './locales/i18n'
 import useScrollToTop from './hooks/use-scroll-to-top'
+import { useEffect } from 'react'
 
 export const App = () => {
   useAnalytics(gtmConfig)

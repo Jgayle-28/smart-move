@@ -7,7 +7,7 @@ import {
   Stack,
   SvgIcon,
   Typography,
-  Unstable_Grid2 as Grid,
+  Grid2 as Grid,
 } from '@mui/material'
 import { jobsApi } from 'src/api/jobs'
 import { RouterLink } from 'src/components/router-link'
@@ -68,7 +68,7 @@ const Page = () => {
               py: 8,
             }}
           >
-            <Grid xs={12} sm={7}>
+            <Grid size={{ xs: 12, sm: 7 }}>
               <Typography color='inherit' variant='h3'>
                 Reach 50k+ potential candidates.
               </Typography>
@@ -87,7 +87,7 @@ const Page = () => {
               </Button>
             </Grid>
             <Grid
-              sm={5}
+              size={{ xs: 12, sm: 5 }}
               sx={{
                 display: {
                   xs: 'none',

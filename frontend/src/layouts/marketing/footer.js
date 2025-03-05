@@ -5,7 +5,7 @@ import {
   Link,
   Stack,
   Typography,
-  Unstable_Grid2 as Grid,
+  Grid2 as Grid,
 } from '@mui/material'
 import { Logo } from 'src/components/logo'
 import { RouterLink } from 'src/components/router-link'
@@ -81,9 +81,7 @@ export const Footer = (props) => (
     <Container maxWidth='lg'>
       <Grid container spacing={3}>
         <Grid
-          xs={12}
-          sm={4}
-          md={3}
+          size={{ xs: 12, sm: 4, md: 3 }}
           sx={{
             order: {
               xs: 4,
@@ -134,9 +132,7 @@ export const Footer = (props) => (
         {sections.map((section, index) => (
           <Grid
             key={section.title}
-            xs={12}
-            sm={4}
-            md={3}
+            size={{ xs: 12, sm: 4, md: 3 }}
             sx={{
               order: {
                 md: index + 2,

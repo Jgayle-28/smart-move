@@ -63,7 +63,7 @@ const Page = () => {
   usePageView()
 
   useEffect(() => {
-    dispatch(getInventoryItems(user.company))
+    dispatch(getInventoryItems(user?.company))
     return () => {
       dispatch(clearInventoryItems())
     }
@@ -92,7 +92,7 @@ const Page = () => {
   const handleCreateClick = () => {
     const itemToAdd = {
       ...newItem,
-      company: company._id,
+      company: company?._id || user.company,
       createdBy: user._id,
     }
     dispatch(addInventoryItem(itemToAdd))

@@ -7,7 +7,7 @@ import {
   Rating,
   Stack,
   Typography,
-  Unstable_Grid2 as Grid,
+  Grid2 as Grid,
 } from '@mui/material'
 import { motion } from 'framer-motion'
 
@@ -156,7 +156,7 @@ export const HomeReviews = () => (
         </Stack>
         <Grid container spacing={3}>
           {reviews.map((review, index) => (
-            <Grid key={index} xs={12} md={6} lg={4}>
+            <Grid key={index} size={{ xs: 12, md: 6, lg: 4 }}>
               <motion.div
                 key={review.author}
                 initial='hidden'

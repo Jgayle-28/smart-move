@@ -6,7 +6,7 @@ import {
   Card,
   Stack,
   Typography,
-  Unstable_Grid2 as Grid,
+  Grid2 as Grid,
 } from '@mui/material'
 import Spinner from 'src/components/shared/Spinner'
 import InventoryAccordion from './InventoryAccordion'
@@ -45,7 +45,7 @@ function JobEstimateDetail() {
     <>
       <Grid container spacing={2} sx={{ p: 0, m: 0 }}>
         {/* Top */}
-        <Grid item xs={12}>
+        <Grid item size={{ xs: 12 }}>
           <Stack direction='row' spacing={2}>
             <SeverityPill>
               Total Hours: {estimateSummary.totalMoveHours}
@@ -62,7 +62,7 @@ function JobEstimateDetail() {
           </Stack>
         </Grid>
         {/* Left */}
-        <Grid xs={12} lg={4}>
+        <Grid size={{ xs: 12, lg: 4 }}>
           <Card variant='outlined'>
             <Box sx={{ p: 2 }}>
               <Typography variant='h6'>Total Charges</Typography>
@@ -116,7 +116,7 @@ function JobEstimateDetail() {
           </Card>
         </Grid>
         {/* Right */}
-        <Grid xs={12} lg={8}>
+        <Grid size={{ xs: 12, lg: 8 }}>
           <Card variant='outlined'>
             <Box sx={{ p: 2 }}>
               <Typography variant='h6'>Inventory</Typography>
@@ -144,7 +144,7 @@ export default JobEstimateDetail
 //   Card,
 //   Stack,
 //   Typography,
-//   Unstable_Grid2 as Grid,
+//   Grid2 as Grid,
 // } from '@mui/material'
 // import { format } from 'date-fns'
 // import Spinner from 'src/components/shared/Spinner'

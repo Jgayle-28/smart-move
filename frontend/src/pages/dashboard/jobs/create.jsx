@@ -1,4 +1,4 @@
-import { Box, Stack, Typography, Unstable_Grid2 as Grid } from '@mui/material'
+import { Box, Stack, Typography, Grid2 as Grid } from '@mui/material'
 import { Seo } from 'src/components/seo'
 import { usePageView } from 'src/hooks/use-page-view'
 import { JobCreateForm } from 'src/components/jobs/form/JobCreateForm'
@@ -23,8 +23,7 @@ const Page = () => {
         <Grid container sx={{ flexGrow: 1 }}>
           {/* Side image */}
           <Grid
-            xs={12}
-            sm={4}
+            size={{ xs: 12, md: 4 }}
             sx={{
               backgroundImage: (theme) =>
                 `url(/assets/${
@@ -40,8 +39,7 @@ const Page = () => {
             }}
           />
           <Grid
-            xs={12}
-            md={8}
+            size={{ xs: 12, md: 8 }}
             sx={{
               p: {
                 xs: 4,

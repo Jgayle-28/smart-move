@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { Box, Container, Stack, Unstable_Grid2 as Grid } from '@mui/material'
+import { Box, Container, Stack, Grid2 as Grid } from '@mui/material'
 import { customersApi } from 'src/api/customers'
 import { Seo } from 'src/components/seo'
 import { useMounted } from 'src/hooks/use-mounted'
@@ -121,7 +121,7 @@ const Page = () => {
 
               <div>
                 <Grid container spacing={4}>
-                  <Grid xs={12} lg={4}>
+                  <Grid size={{ xs: 12, lg: 4 }}>
                     <CustomerBasicDetails
                       address1={customer.address1}
                       address2={customer.address2}
@@ -133,7 +133,7 @@ const Page = () => {
                       customer={focusCustomer}
                     />
                   </Grid>
-                  <Grid xs={12} lg={8}>
+                  <Grid size={{ xs: 12, lg: 8 }}>
                     <Stack spacing={4}>
                       <CustomerJobs customerJobs={customerJobs} />
                       <CustomerEstimates

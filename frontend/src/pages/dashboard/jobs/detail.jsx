@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { Box, Container, Unstable_Grid2 as Grid } from '@mui/material'
+import { Box, Container, Grid2 as Grid } from '@mui/material'
 import { Seo } from 'src/components/seo'
 import { usePageView } from 'src/hooks/use-page-view'
 import { JobOverview } from 'src/components/jobs/details/JobOverview'
@@ -67,7 +67,7 @@ const Page = () => {
       >
         <Container maxWidth='lg'>
           <Grid container spacing={4}>
-            <Grid xs={12} lg={8}>
+            <Grid size={{ xs: 12, lg: 8 }}>
               {editJob ? (
                 <EditJobForm
                   focusJob={focusJob}
@@ -85,7 +85,7 @@ const Page = () => {
               )}
             </Grid>
             {!editJob && (
-              <Grid xs={12} lg={4}>
+              <Grid size={{ xs: 12, lg: 4 }}>
                 <JobOverview job={focusJob} />
               </Grid>
             )}

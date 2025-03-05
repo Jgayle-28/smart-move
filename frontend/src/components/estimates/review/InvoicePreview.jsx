@@ -10,7 +10,7 @@ import {
   TableHead,
   TableRow,
   Typography,
-  Unstable_Grid2 as Grid,
+  Grid2 as Grid,
 } from '@mui/material'
 import { Logo } from 'src/components/logo'
 import Spinner from 'src/components/shared/Spinner'

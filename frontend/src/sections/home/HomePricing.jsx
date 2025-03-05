@@ -6,7 +6,7 @@ import {
   Stack,
   Switch,
   Typography,
-  Unstable_Grid2 as Grid,
+  Grid2 as Grid,
 } from '@mui/material'
 import { useState } from 'react'
 import { usePageView } from 'src/hooks/use-page-view'
@@ -110,7 +110,7 @@ const HomePricing = () => {
             </motion.div>
           </Box>
           <Grid container spacing={4}>
-            <Grid xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <motion.div
                 initial='hidden'
                 whileInView='visible'
@@ -141,7 +141,7 @@ const HomePricing = () => {
                 />
               </motion.div>
             </Grid>
-            <Grid xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <motion.div
                 initial='hidden'
                 whileInView='visible'
@@ -166,7 +166,7 @@ const HomePricing = () => {
                 />
               </motion.div>
             </Grid>
-            <Grid xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
               <motion.div
                 initial='hidden'
                 whileInView='visible'

@@ -8,7 +8,7 @@ import {
   TableRow,
   IconButton,
   Typography,
-  Unstable_Grid2 as Grid,
+  Grid2 as Grid,
   Popover,
   Divider,
   ListItemButton,
