@@ -30,7 +30,7 @@ const addCustomer = asyncHandler(async (req, res) => {
     )
   }
 
-  // create company
+  // create customer
   const customer = await Customer.create({
     customerName,
     customerEmail,

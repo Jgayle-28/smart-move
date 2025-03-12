@@ -64,9 +64,8 @@ export const CustomerForm = (props) => {
       handleSubmit(helpers)
     },
   })
-  console.log('formik :>> ', formik.values)
 
-  const handleSubmit = (helpers) => {
+  const handleSubmit = async (helpers) => {
     const customerData = {
       customerName: formik.values.customerName,
       customerEmail: formik.values.customerEmail,
@@ -99,25 +98,20 @@ export const CustomerForm = (props) => {
       }
     } else {
       try {
-        dispatch(addCustomer(customerData))
-          .unwrap()
-          .then((res) => {
-            if (res.status === 201) {
-              // If adding a customer and user wants to create a job for them
-              if (!isEdit && createJob) {
-                navigate('/dashboard/jobs/create', {
-                  state: { customer: res.customer },
-                })
-              } else {
-                helpers.resetForm()
-                callBack()
-              }
-              toast.success('Customer successfully added')
-            }
-          })
+        const res = await dispatch(addCustomer(customerData)).unwrap()
+        if (res.status === 201) {
+          if (!isEdit && createJob) {
+            navigate('/dashboard/jobs/create', {
+              state: { customer: res.customer },
+            })
+          } else {
+            helpers.resetForm()
+            callBack()
+          }
+          toast.success('Customer successfully added')
+        }
       } catch (error) {
-        console.log('error ----->', error)
-        toast.error(error.message)
+        console.error(error)
       }
     }
   }

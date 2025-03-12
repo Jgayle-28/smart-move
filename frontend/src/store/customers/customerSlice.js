@@ -153,7 +153,6 @@ export const customerSlice = createSlice({
       })
       .addCase(addCustomer.rejected, (state) => {
         state.isLoading = false
-        state.customers = null
       })
       // get customers
       .addCase(getCustomers.pending, (state) => {

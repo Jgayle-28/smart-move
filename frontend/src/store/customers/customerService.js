@@ -5,7 +5,6 @@ import { CUSTOMER_API_URL, JOB_API_URL, ESTIMATE_API_URL } from '../constants'
 const addCustomer = async (token, companyData) => {
   const config = getAxiosConfig(token)
   const res = await axios.post(CUSTOMER_API_URL, companyData, config)
-
   if (res.data) return res.data
 }
 
