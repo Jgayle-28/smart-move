@@ -5,14 +5,19 @@ import { InvoicePdfDocument } from 'src/sections/dashboard/invoice/invoice-pdf-d
 import { getInitials } from 'src/utils/get-initials'
 import { useRouter } from 'src/hooks/use-router'
 import { format } from 'date-fns'
+import { calculateTotalMoveCost } from 'src/utils/services/move-charges'
+import { useSelector } from 'react-redux'
 
 function EstimateHeader({
   job,
   handleSaveEstimate,
   handleDeleteEstimate,
   disableDelete,
+  showEstimateTotal = true,
 }) {
   const router = useRouter()
+  const { moveCharges, packing, additionalServices, fees, storage } =
+    useSelector((state) => state.estimates)
   return (
     <>
       <Stack spacing={4}>
@@ -99,6 +104,29 @@ function EstimateHeader({
                     ? format(new Date(job.jobDate), 'MM/dd/yyyy')
                     : 'TBD'}
                 </Typography>
+                {showEstimateTotal && (
+                  <Typography color='text.secondary' variant='body2'>
+                    Total:{' '}
+                    {job.totalAmount !== null ? (
+                      <Typography
+                        color='success.main'
+                        variant='body2'
+                        component='span'
+                      >
+                        ${' '}
+                        {calculateTotalMoveCost(
+                          moveCharges?.totalMoveCost,
+                          packing?.packingTotal,
+                          additionalServices?.additionalServicesTotal,
+                          fees?.feesTotal,
+                          storage?.storageTotal
+                        )}
+                      </Typography>
+                    ) : (
+                      'TBD'
+                    )}
+                  </Typography>
+                )}
               </Stack>
             </div>
           </Stack>

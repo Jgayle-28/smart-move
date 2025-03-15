@@ -35,14 +35,16 @@ function FeesForm({ formik }) {
 
   useEffect(() => {
     const { tripFee, receivingFee } = formik.values
+
+    // Safely parse fee items and formik values. If parseFloat returns NaN, default to 0.
     const tempFeeTotal =
-      feeItems.reduce((a, b) => a + parseFloat(b.feeAmount), 0) +
-      parseFloat(tripFee) +
-      parseFloat(receivingFee)
+      feeItems.reduce((a, b) => a + (parseFloat(b.feeAmount) || 0), 0) +
+      (parseFloat(tripFee) || 0) +
+      (parseFloat(receivingFee) || 0)
 
     const feesObj = {
-      tripFee: tripFee,
-      receivingFee: receivingFee,
+      tripFee,
+      receivingFee,
       additionalFees: feeItems,
       feesTotal: tempFeeTotal,
     }

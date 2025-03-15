@@ -231,6 +231,7 @@ const Page = () => {
           handleSaveEstimate={handleSaveEstimate}
           handleDeleteEstimate={handleDeleteEstimate}
           disableDelete={!estimateId}
+          showEstimateTotal={currentTab !== 'services'}
         />
       </Box>
 
