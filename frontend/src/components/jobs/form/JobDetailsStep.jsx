@@ -25,7 +25,7 @@ export const JobDetailsStep = (props) => {
         onBlur={formik.handleBlur}
         error={!!(formik.touched.jobTitle && formik.errors.jobTitle)}
         helperText={formik.touched.jobTitle && formik.errors.jobTitle}
-        placeholder=''
+        placeholder='Make this descriptive so you can find it later'
       />
       <div>
         <Typography variant='h6'>Time & Date</Typography>

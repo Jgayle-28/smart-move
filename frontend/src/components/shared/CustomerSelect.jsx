@@ -30,10 +30,19 @@ function CustomerSelect({
     dispatch(getCustomers(user.company))
   }
   const handleChange = (newValue) => {
-    onChange('customer', newValue.value)
-    // setInputValue(newValue.label)
+    if (newValue === null || newValue === undefined) {
+      onChange('customer', '')
+      setNewValue(null)
+      if (setSelectedCustomer) {
+        setSelectedCustomer('')
+      }
+      return
+    }
+    onChange('customer', newValue?.value || '')
     setNewValue(newValue)
-    if (setSelectedCustomer) setSelectedCustomer(newValue.label)
+    if (setSelectedCustomer) {
+      setSelectedCustomer(newValue.label)
+    }
   }
 
   return (
