@@ -3,8 +3,8 @@ import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined'
 import {
   Avatar,
   Step,
+  StepButton,
   StepContent,
-  StepLabel,
   Stepper,
   SvgIcon,
   Typography,
@@ -105,6 +105,8 @@ export const JobCreateForm = () => {
   })
 
   const { user } = useSelector((state) => state.auth)
+  const canJumpAll =
+    formik?.values?.customer?.length > 0 && formik?.values?.jobTitle?.length > 0
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -233,14 +235,18 @@ export const JobCreateForm = () => {
       >
         {steps.map((step, index) => {
           const isCurrentStep = activeStep === index
+          const isClickable = canJumpAll || index < activeStep
 
           return (
             <Step key={step.label}>
-              <StepLabel StepIconComponent={StepIcon}>
-                <Typography sx={{ ml: 2 }} variant='overline'>
-                  {step.label}
-                </Typography>
-              </StepLabel>
+              <StepButton
+                StepIconComponent={StepIcon}
+                onClick={() => isClickable && setActiveStep(index)}
+                disabled={!isClickable} // disable current & future
+                sx={{ ml: 2, cursor: isClickable ? 'pointer' : 'default' }}
+              >
+                <Typography variant='overline'>{step.label}</Typography>
+              </StepButton>
               <StepContent
                 sx={{
                   borderLeftColor: 'divider',
