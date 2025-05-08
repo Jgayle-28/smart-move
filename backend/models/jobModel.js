@@ -1,5 +1,13 @@
 const mongoose = require('mongoose')
 
+const addressSchema = new mongoose.Schema(
+  {
+    address: { type: String }, // no `required: true`
+    details: { type: String, default: '' },
+  },
+  { _id: false }
+)
+
 const jobSchema = mongoose.Schema(
   {
     company: {
@@ -35,18 +43,15 @@ const jobSchema = mongoose.Schema(
     jobType: { type: String, required: true, default: '' },
     jobDate: { type: Date, required: false, default: null },
     jobStartTime: { type: Date, required: false, default: null },
-    pickUpAddresses: [
-      {
-        address: { type: String, required: true },
-        details: { type: String, default: '' },
-      },
-    ],
-    dropOffAddresses: [
-      {
-        address: { type: String, required: true },
-        details: { type: String, default: '' },
-      },
-    ],
+    pickUpAddresses: {
+      type: [addressSchema],
+      default: [],
+    },
+
+    dropOffAddresses: {
+      type: [addressSchema],
+      default: [],
+    },
     dropOffItems: { type: Array, required: false, default: [] },
     jobComments: { type: String, required: false, default: '' },
     paymentType: { type: String, default: '' },
