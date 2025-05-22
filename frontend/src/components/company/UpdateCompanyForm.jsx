@@ -12,6 +12,7 @@ import {
 } from '@mui/material'
 import LoadingButton from '@mui/lab/LoadingButton'
 import { toast } from 'react-hot-toast'
+import Spinner from '../shared/Spinner'
 
 const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
@@ -26,7 +27,7 @@ const validationSchema = Yup.object({
     phoneRegExp,
     'Phone number is not valid'
   ),
-  companyName: Yup.string().max(255).required('Address is required'),
+  companyAddress: Yup.string().max(255).required('Address is required'),
 })
 
 const UpdateCompanyForm = () => {
@@ -34,7 +35,28 @@ const UpdateCompanyForm = () => {
   const { company, isLoading } = useSelector((state) => state.company)
   const { user } = useSelector((state) => state.auth)
 
+  const handleSubmit = async () => {
+    const companyData = {
+      companyName: formik.values.companyName,
+      companyEmail: formik.values.companyEmail,
+      companyPhoneNumber: formik.values.companyPhoneNumber,
+      companyAddress: formik.values.companyAddress,
+      companyWebsite: formik.values.companyWebsite,
+      companyEstimatePolicy: formik.values.companyEstimatePolicy,
+    }
+
+    try {
+      // await the dispatch so try/catch actually catches thunk errors
+      await dispatch(updateCompany({ ...company, ...companyData })).unwrap()
+      toast.success('Company successfully updated')
+    } catch (error) {
+      console.error(error)
+      toast.error('Failed to update company')
+    }
+  }
+
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
       companyName: company?.companyName || '',
       companyEmail: company?.companyEmail || '',
@@ -44,30 +66,10 @@ const UpdateCompanyForm = () => {
       companyEstimatePolicy: company?.companyEstimatePolicy || '',
     },
     validationSchema,
-    onSubmit: () => handleSubmit(),
+    onSubmit: handleSubmit,
   })
 
-  const handleSubmit = () => {
-    try {
-      const companyData = {
-        companyName: formik.values.companyName,
-        companyEmail: formik.values.companyEmail,
-        companyPhoneNumber: formik.values.companyPhoneNumber,
-        companyAddress: formik.values.companyAddress,
-        companyWebsite: formik.values.companyWebsite,
-        companyEstimatePolicy: formik.values.companyEstimatePolicy,
-      }
-
-      dispatch(updateCompany({ ...company, ...companyData }))
-        .unwrap()
-        .then(() => {
-          toast.success('Company successfully updated')
-        })
-    } catch (error) {
-      console.error('Error Registering user')
-    }
-  }
-
+  if (!company) return <Spinner />
   return (
     <>
       <Card>
