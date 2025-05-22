@@ -172,7 +172,11 @@ export const CustomerDetailsStep = ({
       {!isEdit && (
         <Stack direction='row' spacing={2}>
           <Button onClick={onBack}>Back</Button>
-          <Button onClick={onNext} variant='contained'>
+          <Button
+            onClick={onNext}
+            variant='contained'
+            disabled={formik?.values?.customer?.length === 0}
+          >
             Continue
           </Button>
         </Stack>

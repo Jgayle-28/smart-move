@@ -242,7 +242,7 @@ export const JobCreateForm = () => {
               <StepButton
                 StepIconComponent={StepIcon}
                 onClick={() => isClickable && setActiveStep(index)}
-                disabled={!isClickable} // disable current & future
+                disabled={!isClickable}
                 sx={{ ml: 2, cursor: isClickable ? 'pointer' : 'default' }}
               >
                 <Typography variant='overline'>{step.label}</Typography>
