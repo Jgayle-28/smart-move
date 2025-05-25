@@ -26,7 +26,7 @@ const customerSchema = mongoose.Schema(
     },
     altCustomerPhoneNumber: {
       type: String,
-      required: true,
+      required: false,
       maxlength: [20, 'Phone number can not be longer than 20 characters'],
       default: '',
     },

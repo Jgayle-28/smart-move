@@ -46,6 +46,7 @@ import {
 const Page = () => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
   const [deleteId, setDeleteId] = useState(null)
+  const [isInitialLoad, setInitialLoad] = useState(true)
 
   const { company } = useSelector((state) => state.company)
   const { user } = useSelector((state) => state.auth)
@@ -55,13 +56,23 @@ const Page = () => {
   usePageView()
 
   useEffect(() => {
-    dispatch(getJobs(user?.company))
+    fetchJobs()
     return () => {
       dispatch(clearJobs())
     }
   }, [user, dispatch])
 
   // Actions ---------------------
+  const fetchJobs = () => {
+    dispatch(getJobs(user.company))
+      .unwrap()
+      .then(() => {
+        if (isInitialLoad) {
+          setInitialLoad(false)
+        }
+      })
+      .catch((err) => console.error(err))
+  }
   const handleJobDeleteClick = (id) => {
     setDeleteModalOpen(true)
     setDeleteId(id)
@@ -304,7 +315,7 @@ const Page = () => {
     },
   ])
 
-  if (isLoading || !jobs) return <Spinner />
+  if (!jobs || (isLoading && isInitialLoad)) return <Spinner />
   return (
     <>
       <Seo title='Dashboard: Job List' />

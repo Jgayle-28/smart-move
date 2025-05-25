@@ -49,6 +49,7 @@ const Page = () => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
   const [formData, setFormData] = useState(initialFormState)
   const [deleteId, setDeleteId] = useState(null)
+  const [isInitialLoad, setInitialLoad] = useState(true)
 
   const { user } = useSelector((state) => state.auth)
   const { employees, isLoading } = useSelector((state) => state.employees)
@@ -57,13 +58,24 @@ const Page = () => {
   usePageView()
 
   useEffect(() => {
-    dispatch(getEmployees(user?.company))
+    fetchEmployees()
     return () => {
       dispatch(clearEmployees())
     }
   }, [user, dispatch])
 
   // Actions ---------------------
+  const fetchEmployees = () => {
+    dispatch(getEmployees(user.company))
+      .unwrap()
+      .then(() => {
+        if (isInitialLoad) {
+          setInitialLoad(false)
+        }
+      })
+      .catch((err) => console.error(err))
+  }
+
   const handleEmployeeModalClose = () => {
     setEmployeeModalOpen(false)
     setFormData(initialFormState)
@@ -98,6 +110,9 @@ const Page = () => {
           dispatch(getEmployees(user.company))
           setEmployeeModalOpen(false)
           setFormData(initialFormState)
+        })
+        .catch((err) => {
+          console.error(err)
         })
     }
   }
@@ -299,7 +314,7 @@ const Page = () => {
     },
   ])
 
-  if (isLoading || !employees) return <Spinner />
+  if (!employees || (isLoading && isInitialLoad)) return <Spinner />
   return (
     <>
       <Seo title='Dashboard: Employee List' />

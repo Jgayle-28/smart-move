@@ -110,7 +110,6 @@ export const employeeSlice = createSlice({
       })
       .addCase(createEmployee.rejected, (state) => {
         state.isLoading = false
-        state.employees = null
       })
       .addCase(getEmployees.pending, (state) => {
         state.isLoading = true

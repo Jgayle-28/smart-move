@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import {
   Box,
   Card,
@@ -39,6 +39,8 @@ const Page = () => {
   const { customers, isLoading } = useSelector((state) => state.customers)
   usePageView()
 
+  const [isInitialLoad, setInitialLoad] = useState(true)
+
   useEffect(() => {
     fetchCustomers()
     return () => dispatch(clearCustomers())
@@ -46,6 +48,13 @@ const Page = () => {
 
   const fetchCustomers = () => {
     dispatch(getCustomers(user.company))
+      .unwrap()
+      .then(() => {
+        if (isInitialLoad) {
+          setInitialLoad(false)
+        }
+      })
+      .catch((err) => console.error(err))
   }
 
   const addCustomerCallback = () => {
@@ -162,7 +171,7 @@ const Page = () => {
     },
   ])
 
-  if (!customers || isLoading) return <Spinner />
+  if (!customers || (isLoading && isInitialLoad)) return <Spinner />
   return (
     <>
       <Seo title='Dashboard: Customers' />

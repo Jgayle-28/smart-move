@@ -12,7 +12,7 @@ import {
   TableRow,
   Typography,
   Box,
-  Grid2 as Grid,
+  Grid,
 } from '@mui/material'
 import { Scrollbar } from 'src/components/scrollbar'
 import { useDialog } from 'src/hooks/use-dialog'
@@ -55,7 +55,7 @@ export const AccountTeamSettings = (props) => {
       <Card>
         <CardContent>
           <Grid container spacing={3}>
-            <Grid xs={12} md={12}>
+            <Grid item xs={12} md={12}>
               <Stack
                 alignItems='center'
                 direction='row'

@@ -54,6 +54,7 @@ const Page = () => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
   const [deleteId, setDeleteId] = useState(null)
   const [isEdit, setIsEdit] = useState(false)
+  const [isInitialLoad, setInitialLoad] = useState(true)
 
   const { company } = useSelector((state) => state.company)
   const { user } = useSelector((state) => state.auth)
@@ -63,32 +64,24 @@ const Page = () => {
   usePageView()
 
   useEffect(() => {
-    dispatch(getInventoryItems(user?.company))
+    fetchInventoryItems()
     return () => {
       dispatch(clearInventoryItems())
     }
   }, [user, dispatch])
 
-  const onChange = (e) => {
-    const { name, value } = e.target
-
-    // Check if the field is itemWeight or itemVolume
-    if (name === 'itemWeight' || name === 'itemVolume') {
-      // Check if the value is a valid number
-      if (isNaN(value)) {
-        // If it's not a valid number, keep the previous value
-        return
-      } else {
-        // If it's a valid number, update the state with the new value
-        setNewItem({ ...newItem, itemWeight: value, itemVolume: value * 7 })
-      }
-    } else {
-      // For other fields, just update normally
-      setNewItem({ ...newItem, [name]: value })
-    }
+  // Actions ---------------------
+  const fetchInventoryItems = () => {
+    dispatch(getInventoryItems(user.company))
+      .unwrap()
+      .then(() => {
+        if (isInitialLoad) {
+          setInitialLoad(false)
+        }
+      })
+      .catch((err) => console.error(err))
   }
 
-  // Actions ---------------------
   const handleCreateClick = () => {
     const itemToAdd = {
       ...newItem,
@@ -127,6 +120,25 @@ const Page = () => {
   }
 
   // helpers ---------------------
+  const onChange = (e) => {
+    const { name, value } = e.target
+
+    // Check if the field is itemWeight or itemVolume
+    if (name === 'itemWeight' || name === 'itemVolume') {
+      // Check if the value is a valid number
+      if (isNaN(value)) {
+        // If it's not a valid number, keep the previous value
+        return
+      } else {
+        // If it's a valid number, update the state with the new value
+        setNewItem({ ...newItem, itemWeight: value, itemVolume: value * 7 })
+      }
+    } else {
+      // For other fields, just update normally
+      setNewItem({ ...newItem, [name]: value })
+    }
+  }
+
   const handleModalClose = () => {
     setCreateModalOpen(false)
     setIsEdit(false)
@@ -219,7 +231,7 @@ const Page = () => {
     },
   ])
 
-  if (!inventoryItems || isLoading) return <Spinner />
+  if (!inventoryItems || (isLoading && isInitialLoad)) return <Spinner />
   return (
     <>
       <Seo title='Dashboard: Inventory Item List' />

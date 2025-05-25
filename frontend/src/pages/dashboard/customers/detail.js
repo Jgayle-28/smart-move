@@ -5,7 +5,6 @@ import { Seo } from 'src/components/seo'
 import { useMounted } from 'src/hooks/use-mounted'
 import { usePageView } from 'src/hooks/use-page-view'
 import { CustomerBasicDetails } from 'src/sections/dashboard/customer/customer-basic-details'
-import { CustomerInvoices } from 'src/sections/dashboard/customer/customer-invoices'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import {
@@ -43,34 +42,8 @@ const useCustomer = () => {
   return customer
 }
 
-const useInvoices = () => {
-  const isMounted = useMounted()
-  const [invoices, setInvoices] = useState([])
-
-  const handleInvoicesGet = useCallback(async () => {
-    try {
-      const response = await customersApi.getInvoices()
-
-      if (isMounted()) {
-        setInvoices(response)
-      }
-    } catch (err) {
-      console.error(err)
-    }
-  }, [isMounted])
-
-  useEffect(() => {
-    handleInvoicesGet()
-  }, [])
-
-  return invoices
-}
-
 const Page = () => {
-  const [currentTab, setCurrentTab] = useState('details')
   const customer = useCustomer()
-  const invoices = useInvoices()
-
   const { customerId } = useParams()
   const dispatch = useDispatch()
   const { isLoading, focusCustomer, customerJobs, customerEstimates } =
