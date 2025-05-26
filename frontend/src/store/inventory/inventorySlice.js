@@ -110,7 +110,6 @@ export const inventorySlice = createSlice({
       })
       .addCase(addInventoryItem.rejected, (state) => {
         state.isLoading = false
-        state.inventoryItems = null
       })
       // get items
       .addCase(getInventoryItems.pending, (state) => {

@@ -110,7 +110,6 @@ export const JobCreateForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log('in submit')
     try {
       const newJob = {
         createdBy: user._id,
