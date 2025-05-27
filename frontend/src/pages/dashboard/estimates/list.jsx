@@ -13,12 +13,19 @@ import {
   useMediaQuery,
   IconButton,
   Card,
+  Tooltip,
+  SvgIcon,
+  Alert,
 } from '@mui/material'
 import { Seo } from 'src/components/seo'
 import { useDialog } from 'src/hooks/use-dialog'
 import { usePageView } from 'src/hooks/use-page-view'
 import { EstimateDrawer } from 'src/components/estimates/list/EstimateDrawer'
-import { clearEstimates, getEstimates } from 'src/store/estimates/estimateSlice'
+import {
+  clearEstimates,
+  deleteEstimate,
+  getEstimates,
+} from 'src/store/estimates/estimateSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import Spinner from 'src/components/shared/Spinner'
 import { clearJobs, getJobs, updateJob } from 'src/store/jobs/jobSlice'
@@ -31,9 +38,9 @@ import { paths } from 'src/paths'
 import { DataGrid, GridToolbar } from '@mui/x-data-grid'
 import _ from 'lodash'
 import OpenInNewOutlinedIcon from '@mui/icons-material/OpenInNewOutlined'
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import { SeverityPill } from 'src/components/severity-pill'
 import { Container } from '@mui/system'
-import { defaultDataGridStyles } from 'src/constants/data-grid-styles'
 import { motion } from 'framer-motion'
 import {
   containerVariants,
@@ -44,6 +51,8 @@ const Page = () => {
   const [focusEstimate, setFocusEstimate] = useState(null)
   const [coneModalOpen, setConeModalOpen] = useState(false)
   const [jobToCloneTo, setJobToCloneTo] = useState(null)
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false)
+  const [deleteId, setDeleteId] = useState(null)
 
   const rootRef = useRef(null)
   const dialog = useDialog()
@@ -70,6 +79,32 @@ const Page = () => {
       dispatch(clearJobs())
     }
   }, [user, dispatch])
+
+  // handlers ---------------------
+  const handleEstimateDeleteClick = (id) => {
+    setDeleteModalOpen(true)
+    setDeleteId(id)
+  }
+
+  const handleDeleteModalClose = () => {
+    setDeleteModalOpen(false)
+    setDeleteId(null)
+  }
+
+  const handleDeleteEstimate = async () => {
+    try {
+      dispatch(deleteEstimate(deleteId))
+        .unwrap()
+        .then(() => {
+          handleDeleteModalClose()
+          toast.success('Estimate successfully deleted')
+          dispatch(getEstimates(user?.company))
+        })
+    } catch (error) {
+      console.error(error)
+      toast.error('Failed to delete estimate')
+    }
+  }
 
   const handleEstimateOpen = useCallback(
     (estimate) => {
@@ -154,7 +189,30 @@ const Page = () => {
       flex: 1,
       valueGetter: ({ name }) => name,
     },
-
+    {
+      headerName: '',
+      field: 'packing',
+      type: 'boolean',
+      disableExport: true,
+      sortable: false,
+      filterable: false,
+      width: 50,
+      disableColumnMenu: true,
+      renderCell: ({ row }) => (
+        <>
+          <Tooltip title='Delete Estimate'>
+            <IconButton
+              size='small'
+              onClick={() => handleEstimateDeleteClick(row._id)}
+            >
+              <SvgIcon fontSize='small'>
+                <DeleteOutlineIcon />
+              </SvgIcon>
+            </IconButton>
+          </Tooltip>
+        </>
+      ),
+    },
     {
       headerName: '',
       field: 'itemRoom',
@@ -283,103 +341,29 @@ const Page = () => {
           </Dialog>
         </Container>
       </Box>
+      {/* Delete Modal */}
+      <Dialog
+        open={deleteModalOpen}
+        onClose={handleDeleteModalClose}
+        aria-labelledby='form-dialog-title'
+      >
+        <DialogTitle id='form-dialog-title'>Delete Estimate</DialogTitle>
+        <DialogContent>
+          <Alert severity='error'>
+            Are you sure you want to delete this Estimate? This action cannot be
+            undone.
+          </Alert>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDeleteModalClose} color='primary'>
+            Cancel
+          </Button>
+          <Button onClick={handleDeleteEstimate} color='primary'>
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
-    // <>
-    //   <Seo title='Dashboard: Estimate List' />
-    //   <Divider />
-    //   <Box
-    //     component='main'
-    //     sx={{
-    //       flexGrow: 1,
-    //       py: 8,
-    //     }}
-    //   >
-    //     <Container maxWidth='xl'>
-    //       <Stack
-    //         alignItems='flex-start'
-    //         direction='row'
-    //         justifyContent='space-between'
-    //         spacing={1}
-    //       >
-    //         <Stack spacing={1}>
-    //           <Typography variant='h4'>Estimates</Typography>
-    //         </Stack>
-    //       </Stack>
-    //       <Card sx={{ my: 8, paddingTop: 1.5 }}>
-    //         <DataGrid
-    //           getRowId={_.property('_id')}
-    //           loading={isLoading || !estimates}
-    //           rows={estimates || []}
-    //           columns={finalColumns}
-    //           sx={{ ...defaultDataGridStyles }}
-    //           slots={{ toolbar: GridToolbar }}
-    //           slotProps={{
-    //             toolbar: {
-    //               showQuickFilter: true,
-    //               printOptions: { disableToolbarButton: true },
-    //             },
-    //           }}
-    //           localeText={{
-    //             noRowsLabel: 'You have not added any estimates yet',
-    //           }}
-    //         />
-    //       </Card>
-    //       <EstimateDrawer
-    //         container={rootRef.current}
-    //         onClose={dialog.handleClose}
-    //         open={dialog.open}
-    //         estimate={focusEstimate}
-    //         coneModalOpen={coneModalOpen}
-    //         setConeModalOpen={setConeModalOpen}
-    //         focusEstimate={focusEstimate}
-    //       />
-    //       {/* Clone Dialog */}
-    //       <Dialog
-    //         fullScreen={fullScreen}
-    //         size='md'
-    //         open={coneModalOpen}
-    //         onClose={() => setConeModalOpen(false)}
-    //         aria-labelledby='responsive-dialog-title'
-    //         PaperProps={{
-    //           sx: {
-    //             height: '300px',
-    //             overflow: 'visible',
-    //           },
-    //         }}
-    //       >
-    //         <DialogTitle id='responsive-dialog-title'>
-    //           {'Select a Job to Clone estimate to'}
-    //         </DialogTitle>
-    //         <DialogContent>
-    //           <DialogContentText>
-    //             In order to clone this estimate to a job, you must select a job
-    //             from the list below.
-    //           </DialogContentText>
-    //           <Box sx={{ mt: 2 }}>
-    //             <JobSelect onChange={setJobToCloneTo} />
-    //           </Box>
-    //         </DialogContent>
-    //         <DialogActions>
-    //           <Button
-    //             autoFocus
-    //             onClick={() => setConeModalOpen(false)}
-    //             color='primary'
-    //           >
-    //             Cancel
-    //           </Button>
-    //           <Button
-    //             onClick={handleCloneClick}
-    //             autoFocus
-    //             variant='contained'
-    //             color='primary'
-    //           >
-    //             Clone
-    //           </Button>
-    //         </DialogActions>
-    //       </Dialog>
-    //     </Container>
-    //   </Box>
-    // </>
   )
 }
 
