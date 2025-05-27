@@ -50,3 +50,20 @@ export const calculateTotalMoveCost = (
   if (isNaN(total)) return 0
   else return total.toLocaleString()
 }
+
+// used to check if required fields are filled in the move charges
+// and return an array of missing fields
+const REQUIRED_FIELDS = [
+  { key: 'totalMen', label: 'number of movers' },
+  { key: 'totalTrucks', label: 'number of trucks' },
+  { key: 'ratePerHour', label: 'hourly rate' },
+]
+
+const isEmpty = (v) => v === '' || v === 0 || v == null
+
+export const getMissingFields = (moveCharges) =>
+  !moveCharges
+    ? REQUIRED_FIELDS.map((f) => f.label)
+    : REQUIRED_FIELDS.filter((f) => isEmpty(moveCharges[f.key])).map(
+        (f) => f.label
+      )

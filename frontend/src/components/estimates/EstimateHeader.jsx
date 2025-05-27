@@ -1,11 +1,21 @@
 import { PDFDownloadLink } from '@react-pdf/renderer'
 import KeyboardBackspaceOutlinedIcon from '@mui/icons-material/KeyboardBackspaceOutlined'
-import { Avatar, Button, Stack, SvgIcon, Typography } from '@mui/material'
+import {
+  Avatar,
+  Button,
+  Stack,
+  SvgIcon,
+  Typography,
+  Tooltip,
+} from '@mui/material'
 import { InvoicePdfDocument } from 'src/sections/dashboard/invoice/invoice-pdf-document'
 import { getInitials } from 'src/utils/get-initials'
 import { useRouter } from 'src/hooks/use-router'
 import { format } from 'date-fns'
-import { calculateTotalMoveCost } from 'src/utils/services/move-charges'
+import {
+  calculateTotalMoveCost,
+  getMissingFields,
+} from 'src/utils/services/move-charges'
 import { useSelector } from 'react-redux'
 
 function EstimateHeader({
@@ -18,6 +28,13 @@ function EstimateHeader({
   const router = useRouter()
   const { moveCharges, packing, additionalServices, fees, storage } =
     useSelector((state) => state.estimates)
+
+  const missing = getMissingFields(moveCharges)
+  const disableSaveButton = missing.length > 0
+  const tooltipText = disableSaveButton
+    ? `Please enter the ${missing.join(', ')} first.`
+    : 'Save estimate'
+
   return (
     <>
       <Stack spacing={4}>
@@ -61,14 +78,22 @@ function EstimateHeader({
                 Save Estimate
               </Button>
             </PDFDownloadLink> */}
-            <Button
-              size='small'
-              color='success'
-              variant='contained'
-              onClick={handleSaveEstimate}
+            <Tooltip
+              title={tooltipText}
+              disableHoverListener={!disableSaveButton}
             >
-              Save Estimate
-            </Button>
+              <span>
+                <Button
+                  size='small'
+                  color='success'
+                  variant='contained'
+                  onClick={handleSaveEstimate}
+                  disabled={disableSaveButton}
+                >
+                  Save Estimate
+                </Button>
+              </span>
+            </Tooltip>
           </Stack>
         </Stack>
         <Stack

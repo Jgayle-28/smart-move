@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { Box, Divider, Tab, Tabs } from '@mui/material'
+import { Box, Divider, Tab, Tabs, Tooltip } from '@mui/material'
 import { invoicesApi } from 'src/api/invoices'
 import { Seo } from 'src/components/seo'
 import { useDialog } from 'src/hooks/use-dialog'
@@ -91,6 +91,9 @@ const Page = () => {
     totalVolume,
     totalItemCount,
   } = useSelector((state) => state.estimates)
+
+  const servicesReady =
+    totalWeight !== null && totalVolume !== null && totalItemCount !== null
 
   const tabs = focusEstimate ? editTabs : createTabs
 
@@ -245,9 +248,43 @@ const Page = () => {
         value={currentTab}
         variant='scrollable'
       >
-        {tabs.map((tab) => (
-          <Tab key={tab.value} label={tab.label} value={tab.value} />
-        ))}
+        {tabs.map((tab) => {
+          // Special handling for the Services tab
+          if (tab.value === 'services') {
+            const disabled = !servicesReady
+            const tabNode = (
+              <Tab
+                key={tab.value}
+                label={tab.label}
+                value={tab.value}
+                disabled={disabled}
+              />
+            )
+
+            return disabled ? (
+              <Tooltip
+                key={tab.value}
+                title='Add items to your inventory so weight, volume and item count can be calculated'
+              >
+                <Box
+                  component='span'
+                  sx={{
+                    display: 'inline-flex', // keeps the Tab’s width / height
+                    alignItems: 'center', // vertical centring like the others
+                    ml: 3,
+                  }}
+                >
+                  {tabNode}
+                </Box>
+              </Tooltip>
+            ) : (
+              tabNode
+            )
+          }
+
+          // All the other tabs stay as-is
+          return <Tab key={tab.value} label={tab.label} value={tab.value} />
+        })}
       </Tabs>
 
       <Divider />
