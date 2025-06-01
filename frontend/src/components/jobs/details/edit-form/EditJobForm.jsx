@@ -111,11 +111,17 @@ function EditJobForm({
       dropOffAddresses: focusJob?.dropOffAddresses || [
         { address: '', details: '' },
       ],
-      jobDate: focusJob?.jobDate,
-      jobStartTime: focusJob?.jobStartTime,
+      jobDate: focusJob?.jobDate ? new Date(focusJob?.jobDate) : null,
+      jobStartTime: focusJob?.jobStartTime
+        ? new Date(focusJob?.jobStartTime)
+        : null,
       jobComments: focusJob?.jobComments || '',
-      estimateDate: focusJob?.estimateDate,
-      estimateTime: focusJob?.estimateTime,
+      estimateDate: focusJob?.estimateDate
+        ? new Date(focusJob?.estimateDate)
+        : null,
+      estimateTime: focusJob?.estimateTime
+        ? new Date(focusJob?.estimateTime)
+        : null,
       estimateComments: focusJob?.estimateComments || '',
       billTo: focusJob?.billTo || '',
       billingSameAsCustomer: focusJob?.billingSameAsCustomer || false,
