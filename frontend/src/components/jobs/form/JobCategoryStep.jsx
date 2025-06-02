@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import ArrowRightAltOutlinedIcon from '@mui/icons-material/ArrowRightAltOutlined'
 import { Button, Card, Radio, Stack, SvgIcon, Typography } from '@mui/material'
 import EmployeeSelect from 'src/components/shared/EmployeeSelect'
+import { useSelector } from 'react-redux'
 
 const categoryOptions = [
   {
@@ -30,6 +31,7 @@ const categoryOptions = [
 export const JobCategoryStep = (props) => {
   const { formik, onBack, onNext, ...other } = props
   const [category, setCategory] = useState(formik.values.jobType)
+  const { employees } = useSelector((state) => state.employees)
 
   const handleCategoryChange = useCallback((category) => {
     setCategory(category)
@@ -73,15 +75,20 @@ export const JobCategoryStep = (props) => {
           </Card>
         ))}
       </Stack>
-      <Typography variant='h6' sx={{ marginTop: 1 }}>
-        Assign Employees
-      </Typography>
-      <EmployeeSelect
-        value={formik.values.employees}
-        onChange={(field, newValue) =>
-          formik.setFieldValue('employees', newValue)
-        }
-      />
+      {employees?.length > 0 && (
+        <>
+          <Typography variant='h6' sx={{ marginTop: 1 }}>
+            Assign Employees
+          </Typography>
+          <EmployeeSelect
+            value={formik.values.employees}
+            onChange={(field, newValue) =>
+              formik.setFieldValue('employees', newValue)
+            }
+          />
+        </>
+      )}
+
       <div>
         <Button
           endIcon={

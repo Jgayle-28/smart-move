@@ -94,7 +94,7 @@ export const JobCreateForm = () => {
   // If the user just created a customer, we want to pre-populate the customer select field
   useEffect(() => {
     if (state?.customer) {
-      initialValues.customer = state?.customer?._id
+      formik.setFieldValue('customer', state.customer._id)
       setSelectedCustomer(state?.customer.customerName)
     }
   }, [state?.customer])
