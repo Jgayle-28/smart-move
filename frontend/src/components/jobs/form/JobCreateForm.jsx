@@ -85,6 +85,13 @@ export const JobCreateForm = () => {
   const location = useLocation()
   const { state } = location
 
+  const shouldDisableCustomerSelect = useMemo(() => {
+    if (state?.customer.customerName) {
+      return true
+    }
+    return false
+  }, [state?.customer.customerName])
+
   useEffect(() => {
     return () => {
       dispatch(clearCreatedJob())
@@ -171,6 +178,7 @@ export const JobCreateForm = () => {
             formik={formik}
             selectedCustomer={selectedCustomer}
             setSelectedCustomer={setSelectedCustomer}
+            shouldDisableCustomerSelect={shouldDisableCustomerSelect}
             onBack={handleBack}
             onNext={handleNext}
           />

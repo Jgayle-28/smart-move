@@ -13,6 +13,7 @@ function CustomerSelect({
   selectedCustomer = '',
   setSelectedCustomer = null,
   isEdit = false,
+  shouldDisableCustomerSelect = false,
 }) {
   const [newValue, setNewValue] = useState()
   // const [inputValue, setInputValue] = useState('')
@@ -79,6 +80,7 @@ function CustomerSelect({
           error={error}
           helperText={helperText}
           onBlur={onBlur}
+          disabled={shouldDisableCustomerSelect}
         />
       )}
     </>

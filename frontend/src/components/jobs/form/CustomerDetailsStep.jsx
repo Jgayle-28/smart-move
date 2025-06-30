@@ -18,6 +18,7 @@ export const CustomerDetailsStep = ({
   onBack = () => {},
   onNext = () => {},
   isEdit = false,
+  shouldDisableCustomerSelect = false,
   ...other
 }) => {
   const handleAddAddress = (type) => {
@@ -56,6 +57,7 @@ export const CustomerDetailsStep = ({
         onBlur={formik.handleBlur}
         selectedCustomer={selectedCustomer}
         setSelectedCustomer={setSelectedCustomer}
+        shouldDisableCustomerSelect={shouldDisableCustomerSelect}
       />
       <Box sx={{ paddingTop: 2 }}>
         <Typography variant='h6'>Pickup & Drop Off Locations</Typography>
