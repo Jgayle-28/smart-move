@@ -13,13 +13,18 @@ import { Seo } from 'src/components/seo'
 import { usePageView } from 'src/hooks/use-page-view'
 import CustomerPageHeader from '../../../components/customers/CustomerPageHeader'
 import { useDispatch } from 'react-redux'
-import { getCustomers, clearCustomers } from 'src/store/customers/customerSlice'
+import {
+  getCustomers,
+  clearCustomers,
+  deleteCustomer,
+} from 'src/store/customers/customerSlice'
 import { useAuth } from 'src/hooks/use-auth'
 import { useSelector } from 'react-redux'
 import { DataGrid, GridToolbar } from '@mui/x-data-grid'
 import _ from 'lodash'
 import OpenInNewOutlinedIcon from '@mui/icons-material/OpenInNewOutlined'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined'
 import PostAddOutlinedIcon from '@mui/icons-material/PostAddOutlined'
 import { RouterLink } from 'src/components/router-link'
 import { useNavigate } from 'react-router-dom'
@@ -30,6 +35,7 @@ import {
   itemVariants,
 } from 'src/constants/page-animation-variants'
 import Spinner from 'src/components/shared/Spinner'
+import toast from 'react-hot-toast'
 
 const Page = () => {
   const [customerModalOpen, setCustomerModalOpen] = useState(false)
@@ -46,6 +52,7 @@ const Page = () => {
     return () => dispatch(clearCustomers())
   }, [])
 
+  // Handlers ---------------------
   const fetchCustomers = () => {
     dispatch(getCustomers(user.company))
       .unwrap()
@@ -59,6 +66,15 @@ const Page = () => {
 
   const addCustomerCallback = () => {
     setCustomerModalOpen(false)
+  }
+
+  const handleCustomerDelete = (customerId) => {
+    dispatch(deleteCustomer(customerId))
+      .unwrap()
+      .then(() => {
+        fetchCustomers()
+        toast.success('Customer successfully deleted')
+      })
   }
 
   // Columns ---------------------
@@ -112,6 +128,27 @@ const Page = () => {
             >
               <SvgIcon fontSize='small'>
                 <EditOutlinedIcon />
+              </SvgIcon>
+            </IconButton>
+          </Tooltip>
+        </>
+      ),
+    },
+    {
+      headerName: '',
+      field: 'addedBy',
+      type: 'boolean',
+      disableExport: true,
+      sortable: false,
+      filterable: false,
+      width: 50,
+      disableColumnMenu: true,
+      renderCell: ({ row }) => (
+        <>
+          <Tooltip title='delete Customer'>
+            <IconButton onClick={() => handleCustomerDelete(row._id)}>
+              <SvgIcon fontSize='small'>
+                <DeleteOutlineOutlinedIcon />
               </SvgIcon>
             </IconButton>
           </Tooltip>
