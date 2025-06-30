@@ -155,7 +155,7 @@ const CreateUserForm = ({ creationCallback }) => {
             />
             <Typography color='text.secondary' variant='body2'>
               I have read the{' '}
-              <Link href='/terms-of-service' underline='hover'>
+              <Link href='/terms-of-service' underline='hover' target='_blank'>
                 Terms and Conditions
               </Link>
             </Typography>

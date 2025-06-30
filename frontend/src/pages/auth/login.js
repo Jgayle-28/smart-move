@@ -41,17 +41,19 @@ const Page = () => {
   const dispatch = useDispatch()
   const router = useRouter()
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const userData = {
       email: formik.values.email,
       password: formik.values.password,
     }
-    dispatch(loginUser(userData))
-      .unwrap()
-      .then(() => {
-        toast.success('Successfully logged in')
-        setTimeout(() => router.push('/dashboard'), 500)
-      })
+
+    try {
+      await dispatch(loginUser(userData)).unwrap()
+      toast.success('Successfully logged in')
+      setTimeout(() => router.push('/dashboard'), 500)
+    } catch (error) {
+      toast.error(error || 'Login failed')
+    }
   }
 
   return (

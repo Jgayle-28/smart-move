@@ -15,7 +15,7 @@ const TermsOfServicePage = () => {
               Terms of Service
             </Typography>
             <Typography variant='body1' paragraph>
-              <strong>Effective Date:</strong> [Date]
+              <strong>Effective Date: 01/01/2023</strong>
             </Typography>
 
             <Divider sx={{ marginBottom: 2 }} />
@@ -149,10 +149,7 @@ const TermsOfServicePage = () => {
               please contact us at:
             </Typography>
             <Typography variant='body1' paragraph>
-              [Your Company Name] <br />
-              [Your Address] <br />
-              [Your Email Address] <br />
-              [Your Phone Number]
+              Email: support@deliverly.com
             </Typography>
           </Paper>
         </Box>
