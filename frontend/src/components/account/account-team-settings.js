@@ -32,13 +32,15 @@ export const AccountTeamSettings = (props) => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    getTeam()
+    if (user?.company) {
+      getTeam()
+    }
     // clear team and created team members from redux
     return () => {
       dispatch(clearTeam())
       dispatch(clearCreatedUser())
     }
-  }, [])
+  }, [user?.company])
 
   const getTeam = () => {
     dispatch(getCompanyTeam(user?.company))

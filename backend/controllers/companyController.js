@@ -102,7 +102,7 @@ const getCompany = asyncHandler(async (req, res) => {
 
   // // If there is a user and the passwords match
   if (company) {
-    res.status(200).json({ company })
+    res.status(200).json(company)
   } else {
     res.status(401)
     throw new Error('Company not found...')

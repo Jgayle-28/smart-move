@@ -64,7 +64,7 @@ export const Layout = withAuthGuard((props) => {
     dispatch(getCurrentWeekEstimates(user?.company))
     dispatch(getCurrentWeekCustomers(user?.company))
     dispatch(getAnnualJobs(user?.company))
-    dispatch(getJobs(user.company))
+    dispatch(getJobs(user?.company))
   }
 
   const routes =

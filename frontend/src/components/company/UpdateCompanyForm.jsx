@@ -55,6 +55,8 @@ const UpdateCompanyForm = () => {
     }
   }
 
+  if (!company) return <Spinner />
+
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
@@ -69,7 +71,6 @@ const UpdateCompanyForm = () => {
     onSubmit: handleSubmit,
   })
 
-  if (!company) return <Spinner />
   return (
     <>
       <Card>

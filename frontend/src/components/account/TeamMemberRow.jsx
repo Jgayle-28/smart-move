@@ -74,10 +74,10 @@ function TeamMemberRow({ member, setEditMember, handleOpen, handleClose }) {
         </Stack>
       </TableCell>
       <TableCell>
-        <SeverityPill>{member.role}</SeverityPill>
+        <SeverityPill>{member?.role}</SeverityPill>
       </TableCell>
       <TableCell align='right'>
-        {user.role === 'admin' && (
+        {user?.role === 'admin' && (
           <>
             <IconButton
               aria-controls={menuOpen ? 'basic-menu' : undefined}
